@@ -1,35 +1,22 @@
 # 2022 02 13 _ 3
 
 ## Пакаджи 
-* includes/packages/control_mode.yaml
-
-Добавлен еще один шаблонный выключатель с хранением состояния в MQTT, для управлением режимом отопления
-
-* includes/packages/Room_DD/dd_heat.yaml
-
-Управление термоголовкой, описание в [видеоуроке](https://youtu.be/Y0bkyzhKHh8)
+* [control_mode.yaml - добавлен еще один шаблонный выключатель с хранением состояния в MQTT, для управлением режимом отопления](https://github.com/kvazis/newHA/blob/master/includes/packages/control_mode.yaml)
+* [dd_heat.yaml - управление термоголовкой TV01](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_DD/dd_heat.yaml), описание в [видеоуроке](https://youtu.be/Y0bkyzhKHh8)
 
 ## Интерфейс, в режиме yaml
-* ui-lovelace.yaml
+* [ui-lovelace.yaml - корневой файл, в нем содержится общий заголовок и ссылки на файлы, каждый файл - отдельная страница](https://github.com/kvazis/newHA/blob/master/ui-lovelace.yaml)
+* [02_control.yaml - заготовка под страницу телеметрии системы, добавлен переключатель режима отопления](https://github.com/kvazis/newHA/blob/master/lovelace/02_control.yaml)
+* [07_dd_climate.yaml - заготовка под страницу климат контроля одной из комнат, выведены параметры термостата из пакаджа dd_heat.yaml](https://github.com/kvazis/newHA/blob/master/lovelace/07_dd_climate.yaml)
 
-Корневой файл, в нем содержится общий заголовок и ссылки на файлы, каждый файл - отдельная страница
-* lovelace/02_control.yaml
-
-Заготовка под страницу телеметрии системы, добавлен переключатель режима отопления
-
-* lovelace/07_dd_climate.yaml
-
-Заготовка под страницу климат контроля одной из комнат, выведены параметры термостата из пакаджа dd_heat.yaml
-
+![screenshot](https://raw.githubusercontent.com/kvazis/newHA/master/img/0002.png)
 
 # 2022 02 13 _ 2
+## Интеграции
+* Установлена Xiaomi MIoT
 
-* Установлена интеграция - Xiaomi MIoT
-
-* includes/packages/google_backup.yaml
-* includes/packages/system_sensors.yaml
-
-Шаблонные сеноры переписаны в modern style
+## Пакаджи - шаблонные сеноры переписаны в modern style
+* [includes/packages/google_backup.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/google_backup.yaml) 
 
 
 
@@ -46,22 +33,12 @@
 * Интеграции - HACS, MQTT, Raspberry Pi Power Supply Checker, Tuya, Version, Xiaomi Gateway 3, Xiaomi Miio, Yeelight, Локальный IP-адрес
 
 ## Пакаджи 
-* includes/packages/control_mode.yaml
-
-Здесь реализован шаблонный выключатель с хранением состояния в MQTT, нужен для условий автоматизаций, используется при переключении управления с одного сервера на другой.
-* includes/packages/google_backup.yaml
-
-Здесь созданы шаблонные сенсоры на основании значений атрибутов сенсора аддона Home Assistant Google Drive Backup
-* sincludes/packages/ystem_sensors.yaml
-
-Системные сенсоры для мониторинга системы.
+* [control_mode.yaml - реализован шаблонный выключатель с хранением состояния в MQTT, нужен для условий автоматизаций, используется при переключении управления с одного сервера на другой](https://github.com/kvazis/newHA/blob/master/includes/packages/control_mode.yaml)
+* [google_backup.yaml - созданы шаблонные сенсоры на основании значений атрибутов сенсора аддона Home Assistant Google Drive Backup](https://github.com/kvazis/newHA/blob/master/includes/packages/google_backup.yaml) 
+* [system_sensors.yaml - системные сенсоры для мониторинга системы.](https://github.com/kvazis/newHA/blob/master/includes/packages/system_sensors.yaml)
 
 ## Интерфейс, в режиме yaml
-* ui-lovelace.yaml
-
-Корневой файл, в нем содержится общий заголовок и ссылки на файлы, каждый файл - отдельная страница
-* lovelace/01_system.yaml
-
-Первая страница интерфейса с мониторингом системы и данными о установленных аддонах -
+* [ui-lovelace.yaml - корневой файл, в нем содержится общий заголовок и ссылки на файлы, каждый файл - отдельная страница](https://github.com/kvazis/newHA/blob/master/ui-lovelace.yaml)
+* [01_system.yaml - первая страница интерфейса с мониторингом системы и данными о установленных аддонах](https://github.com/kvazis/newHA/blob/master/lovelace/01_system.yaml)
 
 ![screenshot](https://raw.githubusercontent.com/kvazis/newHA/master/img/0001.png)
