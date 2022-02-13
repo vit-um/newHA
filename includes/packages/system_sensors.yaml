@@ -26,6 +26,10 @@ system_sensors:
           friendly_name: Объем базы HA
         sensor.maria_db:
           friendly_name: Объем базы Maria DB
+        sensor.online_custom:
+          friendly_name: Home Assistant в онлайне -
+        sensor.last_boot_custom:
+          friendly_name: Сервер в онлайне -
 
     
     sensor:    
@@ -55,12 +59,12 @@ system_sensors:
     - platform: uptime
       name: online
 
-    - platform: template
-      sensors:
-           
-          online_custom:
-             friendly_name: "Home Assistant в онлайне -"
-             value_template: >
+    template:
+     
+      - sensor:
+    # Время с последней перезагрузки Home Assistant
+          - name: online_custom
+            state: >
                {% set uptime = as_timestamp (now()) -as_timestamp(states('sensor.online')) | int %}
                {% set minutes = (( uptime % 3600) / 60) | int %}
                {% set hours = ((uptime % 86400) / 3600) | int %}
@@ -85,12 +89,11 @@ system_sensors:
                        {{ minutes }} мин.
                    {% endif %}
                  {% endif %}
-             icon_template: mdi:clock
-                 
-    # Время с последней перезагрузки
-          last_boot_custom:
-            friendly_name: "Сервер в онлайне -"
-            value_template: >
+            icon: mdi:clock 
+
+    # Время с последней перезагрузки сервера
+          - name: last_boot_custom
+            state: >
                {% set uptime = as_timestamp (now()) -as_timestamp(states('sensor.last_boot')) | int %}
                {% set minutes = (( uptime % 3600) / 60) | int %}
                {% set hours = ((uptime % 86400) / 3600) | int %}
@@ -115,5 +118,4 @@ system_sensors:
                        {{ minutes }} мин.
                    {% endif %}
                  {% endif %}
-            icon_template: mdi:clock
-      
+            icon: mdi:clock 

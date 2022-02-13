@@ -1,38 +1,47 @@
 google_backup:
 
-    sensor:
-    
-    - platform: template
-      sensors:
+    homeassistant:
 
-        last_google_backup_main:
-          friendly_name: 'Последний бэкап -'
-          value_template: >-
-            {% if state_attr("sensor.backup_state","last_backup") %}
-            {{as_timestamp(state_attr("sensor.backup_state","last_backup"))|timestamp_custom("%d.%m.%Y %H:%M")}}
-            {% else %} 
-            Получение данных...
-            {% endif %}
-          icon_template: mdi:calendar-check-outline      
+      customize:
+        sensor.last_google_backup_main:
+          friendly_name: Последний бэкап -
+        sensor.backups_in_google_drive:
+          friendly_name: Снимки системы на Google Drive
+        sensor.backups_in_home_assistant:
+          friendly_name: Снимки системы на сервере
+        sensor.size_in_google_drive:
+          friendly_name: Занято на Google Drive
+        sensor.size_in_home_assistant:
+          friendly_name: Занято на сервере
+
+    template:
+     
+      - sensor:
+
+          - name: last_google_backup_main
+            state: >
+                {% if state_attr("sensor.backup_state","last_backup") %}
+                {{as_timestamp(state_attr("sensor.backup_state","last_backup"))|timestamp_custom("%d.%m.%Y %H:%M")}}
+                {% else %} 
+                Получение данных...
+                {% endif %} 
+            icon: mdi:calendar-check-outline
+
+          - name: backups_in_google_drive
+            state: "{{ state_attr('sensor.backup_state', 'backups_in_google_drive') }}"
+            unit_of_measurement: шт
+            icon: mdi:folder-google-drive    
+
+          - name: backups_in_home_assistant
+            state: "{{ state_attr('sensor.backup_state', 'backups_in_home_assistant') }}"
+            unit_of_measurement: шт
+            icon: mdi:home-assistant      
+
+          - name: size_in_google_drive
+            state: "{{ state_attr('sensor.backup_state', 'size_in_google_drive') }}"
+            icon: mdi:numeric
       
-        backups_in_google_drive:
-          friendly_name: 'Снимки системы на Google Drive'
-          value_template: "{{ state_attr('sensor.backup_state', 'backups_in_google_drive') }}"  
-          icon_template: mdi:folder-google-drive
-          unit_of_measurement: шт
+          - name: size_in_home_assistant
+            state: "{{ state_attr('sensor.backup_state', 'size_in_home_assistant') }}"
+            icon: mdi:numeric
 
-        backups_in_home_assistant:
-          friendly_name: 'Снимки системы на сервере'
-          value_template: "{{ state_attr('sensor.backup_state', 'backups_in_home_assistant') }}"  
-          icon_template: mdi:home-assistant
-          unit_of_measurement: шт
-          
-        size_in_google_drive:
-          friendly_name: 'Занято на Google Drive'
-          value_template: "{{ state_attr('sensor.backup_state', 'size_in_google_drive') }}"  
-          icon_template: mdi:numeric
-
-        size_in_home_assistant:
-          friendly_name: 'Занято на сервере'
-          value_template: "{{ state_attr('sensor.backup_state', 'size_in_home_assistant') }}"  
-          icon_template: mdi:numeric

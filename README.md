@@ -1,4 +1,15 @@
-# Хроники Home Assistant часть 1
+# 2022 02 13 _ 2
+
+* Установлена интеграция - Xiaomi MIoT
+
+* google_backup.yaml
+* system_sensors.yaml
+
+Шаблонные сеноры переписаны в modern style
+
+
+
+# 2022 02 13 _ 1
 
 ## Платформа
 * Аппаратная часть - Raspberry Pi 4B 8GB + Argon One M.2 + SSD 128 GB
