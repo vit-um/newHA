@@ -1,10 +1,15 @@
 # Хроники Home Assistant часть 1
 
 Аппаратная часть - Raspberry Pi 4B 8GB + Argon One M.2 + SSD 128 GB
+
 Операционная система - RaspiOS x64 Lite, Debian 11 Bullseye
+
 Установленные пакеты - jq wget curl udisks2 apparmor-utils libglib2.0-bin network-manager dbus
+
 Дополнительно - git mc argonone-config
+
 Home Assistant:
+
 Адд-оны - File editor, Home Assistant Google Drive Backup, MariaDB, Mosquitto broker, Samba share, 2 x Zigbee2mqtt
 Интеграции - HACS, MQTT, Raspberry Pi Power Supply Checker, Tuya, Version, Xiaomi Gateway 3, Xiaomi Miio, Yeelight, Локальный IP-адрес
 Пакаджи - 
