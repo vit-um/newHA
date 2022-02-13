@@ -1,0 +1,3 @@
+title: Home Assistant - Raspberry Pi 4 B, 4 GB Новый основной сервер
+views:
+  - !include lovelace/01_system.yaml

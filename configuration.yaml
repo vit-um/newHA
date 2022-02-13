@@ -1,0 +1,73 @@
+homeassistant:
+  # Name of the location where Home Assistant is running
+  name: Home
+  # Location required to calculate the time the sun rises and sets
+  latitude: !secret latitude_coord
+  longitude: !secret longitude_coord
+  # Impacts weather/sunrise data (altitude above sea level in meters)
+  elevation: 50
+  # metric for Metric, imperial for Imperial
+  unit_system: metric
+  # Pick yours from here: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+  time_zone: Europe/Kiev
+  # Customization file
+  customize: !include_dir_merge_named includes/customize
+  packages: !include_dir_merge_named includes/packages
+# default_config:
+config:
+#Сканирование доступных устройств в сети
+ssdp:
+# Включение официального интерфейса
+frontend:
+  themes: !include_dir_merge_named themes
+# Включение карты
+# map:
+# Включение поддержки приложения
+mobile_app:
+# Отслеживание солнца
+sun:
+# API для предоставления информации о системе и ее компонентах
+system_health:
+# Сенсор для отображения последней версии НА
+updater:
+# Stream from camera
+stream:
+history:
+
+lovelace:
+  mode: yaml
+  resources:
+   - url: /hacsfiles/lovelace-auto-entities/auto-entities.js
+     type: module
+   - url: /hacsfiles/vertical-stack-in-card/vertical-stack-in-card.js
+     type: js 
+   - url: /hacsfiles/mini-graph-card/mini-graph-card-bundle.js
+     type: module
+   - url: /hacsfiles/lovelace-card-mod/card-mod.js
+     type: module
+   - url: /hacsfiles/stack-in-card/stack-in-card.js
+     type: module
+   - url: /hacsfiles/battery-state-card/battery-state-card.js
+     type: module
+   - url: /hacsfiles/logbook-card/logbook-card.js
+     type: module
+   - url: /hacsfiles/entity-attributes-card/entity-attributes-card.js
+     type: module
+   - url: /hacsfiles/lovelace-multiple-entity-row/multiple-entity-row.js
+     type: module
+   - url: /hacsfiles/lovelace-tempometer-gauge-card/tempometer-gauge-card.js
+     type: module
+   - url:  /hacsfiles/vacuum-card/vacuum-card.js
+     type: module 
+
+logbook:
+# Text to speech
+tts:
+  - platform: google_translate
+  
+recorder: !include includes/recorder.yaml
+
+
+automation: !include automations.yaml
+script: !include scripts.yaml
+scene: !include scenes.yaml

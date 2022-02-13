@@ -1,0 +1,7 @@
+  db_url: !secret db_link
+#   db_url: sqlite:////config/home-assistant_v2.db
+  purge_keep_days: 7
+  auto_purge: true
+  include:
+    entities:
+       - binary_sensor.rpi_power_status

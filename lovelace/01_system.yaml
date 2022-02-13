@@ -1,0 +1,294 @@
+##################   System
+title: Система
+icon: mdi:home-map-marker
+cards:
+
+    - type: vertical-stack
+      cards:
+      
+        - type: markdown
+          style: |
+              ha-card {
+                font-size: 26px;
+              }          
+          content: >
+             **Данные о системе**
+
+        - type: entities
+          show_header_toggle: false
+          entities:
+
+          - entity: sensor.last_boot_custom
+            type: custom:multiple-entity-row
+            name: В онлайне -
+            state_header: Сервер
+            entities:
+              - entity: sensor.online_custom
+                name: Home Assistant
+
+          - entity: binary_sensor.rpi_power_status
+            type: custom:multiple-entity-row
+            name: Питание
+            state_header: Сервер
+            entities:
+              - entity: sensor.local_ip
+                name: IP адрес
+
+          - type: divider
+          - entity: switch.control_mode
+          - type: divider
+
+          - entity: sensor.last_google_backup_main
+          - entity: sensor.backups_in_google_drive
+            type: custom:multiple-entity-row
+            name: Резервные копии
+            state_header: Google Drive
+            entities:
+              - entity: sensor.backups_in_home_assistant
+                name: Сервер
+          - entity: sensor.size_in_google_drive
+            type: custom:multiple-entity-row
+            name: Занято на
+            state_header: Google Drive
+            entities:
+              - entity: sensor.size_in_home_assistant
+                name: Сервере
+          
+        - type: entities
+          show_header_toggle: false
+          entities:
+
+          - entity: sensor.home_assistant_versions
+            type: custom:multiple-entity-row
+            name: Home Assistant
+            state_header: Последняя
+            entities:
+              - entity: sensor.current_version
+                name: Установлено
+
+          - entity: sensor.file_editor_cpu_percent
+            type: custom:multiple-entity-row
+            name: File Editor
+            state_header: CPU %
+            entities:
+              - entity: sensor.file_editor_version
+                name: Установлено
+              - entity: sensor.file_editor_newest_version
+                name: Последняя
+
+          - entity: sensor.home_assistant_google_drive_backup_cpu_percent
+            type: custom:multiple-entity-row
+            name: Google Backup
+            state_header: CPU %
+            entities:
+              - entity: sensor.home_assistant_google_drive_backup_version
+                name: Установлено
+              - entity: sensor.home_assistant_google_drive_backup_newest_version
+                name: Последняя
+
+          - entity: sensor.mariadb_cpu_percent
+            type: custom:multiple-entity-row
+            name: Maria DB
+            state_header: CPU %
+            entities:
+              - entity: sensor.mariadb_version
+                name: Установлено
+              - entity: sensor.mariadb_newest_version
+                name: Последняя
+                
+          - entity: sensor.mosquitto_broker_cpu_percent
+            type: custom:multiple-entity-row
+            name: Mosquitto broker
+            state_header: CPU %
+            entities:
+              - entity: sensor.mosquitto_broker_version
+                name: Установлено
+              - entity: sensor.mosquitto_broker_newest_version
+                name: Последняя
+                
+          - entity: sensor.samba_share_cpu_percent
+            type: custom:multiple-entity-row
+            name: Samba share
+            state_header: CPU %
+            entities:
+              - entity: sensor.samba_share_version
+                name: Установлено
+              - entity: sensor.samba_share_newest_version
+                name: Последняя
+                
+          - entity: sensor.zigbee2mqtt_cpu_percent
+            type: custom:multiple-entity-row
+            name: Zigbee2mqtt 1
+            state_header: CPU %
+            entities:
+              - entity: sensor.zigbee2mqtt_version
+                name: Установлено
+              - entity: sensor.zigbee2mqtt_newest_version
+                name: Последняя
+
+          - entity: sensor.zigbee2mqtt_cpu_percent_2
+            type: custom:multiple-entity-row
+            name: Zigbee2mqtt 2
+            state_header: CPU %
+            entities:
+              - entity: sensor.zigbee2mqtt_version_2
+                name: Установлено
+              - entity: sensor.zigbee2mqtt_newest_version_2
+                name: Последняя          
+          
+          
+    - type: vertical-stack
+      cards:
+      
+        - type: markdown
+          style: |
+              ha-card {
+                font-size: 26px;
+              }          
+          content: >
+             **Ресурсы**
+             
+        - type: custom:mini-graph-card
+          entities:
+           - entity: sensor.processor_use
+             name: Использование процессора
+          color_thresholds:
+            - value: 20
+              color: "#7FFF00"
+            - value: 40
+              color: "#98FB98"
+            - value: 60
+              color: "#FFFF00"
+            - value: 80
+              color: "#FF8C00"
+            - value: 100
+              color: "#DC143C"
+          animate: true
+          line_width: 2
+          hour24: true
+          points_per_hour: 5
+          group_by: hour
+          hours_to_show: 168
+          
+        - type: custom:mini-graph-card
+          entities:
+           - entity: sensor.processor_temperature
+             name: Температура процессора
+          color_thresholds:
+            - value: 20
+              color: "#7FFF00"
+            - value: 40
+              color: "#98FB98"
+            - value: 60
+              color: "#FFFF00"
+            - value: 80
+              color: "#FF8C00"
+            - value: 100
+              color: "#DC143C"
+          animate: true
+          line_width: 2
+          hour24: true
+          points_per_hour: 5
+          group_by: hour
+          hours_to_show: 168
+          
+        - type: custom:mini-graph-card
+          entities:
+           - entity: sensor.memory_use_percent
+             name: Использование ОЗУ
+          color_thresholds:
+            - value: 20
+              color: "#7FFF00"
+            - value: 40
+              color: "#98FB98"
+            - value: 60
+              color: "#FFFF00"
+            - value: 80
+              color: "#FF8C00"
+            - value: 100
+              color: "#DC143C"
+          animate: true
+          line_width: 2
+          hour24: true
+          points_per_hour: 5
+          group_by: hour
+          hours_to_show: 168
+          
+    - type: vertical-stack
+      cards:
+      
+        - type: markdown
+          style: |
+              ha-card {
+                font-size: 26px;
+              }          
+          content: >
+             **Хранилище, бекап**
+
+        - type: custom:mini-graph-card
+          entities:
+           - entity: sensor.disk_use_percent
+             name: Использование диска
+          color_thresholds:
+            - value: 20
+              color: "#7FFF00"
+            - value: 40
+              color: "#98FB98"
+            - value: 60
+              color: "#FFFF00"
+            - value: 80
+              color: "#FF8C00"
+            - value: 100
+              color: "#DC143C"
+          animate: true
+          line_width: 2
+          hour24: true
+          points_per_hour: 5
+          group_by: hour
+          hours_to_show: 168
+      
+        - type: custom:mini-graph-card
+          entities:
+           - entity: sensor.disk_free
+             name: Свободно на диске
+          color_thresholds:
+            - value: 25
+              color: "#DC143C"
+            - value: 50
+              color: "#FF8C00"
+            - value: 75
+              color: "#FFFF00"
+            - value: 90
+              color: "#98FB98"
+            - value: 110
+              color: "#7FFF00"
+        #   show:
+        #       graph: bar
+          animate: true
+          line_width: 2
+          hour24: true
+          points_per_hour: 5
+          group_by: hour
+          hours_to_show: 168
+          
+        - type: custom:mini-graph-card
+          entities:
+           - entity: sensor.maria_db          
+             name: Объем базы Maria DB
+          color_thresholds:
+            - value: 500
+              color: "#7FFF00"
+            - value: 750
+              color: "#98FB98"
+            - value: 1000
+              color: "#FFFF00"
+            - value: 1250
+              color: "#FF8C00"
+            - value: 1500
+              color: "#DC143C"
+          animate: true
+          line_width: 2
+          hour24: true
+          points_per_hour: 5
+          group_by: hour
+          hours_to_show: 168
