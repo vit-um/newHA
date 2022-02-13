@@ -1,0 +1,91 @@
+##################   Климат
+title: Детская Д Климат
+icon: mdi:home-thermometer
+cards:
+
+############################ Колонка 1 ############################
+
+    - type: vertical-stack
+      cards:
+
+        - type: custom:mini-graph-card
+          entities:
+           - entity: sensor.0x00158d000156e92e_temperature
+             name: Температура
+          color_thresholds:
+            - value: 10
+              color: "#191970"
+            - value: 15
+              color: "#0000FF"
+            - value: 20
+              color: "#ADD8E6"
+            - value: 25
+              color: "#E0FFFF"
+            - value: 30
+              color: "#FFFF00"
+            - value: 50
+              color: "#FFD700"
+          animate: true
+          line_width: 2
+          hour24: true
+          points_per_hour: 1
+          group_by: hour
+          hours_to_show: 72
+
+
+        - type: custom:stack-in-card
+          mode: vertical
+          cards:
+
+            - type: thermostat
+              name: Детская Д
+              entity: climate.0x84fd27fffe31ada3
+
+            - type: entities
+              show_header_toggle: false
+              entities:
+              - type: divider
+              - entity: binary_sensor.dd_aeration
+              - type: divider
+              - entity: script.dd_temperature_calibration
+              - type: divider
+              - entity: sensor.dd_thermostat_difference
+              - type: divider
+              - entity: number.0x84fd27fffe31ada3_comfort_temperature
+              - type: divider
+              - entity: number.0x84fd27fffe31ada3_open_window_temperature
+              - type: divider
+              - entity: number.0x84fd27fffe31ada3_local_temperature_calibration
+                type: custom:multiple-entity-row
+                name: Info t
+                icon: mdi:temperature-celsius
+                state_header: Калибровка
+                entities:
+                  - attribute: current_heating_setpoint
+                    name: t целевая
+                  - attribute: local_temperature
+                    name: t головка
+              - type: divider
+              - entity: binary_sensor.0x84fd27fffe31ada3_battery_low
+                type: custom:multiple-entity-row
+                state_header: Батарейка
+                entities:
+                  - attribute: last_seen
+                    format: relative
+                    name: Отклик
+
+        - type: custom:logbook-card
+          entity: climate.0x84fd27fffe31ada3
+          max_items: 5
+          title: История включений
+          duration_labels:
+            second:  '${value} секунда'
+            seconds: '${value} секунд'
+            minute:  '${value} минута'
+            minutes: '${value} минут'
+            hour:    '${value} час'
+            hours:   '${value} часов'
+            day:     '${value} день'
+            days:    '${value} дней'
+
+############################ Колонка 3 ############################

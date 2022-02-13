@@ -9,6 +9,12 @@ control_mode:
         payload_on: "ON"
         payload_off: "OFF"
         
+      - platform: mqtt
+        name: radiator
+        state_topic: "states/radiator"
+        payload_on: "ON"
+        payload_off: "OFF"
+        
         
     switch:
     
@@ -34,4 +40,26 @@ control_mode:
                 mdi:server
               {% else %}
                 mdi:server-off
+              {% endif %}
+              
+          radiator_mode:
+            friendly_name: "Режим отопления"
+            value_template: "{{  is_state('binary_sensor.radiator', 'on') }}"
+            turn_on:
+              service: mqtt.publish
+              data_template:
+                topic: "states/radiator"
+                payload_template: 'ON'
+                retain: true 
+            turn_off:
+              service: mqtt.publish
+              data_template:
+                topic: "states/radiator"
+                payload_template: 'OFF'
+                retain: true 
+            icon_template: >-
+              {% if is_state('switch.radiator_mode', 'on') %}
+                mdi:radiator
+              {% else %}
+                mdi:radiator-off
               {% endif %}
