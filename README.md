@@ -49,7 +49,7 @@
 * [system_sensors.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/system_sensors.yaml) - системные сенсоры для мониторинга системы
 
 ## Интерфейс, в режиме yaml
-* [ui-lovelace.yaml - корневой файл, в нем содержится общий заголовок и ссылки на файлы, каждый файл - отдельная страница](https://github.com/kvazis/newHA/blob/master/ui-lovelace.yaml)
-* [01_system.yaml - первая страница интерфейса с мониторингом системы и данными о установленных аддонах](https://github.com/kvazis/newHA/blob/master/lovelace/01_system.yaml)
+* [ui-lovelace.yaml](https://github.com/kvazis/newHA/blob/master/ui-lovelace.yaml) - корневой файл, в нем содержится общий заголовок и ссылки на файлы, каждый файл - отдельная страница
+* [01_system.yaml](https://github.com/kvazis/newHA/blob/master/lovelace/01_system.yaml) - первая страница интерфейса с мониторингом системы и данными о установленных аддонах
 
 ![screenshot](https://raw.githubusercontent.com/kvazis/newHA/master/img/0001.png)
