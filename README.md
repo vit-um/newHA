@@ -1,7 +1,7 @@
 # 2022 02 14 _ 4
 
 ## Пакаджи 
-* [telemetry.yaml - сенсоры определяющие общее количество объектов системе, активные, неактивные, недоустпные, для доменов автоматизаций, скриптов, светильников и свичей](https://github.com/kvazis/newHA/blob/master/includes/packages/telemetry.yaml)
+* [telemetry.yaml - сенсоры определяющие общее количество объектов системе, активные, неактивные, недоcтупные, для доменов автоматизаций, скриптов, светильников и свичей](https://github.com/kvazis/newHA/blob/master/includes/packages/telemetry.yaml)
 
 ## Интерфейс, в режиме yaml
 * [01_system.yaml - добавлен сенсор количества обновлений для HACS](https://github.com/kvazis/newHA/blob/master/lovelace/01_system.yaml)
