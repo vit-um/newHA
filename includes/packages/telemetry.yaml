@@ -1,0 +1,147 @@
+telemetry:
+
+    homeassistant:
+
+      customize:
+        sensor.count_automation:
+          friendly_name: Автоматизаций в системе -
+        sensor.count_automation_on:
+          friendly_name: Активных автоматизаций -
+        sensor.count_automation_off:
+          friendly_name: Отключенных автоматизаций -
+        sensor.count_automation_unavailable:
+          friendly_name: Недоступных автоматизаций -
+        sensor.count_script:
+          friendly_name: Скриптов в системе -
+        sensor.count_script_on:
+          friendly_name: Активных скриптов -
+        sensor.count_script_off:
+          friendly_name: Отключенных скриптов -
+        sensor.count_script_unavailable:
+          friendly_name: Недоступных скриптов -
+        sensor.count_light:
+          friendly_name: Светильников в системе -
+        sensor.count_light_on:
+          friendly_name: Активных светильников -
+        sensor.count_light_off:
+          friendly_name: Отключенных светильников -
+        sensor.count_light_unavailable:
+          friendly_name: Недоступных светильников - 
+        sensor.count_switch:
+          friendly_name: Реле в системе -
+        sensor.count_switch_on:
+          friendly_name: Активных реле -
+        sensor.count_switch_off:
+          friendly_name: Отключенных реле -
+        sensor.count_switch_unavailable:
+          friendly_name: Недоступных реле -
+          
+    template:
+     
+      - sensor:
+
+################# Автоматизации #################
+
+          - name: count_automation
+            state: >
+                  {%- set domains = ['automation'] -%}
+                  {%- for domain in domains -%}
+                    {%- for item in states[domain] -%}
+                      {% if loop.first %}
+                        {{loop.length}}
+                      {% endif %}
+                    {%- endfor -%}
+                  {%- endfor -%}
+            icon: mdi:head
+            
+          - name: count_automation_on
+            state: "{{states.automation | selectattr ('state', 'equalto', 'on') | list | length}}"
+            icon: mdi:head-check
+
+          - name: count_automation_off
+            state: "{{states.automation | selectattr ('state', 'equalto', 'off') | list | length}}"
+            icon: mdi:head-remove            
+
+          - name: count_automation_unavailable
+            state: "{{states.automation | selectattr ('state', 'equalto', 'unavailable') | list | length}}"
+            icon: mdi:head-question
+            
+################# Скрипты #################
+
+          - name: count_script
+            state: >
+                  {%- set domains = ['script'] -%}
+                  {%- for domain in domains -%}
+                    {%- for item in states[domain] -%}
+                      {% if loop.first %}
+                        {{loop.length}}
+                      {% endif %}
+                    {%- endfor -%}
+                  {%- endfor -%}
+            icon: mdi:file
+            
+          - name: count_script_on
+            state: "{{states.script | selectattr ('state', 'equalto', 'on') | list | length}}"
+            icon: mdi:file-check
+
+          - name: count_script_off
+            state: "{{states.script | selectattr ('state', 'equalto', 'off') | list | length}}"
+            icon: mdi:file-remove            
+
+          - name: count_script_unavailable
+            state: "{{states.script | selectattr ('state', 'equalto', 'unavailable') | list | length}}"
+            icon: mdi:file-question
+            
+################# Светильники #################
+
+          - name: count_light
+            state: >
+                  {%- set domains = ['light'] -%}
+                  {%- for domain in domains -%}
+                    {%- for item in states[domain] -%}
+                      {% if loop.first %}
+                        {{loop.length}}
+                      {% endif %}
+                    {%- endfor -%}
+                  {%- endfor -%}
+            icon: mdi:lightbulb-group
+            
+          - name: count_light_on
+            state: "{{states.light | selectattr ('state', 'equalto', 'on') | list | length}}"
+            icon: mdi:lightbulb-on
+
+          - name: count_light_off
+            state: "{{states.light | selectattr ('state', 'equalto', 'off') | list | length}}"
+            icon: mdi:lightbulb
+
+          - name: count_light_unavailable
+            state: "{{states.light | selectattr ('state', 'equalto', 'unavailable') | list | length}}"
+            icon: mdi:lightbulb-question
+            
+################# Реле #################
+
+          - name: count_switch
+            state: >
+                  {%- set domains = ['switch'] -%}
+                  {%- for domain in domains -%}
+                    {%- for item in states[domain] -%}
+                      {% if loop.first %}
+                        {{loop.length}}
+                      {% endif %}
+                    {%- endfor -%}
+                  {%- endfor -%}
+            icon: mdi:power
+            
+          - name: count_switch_on
+            state: "{{states.switch | selectattr ('state', 'equalto', 'on') | list | length}}"
+            icon: mdi:power-plug
+
+          - name: count_switch_off
+            state: "{{states.switch | selectattr ('state', 'equalto', 'off') | list | length}}"
+            icon: mdi:power-plug-off
+
+          - name: count_switch_unavailable
+            state: "{{states.switch | selectattr ('state', 'equalto', 'unavailable') | list | length}}"
+            icon: mdi:power-plug-outline
+            
+

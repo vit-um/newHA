@@ -1,5 +1,5 @@
-##################   Control pahel
-title: Панель управления
+############################ Телеметрия ############################
+title: Телеметрия
 icon: mdi:keyboard
 cards:
 
@@ -36,3 +36,227 @@ cards:
               entities:
               - entity: switch.radiator_mode
                 name: Отопление -
+                
+
+        - type: custom:stack-in-card
+          mode: vertical
+          cards:
+      
+            - type: markdown
+              style: |
+                   ha-card {
+                     color: #00BFFF;
+                     font-weight: bold;
+                     font-size: 16px;
+                   }          
+              content: >
+                 **Автоматизации и скрипты**
+
+############ Автоматизации
+
+            - type: entities
+              style: |
+                   ha-card {
+                     color: #00BFFF;
+                     --paper-item-icon-color: #00BFFF;
+                     --iron-icon-stroke-color: #FFFFE0;
+                     font-weight: bold;
+                     font-size: 14px;
+                   }                 
+              show_header_toggle: false
+              entities:
+              - entity: sensor.count_automation
+                type: custom:multiple-entity-row
+                name: Автоматизации
+                state_header: Всего
+                entities:
+                  - entity: sensor.count_automation_on
+                    name: Активно
+                  - entity: sensor.count_automation_off
+                    name: Отключено
+                  - entity: sensor.count_automation_unavailable
+                    name: Недоступно
+
+            - type: custom:auto-entities
+              show_empty: false
+              card:
+                type: entities
+                show_header_toggle: false
+                style: |
+                  ha-card {
+                    color: #00BFFF;
+                    --paper-item-icon-color: #E6E6FA;
+                    font-weight: bold;
+                    font-size: 14px;
+                  }
+              filter:
+                include:
+                 - domain: automation
+                   state: 'unavailable'
+                   options:
+                      secondary_info: last-changed
+                      
+############ Скрипты
+
+            - type: entities
+              style: |
+                   ha-card {
+                     color: #00BFFF;
+                     --paper-item-icon-color: #00BFFF;
+                     --iron-icon-stroke-color: #FFFFE0;
+                     font-weight: bold;
+                     font-size: 14px;
+                   }                 
+              show_header_toggle: false
+              entities:
+              - entity: sensor.count_script
+                type: custom:multiple-entity-row
+                name: Скрипты
+                state_header: Всего
+                entities:
+                  - entity: sensor.count_script_on
+                    name: Активно
+                  - entity: sensor.count_script_off
+                    name: Отключено
+                  - entity: sensor.count_script_unavailable
+                    name: Недоступно
+
+            - type: custom:auto-entities
+              show_empty: false
+              card:
+                type: entities
+                show_header_toggle: false
+                style: |
+                  ha-card {
+                    color: #00BFFF;
+                    --paper-item-icon-color: #E6E6FA;
+                    font-weight: bold;
+                    font-size: 14px;
+                  }
+              filter:
+                include:
+                 - domain: script
+                   state: 'unavailable'
+                   options:
+                      secondary_info: last-changed 
+                      
+############################ Колонка 2 ############################
+    - type: vertical-stack
+      cards:
+
+
+        - type: custom:stack-in-card
+          mode: vertical
+          cards:
+
+############ Светильники
+      
+            - type: markdown
+              style: |
+                  ha-card {
+                    color: #FA8072;
+                    font-weight: bold;
+                    font-size: 16px;
+                  } 
+              content: >
+                  **Cветильники**
+                  
+            - type: entities
+              style: |
+                    ha-card {
+                      color: #FA8072;
+                      --paper-item-icon-color: #E6E6FA;
+                      --iron-icon-stroke-color: #E6E6FA;
+                      font-weight: bold;
+                      font-size: 14px;
+                    }               
+              show_header_toggle: false
+              entities:
+              - entity: sensor.count_light
+                type: custom:multiple-entity-row
+                name: Светильники
+                state_header: Всего
+                entities:
+                  - entity: sensor.count_light_on
+                    name: Активно
+                  - entity: sensor.count_light_off
+                    name: Отключено
+                  - entity: sensor.count_light_unavailable
+                    name: Недоступно
+                    
+            - type: custom:auto-entities
+              show_empty: false
+              card:
+                type: entities
+                show_header_toggle: false
+                style: |
+                    ha-card {
+                      color: #FA8072;
+                      --paper-item-icon-color: #E6E6FA;
+                      --iron-icon-stroke-color: #E6E6FA;
+                      font-weight: bold;
+                      font-size: 14px;
+                    }  
+              filter:
+                include:
+                 - domain: light
+                   state: 'unavailable'
+                   options:
+                      secondary_info: last-changed
+                      
+############ Реле
+      
+            - type: markdown
+              style: |
+                  ha-card {
+                    color: #FA8072;
+                    font-weight: bold;
+                    font-size: 16px;
+                  } 
+              content: >
+                  **Реле**
+                  
+            - type: entities
+              style: |
+                    ha-card {
+                      color: #FA8072;
+                      --paper-item-icon-color: #E6E6FA;
+                      --iron-icon-stroke-color: #E6E6FA;
+                      font-weight: bold;
+                      font-size: 14px;
+                    }               
+              show_header_toggle: false
+              entities:
+              - entity: sensor.count_switch
+                type: custom:multiple-entity-row
+                name: Реле
+                state_header: Всего
+                entities:
+                  - entity: sensor.count_switch_on
+                    name: Активно
+                  - entity: sensor.count_switch_off
+                    name: Отключено
+                  - entity: sensor.count_switch_unavailable
+                    name: Недоступно
+                    
+            - type: custom:auto-entities
+              show_empty: false
+              card:
+                type: entities
+                show_header_toggle: false
+                style: |
+                    ha-card {
+                      color: #FA8072;
+                      --paper-item-icon-color: #E6E6FA;
+                      --iron-icon-stroke-color: #E6E6FA;
+                      font-weight: bold;
+                      font-size: 14px;
+                    }  
+              filter:
+                include:
+                 - domain: switch
+                   state: 'unavailable'
+                   options:
+                      secondary_info: last-changed 
+        
+        

@@ -65,7 +65,10 @@ cards:
             entities:
               - entity: sensor.current_version
                 name: Установлено
-
+          - type: divider
+          - entity: sensor.hacs
+            name: Обновлений для HACS - 
+          - type: divider
           - entity: sensor.file_editor_cpu_percent
             type: custom:multiple-entity-row
             name: File Editor
