@@ -1,11 +1,11 @@
 # 2022 02 14 _ 4
 
 ## Пакаджи 
-* [telemetry.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/telemetry.yaml)  - сенсоры определяющие общее количество объектов системе, активные, неактивные, недоcтупные, для доменов автоматизаций, скриптов, светильников и свичей
+* [telemetry.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/telemetry.yaml) - сенсоры определяющие общее количество объектов системе, активные, неактивные, недоcтупные, для доменов автоматизаций, скриптов, светильников и свичей
 
 ## Интерфейс, в режиме yaml
-* [01_system.yaml - добавлен сенсор количества обновлений для HACS](https://github.com/kvazis/newHA/blob/master/lovelace/01_system.yaml)
-* [02_control.yaml - добавлена карты для пакаджа telemetry - для каждого домена вывод значений в multiple-entity-row и перечень недоступных объектов в auto-entities](https://github.com/kvazis/newHA/blob/master/lovelace/02_control.yaml)
+* [01_system.yaml](https://github.com/kvazis/newHA/blob/master/lovelace/01_system.yaml) - добавлен сенсор количества обновлений для HACS
+* [02_control.yaml](https://github.com/kvazis/newHA/blob/master/lovelace/02_control.yaml) - добавлена карты для пакаджа telemetry - для каждого домена вывод значений в multiple-entity-row и перечень недоступных объектов в auto-entities
 
 Страница 02_control.yaml Пример вывода в auto-entities недоступного светильника
 
@@ -14,24 +14,22 @@
 # 2022 02 13 _ 3
 
 ## Пакаджи 
-* [control_mode.yaml - добавлен еще один шаблонный выключатель с хранением состояния в MQTT, для управлением режимом отопления](https://github.com/kvazis/newHA/blob/master/includes/packages/control_mode.yaml)
-* [dd_heat.yaml - управление термоголовкой TV01](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_DD/dd_heat.yaml), описание в [видеоуроке](https://youtu.be/Y0bkyzhKHh8)
+* [control_mode.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/control_mode.yaml) - добавлен еще один шаблонный выключатель с хранением состояния в MQTT, для управлением режимом отопления
+* [dd_heat.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_DD/dd_heat.yaml) - управление термоголовкой TV01, описание в [видеоуроке](https://youtu.be/Y0bkyzhKHh8)
 
 ## Интерфейс, в режиме yaml
-* [ui-lovelace.yaml - корневой файл, в нем содержится общий заголовок и ссылки на файлы, каждый файл - отдельная страница](https://github.com/kvazis/newHA/blob/master/ui-lovelace.yaml)
-* [02_control.yaml - заготовка под страницу телеметрии системы, добавлен переключатель режима отопления](https://github.com/kvazis/newHA/blob/master/lovelace/02_control.yaml)
-* [07_dd_climate.yaml - заготовка под страницу климат контроля одной из комнат, выведены параметры термостата из пакаджа dd_heat.yaml](https://github.com/kvazis/newHA/blob/master/lovelace/07_dd_climate.yaml)
+* [ui-lovelace.yaml](https://github.com/kvazis/newHA/blob/master/ui-lovelace.yaml) - корневой файл, в нем содержится общий заголовок и ссылки на файлы, каждый файл - отдельная страница
+* [02_control.yaml](https://github.com/kvazis/newHA/blob/master/lovelace/02_control.yaml) - заготовка под страницу телеметрии системы, добавлен переключатель режима отопления
+* [07_dd_climate.yaml](https://github.com/kvazis/newHA/blob/master/lovelace/07_dd_climate.yaml) - заготовка под страницу климат контроля одной из комнат, выведены параметры термостата из пакаджа dd_heat.yaml
 
 ![screenshot](https://raw.githubusercontent.com/kvazis/newHA/master/img/0002.png)
 
 # 2022 02 13 _ 2
 ## Интеграции
-* Установлена Xiaomi MIoT
+* Установлена [Xiaomi MIoT](https://github.com/ha0y/xiaomi_miot_raw)
 
-## Пакаджи - шаблонные сеноры переписаны в modern style
-* [includes/packages/google_backup.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/google_backup.yaml) 
-
-
+## Пакаджи 
+* [google_backup.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/google_backup.yaml) - шаблонные сеноры переписаны в modern style
 
 # 2022 02 13 _ 1
 
@@ -46,9 +44,9 @@
 * Интеграции - HACS, MQTT, Raspberry Pi Power Supply Checker, Tuya, Version, Xiaomi Gateway 3, Xiaomi Miio, Yeelight, Локальный IP-адрес
 
 ## Пакаджи 
-* [control_mode.yaml - реализован шаблонный выключатель с хранением состояния в MQTT, нужен для условий автоматизаций, используется при переключении управления с одного сервера на другой](https://github.com/kvazis/newHA/blob/master/includes/packages/control_mode.yaml)
-* [google_backup.yaml - созданы шаблонные сенсоры на основании значений атрибутов сенсора аддона Home Assistant Google Drive Backup](https://github.com/kvazis/newHA/blob/master/includes/packages/google_backup.yaml) 
-* [system_sensors.yaml - системные сенсоры для мониторинга системы.](https://github.com/kvazis/newHA/blob/master/includes/packages/system_sensors.yaml)
+* [control_mode.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/control_mode.yaml) - реализован шаблонный выключатель с хранением состояния в MQTT, нужен для условий автоматизаций, используется при переключении управления с одного сервера на другой
+* [google_backup.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/google_backup.yaml) - созданы шаблонные сенсоры на основании значений атрибутов сенсора аддона Home Assistant Google Drive Backup
+* [system_sensors.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/system_sensors.yaml) - системные сенсоры для мониторинга системы
 
 ## Интерфейс, в режиме yaml
 * [ui-lovelace.yaml - корневой файл, в нем содержится общий заголовок и ссылки на файлы, каждый файл - отдельная страница](https://github.com/kvazis/newHA/blob/master/ui-lovelace.yaml)
