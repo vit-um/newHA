@@ -5,7 +5,7 @@
 
 ## Интерфейс, в режиме yaml
 * [01_system.yaml](https://github.com/kvazis/newHA/blob/master/lovelace/01_system.yaml) - добавлен сенсор количества обновлений для HACS
-* [02_control.yaml](https://github.com/kvazis/newHA/blob/master/lovelace/02_control.yaml) - добавлена карты для пакаджа telemetry - для каждого домена вывод значений в multiple-entity-row и перечень недоступных объектов в auto-entities
+* [02_control.yaml](https://github.com/kvazis/newHA/blob/master/lovelace/02_control.yaml) - добавлена карты для пакаджа telemetry - для каждого домена вывод значений в [multiple-entity-row](https://youtu.be/m8WkJv7M9CY) и перечень недоступных объектов в [auto-entities](https://youtu.be/cxDDZkOl-EM)
 
 Страница 02_control.yaml Пример вывода в auto-entities недоступного светильника
 
