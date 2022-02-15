@@ -7,6 +7,9 @@
 ## Интерфейс, в режиме yaml
 * [02_control.yaml](https://github.com/kvazis/newHA/blob/master/lovelace/02_control.yaml) - аналогично добавление объекты climate, sensor, bimnary sensor + карта вывода батареек с уровнем заряда менее 30% с цветным оформлением карты battery-state-card
 
+Страница 02_control.yaml Пример вывода в auto-entities c battery-state-card данных о разряженных батарейках
+
+![screenshot](https://raw.githubusercontent.com/kvazis/newHA/master/img/0004.png)
 
 # 2022 02 14 _ 4
 
