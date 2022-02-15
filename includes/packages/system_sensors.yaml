@@ -22,6 +22,8 @@ system_sensors:
           friendly_name: Свободно на диске
         sensor.processor_temperature:
           friendly_name: Температура процессора
+        sensor.memory_use_percent:
+          friendly_name: Использование ОЗУ
         sensor.home_assistant_v2_db:
           friendly_name: Объем базы HA
         sensor.maria_db:
