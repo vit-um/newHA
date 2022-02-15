@@ -1,3 +1,13 @@
+# 2022 02 15 _ 5
+
+## Пакаджи 
+* [dd_light.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_DD/dd_light.yaml) - управление освещением, люстра Philips 620 (mihome) и zigbee лампа Aqara
+* [telemetry.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/telemetry.yaml) - добавлены сенсоры для термоголовок (climate), сенсоров и бинарных сенсоров
+
+## Интерфейс, в режиме yaml
+* [02_control.yaml](https://github.com/kvazis/newHA/blob/master/lovelace/02_control.yaml) - аналогично добавление объекты climate, sensor, bimnary sensor + карта вывода батареек с уровнем заряда менее 30% с цветным оформлением карты battery-state-card
+
+
 # 2022 02 14 _ 4
 
 ## Пакаджи 

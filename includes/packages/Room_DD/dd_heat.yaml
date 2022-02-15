@@ -39,10 +39,23 @@ dd_heat:
         number.0x84fd27fffe31ada3_eco_temperature:
           friendly_name: Детская Д, TRV t эко
           unit_of_measurement: '°C'
+        binary_sensor.0x84fd27fffe31ada3_battery_low:
+          friendly_name: Детская Д, TRV питание
         binary_sensor.dd_aeration:
           friendly_name: Детская Д, проветривание
         sensor.dd_thermostat_difference:
           friendly_name: Детская Д, разница температур с термостатом
+        binary_sensor.0x00158d0001193697_contact:
+          friendly_name: Детская Д, окно
+          device_class: window
+        sensor.0x00158d0001193697_battery:
+          friendly_name: Детская Д, окно
+        binary_sensor.0x00158d00015843d4_contact:
+          friendly_name: Детская Д, дверь на балкон
+          device_class: door
+        sensor.0x00158d00015843d4_battery:
+          friendly_name: Детская Д, дверь на балкон
+
 
 
     template:

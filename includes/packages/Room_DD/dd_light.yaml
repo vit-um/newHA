@@ -1,0 +1,95 @@
+dd_light:
+
+    homeassistant:
+      customize:
+        
+        light.0x00158d000420dbab:
+          friendly_name: Детская Д, бра
+        switch.0x00158d000420dbab_power_outage_memory:
+          friendly_name: Детская Д, бра память состояния
+        light.dd_ceiling_light:
+          friendly_name: Детская Д, люстра
+        sensor.0x00158d000163e571_action:
+          friendly_name: Детская Д, выключатель на входе
+        sensor.0x00158d000163e571_battery:
+          friendly_name: Детская Д, выключатель на входе
+        sensor.0x00158d0003d50723_action:
+          friendly_name: Детская Д, выключатель возле кровати
+        sensor.0x00158d0003d50723_battery:
+          friendly_name: Детская Д, выключатель возле кровати
+        
+    automation:
+
+      - id: Детская Д, ручное управление люстрой
+        alias: dd_ceiling_light_manual_control
+        initial_state: true
+        trigger:
+    # Выключатель на входе
+        - platform: state
+          entity_id: sensor.0x00158d000163e571_action
+          to: 'single_right'
+    # Выключатель возле кровати
+        - platform: state
+          entity_id: sensor.0x00158d0003d50723_action
+          to: 'left'
+        condition:
+        - condition: state
+          entity_id: switch.control_mode
+          state: 'on'
+        action:
+            - choose:
+              - conditions:
+                  - condition: state
+                    entity_id: light.dd_ceiling_light
+                    state: 'off'
+                sequence:
+                  - service: xiaomi_miio.light_set_scene
+                    entity_id: light.dd_ceiling_light
+                    data:
+                       scene: 1 
+              - conditions:
+                  - condition: state
+                    entity_id: light.dd_ceiling_light
+                    state: 'on'
+                sequence:
+                  - service: light.turn_off
+                    entity_id:
+                      - light.dd_ceiling_light
+                      
+      - id: Детская Д, ручное управление бра
+        alias: dd_bra_light_manual_control
+        initial_state: true
+        trigger:
+    # Выключатель на входе
+        - platform: state
+          entity_id: sensor.0x00158d000163e571_action
+          to: 'single_left'
+    # Выключатель возле кровати
+        - platform: state
+          entity_id: sensor.0x00158d0003d50723_action
+          to: 'right'
+        condition:
+        - condition: state
+          entity_id: switch.control_mode
+          state: 'on'
+        action:
+            - choose:
+              - conditions:
+                  - condition: state
+                    entity_id: light.0x00158d000420dbab
+                    state: 'off'
+                sequence:
+                  - service: light.turn_on
+                    entity_id:
+                      -  light.0x00158d000420dbab
+                    data_template:
+                      brightness_pct: 100
+                      kelvin: 4000
+              - conditions:
+                  - condition: state
+                    entity_id: light.0x00158d000420dbab
+                    state: 'on'
+                sequence:
+                  - service: light.turn_off
+                    entity_id:
+                      - light.0x00158d000420dbab

@@ -52,7 +52,7 @@ cards:
               content: >
                  **Автоматизации и скрипты**
 
-############ Автоматизации
+################# Автоматизации #################
 
             - type: entities
               style: |
@@ -96,7 +96,7 @@ cards:
                    options:
                       secondary_info: last-changed
                       
-############ Скрипты
+################# Скрипты #################
 
             - type: entities
               style: |
@@ -149,7 +149,7 @@ cards:
           mode: vertical
           cards:
 
-############ Светильники
+################# Светильники #################
       
             - type: markdown
               style: |
@@ -204,7 +204,7 @@ cards:
                    options:
                       secondary_info: last-changed
                       
-############ Реле
+################# Реле #################
       
             - type: markdown
               style: |
@@ -258,5 +258,196 @@ cards:
                    state: 'unavailable'
                    options:
                       secondary_info: last-changed 
+                      
+################# Термоголовки #################
+      
+            - type: markdown
+              style: |
+                  ha-card {
+                    color: #FA8072;
+                    font-weight: bold;
+                    font-size: 16px;
+                  } 
+              content: >
+                  **Термоголовки**
+                  
+            - type: entities
+              style: |
+                    ha-card {
+                      color: #FA8072;
+                      --paper-item-icon-color: #E6E6FA;
+                      --iron-icon-stroke-color: #E6E6FA;
+                      font-weight: bold;
+                      font-size: 14px;
+                    }               
+              show_header_toggle: false
+              entities:
+              - entity: sensor.count_climate
+                type: custom:multiple-entity-row
+                name: Термоголовки
+                state_header: Всего
+                entities:
+                  - entity: sensor.count_climate_heat
+                    name: Активно
+                  - entity: sensor.count_climate_off
+                    name: Отключено
+                  - entity: sensor.count_climate_unavailable
+                    name: Недоступно
+                    
+            - type: custom:auto-entities
+              show_empty: false
+              card:
+                type: entities
+                show_header_toggle: false
+                style: |
+                    ha-card {
+                      color: #FA8072;
+                      --paper-item-icon-color: #E6E6FA;
+                      --iron-icon-stroke-color: #E6E6FA;
+                      font-weight: bold;
+                      font-size: 14px;
+                    }  
+              filter:
+                include:
+                 - domain: climate
+                   state: 'unavailable'
+                   options:
+                      secondary_info: last-changed 
+                      
+################# Сенсоры #################
+
+            - type: markdown
+              style: |
+                  ha-card {
+                    color: #FA8072;
+                    font-weight: bold;
+                    font-size: 16px;
+                  } 
+              content: >
+                  **Сенсоры**
+                  
+            - type: entities
+              style: |
+                    ha-card {
+                      color: #FA8072;
+                      --paper-item-icon-color: #E6E6FA;
+                      --iron-icon-stroke-color: #E6E6FA;
+                      font-weight: bold;
+                      font-size: 14px;
+                    }               
+              show_header_toggle: false
+              entities:
+              - entity: sensor.count_sensor
+                type: custom:multiple-entity-row
+                name: Сенсоры
+                state_header: Всего
+                entities:
+                  - entity: sensor.count_sensor_unavailable
+                    name: Недоступно
+                    
+            - type: custom:auto-entities
+              show_empty: false
+              card:
+                type: entities
+                show_header_toggle: false
+                style: |
+                    ha-card {
+                      color: #FA8072;
+                      --paper-item-icon-color: #E6E6FA;
+                      --iron-icon-stroke-color: #E6E6FA;
+                      font-weight: bold;
+                      font-size: 14px;
+                    }  
+              filter:
+                include:
+                 - domain: sensor
+                   state: 'unavailable'
+                   options:
+                      secondary_info: last-changed 
+                      
+################# Бинарные сенсоры #################
+
+            - type: markdown
+              style: |
+                  ha-card {
+                    color: #FA8072;
+                    font-weight: bold;
+                    font-size: 16px;
+                  } 
+              content: >
+                  **Бинарные сенсоры**
+                  
+            - type: entities
+              style: |
+                    ha-card {
+                      color: #FA8072;
+                      --paper-item-icon-color: #E6E6FA;
+                      --iron-icon-stroke-color: #E6E6FA;
+                      font-weight: bold;
+                      font-size: 14px;
+                    }               
+              show_header_toggle: false
+              entities:
+              - entity: sensor.count_binary_sensor
+                type: custom:multiple-entity-row
+                name: Бинарные сенсоры
+                state_header: Всего
+                entities:
+                  - entity: sensor.count_binary_sensor_unavailable
+                    name: Недоступно
+                    
+            - type: custom:auto-entities
+              show_empty: false
+              card:
+                type: entities
+                show_header_toggle: false
+                style: |
+                    ha-card {
+                      color: #FA8072;
+                      --paper-item-icon-color: #E6E6FA;
+                      --iron-icon-stroke-color: #E6E6FA;
+                      font-weight: bold;
+                      font-size: 14px;
+                    }  
+              filter:
+                include:
+                 - domain: binary_sensor
+                   state: 'unavailable'
+                   options:
+                      secondary_info: last-changed 
+
+################# Уровень заряда #################
+                      
+        - type: custom:stack-in-card
+          mode: vertical
+          cards:
+           
+            - type: markdown
+              style: |
+                  ha-card {
+                    color: #FA8072;
+                    font-weight: bold;
+                    font-size: 16px;
+                  } 
+              content: >
+                  **Сенсоры < 30% заряда**
+            - type: custom:auto-entities
+              show_empty: false
+              card:
+                type: custom:battery-state-card
+                show_header_toggle: false
+                style: |
+                    ha-card {
+                      color: #FA8072;
+                      font-weight: bold;
+                      font-size: 14px;
+                    } 
+              filter:
+                include:
+                 - entity_id: sensor.*battery*
+                exclude:
+                 - state: '> 30.0'
+                 - state: 'unknown'
+                 - state: 'unavailable'
         
         
