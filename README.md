@@ -1,3 +1,9 @@
+# 2022 02 15 _ 6
+
+## Конфигурация
+* [configuration.yaml](https://github.com/kvazis/newHA/blob/master/configuration.yaml) - в white list добавлен доступ к папке config
+* [system_sensors.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/system_sensors.yaml) - исправление ошибок в разделе customize
+
 # 2022 02 15 _ 5
 
 ## Пакаджи 

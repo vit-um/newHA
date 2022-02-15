@@ -10,7 +10,7 @@ system_sensors:
           - sensor.processor_temperature
           - sensor.home_assistant_v2_db
           - sensor.maria_db
-           
+
     homeassistant:
 
       customize:
@@ -18,7 +18,7 @@ system_sensors:
           friendly_name: Загрузка процессора
         sensor.disk_use_percent:
           friendly_name: Использование диска
-        sensor.sensor.disk_free:
+        sensor.disk_free:
           friendly_name: Свободно на диске
         sensor.processor_temperature:
           friendly_name: Температура процессора
@@ -31,7 +31,6 @@ system_sensors:
         sensor.last_boot_custom:
           friendly_name: Сервер в онлайне -
 
-    
     sensor:    
     - platform: systemmonitor
       resources:
@@ -46,7 +45,7 @@ system_sensors:
         
     - platform: filesize
       file_paths:
-         - /config/home-assistant_v2.db
+        - /config/home-assistant_v2.db
          
     - platform: sql
       db_url: !secret db_link
