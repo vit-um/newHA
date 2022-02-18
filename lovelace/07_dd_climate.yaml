@@ -7,6 +7,26 @@ cards:
 
     - type: vertical-stack
       cards:
+      
+        - type: markdown
+          style: |
+              ha-card {
+                font-size: 26px;
+              }          
+          content: >
+             **Мониторинг**
+
+        - type: glance
+          show_state: true
+          show_name: true
+          state_color: true
+          entities:
+          - entity: binary_sensor.dd_radiator
+            name: Отопление
+        #   - entity: binary_sensor.da_humidifier
+        #     name: Увлажнение
+          - entity: binary_sensor.dd_aeration
+            name: Проветривание
 
         - type: custom:mini-graph-card
           entities:
@@ -31,7 +51,46 @@ cards:
           points_per_hour: 1
           group_by: hour
           hours_to_show: 72
+          
+        - type: custom:mini-graph-card
+          entities:
+           - entity: sensor.0x00158d000156e92e_humidity
+             name: Влажность
+          color_thresholds:
+            - value: 20
+              color: "#FFFF00"
+            - value: 30
+              color: "#FAFAD2"
+            - value: 40
+              color: "#E0FFFF"
+            - value: 50
+              color: "#7FFFD4"
+            - value: 60
+              color: "#00CED1"
+            - value: 80
+              color: "#0000FF"
+            - value: 100
+              color: "#000080"
+          animate: true
+          line_width: 2
+          hour24: true
+          points_per_hour: 1
+          group_by: hour
+          hours_to_show: 72
 
+
+############################ Колонка 2 ############################
+
+    - type: vertical-stack
+      cards:
+
+        - type: markdown
+          style: |
+              ha-card {
+                font-size: 26px;
+              }          
+          content: >
+             **Отопление**
 
         - type: custom:stack-in-card
           mode: vertical
@@ -42,6 +101,7 @@ cards:
               show_header_toggle: false
               entities:
               - entity: switch.dd_radiator_mode
+                state_color: true
 
             - type: thermostat
               name: Детская Д
@@ -51,26 +111,27 @@ cards:
               show_header_toggle: false
               entities:
               - type: divider
-              - entity: binary_sensor.dd_aeration
-              - type: divider
               - entity: script.dd_temperature_calibration
-              - type: divider
-              - entity: sensor.dd_thermostat_difference
-              - type: divider
-              - entity: number.0x84fd27fffe31ada3_comfort_temperature
-              - type: divider
-              - entity: number.0x84fd27fffe31ada3_open_window_temperature
+                name: Калибровка температуры
               - type: divider
               - entity: number.0x84fd27fffe31ada3_local_temperature_calibration
                 type: custom:multiple-entity-row
-                name: Info t
+                name: Текущие значения
                 icon: mdi:temperature-celsius
-                state_header: Калибровка
+                state_header: Поправка
                 entities:
-                  - attribute: current_heating_setpoint
-                    name: t целевая
+                  - entity: sensor.0x00158d000156e92e_temperature
+                    name: t датчик
                   - attribute: local_temperature
                     name: t головка
+                  - entity: sensor.dd_thermostat_difference
+                    name: Разница                    
+              - type: divider
+              - entity: number.0x84fd27fffe31ada3_comfort_temperature
+                name: Целевая температура
+              - type: divider
+              - entity: number.0x84fd27fffe31ada3_open_window_temperature
+                name: Температура проветривания
               - type: divider
               - entity: binary_sensor.0x84fd27fffe31ada3_battery_low
                 type: custom:multiple-entity-row

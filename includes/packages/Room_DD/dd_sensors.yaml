@@ -1,0 +1,52 @@
+dd_sensors:
+
+    recorder:
+      include:
+        entities:
+           - sensor.0x00158d000156e92e_temperature
+           - sensor.0x00158d000156e92e_humidity
+           
+    homeassistant:
+      customize:
+        
+        binary_sensor.dd_aeration:
+          friendly_name: Детская Д, проветривание
+        binary_sensor.0x00158d0001193697_contact:
+          friendly_name: Детская Д, окно
+          device_class: window
+        sensor.0x00158d0001193697_battery:
+          friendly_name: Детская Д, окно
+        binary_sensor.0x00158d00015843d4_contact:
+          friendly_name: Детская Д, дверь на балкон
+          device_class: door
+        sensor.0x00158d00015843d4_battery:
+          friendly_name: Детская Д, дверь на балкон
+        sensor.0x00158d000156e92e_humidity:
+          friendly_name: Детская Д, влажность
+          icon: mdi:water-percent
+        sensor.0x00158d000156e92e_temperature:
+          friendly_name: Детская Д, температура
+          icon: mdi:temperature-celsius
+        sensor.0x00158d000156e92e_battery:
+          friendly_name: Детская Д, климат          
+         
+          
+    template:
+     
+      - binary_sensor:
+
+          - name: dd_aeration
+            state: >
+              {{ is_state('binary_sensor.0x00158d0001193697_contact', 'on')  
+                 or is_state('binary_sensor.0x00158d00015843d4_contact', 'on')
+              }}
+            delay_on: 
+                seconds: 30
+            device_class: window
+            icon: >
+              {% if is_state("binary_sensor.dd_aeration", "on") %}
+              mdi:window-open-variant
+              {% else %}
+              mdi:window-closed-variant
+              {% endif %}
+

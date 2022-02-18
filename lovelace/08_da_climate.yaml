@@ -101,6 +101,7 @@ cards:
               show_header_toggle: false
               entities:
               - entity: switch.da_radiator_mode
+                state_color: true
 
             - type: thermostat
               name: Детская А
@@ -111,23 +112,26 @@ cards:
               entities:
               - type: divider
               - entity: script.da_temperature_calibration
-              - type: divider
-              - entity: number.0x2c1165fffec612b1_comfort_temperature
-              - type: divider
-              - entity: number.0x2c1165fffec612b1_open_window_temperature
+                name: Калибровка температуры
               - type: divider
               - entity: number.0x2c1165fffec612b1_local_temperature_calibration
                 type: custom:multiple-entity-row
-                name: Info t
+                name: Текущие значения
                 icon: mdi:temperature-celsius
-                state_header: Калибровка
+                state_header: Поправка
                 entities:
-                  - attribute: current_heating_setpoint
-                    name: t целевая
+                  - entity: sensor.0x00158d000159c7e6_temperature
+                    name: t датчик
                   - attribute: local_temperature
                     name: t головка
                   - entity: sensor.da_thermostat_difference
                     name: Разница
+              - type: divider
+              - entity: number.0x2c1165fffec612b1_comfort_temperature
+                name: Целевая температура
+              - type: divider
+              - entity: number.0x2c1165fffec612b1_open_window_temperature
+                name: Температура проветривания
               - type: divider
               - entity: binary_sensor.0x2c1165fffec612b1_battery_low
                 type: custom:multiple-entity-row
@@ -169,6 +173,12 @@ cards:
           mode: vertical
           cards:
 
+            - type: entities
+              show_header_toggle: false
+              entities:
+              - entity: switch.da_humidifier_mode
+                state_color: true
+
             - type: glance
               show_state: true
               show_name: true
@@ -183,9 +193,6 @@ cards:
             - type: entities
               show_header_toggle: false
               entities:
-              - entity: switch.da_humidifier_mode
-                state_color: true
-              - type: divider
               - entity: input_number.humidity_level_da
               - type: divider
               - entity: switch.0x00158d00010ec4b8

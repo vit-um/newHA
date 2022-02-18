@@ -1,3 +1,19 @@
+# 2022 02 18 _ 8
+
+## Пакаджи
+* [system_sensors.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/system_sensors.yaml) - добавлены сенсоры даты и времени
+* [notification.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/notification.yaml) - тут будут уведомления, добавлено первое - отправляется в телеграмм группу при старте сервера, через минуту отправляет количество недоступных сущностей, по доменам
+* [dd_sensors.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_DD/dd_sensors.yaml) - по образу и подобию детской А - общие сущности для кейсов увлажения и отопления в детской Д
+* [dd_heat.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_DD/dd_heat.yaml) - перенесены общие сущности в пакадж сенсоров
+
+## Интерфейс, в режиме yaml
+* [07_dd_climate.yaml](https://github.com/kvazis/newHA/blob/master/lovelace/07_dd_climate.yaml) - приведено в один формат с 07_dd_climate
+* [08_da_climate.yaml](https://github.com/kvazis/newHA/blob/master/lovelace/08_da_climate.yaml) - косметические изменения
+
+Так выглядит уведомление о запуске из пакаджа notification.yaml, бота зовут Луиджи
+
+![screenshot](https://raw.githubusercontent.com/kvazis/newHA/master/img/0005.png)
+
 # 2022 02 18 _ 7
 
 ## Конфигурация
