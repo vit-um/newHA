@@ -57,6 +57,39 @@ dd_heat:
           friendly_name: Детская Д, дверь на балкон
 
 
+    binary_sensor:
+    
+      - platform: mqtt
+        name: dd_radiator
+        state_topic: "states/dd_radiator"
+        payload_on: "ON"
+        payload_off: "OFF"
+
+    switch:
+
+      - platform: template
+        switches:
+          dd_radiator_mode:
+            friendly_name: "Режим отопления Детская Д"
+            value_template: "{{  is_state('binary_sensor.dd_radiator', 'on') }}"
+            turn_on:
+              service: mqtt.publish
+              data_template:
+                topic: "states/dd_radiator"
+                payload_template: 'ON'
+                retain: true 
+            turn_off:
+              service: mqtt.publish
+              data_template:
+                topic: "states/dd_radiator"
+                payload_template: 'OFF'
+                retain: true 
+            icon_template: >-
+              {% if is_state('switch.dd_radiator_mode', 'on') %}
+                mdi:radiator
+              {% else %}
+                mdi:radiator-off
+              {% endif %}
 
     template:
      
@@ -94,7 +127,7 @@ dd_heat:
             minutes: "/30"
         condition:
           - condition: state
-            entity_id: binary_sensor.radiator
+            entity_id: binary_sensor.dd_radiator
             state: 'on' 
         action:
          - service: script.turn_on
@@ -108,7 +141,7 @@ dd_heat:
           event: start
         - platform: state
           entity_id:
-            - binary_sensor.radiator
+            - binary_sensor.dd_radiator
         condition:
           - condition: state
             entity_id: switch.control_mode
@@ -117,7 +150,7 @@ dd_heat:
             - choose:
               - conditions:
                   - condition: state
-                    entity_id: binary_sensor.radiator
+                    entity_id: binary_sensor.dd_radiator
                     state: 'on'
                   - condition: template
                     value_template: "{{ states('climate.0x84fd27fffe31ada3') != 'heat' }}"
@@ -129,7 +162,7 @@ dd_heat:
                       hvac_mode: heat
               - conditions:
                   - condition: state
-                    entity_id: binary_sensor.radiator
+                    entity_id: binary_sensor.dd_radiator
                     state: 'off'
                   - condition: template
                     value_template: "{{ states('climate.0x84fd27fffe31ada3') != 'off' }}"
@@ -145,7 +178,7 @@ dd_heat:
         initial_state: true
         trigger:
         - platform: state
-          entity_id: binary_sensor.radiator
+          entity_id: binary_sensor.dd_radiator
           from: 'off'
           to: 'on'
         condition:
@@ -189,7 +222,7 @@ dd_heat:
             entity_id: switch.control_mode
             state: 'on'
           - condition: state
-            entity_id: binary_sensor.radiator
+            entity_id: binary_sensor.dd_radiator
             state: 'on' 
         action:
             - choose:

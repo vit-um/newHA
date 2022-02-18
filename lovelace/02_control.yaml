@@ -8,36 +8,6 @@ cards:
     - type: vertical-stack
       cards:
 
-
-        - type: custom:stack-in-card
-          mode: vertical
-          cards:
-      
-            - type: markdown
-              style: |
-                   ha-card {
-                     color: #00BFFF;
-                     font-weight: bold;
-                     font-size: 16px;
-                   }          
-              content: >
-                 **Глобальные режимы**
-    
-            - type: entities
-              style: |
-                   ha-card {
-                     color: #00BFFF;
-                     --paper-item-icon-color: #00BFFF;
-                     --iron-icon-stroke-color: #FFFFE0;
-                     font-weight: bold;
-                     font-size: 14px;
-                   } 
-              show_header_toggle: false
-              entities:
-              - entity: switch.radiator_mode
-                name: Отопление -
-                
-
         - type: custom:stack-in-card
           mode: vertical
           cards:

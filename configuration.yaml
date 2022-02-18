@@ -73,3 +73,12 @@ recorder: !include includes/recorder.yaml
 automation: !include automations.yaml
 script: !include scripts.yaml
 scene: !include scenes.yaml
+
+telegram_bot:
+  - platform: polling
+    api_key: !secret api_key_bot
+    allowed_chat_ids:
+      - !secret chat_id_alex
+      - !secret chat_id_olha
+      - !secret chat_id_group
+      - !secret chat_id_group_tech

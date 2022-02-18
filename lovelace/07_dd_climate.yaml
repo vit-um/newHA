@@ -37,6 +37,12 @@ cards:
           mode: vertical
           cards:
 
+
+            - type: entities
+              show_header_toggle: false
+              entities:
+              - entity: switch.dd_radiator_mode
+
             - type: thermostat
               name: Детская Д
               entity: climate.0x84fd27fffe31ada3

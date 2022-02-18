@@ -1,0 +1,232 @@
+da_heat:
+## Детская А термоголовка
+
+    recorder:
+      include:
+        entities:
+           - climate.0x2c1165fffec612b1
+
+    homeassistant:
+      customize:
+        
+        climate.0x2c1165fffec612b1:
+          friendly_name: Детская А, TRV
+        lock.0x2c1165fffec612b1_child_lock:
+          friendly_name: Детская А, TRV замок
+        sensor.0x2c1165fffec612b1_boost_heating_countdown:
+          friendly_name: Детская А, TRV boost таймер
+        sensor.0x2c1165fffec612b1_battery:
+          friendly_name: Детская А, TRV
+        switch.0x2c1165fffec612b1_frost_detection:
+          friendly_name: Детская А, TRV антизамерзание
+        switch.0x2c1165fffec612b1_heating_stop:
+          friendly_name: Детская А, TRV стоп нагрев
+        switch.0x2c1165fffec612b1_window_detection:
+          friendly_name: Детская А, TRV окно
+        number.0x2c1165fffec612b1_local_temperature_calibration:
+          friendly_name: Детская А, TRV t калибровка
+          unit_of_measurement: '°C'
+        number.0x2c1165fffec612b1_comfort_temperature:
+          friendly_name: Детская А, TRV t комфорт
+          unit_of_measurement: '°C'
+        number.0x2c1165fffec612b1_open_window_temperature:
+          friendly_name: Детская А, TRV t окно
+          unit_of_measurement: '°C'
+        number.0x2c1165fffec612b1_holiday_temperature:
+          friendly_name: Детская А, TRV t выходные
+          unit_of_measurement: '°C'
+        number.0x2c1165fffec612b1_eco_temperature:
+          friendly_name: Детская А, TRV t эко
+          unit_of_measurement: '°C'
+        binary_sensor.0x2c1165fffec612b1_battery_low:
+          friendly_name: Детская А, TRV питание
+        binary_sensor.dd_aeration:
+          friendly_name: Детская А, проветривание
+        sensor.dd_thermostat_difference:
+          friendly_name: Детская А, разница температур с термостатом
+
+    binary_sensor:
+    
+      - platform: mqtt
+        name: da_radiator
+        state_topic: "states/da_radiator"
+        payload_on: "ON"
+        payload_off: "OFF"
+
+    switch:
+
+      - platform: template
+        switches:
+          da_radiator_mode:
+            friendly_name: "Режим отопления Детская А"
+            value_template: "{{  is_state('binary_sensor.da_radiator', 'on') }}"
+            turn_on:
+              service: mqtt.publish
+              data_template:
+                topic: "states/da_radiator"
+                payload_template: 'ON'
+                retain: true 
+            turn_off:
+              service: mqtt.publish
+              data_template:
+                topic: "states/da_radiator"
+                payload_template: 'OFF'
+                retain: true 
+            icon_template: >-
+              {% if is_state('switch.da_radiator_mode', 'on') %}
+                mdi:radiator
+              {% else %}
+                mdi:radiator-off
+              {% endif %}
+
+    template:
+     
+      - sensor:
+
+          - name: da_thermostat_difference
+            state: "{{((states('sensor.0x00158d000159c7e6_temperature') | float - state_attr('climate.0x2c1165fffec612b1', 'local_temperature') | float))|round(1) }}"
+            unit_of_measurement: °C
+            icon: mdi:temperature-celsius    
+
+    automation:
+
+      - id: Детская А, TRV, калибровка
+        alias: da_temperature_calibration
+        initial_state: true
+        trigger:
+          - platform: time_pattern
+            minutes: "/30"
+        condition:
+          - condition: state
+            entity_id: binary_sensor.da_radiator
+            state: 'on' 
+        action:
+         - service: script.turn_on
+           entity_id: script.da_temperature_calibration
+           
+      - id: Детская А, TRV, режим
+        alias: da_heating_initial
+        initial_state: true
+        trigger:
+        - platform: homeassistant
+          event: start
+        - platform: state
+          entity_id:
+            - binary_sensor.da_radiator
+        condition:
+          - condition: state
+            entity_id: switch.control_mode
+            state: 'on'
+        action:
+            - choose:
+              - conditions:
+                  - condition: state
+                    entity_id: binary_sensor.da_radiator
+                    state: 'on'
+                  - condition: template
+                    value_template: "{{ states('climate.0x2c1165fffec612b1') != 'heat' }}"
+                sequence:
+                  - service: climate.set_hvac_mode
+                    target:
+                      entity_id: climate.0x2c1165fffec612b1
+                    data:
+                      hvac_mode: heat
+              - conditions:
+                  - condition: state
+                    entity_id: binary_sensor.da_radiator
+                    state: 'off'
+                  - condition: template
+                    value_template: "{{ states('climate.0x2c1165fffec612b1') != 'off' }}"
+                sequence:
+                  - service: climate.set_hvac_mode
+                    target:
+                      entity_id: climate.0x2c1165fffec612b1
+                    data:
+                      hvac_mode: 'off'
+
+      - id: Детская А, TRV, переключение температуры
+        alias: da_heating_initial_temp
+        initial_state: true
+        trigger:
+        - platform: state
+          entity_id: binary_sensor.da_radiator
+          from: 'off'
+          to: 'on'
+        condition:
+          - condition: state
+            entity_id: switch.control_mode
+            state: 'on'
+        action:
+            - choose:
+              - conditions:
+                  - condition: state
+                    entity_id: binary_sensor.da_aeration
+                    state: 'on'
+                sequence:
+                  - delay: 00:00:10
+                  - service: climate.set_temperature
+                    data:
+                      entity_id: climate.0x2c1165fffec612b1
+                      temperature: "{{ states('number.0x2c1165fffec612b1_open_window_temperature')}}"
+              - conditions:
+                  - condition: state
+                    entity_id: binary_sensor.da_aeration
+                    state: 'off'
+                sequence:
+                  - delay: 00:00:10
+                  - service: climate.set_temperature
+                    data:
+                      entity_id: climate.0x2c1165fffec612b1
+                      temperature: "{{ states('number.0x2c1165fffec612b1_comfort_temperature')}}"
+                      
+      - id: Детская А, TRV, температура
+        alias: da_heating_set_temp
+        initial_state: true
+        trigger:
+        - platform: homeassistant
+          event: start
+        - platform: state
+          entity_id:
+            - binary_sensor.da_aeration
+        condition:
+          - condition: state
+            entity_id: switch.control_mode
+            state: 'on'
+          - condition: state
+            entity_id: binary_sensor.da_radiator
+            state: 'on' 
+        action:
+            - choose:
+              - conditions:
+                  - condition: state
+                    entity_id: binary_sensor.da_aeration
+                    state: 'on'
+                sequence:
+                  - service: climate.set_temperature
+                    data:
+                      entity_id: climate.0x2c1165fffec612b1
+                      temperature: "{{ states('number.0x2c1165fffec612b1_open_window_temperature')}}"
+              - conditions:
+                  - condition: state
+                    entity_id: binary_sensor.da_aeration
+                    state: 'off'
+                sequence:
+                  - service: climate.set_temperature
+                    data:
+                      entity_id: climate.0x2c1165fffec612b1
+                      temperature: "{{ states('number.0x2c1165fffec612b1_comfort_temperature')}}"
+                      
+    script:
+    
+        da_temperature_calibration:
+          alias: Детская А, TRV, калибровка
+          sequence:
+          - service: mqtt.publish
+            data_template:   
+               topic: zigstar/DA thermostat/set/local_temperature_calibration
+               payload_template: "0.0"
+          - delay: 00:00:10
+          - service: mqtt.publish
+            data_template:
+               topic: zigstar/DA thermostat/set/local_temperature_calibration
+               payload_template: "{{((states('sensor.0x00158d000159c7e6_temperature') | float - state_attr('climate.0x2c1165fffec612b1', 'local_temperature') | float))|round(1) }}"

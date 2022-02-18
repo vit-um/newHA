@@ -1,3 +1,29 @@
+# 2022 02 18 _ 7
+
+## Конфигурация
+* [configuration.yaml](https://github.com/kvazis/newHA/blob/master/configuration.yaml) - добавлен телеграмм бот
+
+## Пакаджи 
+* [control_mode.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/control_mode.yaml) - режим отопления убрал, решил делать отдельный для каждой комнаты
+* [dd_heat.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_DD/dd_heat.yaml) - добавлен MQTT переключатель режима отопления
+* [dd_light.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_DD/dd_light.yaml) - добавлено отключение всего освещение по нажатию на две клавиши выключателия Aqara
+
+Немного пересмотрел концепцию организацию сущностей. Так как некоторые датчики используюся в разных кейсах - например отопления, увлажнения, решил создать для них отдельный пакадж, где будут собраны общие объекты. Все что используется только в одном кейсе - собрано в один пакадж.
+* [da_sensors.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_DA/da_sensors.yaml) - общие сущности для кейсов увлажения и отопления
+* [da_hum.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_DA/da_hum.yaml) - управление увлажнителем воздуха через розетку с энергомониториноом, работает в заданное сенсором tod время, при закрытом окне. Контроль наличия воды по потреблению.
+* [da_heat.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_DA/da_heat.yaml) - управление термоголовкой TV01
+
+
+## Интерфейс, в режиме yaml
+* [ui-lovelace.yaml](https://github.com/kvazis/newHA/blob/master/ui-lovelace.yaml) - корневой файл, в нем содержится общий заголовок и ссылки на файлы, каждый файл - отдельная страница
+* [02_control.yaml](https://github.com/kvazis/newHA/blob/master/lovelace/02_control.yaml) - убрал переключатель режима отопления
+* [07_dd_climate.yaml](https://github.com/kvazis/newHA/blob/master/lovelace/07_dd_climate.yaml) - добавил локальный переключатель режима отопления
+* [08_da_climate.yaml](https://github.com/kvazis/newHA/blob/master/lovelace/08_da_climate.yaml) - управление увлажнением и отоплением в одной из детских комнат
+
+Страница 08_da_climate.yaml Вариант оформления страницы управления климатом
+
+![screenshot](https://raw.githubusercontent.com/kvazis/newHA/master/img/0005.png)
+
 # 2022 02 15 _ 6
 
 ## Конфигурация
