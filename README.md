@@ -12,7 +12,7 @@
 
 Так выглядит уведомление о запуске из пакаджа notification.yaml, бота зовут Луиджи
 
-![screenshot](https://raw.githubusercontent.com/kvazis/newHA/master/img/0005.png)
+![screenshot](https://raw.githubusercontent.com/kvazis/newHA/master/img/0006.png)
 
 # 2022 02 18 _ 7
 
