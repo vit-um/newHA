@@ -78,6 +78,29 @@ cards:
           group_by: hour
           hours_to_show: 72
 
+        - type: custom:mini-graph-card
+          entities:
+           - entity: sensor.0x04cf8cdf3c7cf19e_illuminance_lux
+             name: Освещенность
+          color_thresholds:
+              - value: 100
+                color: "#000000"
+              - value: 1000
+                color: "#2F4F4F"
+              - value: 5000
+                color: "#708090"
+              - value: 10000
+                color: "#A9A9A9"
+              - value: 20000
+                color: "#D3D3D3"
+              - value: 82000
+                color: "#FFFFFF"
+          animate: true
+          line_width: 2
+          hour24: true
+          points_per_hour: 1
+          group_by: hour
+          hours_to_show: 72
 
 ############################ Колонка 2 ############################
 
@@ -144,7 +167,7 @@ cards:
         - type: custom:logbook-card
           entity: climate.0x84fd27fffe31ada3
           max_items: 5
-          title: История включений
+          title: Термоголовка, лог работы
           duration_labels:
             second:  '${value} секунда'
             seconds: '${value} секунд'

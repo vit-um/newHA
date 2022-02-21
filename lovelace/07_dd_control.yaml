@@ -1,0 +1,109 @@
+##################   Управление
+title: Детская Д
+icon: mdi:human-male-boy
+cards:
+
+############################ Колонка 1 ############################
+
+    - type: vertical-stack
+      cards:
+      
+        - type: markdown
+          style: |
+              ha-card {
+                font-size: 26px;
+              }          
+          content: >
+             **Управление**
+             
+        - type: custom:stack-in-card
+          mode: vertical
+          cards:  
+            - type: markdown
+              content: >
+                 **Светильники**
+
+            - type: horizontal-stack
+              cards:        
+                - type: light
+                  entity: light.dd_ceiling_light
+                  name: Люстра 
+                - type: light
+                  entity: light.0x00158d000420dbab
+                  name: Бра
+                - type: light
+                  entity: light.dd_wled_light
+                  name: Лента
+                - type: light
+                  entity: light.dd_table_lamp
+                  name: Настольная лампа
+
+        - type: custom:stack-in-card
+          mode: vertical
+          cards:
+
+            - type: markdown
+              content: >
+                 **Питание**
+                 
+            - type: entities
+              show_header_toggle: false
+              entities:             
+                - entity: switch.0x00158d00030a6e78
+                  type: custom:multiple-entity-row
+                  icon: mdi:power-plug
+                  toggle: true
+                  state_color: true
+                  name: Питание настольной лампы
+                  secondary_info: last-changed
+                  state_header: Питание
+                  entities:
+                  - attribute: last_seen
+                    format: relative
+                    name: Отклик
+                  - attribute: power
+                    name: Мощность
+                    unit: 'Ватт'
+                    
+############################ Колонка 2 ############################
+
+    - type: vertical-stack
+      cards:
+      
+        - type: markdown
+          style: |
+              ha-card {
+                font-size: 26px;
+              }          
+          content: >
+             **Датчики**
+             
+        - type: entities
+          show_header_toggle: false
+          entities:             
+            - entity: sensor.0x00158d000156e92e_battery
+              type: custom:multiple-entity-row
+              icon: mdi:coolant-temperature
+              state_color: true
+              name: Датчик климата
+              secondary_info: last-changed
+              state_header: Батарейка
+              entities:
+              - attribute: temperature
+                name: Температура
+                unit: '°C'
+              - attribute: humidity
+                name: Влажность
+                unit: '%'
+            - type: divider
+            - entity: sensor.0x04cf8cdf3c7cf19e_battery
+              type: custom:multiple-entity-row
+              icon: mdi:sun-wireless
+              state_color: true
+              name: Датчик освещенности
+              secondary_info: last-changed
+              state_header: Батарейка
+              entities:
+              - attribute: illuminance_lux
+                name: Освещенность
+                unit: 'люкс'

@@ -5,17 +5,21 @@ dd_light:
         
         light.0x00158d000420dbab:
           friendly_name: Детская Д, бра
+          icon: mdi:coach-lamp
         switch.0x00158d000420dbab_power_outage_memory:
           friendly_name: Детская Д, бра память состояния
 
         light.dd_ceiling_light:
           friendly_name: Детская Д, люстра
+          icon: mdi:ceiling-light
           
         light.dd_wled_light:
           friendly_name: Детская Д, адресная лента
+          icon: mdi:led-strip-variant
           
         light.dd_table_lamp:
           friendly_name: Детская Д, настольная лампа
+          icon: mdi:desk-lamp
 
         sensor.0x00158d000163e571_action:
           friendly_name: Детская Д, выключатель на входе

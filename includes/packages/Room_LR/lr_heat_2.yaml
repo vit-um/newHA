@@ -1,0 +1,196 @@
+lr_heat_2:
+## Гостиная термоголовка 2
+
+    recorder:
+      include:
+        entities:
+           - climate.0x2c1165fffeb3e567
+
+    homeassistant:
+      customize:
+        
+        climate.0x2c1165fffeb3e567:
+          friendly_name: Гостиная 2, TRV
+        lock.0x2c1165fffeb3e567_child_lock:
+          friendly_name: Гостиная 2, TRV замок
+        sensor.0x2c1165fffeb3e567_boost_heating_countdown:
+          friendly_name: Гостиная 2, TRV boost таймер
+        sensor.0x2c1165fffeb3e567_battery:
+          friendly_name: Гостиная 2, TRV
+        switch.0x2c1165fffeb3e567_frost_detection:
+          friendly_name: Гостиная 2, TRV антизамерзание
+        switch.0x2c1165fffeb3e567_heating_stop:
+          friendly_name: Гостиная 2, TRV стоп нагрев
+        switch.0x2c1165fffeb3e567_window_detection:
+          friendly_name: Гостиная 2, TRV окно
+        number.0x2c1165fffeb3e567_local_temperature_calibration:
+          friendly_name: Гостиная 2, TRV t калибровка
+          unit_of_measurement: '°C'
+        number.0x2c1165fffeb3e567_comfort_temperature:
+          friendly_name: Гостиная 2, TRV t комфорт
+          unit_of_measurement: '°C'
+        number.0x2c1165fffeb3e567_open_window_temperature:
+          friendly_name: Гостиная 2, TRV t окно
+          unit_of_measurement: '°C'
+        number.0x2c1165fffeb3e567_holiday_temperature:
+          friendly_name: Гостиная 2, TRV t выходные
+          unit_of_measurement: '°C'
+        number.0x2c1165fffeb3e567_eco_temperature:
+          friendly_name: Гостиная 2, TRV t эко
+          unit_of_measurement: '°C'
+        binary_sensor.0x2c1165fffeb3e567_battery_low:
+          friendly_name: Гостиная 2, TRV питание
+        sensor.lr_thermostat_difference:
+          friendly_name: Гостиная 2, разница температур с термостатом
+
+    template:
+     
+      - sensor:
+
+          - name: lr_thermostat_difference_2
+            state: "{{((states('sensor.0x00158d00015aebb6_temperature') | float - state_attr('climate.0x2c1165fffeb3e567', 'local_temperature') | float))|round(1) }}"
+            unit_of_measurement: °C
+            icon: mdi:temperature-celsius    
+
+    automation:
+
+      - id: Гостиная 2, TRV, калибровка
+        alias: lr_temperature_calibration_2
+        initial_state: true
+        trigger:
+          - platform: time_pattern
+            minutes: "/30"
+        condition:
+          - condition: state
+            entity_id: binary_sensor.lr_radiator
+            state: 'on' 
+        action:
+         - service: script.turn_on
+           entity_id: script.lr_temperature_calibration_2
+           
+      - id: Гостиная 2, TRV, режим
+        alias: lr_heating_initial_2
+        initial_state: true
+        trigger:
+        - platform: homeassistant
+          event: start
+        - platform: state
+          entity_id:
+            - binary_sensor.lr_radiator
+        condition:
+          - condition: state
+            entity_id: switch.control_mode
+            state: 'on'
+        action:
+            - choose:
+              - conditions:
+                  - condition: state
+                    entity_id: binary_sensor.lr_radiator
+                    state: 'on'
+                  - condition: template
+                    value_template: "{{ states('climate.0x2c1165fffeb3e567') != 'heat' }}"
+                sequence:
+                  - service: climate.set_hvac_mode
+                    target:
+                      entity_id: climate.0x2c1165fffeb3e567
+                    data:
+                      hvac_mode: heat
+              - conditions:
+                  - condition: state
+                    entity_id: binary_sensor.lr_radiator
+                    state: 'off'
+                  - condition: template
+                    value_template: "{{ states('climate.0x2c1165fffeb3e567') != 'off' }}"
+                sequence:
+                  - service: climate.set_hvac_mode
+                    target:
+                      entity_id: climate.0x2c1165fffeb3e567
+                    data:
+                      hvac_mode: 'off'
+
+      - id: Гостиная 2, TRV, переключение температуры
+        alias: lr_heating_initial_temp_2
+        initial_state: true
+        trigger:
+        - platform: state
+          entity_id: binary_sensor.lr_radiator
+          from: 'off'
+          to: 'on'
+        condition:
+          - condition: state
+            entity_id: switch.control_mode
+            state: 'on'
+        action:
+            - choose:
+              - conditions:
+                  - condition: state
+                    entity_id: binary_sensor.lr_aeration
+                    state: 'on'
+                sequence:
+                  - delay: 00:00:10
+                  - service: climate.set_temperature
+                    data:
+                      entity_id: climate.0x2c1165fffeb3e567
+                      temperature: "{{ states('number.0x2c1165fffeb3e567_open_window_temperature')}}"
+              - conditions:
+                  - condition: state
+                    entity_id: binary_sensor.lr_aeration
+                    state: 'off'
+                sequence:
+                  - delay: 00:00:10
+                  - service: climate.set_temperature
+                    data:
+                      entity_id: climate.0x2c1165fffeb3e567
+                      temperature: "{{ states('number.0x2c1165fffeb3e567_comfort_temperature')}}"
+                      
+      - id: Гостиная 2, TRV, температура
+        alias: lr_heating_set_temp_2
+        initial_state: true
+        trigger:
+        - platform: homeassistant
+          event: start
+        - platform: state
+          entity_id:
+            - binary_sensor.lr_aeration
+        condition:
+          - condition: state
+            entity_id: switch.control_mode
+            state: 'on'
+          - condition: state
+            entity_id: binary_sensor.lr_radiator
+            state: 'on' 
+        action:
+            - choose:
+              - conditions:
+                  - condition: state
+                    entity_id: binary_sensor.lr_aeration
+                    state: 'on'
+                sequence:
+                  - service: climate.set_temperature
+                    data:
+                      entity_id: climate.0x2c1165fffeb3e567
+                      temperature: "{{ states('number.0x2c1165fffeb3e567_open_window_temperature')}}"
+              - conditions:
+                  - condition: state
+                    entity_id: binary_sensor.lr_aeration
+                    state: 'off'
+                sequence:
+                  - service: climate.set_temperature
+                    data:
+                      entity_id: climate.0x2c1165fffeb3e567
+                      temperature: "{{ states('number.0x2c1165fffeb3e567_comfort_temperature')}}"
+                      
+    script:
+    
+        lr_temperature_calibration_2:
+          alias: Гостиная 2, TRV, калибровка
+          sequence:
+          - service: mqtt.publish
+            data_template:   
+               topic: zigstar/LR thermostat 2/set/local_temperature_calibration
+               payload_template: "0.0"
+          - delay: 00:00:10
+          - service: mqtt.publish
+            data_template:
+               topic: zigstar/LR thermostat 2/set/local_temperature_calibration
+               payload_template: "{{((states('sensor.0x00158d000156e92e_temperature') | float - state_attr('climate.0x2c1165fffeb3e567', 'local_temperature') | float))|round(1) }}"

@@ -1,3 +1,24 @@
+# 2022 02 21 _ 11
+
+Перенес управление отоплением еще в одной комнате, суть таже, кроме того, что используются 2 одинаковые  термоголовки. За счет использования шаблонных пакаджей - перенос занимает до 5 минут. 
+
+## Пакаджи 
+* [lr_sensors.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_LR/lr_sensors.yaml) - сенсоры для климат контроля в гостиной
+* [lr_heat_1.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_LR/lr_heat_1.yaml) - управление термоголовкой TV01
+* [lr_heat_2.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_LR/lr_heat_2.yaml) - управление термоголовкой TV01
+* [dd_sensors.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_DD/dd_sensors.yaml) - добавлен сенсор освещенности
+* [dd_light.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_DD/dd_light.yaml) - добавлены иконки для светильников в секции customize
+
+## Интерфейс, в режиме yaml
+* [ui-lovelace.yaml](https://github.com/kvazis/newHA/blob/master/ui-lovelace.yaml) - добавлены новые страницы
+* [05_lr_climate.yaml](https://github.com/kvazis/newHA/blob/master/lovelace/05_lr_climate.yaml) - страница управления термоголовками и мониторинг датчика климата
+* [07_dd_climate.yaml](https://github.com/kvazis/newHA/blob/master/lovelace/07_dd_climate.yaml) - добавлен график по освещенности
+* [07_dd_control.yaml](https://github.com/kvazis/newHA/blob/master/lovelace/07_dd_control.yaml) - страница управления, добавлены светильники, розетка, несколько сенсоров (пока в поиске универсального шаблона)
+* [08_da_climate.yaml](https://github.com/kvazis/newHA/blob/master/lovelace/08_da_climate.yaml) - косметические изменения
+
+Страница 07_dd_control.yaml Вариант оформления страницы управления 
+![screenshot](https://raw.githubusercontent.com/kvazis/newHA/master/img/0008.png)
+
 # 2022 02 21 _ 10
 
 Добавлен, пока экспериментальный (надо понаблюдать как будет работать) сенсор и карта в lovelace, для отслеживания обновлений аддонов в Supervisor
