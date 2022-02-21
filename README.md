@@ -1,3 +1,34 @@
+# 2022 02 21 _ 10
+
+Добавлен, пока экспериментальный (надо понаблюдать как будет работать) сенсор и карта в lovelace, для отслеживания обновлений аддонов в Supervisor
+
+## Пакаджи
+* [system_sensors.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/system_sensors.yaml) - добавлен сенсор проверки обновлений Supervisor
+
+```yaml
+- platform: command_line
+  name: supervisor_updates
+  command: 'curl http://supervisor/supervisor/info -H "Authorization: Bearer $(printenv SUPERVISOR_TOKEN)" | jq ''{"newest_version":.data.version_latest,"current_version":.data.version,"update_available":.data.update_available,"addons":[.data.addons[] | select(.update_available)]}'''
+  value_template: "{{ value_json.addons | length }}"
+  unit_of_measurement: доступно обновлений
+  json_attributes:
+  - update_available
+  - newest_version
+  - current_version
+  - addons
+```
+## Интерфейс, в режиме yaml
+* [01_system.yaml](https://github.com/kvazis/newHA/blob/master/lovelace/01_system.yaml) - карта markdown для Supervisor, выводящая список и версии репозиториев для обновления
+
+```yaml
+- type: markdown
+  content: |
+    <ha-icon icon="mdi:home-assistant"></ha-icon>&nbsp;&nbsp;&nbsp;Обновлений для Supervisor - {{ states('sensor.supervisor_updates') | default }}
+    > {% for addon in state_attr('sensor.supervisor_updates', 'addons') %}
+    > {{ addon.name }} {{ addon.version }} -> {{ addon.version_latest }}
+    > {% endfor %}
+```
+
 # 2022 02 21 _ 9
 
 ## Пакаджи 
