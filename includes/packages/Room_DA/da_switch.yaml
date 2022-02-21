@@ -1,0 +1,21 @@
+da_switch:
+
+    homeassistant:
+      customize:
+      
+        switch.0x00158d00010ec4b8:
+          friendly_name: Детская А, увлажнитель воздуха
+          icon: mdi:power-plug
+        sensor.0x00158d00010ec4b8_power:
+          friendly_name: Детская А, увлажнитель воздуха
+          icon: mdi:lightning-bolt
+        sensor.0x00158d00010ec4b8_energy:
+          friendly_name: Детская А, увлажнитель воздуха
+          icon: mdi:chart-line
+        switch.0x00158d00010ec4b8_power_outage_memory:
+          friendly_name: Детская А, увлажнитель воздуха
+          icon: mdi:power-cycle
+        sensor.0x00158d00010ec4b8_switch_temperature:
+          friendly_name: Детская А, увлажнитель воздуха
+          icon: mdi:thermometer
+

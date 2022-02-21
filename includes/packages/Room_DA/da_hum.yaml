@@ -13,13 +13,6 @@ da_hum:
           friendly_name: Детская А, увлажнение воздуха
         binary_sensor.da_humidifier_time:
           friendly_name: Детская А, время увлажнения воздуха
-        switch.0x00158d00010ec4b8:
-          friendly_name: Детская А, увлажнитель воздуха
-        sensor.0x00158d00010ec4b8_energy:
-          friendly_name: Детская А, увлажнитель воздуха
-        sensor.0x00158d00010ec4b8_power:
-          friendly_name: Детская А, увлажнитель воздуха
-
 
     binary_sensor:
     

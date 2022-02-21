@@ -1,0 +1,36 @@
+dd_switch:
+
+    homeassistant:
+      customize:
+      
+        switch.0x00158d00030a6e78:
+          friendly_name: Детская Д, настольная лампа
+          icon: mdi:power-plug
+        sensor.0x00158d00030a6e78_power:
+          friendly_name: Детская Д, настольная лампа
+          icon: mdi:lightning-bolt
+        sensor.0x00158d00030a6e78_energy:
+          friendly_name: Детская Д, настольная лампа
+          icon: mdi:chart-line
+        switch.0x00158d00030a6e78_power_outage_memory:
+          friendly_name: Детская Д, настольная лампа
+          icon: mdi:power-cycle
+        sensor.0x00158d00030a6e78_switch_temperature:
+          friendly_name: Детская Д, настольная лампа
+          icon: mdi:thermometer
+          
+        switch.0x00158d000153dd8e:
+          friendly_name: Детская Д, ноутбук Acer 15
+          icon: mdi:power-plug
+        sensor.0x00158d000153dd8e_power:
+          friendly_name: Детская Д, ноутбук Acer 15
+          icon: mdi:lightning-bolt
+        sensor.0x00158d000153dd8e_energy:
+          friendly_name: Детская Д, ноутбук Acer 15
+          icon: mdi:chart-line
+        switch.0x00158d000153dd8e_power_outage_memory:
+          friendly_name: Детская Д, ноутбук Acer 15
+          icon: mdi:power-cycle
+        sensor.0x00158d000153dd8e_switch_temperature:
+          friendly_name: Детская Д, ноутбук Acer 15
+          icon: mdi:thermometer

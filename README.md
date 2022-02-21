@@ -6,8 +6,11 @@
 * [lr_sensors.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_LR/lr_sensors.yaml) - сенсоры для климат контроля в гостиной
 * [lr_heat_1.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_LR/lr_heat_1.yaml) - управление термоголовкой TV01
 * [lr_heat_2.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_LR/lr_heat_2.yaml) - управление термоголовкой TV01
-* [dd_sensors.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_DD/dd_sensors.yaml) - добавлен сенсор освещенности
+* [dd_sensors.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_DD/dd_sensors.yaml) - добавлен сенсор освещенности, перенос switch в новый пакадж
+* [da_sensors.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_DA/da_sensors.yaml) - перенос switch в новый пакадж
 * [dd_light.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_DD/dd_light.yaml) - добавлены иконки для светильников в секции customize
+* [dd_switch.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_DD/dd_switch.yaml) - пакадж для switch - подбор шаблона для отображения сущностей розеток и реле
+* [da_switch.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_DA/da_switch.yaml) - пакадж для switch
 
 ## Интерфейс, в режиме yaml
 * [ui-lovelace.yaml](https://github.com/kvazis/newHA/blob/master/ui-lovelace.yaml) - добавлены новые страницы

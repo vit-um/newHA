@@ -51,10 +51,9 @@ cards:
               entities:             
                 - entity: switch.0x00158d00030a6e78
                   type: custom:multiple-entity-row
-                  icon: mdi:power-plug
                   toggle: true
                   state_color: true
-                  name: Питание настольной лампы
+                  name: Настольная лампа
                   secondary_info: last-changed
                   state_header: Питание
                   entities:
