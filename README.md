@@ -1,3 +1,22 @@
+# 2022 02 21 _ 9
+
+## Пакаджи 
+* [da_sensors.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_DA/da_sensors.yaml) - добавлены в recorder и customize датчик освещенности
+
+## Интерфейс, в режиме yaml
+* [08_da_climate.yaml](https://github.com/kvazis/newHA/blob/master/lovelace/08_da_climate.yaml) - добавлен график по освещенности
+* [01_system.yaml](https://github.com/kvazis/newHA/blob/master/lovelace/01_system.yaml) - для HACS сделана отдельная карта markdown, выводящая список и версии репозиториев для обновления
+
+```yaml
+- type: markdown
+  content: |
+    <ha-icon icon="hacs:hacs"></ha-icon>&nbsp;&nbsp;&nbsp;Обновлений для HACS - {{ states('sensor.hacs') | default }}
+    > {% for repo in state_attr('sensor.hacs', 'repositories') %}
+    > {{ repo.display_name }} {{ repo["installed_version"] }} -> {{ repo["available_version"] }}
+    > {% endfor %}
+```
+![screenshot](https://raw.githubusercontent.com/kvazis/newHA/master/img/0007.png)
+
 # 2022 02 18 _ 8
 
 ## Пакаджи
