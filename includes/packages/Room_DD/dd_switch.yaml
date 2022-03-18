@@ -12,13 +12,7 @@ dd_switch:
         sensor.0x00158d00030a6e78_energy:
           friendly_name: Детская Д, настольная лампа
           icon: mdi:chart-line
-        switch.0x00158d00030a6e78_power_outage_memory:
-          friendly_name: Детская Д, настольная лампа
-          icon: mdi:power-cycle
-        sensor.0x00158d00030a6e78_switch_temperature:
-          friendly_name: Детская Д, настольная лампа
-          icon: mdi:thermometer
-          
+
         switch.0x00158d000153dd8e:
           friendly_name: Детская Д, ноутбук Acer 15
           icon: mdi:power-plug
@@ -28,9 +22,52 @@ dd_switch:
         sensor.0x00158d000153dd8e_energy:
           friendly_name: Детская Д, ноутбук Acer 15
           icon: mdi:chart-line
-        switch.0x00158d000153dd8e_power_outage_memory:
-          friendly_name: Детская Д, ноутбук Acer 15
-          icon: mdi:power-cycle
-        sensor.0x00158d000153dd8e_switch_temperature:
-          friendly_name: Детская Д, ноутбук Acer 15
-          icon: mdi:thermometer
+
+        switch.0x00158d0001a2ccab_left:
+          friendly_name: Детская Д, увлажнитель
+        switch.0x00158d0001a2ccab_right:
+          friendly_name: Детская Д, питание адресной ленты
+        sensor.0x00158d0001a2ccab_action:
+          friendly_name: Детская Д, выключатель Aqara с нулем
+        sensor.0x00158d0001a2ccab_power:
+          friendly_name: Детская Д, выключатель Aqara с нулем
+
+        switch.0x842e14fffefd9721_l1:
+          friendly_name: Детская Д, удлинитель розетка 1
+          icon: mdi:power-plug
+        switch.0x842e14fffefd9721_l2:
+          friendly_name: Детская Д, Switch Zyxel
+          icon: mdi:power-plug
+        switch.0x842e14fffefd9721_l3:
+          friendly_name: Детская Д, зарядная станция
+          icon: mdi:power-plug
+        switch.0x842e14fffefd9721_l4:
+          friendly_name: Детская Д, принтер
+          icon: mdi:power-plug
+        switch.0x842e14fffefd9721_l5:
+          friendly_name: Детская Д, удлинитель USB
+          icon: mdi:usb
+          
+        sensor.0x00158d00013f82b7_action:
+          friendly_name: Детская Д, кнопка на принтере
+        sensor.0x00158d00013f82b7_battery:
+          friendly_name: Детская Д, кнопка на принтере
+          
+          
+    automation:
+
+      - id: Детская Д, ручное управление принтером
+        alias: dd_printer_manual_control
+        initial_state: true          
+        trigger:
+    # Кнопка на принтере
+        - platform: state
+          entity_id: sensor.0x00158d00013f82b7_action
+          to: 'single'           
+        condition:
+        - condition: state
+          entity_id: switch.control_mode
+          state: 'on'
+        action:
+        - service: switch.toggle
+          entity_id: switch.0x842e14fffefd9721_l4

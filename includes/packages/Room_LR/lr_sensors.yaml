@@ -11,6 +11,11 @@ lr_sensors:
         
         binary_sensor.lr_aeration:
           friendly_name: Гостиная, проветривание
+
+        binary_sensor.lr_radiator:
+          friendly_name: Гостиная, режим отопления      
+          
+          
         binary_sensor.0x00158d00013ed373_contact:
           friendly_name: Гостиная, окно
           device_class: window
@@ -26,6 +31,7 @@ lr_sensors:
           device_class: door
         sensor.0x00158d000445206b_battery:
           friendly_name: Гостиная, дверь на балкон
+
         sensor.0x00158d00015aebb6_humidity:
           friendly_name: Гостиная, влажность
           icon: mdi:water-percent
@@ -35,9 +41,18 @@ lr_sensors:
         sensor.0x00158d00015aebb6_battery:
           friendly_name: Гостиная, климат          
 
+        binary_sensor.lr_notification_time:
+          friendly_name: Гостиная, время уведомлений о плохом воздухе
+          device_class: running
+          icon: mdi:clock-digital
 
     binary_sensor:
     
+      - platform: tod
+        name: lr_notification_time
+        after: '10:00'
+        before: '22:00'
+
       - platform: mqtt
         name: lr_radiator
         state_topic: "states/lr_radiator"

@@ -7,6 +7,55 @@ cards:
 
     - type: vertical-stack
       cards:
+
+        - type: markdown
+          style: |
+              ha-card {
+                font-size: 26px;
+              }          
+          content: >
+             **Балкон**
+
+        - type: glance
+          show_state: true
+          show_name: true
+          state_color: true
+          entities:
+          - entity: binary_sensor.0x00158d00015843d4_contact
+            name: Дверь
+          - entity: binary_sensor.0x00158d0001a65b68_contact
+            name: Окно 1
+          - entity: binary_sensor.0xec1bbdfffe3a653e_contact
+            name: Окно 2
+            
+        - type: custom:mini-graph-card
+          entities:
+           - entity: sensor.0x04cf8cdf3c7cf19e_illuminance_lux
+             name: Освещенность
+          color_thresholds:
+              - value: 100
+                color: "#000000"
+              - value: 1000
+                color: "#2F4F4F"
+              - value: 5000
+                color: "#708090"
+              - value: 10000
+                color: "#A9A9A9"
+              - value: 20000
+                color: "#D3D3D3"
+              - value: 82000
+                color: "#FFFFFF"
+          animate: true
+          line_width: 2
+          hour24: true
+          points_per_hour: 1
+          group_by: hour
+          hours_to_show: 72
+
+############################ Колонка 2 ############################
+
+    - type: vertical-stack
+      cards:
       
         - type: markdown
           style: |
@@ -14,7 +63,7 @@ cards:
                 font-size: 26px;
               }          
           content: >
-             **Мониторинг**
+             **Комната**
 
         - type: glance
           show_state: true
@@ -23,10 +72,13 @@ cards:
           entities:
           - entity: binary_sensor.dd_radiator
             name: Отопление
-        #   - entity: binary_sensor.da_humidifier
-        #     name: Увлажнение
+          - entity: binary_sensor.dd_humidifier
+            name: Увлажнение
           - entity: binary_sensor.dd_aeration
             name: Проветривание
+          - entity: binary_sensor.0x00158d0001193697_contact
+            name: Окно
+
 
         - type: custom:mini-graph-card
           entities:
@@ -78,31 +130,7 @@ cards:
           group_by: hour
           hours_to_show: 72
 
-        - type: custom:mini-graph-card
-          entities:
-           - entity: sensor.0x04cf8cdf3c7cf19e_illuminance_lux
-             name: Освещенность
-          color_thresholds:
-              - value: 100
-                color: "#000000"
-              - value: 1000
-                color: "#2F4F4F"
-              - value: 5000
-                color: "#708090"
-              - value: 10000
-                color: "#A9A9A9"
-              - value: 20000
-                color: "#D3D3D3"
-              - value: 82000
-                color: "#FFFFFF"
-          animate: true
-          line_width: 2
-          hour24: true
-          points_per_hour: 1
-          group_by: hour
-          hours_to_show: 72
-
-############################ Колонка 2 ############################
+############################ Колонка 3 ############################
 
     - type: vertical-stack
       cards:
@@ -178,4 +206,64 @@ cards:
             day:     '${value} день'
             days:    '${value} дней'
 
-############################ Колонка 3 ############################
+############################ Колонка 4 ############################
+
+    - type: vertical-stack
+      cards:
+
+        - type: markdown
+          style: |
+              ha-card {
+                font-size: 26px;
+              }          
+          content: >
+             **Увлажнение**
+
+        - type: custom:stack-in-card
+          mode: vertical
+          cards:
+
+            - type: entities
+              show_header_toggle: false
+              entities:
+              - entity: switch.dd_humidifier_mode
+                state_color: true
+
+            - type: glance
+              show_state: true
+              show_name: true
+              state_color: true
+              entities:
+              - entity: binary_sensor.dd_hydration
+                name: Условия для увлажнения
+              - entity: binary_sensor.da_humidifier_time
+                name: Время работы
+              - entity: switch.0x00158d0001a2ccab_left
+                name: Увлажнитель
+                icon: mdi:power-plug
+                tap_action:
+                  action: toggle
+
+            - type: entities
+              show_header_toggle: false
+              state_color: true
+              entities:
+              - entity: input_number.humidity_level_dd
+                name: Целевая влажность
+
+        - type: custom:logbook-card
+          entity: switch.0x00158d0001a2ccab_left
+          max_items: 5
+          title: Увлажнитель, лог работы
+          duration_labels:
+            second:  '${value} секунда'
+            seconds: '${value} секунд'
+            minute:  '${value} минута'
+            minutes: '${value} минут'
+            hour:    '${value} час'
+            hours:   '${value} часов'
+            day:     '${value} день'
+            days:    '${value} дней'          
+          
+
+

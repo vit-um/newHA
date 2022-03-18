@@ -9,19 +9,26 @@ dd_sensors:
            
     homeassistant:
       customize:
+
+############# Комната
         
         binary_sensor.dd_aeration:
           friendly_name: Детская Д, проветривание
+
+        binary_sensor.0x00158d0001a66222_occupancy:
+          friendly_name: Детская Д, движение
+        sensor.0x00158d0001a66222_illuminance_lux:
+          friendly_name: Детская Д, освещенность
+        sensor.0x00158d0001a66222_battery:
+          friendly_name: Детская Д, движение
+
+
         binary_sensor.0x00158d0001193697_contact:
           friendly_name: Детская Д, окно
           device_class: window
         sensor.0x00158d0001193697_battery:
           friendly_name: Детская Д, окно
-        binary_sensor.0x00158d00015843d4_contact:
-          friendly_name: Детская Д, дверь на балкон
-          device_class: door
-        sensor.0x00158d00015843d4_battery:
-          friendly_name: Детская Д, дверь на балкон
+
         sensor.0x00158d000156e92e_humidity:
           friendly_name: Детская Д, влажность
           icon: mdi:water-percent
@@ -30,10 +37,32 @@ dd_sensors:
           icon: mdi:temperature-celsius
         sensor.0x00158d000156e92e_battery:
           friendly_name: Детская Д, климат 
+
+
+############# Балкон
+
+        binary_sensor.0x00158d00015843d4_contact:
+          friendly_name: Детская Д, балкон дверь
+          device_class: door
+        sensor.0x00158d00015843d4_battery:
+          friendly_name: Детская Д, балкон дверь
+
+        binary_sensor.0x00158d0001a65b68_contact:
+          friendly_name: Детская Д, балкон окно 1
+          device_class: window
+        sensor.0x00158d0001a65b68_battery:
+          friendly_name: Детская Д, балкон окно 1
+          
+        binary_sensor.0xec1bbdfffe3a653e_contact:
+          friendly_name: Детская Д, балкон окно 2
+          device_class: window
+        sensor.0xec1bbdfffe3a653e_battery:
+          friendly_name: Детская Д, балкон окно 2
+
         sensor.0x04cf8cdf3c7cf19e_illuminance_lux:
-          friendly_name: Детская Д, освещенность
+          friendly_name: Детская Д, балкон освещенность
         sensor.0x04cf8cdf3c7cf19e_battery:
-          friendly_name: Детская Д, сенсор освещенности
+          friendly_name: Детская Д, балкон сенсор освещенности
          
           
     template:

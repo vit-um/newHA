@@ -142,8 +142,8 @@ da_hum:
                    - !secret chat_id_group
                message: | 
                     {{"\U0001F6B1"}} Детская А, закончилась вода в увлажнителе или он выключен вручную {{ states('sensor.time_date') }} 
-            # - service: xiaomi_aqara.play_ringtone
-            #   data:
-            #     gw_mac: F0:B4:29:CC:1F:11
-            #     ringtone_id: 10011
-            #     ringtone_vol: 50
+           - service: xiaomi_aqara.play_ringtone
+             data:
+                gw_mac: F0:B4:29:CC:1F:11
+                ringtone_id: 10011
+                ringtone_vol: 50

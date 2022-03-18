@@ -14,7 +14,7 @@ cards:
                 font-size: 26px;
               }          
           content: >
-             **Мониторинг**
+             **Комната**
              
         - type: glance
           show_state: true
@@ -27,6 +27,8 @@ cards:
             name: Увлажнение
           - entity: binary_sensor.da_aeration
             name: Проветривание
+          - entity: binary_sensor.0x00158d0001583c7b_contact
+            name: Окно
 
         - type: custom:mini-graph-card
           entities:

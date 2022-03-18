@@ -2,17 +2,15 @@ dd_light:
 
     homeassistant:
       customize:
-        
-        light.0x00158d000420dbab:
-          friendly_name: Детская Д, бра
-          icon: mdi:coach-lamp
-        switch.0x00158d000420dbab_power_outage_memory:
-          friendly_name: Детская Д, бра память состояния
 
         light.dd_ceiling_light:
           friendly_name: Детская Д, люстра
           icon: mdi:ceiling-light
-          
+        
+        light.0x00158d000420dbab:
+          friendly_name: Детская Д, бра
+          icon: mdi:coach-lamp
+
         light.dd_wled_light:
           friendly_name: Детская Д, адресная лента
           icon: mdi:led-strip-variant
@@ -30,6 +28,11 @@ dd_light:
           friendly_name: Детская Д, выключатель возле кровати
         sensor.0x00158d0003d50723_battery:
           friendly_name: Детская Д, выключатель возле кровати
+          
+        sensor.0x00158d0001a672ef_action:
+          friendly_name: Детская Д, кнопка на столе
+        sensor.0x00158d0001a672ef_battery:
+          friendly_name: Детская Д, кнопка на столе
 
     switch:
 
@@ -48,6 +51,8 @@ dd_light:
                 entity_id: switch.0x00158d00030a6e78
                 
     light:
+
+########## Перевод сущности switch в light - для удобства и единообразия управления ########## 
 
       - platform: switch
         name: dd_table_lamp
@@ -128,7 +133,22 @@ dd_light:
                   - service: light.turn_off
                     entity_id:
                       - light.0x00158d000420dbab
-                      
+
+      - id: Детская Д, ручное управление адресной лентой
+        alias: dd_wled_manual_control
+        initial_state: true          
+        trigger:
+    # Кнопка на столе
+        - platform: state
+          entity_id: sensor.0x00158d0001a672ef_action
+          to: 'single'           
+        condition:
+        - condition: state
+          entity_id: switch.control_mode
+          state: 'on'
+        action:
+        - service: light.toggle
+          entity_id: light.dd_wled_light
 
       - id: Детская Д, включение питания на настольную лампу
         alias: dd_table_autoswitch

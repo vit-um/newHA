@@ -1,6 +1,6 @@
 ##################   Управление
-title: Детская Д
-icon: mdi:human-male-boy
+title: Детская А
+icon: mdi:human-female-girl
 cards:
 
 ############################ Колонка 1 ############################
@@ -26,18 +26,18 @@ cards:
             - type: horizontal-stack
               cards:        
                 - type: light
-                  entity: light.dd_ceiling_light
-                  name: Люстра 
+                  entity: light.da_ceiling_light
+                  name: Люстра
                 - type: light
-                  entity: light.0x00158d000420dbab
-                  name: Бра
+                  entity: light.gateway_light_f0b429cc1f11
+                  name: Ночник
                 - type: light
-                  entity: light.dd_wled_light
+                  entity: light.da_led_strip
                   name: Лента
                 - type: light
-                  entity: light.dd_table_lamp
+                  entity: light.smart_desk_lamp
                   name: Настольная лампа
-
+                  
         - type: custom:stack-in-card
           mode: vertical
           cards:
@@ -49,21 +49,7 @@ cards:
             - type: entities
               show_header_toggle: false
               entities:             
-                - entity: switch.0x00158d00030a6e78
-                  type: custom:multiple-entity-row
-                  toggle: true
-                  state_color: true
-                  name: Настольная лампа
-                  secondary_info: last-changed
-                  state_header: Питание
-                  entities:
-                  - attribute: last_seen
-                    format: relative
-                    name: Отклик
-                  - attribute: power
-                    name: Мощность
-                    unit: 'Ватт'
-                - entity: switch.0x00158d0001a2ccab_left
+                - entity: switch.0x00158d00010ec4b8
                   type: custom:multiple-entity-row
                   toggle: true
                   state_color: true
@@ -93,19 +79,8 @@ cards:
              
         - type: entities
           show_header_toggle: false
-          entities:
-            - entity: sensor.0x00158d0001a66222_battery
-              type: custom:multiple-entity-row
-              icon: mdi:run
-              state_color: true
-              name: Датчик движения
-              secondary_info: last-changed
-              state_header: Батарейка
-              entities:
-              - entity: binary_sensor.0x00158d0001a66222_occupancy
-                name: Состояние          
-            - type: divider          
-            - entity: sensor.0x00158d000156e92e_battery
+          entities:             
+            - entity: sensor.0x00158d000159c7e6_battery
               type: custom:multiple-entity-row
               icon: mdi:coolant-temperature
               state_color: true
@@ -120,7 +95,7 @@ cards:
                 name: Влажность
                 unit: '%'
             - type: divider
-            - entity: sensor.0x04cf8cdf3c7cf19e_battery
+            - entity: sensor.0x04cf8cdf3c78ca91_battery
               type: custom:multiple-entity-row
               icon: mdi:sun-wireless
               state_color: true
@@ -131,14 +106,3 @@ cards:
               - attribute: illuminance_lux
                 name: Освещенность
                 unit: 'люкс'
-            - type: divider
-            - entity: sensor.0x00158d0001193697_battery
-              type: custom:multiple-entity-row
-              icon: mdi:window-open-variant
-              state_color: true
-              name: Датчик открытия, окно
-              secondary_info: last-changed
-              state_header: Батарейка
-              entities:
-              - entity: binary_sensor.0x00158d0001193697_contact
-                name: Состояние

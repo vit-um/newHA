@@ -12,10 +12,13 @@ da_switch:
         sensor.0x00158d00010ec4b8_energy:
           friendly_name: Детская А, увлажнитель воздуха
           icon: mdi:chart-line
-        switch.0x00158d00010ec4b8_power_outage_memory:
-          friendly_name: Детская А, увлажнитель воздуха
-          icon: mdi:power-cycle
-        sensor.0x00158d00010ec4b8_switch_temperature:
-          friendly_name: Детская А, увлажнитель воздуха
-          icon: mdi:thermometer
+
+        switch.0x00158d000635ded8_left:
+          friendly_name: Детская А, проводной выключатель на входе
+          icon: mdi:power-plug
+        switch.0x00158d000635ded8_right:
+          friendly_name: Детская А, питание люстры
+          icon: mdi:power-plug
+        sensor.0x00158d000635ded8_action:
+          friendly_name: Детская А, проводной выключатель на входе
 

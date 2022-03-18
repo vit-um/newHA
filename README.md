@@ -1,3 +1,24 @@
+# 2022 02 24 _ 12
+
+## Обновление которое планировалось на 24 февраля после выхода урока по голосовому обновлению. Война, развязанная россией против народа Украины - поменяла все планы. Фактическая дата публикации - 18 марта, на сегодняшний день я в порядке, как будет дальше - неизвестно, обстрелы ежедневно. 
+
+## Пакаджи 
+* [dd_light.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_DD/dd_light.yaml) - добавление автоматизаций по управлению освещением
+* [dd_switch.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_DD/dd_switch.yaml) - добавлены новые сущности в customize, управление принтером
+* [dd_hum.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_DD/dd_hum.yaml) - управление увлажнителем воздуха через реле выключателя с энергомониториноом,
+* [da_light.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_DA/da_light) - управление освещением
+* [da_switch.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_DA/da_switch.yaml) - добавлены описания switch 
+* [dd_sensors.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_DD/dd_sensors.yaml) - добавление описаний новых сенсоров
+* [da_sensors.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_DA/da_sensors.yaml) - добавление описаний новых сенсоров
+* [lr_air_quality.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_LR/lr_air_quality.yaml) - контроль и уведомления о качестве воздуха - CO2, [урок по голосовым уведомлениям](https://youtu.be/xKbEj7pE9iU)
+* [lr_sensors.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_LR/lr_sensors.yaml) - добавление описаний новых сенсоров
+
+## Интерфейс, в режиме yaml
+* [ui-lovelace.yaml](https://github.com/kvazis/newHA/blob/master/ui-lovelace.yaml) - добавлены новые страницы
+* [07_dd_control.yaml](https://github.com/kvazis/newHA/blob/master/lovelace/07_dd_control.yaml) - страница управления, добавлены новые сущности
+* [08_da_control.yaml](https://github.com/kvazis/newHA/blob/master/lovelace/08_da_control.yaml) - новая страница управления по шаблону
+* [05_lr_climate.yaml](https://github.com/kvazis/newHA/blob/master/lovelace/05_lr_climate.yaml) - добавление данных по CO2, изменени формат вывода
+
 # 2022 02 21 _ 11
 
 Перенес управление отоплением еще в одной комнате, суть таже, кроме того, что используются 2 одинаковые  термоголовки. За счет использования шаблонных пакаджей - перенос занимает до 5 минут. 
