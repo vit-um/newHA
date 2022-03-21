@@ -193,4 +193,4 @@ lr_heat_1:
           - service: mqtt.publish
             data_template:
                topic: zigstar/LR thermostat 1/set/local_temperature_calibration
-               payload_template: "{{((states('sensor.0x00158d000156e92e_temperature') | float - state_attr('climate.0x2c1165fffec61c89', 'local_temperature') | float))|round(1) }}"
+               payload_template: "{{((states('sensor.0x00158d00015aebb6_temperature') | float - state_attr('climate.0x2c1165fffec61c89', 'local_temperature') | float))|round(1) }}"
