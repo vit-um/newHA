@@ -1,0 +1,20 @@
+bt_sensors:
+
+
+    recorder:
+      include:
+        entities:
+           - sensor.0x00158d0001dcd47e_temperature
+           - sensor.0x00158d0001dcd47e_humidity
+
+    homeassistant:
+      customize:
+        
+        sensor.0x00158d0001dcd47e_humidity:
+          friendly_name: Ванная, влажность
+          icon: mdi:water-percent
+        sensor.0x00158d0001dcd47e_temperature:
+          friendly_name: Ванная, температура
+          icon: mdi:temperature-celsius
+        sensor.0x00158d0001dcd47e_battery:
+          friendly_name: Ванная, климат

@@ -1,0 +1,230 @@
+bt_light:
+
+    homeassistant:
+      customize:
+
+        light.bt_ceiling_light:
+          friendly_name: Ванная, люстра
+          icon: mdi:ceiling-light
+          
+        switch.0x00158d0001117040_right:
+          friendly_name: Ванная, люстры
+        sensor.0x00158d0001117040_action:
+          friendly_name: Ванная, выключатель на входе
+          
+        sensor.0x00158d000238a140_action:
+          friendly_name: Ванная, выключатель внутри
+        sensor.0x00158d000238a140_battery:
+          friendly_name: Ванная, выключатель внутри
+          
+        binary_sensor.0x00158d0001e547a3_occupancy:
+          friendly_name: Ванная, датчик движения
+        sensor.0x00158d0001e547a3_battery:
+          friendly_name: Ванная, датчик движения
+
+        binary_sensor.0x00158d00054495dc_contact:
+          friendly_name: Ванная, дверь
+          device_class: door
+        sensor.0x00158d00054495dc_battery:
+          friendly_name: Ванная, дверь
+          
+    template:
+     
+      - binary_sensor:
+
+    # Свет без движения в ванной днем
+          - name: bt_light_on
+            state: >
+              {{ is_state('light.bt_ceiling_light', 'on')  
+                 and is_state('binary_sensor.0x00158d0001e547a3_occupancy', 'off')
+                 and is_state('binary_sensor.bt_night', 'off')
+              }}
+            icon: >
+              {% if is_state("binary_sensor.bt_light_on", "on") %}
+              mdi:timer
+              {% else %}
+              mdi:timer-off
+              {% endif %}
+              
+    # Свет без движения в ванной ночью
+          - name: bt_light_night_on
+            state: >
+              {{ is_state('light.bt_ceiling_light', 'on')  
+                 and is_state('binary_sensor.0x00158d0001e547a3_occupancy', 'off')
+                 and is_state('binary_sensor.bt_night', 'on')
+              }}
+            icon: >
+              {% if is_state("binary_sensor.bt_light_on", "on") %}
+              mdi:timer
+              {% else %}
+              mdi:timer-off
+              {% endif %}
+
+    binary_sensor:
+
+    # Интервал для пониженной яркости  
+      - platform: tod
+        name: bt_night
+        after: '23:00'
+        before: '05:00'
+
+    timer:
+    
+        bt_light:
+          name: Свет в ванной отключится через - 
+          duration: '00:10:00'
+        
+    automation:
+
+      - id: Ванная, питание на выключателе люстры
+        alias: bt_cell_power
+        initial_state: true
+        trigger:       
+         - platform: time_pattern
+           minutes: '/1'
+        condition:
+         - condition: template
+           value_template: "{{ states('switch.0x00158d0001117040_right') != 'on' }}"
+         - condition: state
+           entity_id: switch.control_mode
+           state: 'on'
+        action:
+         - service: switch.turn_on
+           entity_id: switch.0x00158d0001117040_right
+           
+      - id: Ванная, перезагрузка зависшей люстры
+        alias: bt_cell_reboot
+        initial_state: true
+        trigger:
+        - platform: state
+          entity_id: light.bt_ceiling_light
+          to: 'unavailable'
+          for:
+            minutes: 5
+        condition:
+         - condition: state
+           entity_id: switch.control_mode
+           state: 'on'
+        action:
+          - service: switch.turn_off
+            entity_id: switch.0x00158d0001117040_right
+            
+      - id: Ванная, автоматическая установка яркости
+        alias: bt_light_bright
+        initial_state: true
+        trigger:
+        - platform: state
+          entity_id: light.bt_ceiling_light
+          to: 'on'
+        condition:
+         - condition: state
+           entity_id: switch.control_mode
+           state: 'on'
+        action:
+        - service: light.turn_on
+          entity_id:
+            - light.bt_ceiling_light
+          data_template:
+               brightness_pct: >
+                 {%- if states("binary_sensor.bt_night") == 'on' -%}
+                 50
+                 {%- else -%}
+                 100
+                 {% endif %}
+               kelvin: 4000
+        
+      - id: Ванная, включение света
+        alias: bt_light_on
+        initial_state: true
+        trigger:
+      ## Проводной выключатель
+        - platform: state
+          entity_id: sensor.0x00158d0001117040_action
+          to: 'single_right'
+      ## Беспроводный выключатель
+        - platform: state
+          entity_id: sensor.0x00158d000238a140_action
+          to: 'single_left'
+      ## Датчик движения
+        - platform: state
+          entity_id: binary_sensor.0x00158d0001e547a3_occupancy
+          to: 'on'
+        condition:
+         - condition: state
+           entity_id: light.bt_ceiling_light
+           state: 'off'
+         - condition: state
+           entity_id: switch.control_mode
+           state: 'on'
+        action:
+          - service: light.turn_on
+            entity_id:
+              - light.bt_ceiling_light
+              
+      - id: Ванная, выключение света
+        alias: bt_light_off
+        initial_state: true
+        trigger:
+    ## Проводной выключатель
+        - platform: state
+          entity_id: sensor.0x00158d0001117040_action
+          to: 'single_right'
+    ## Беспроводный выключатель
+        - platform: state
+          entity_id: sensor.0x00158d000238a140_action
+          to: 'single_left'
+    # Таймер
+        - platform: event
+          event_type: timer.finished
+          event_data:
+            entity_id: timer.bt_light
+        condition:
+          - condition: state
+            entity_id: light.bt_ceiling_light
+            state: 'on'
+          - condition: state
+            entity_id: switch.control_mode
+            state: 'on'
+        action:
+          - service: light.turn_off
+            entity_id:
+              - light.bt_ceiling_light
+              
+      - id: Ванная, запуск таймера освещения
+        alias: bt_light_timer_on
+        initial_state: true
+        trigger:
+        - platform: state
+          entity_id: binary_sensor.bt_light_on
+          to: 'on'
+        - platform: state
+          entity_id: binary_sensor.bt_light_night_on
+          to: 'on'
+        action:
+        - service: timer.start
+          entity_id: timer.bt_light
+          data_template: 
+              duration: > 
+               {%- if states("binary_sensor.bt_light_on") == 'on' and states("binary_sensor.0x00158d00054495dc_contact") == 'off' -%}
+               00:30:00
+               {%- elif states("binary_sensor.bt_light_on") == 'on' and states("binary_sensor.0x00158d00054495dc_contact") == 'on' -%}
+               00:10:00
+               {%- elif states("binary_sensor.bt_light_night_on") == 'on' and states("binary_sensor.0x00158d00054495dc_contact") == 'off' -%}
+               00:15:00
+               {%- elif states("binary_sensor.bt_light_night_on") == 'on' and states("binary_sensor.0x00158d00054495dc_contact") == 'on' -%}
+               00:05:00
+               {% endif %}
+
+      - id: Ванная, отключение таймера освещения
+        alias: bt_light_timer_off
+        initial_state: true
+        trigger:
+        - platform: state
+          entity_id: binary_sensor.bt_light_on
+          to: 'off'
+        - platform: state
+          entity_id: binary_sensor.bt_light_night_on
+          to: 'off'
+        action:
+        - service: timer.cancel
+          entity_id: timer.bt_light

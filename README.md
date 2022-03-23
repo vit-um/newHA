@@ -1,9 +1,22 @@
+# 2022 03 23 _ 13
+
+## Пакаджи
+* [bt_sensors.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_BT/bt_sensors.yaml) - добавление описаний новых сенсоров
+* [bt_light.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_BT/bt_light.yaml) - управление освещением, яркость в зависимости от времени суток, длительность работы таймера автоотключение в зависимости от времени и состояния двери
+* [bt_vent.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_BT/bt_vent.yaml) - управление вентиляцией, включение по превышению порога влажности, таймер автоотключения, условие на время работы
+
+## Интерфейс, в режиме yaml
+* [06_bt_control.yaml](https://github.com/kvazis/newHA/blob/master/lovelace/06_bt_control.yaml) - страница для ванной комнаты, освещение, вентиляция, добавлен данные с сенсора климата
+
+Страница 06_bt_control.yaml
+![screenshot](https://raw.githubusercontent.com/kvazis/newHA/master/img/0010.png)
+
 # 2022 03 21 _ 13
 
 Не совсем корректно стал работать мой старый пакадж по управлению бойлером. Пришлось переписать, сразу на новом сервере.
 
 ## Пакаджи
-* [boiler.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_BT/boiler.yaml)
+* [boiler.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_BT/boiler.yaml) 
 
 Бойлер можно включить только когда активирован режим нагрева бойлера - связка шаблонного выключателя и бинарного сенсора на платформе mqtt. Есть проверка на его состояние, если он отключен, то питание будет выключаться. В автоматическом режиме работает по часу утром и вечером - интервалы установлены в бинарных сенсорах платформы tod (time of day). Так же возможно ручное включение, для этого сделан еще один шаблонный switch - связанный с часовым таймером. После ручного включения бойлер также будет работать 1 час - по таймеру.
 
