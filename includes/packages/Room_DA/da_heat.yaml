@@ -223,10 +223,10 @@ da_heat:
           sequence:
           - service: mqtt.publish
             data_template:   
-               topic: zigstar/DA thermostat/set/local_temperature_calibration
+               topic: zigstar_poe/DA thermostat/set/local_temperature_calibration
                payload_template: "0.0"
           - delay: 00:00:10
           - service: mqtt.publish
             data_template:
-               topic: zigstar/DA thermostat/set/local_temperature_calibration
+               topic: zigstar_poe/DA thermostat/set/local_temperature_calibration
                payload_template: "{{((states('sensor.0x00158d000159c7e6_temperature') | float - state_attr('climate.0x2c1165fffec612b1', 'local_temperature') | float))|round(1) }}"

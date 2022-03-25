@@ -67,9 +67,9 @@ cards:
                   type: custom:multiple-entity-row
                   toggle: true
                   state_color: true
-                  name: Увлажнитель воздуха
+                  name: Выключатель Aqara
                   secondary_info: last-changed
-                  state_header: Питание
+                  state_header: Увлажнитель
                   entities:
                   - attribute: last_seen
                     format: relative
@@ -77,6 +77,10 @@ cards:
                   - attribute: power
                     name: Мощность
                     unit: 'Ватт'
+                  - entity: switch.0x00158d0001a2ccab_right
+                    name: WLED
+                    toggle: true                    
+                    
                     
 ############################ Колонка 2 ############################
 

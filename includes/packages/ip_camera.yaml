@@ -1,0 +1,61 @@
+ip_camera:
+
+    camera:
+
+          - platform: generic
+            name: Xiaofang
+            still_image_url: http://192.168.0.125/image.jpg
+            stream_source: rtsp://192.168.0.125:554/unicast
+            
+          - platform: ffmpeg
+            name: reolink_411
+            input: !secret reolink_411_rtsp
+            
+          - platform: ffmpeg
+            name: reolink_410
+            input: !secret reolink_410_rtsp
+            
+          - platform: ffmpeg
+            name: reolink_e1_pro
+            input: !secret reolink_e1_pro_rtsp
+            
+          - platform: ffmpeg
+            name: reolink_e1_zoom
+            input: !secret reolink_e1_zoom_rtsp
+            
+        # Hikvision HDR
+        
+          - platform: generic
+            name: hikvision1
+            still_image_url: !secret hikvision1_url
+            stream_source: !secret hikvision1_rtsp
+            
+          - platform: generic
+            name: hikvision2
+            still_image_url: !secret hikvision2_url
+            stream_source: !secret hikvision2_rtsp
+            
+          - platform: generic
+            name: hikvision3
+            still_image_url: !secret hikvision3_url
+            stream_source: !secret hikvision3_rtsp
+        
+          - platform: generic
+            name: hikvision4
+            still_image_url: !secret hikvision4_url
+            stream_source: !secret hikvision4_rtsp
+        
+          - platform: generic
+            name: hikvision5
+            still_image_url: !secret hikvision5_url
+            stream_source: !secret hikvision5_rtsp
+            
+          - platform: generic
+            name: hikvision6
+            still_image_url: !secret hikvision6_url
+            stream_source: !secret hikvision6_rtsp 
+            
+          - platform: generic
+            name: hikvision7
+            still_image_url: !secret hikvision7_url
+            stream_source: !secret hikvision7_rtsp 

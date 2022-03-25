@@ -3,6 +3,7 @@ views:
   - !include lovelace/01_system.yaml
   - !include lovelace/02_control.yaml
   - !include lovelace/05_lr_climate.yaml
+  - !include lovelace/05_lr_control.yaml
   - !include lovelace/06_bt_control.yaml
   - !include lovelace/07_dd_climate.yaml
   - !include lovelace/07_dd_control.yaml

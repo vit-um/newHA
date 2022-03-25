@@ -1,4 +1,21 @@
-# 2022 03 23 _ 13
+# 2022 03 25 _ 15
+
+## Пакаджи
+
+* [ip_camera.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/ip_camera.yaml) - добавлены камеры, rtsp потоки
+* [da_light.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_DA/da_light) - добавлены дополнительные автоматизации и сущности для освещения в детской А
+* [da_switch.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_DA/da_switch.yaml) - добавлены новые описания switch 
+* [lr_light.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_LR/lr_light.yaml) - пакадж для управления освещением в гостиной (начал перевод с старых серверов)
+
+## Интерфейс, в режиме yaml
+* [ui-lovelace.yaml](https://github.com/kvazis/newHA/blob/master/ui-lovelace.yaml) - добавлена страница управлени для гостиной
+* [05_lr_control.yaml](https://github.com/kvazis/newHA/blob/master/lovelace/05_lr_control.yaml) - добавлены потолочные светильники для гостиной
+* [08_da_control.yaml](https://github.com/kvazis/newHA/blob/master/lovelace/08_da_control.yaml) - добавление новых сущностей на страницу управление, изменение шаблона (информация по zigbee датчикам)
+
+Страница 08_da_control.yaml
+![screenshot](https://raw.githubusercontent.com/kvazis/newHA/master/img/0011.png)
+
+# 2022 03 23 _ 14
 
 ## Пакаджи
 * [bt_sensors.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_BT/bt_sensors.yaml) - добавление описаний новых сенсоров

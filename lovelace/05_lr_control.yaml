@@ -1,0 +1,39 @@
+##################   Управление
+title: Гостиная
+icon: mdi:account-multiple
+cards:
+
+############################ Колонка 1 ############################
+
+    - type: vertical-stack
+      cards:
+      
+        - type: markdown
+          style: |
+              ha-card {
+                font-size: 26px;
+              }          
+          content: >
+             **Управление**
+             
+        - type: custom:stack-in-card
+          mode: vertical
+          cards:  
+            - type: markdown
+              content: >
+                 **Светильники**
+
+            - type: horizontal-stack
+              cards:        
+                - type: light
+                  entity: light.lr_ceiling_light_1
+                  name: Люстра 1
+                - type: light
+                  entity: light.lr_ceiling_light_1_ambilight
+                  name: Амби 1
+                - type: light
+                  entity: light.lr_ceiling_light_2
+                  name: Люстра 2
+                - type: light
+                  entity: light.lr_ceiling_light_2_ambilight
+                  name: Амби 2

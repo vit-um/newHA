@@ -18,6 +18,10 @@ da_light:
         light.smart_desk_lamp:
           friendly_name: Детская А, настольная лампа
           icon: mdi:desk-lamp
+        
+        light.da_projector:
+          friendly_name: Детская А, проектор
+          icon: mdi:projector
 
         sensor.0x00158d00010b5c6e_action:
           friendly_name: Детская А, беспроводный выключатель на входе
@@ -29,16 +33,67 @@ da_light:
         sensor.0x00158d000186d9a9_battery:
           friendly_name: Детская А, кнопка на столе
           
+        sensor.0x00158d000155d2fb_action:
+          friendly_name: Детская А, круглая кнопка у кровати
+        sensor.0x00158d000155d2fb_battery:
+          friendly_name: Детская А, круглая кнопка у кровати
+          
+        sensor.0x00158d0001e8a244_action:
+          friendly_name: Детская А, квадратная кнопка у кровати
+        sensor.0x00158d0001e8a244_battery:
+          friendly_name: Детская А, квадратная кнопка у кровати
+          
+        sensor.0x60a423fffe942cf2_action:
+          friendly_name: Детская А, пульт 3 кнопки
+        sensor.0x60a423fffe942cf2_battery:
+          friendly_name: Детская А, пульт 3 кнопки
+          
     light:
 
 ########## Перевод сущности switch в light - для удобства и единообразия управления ########## 
-
       - platform: switch
         name: da_ceiling_light
         entity_id: switch.0x00158d000635ded8_right
         
+    template:
+     
+      - binary_sensor:
+
+          - name: da_circle_light
+            state: >
+              {{ is_state('light.da_led_strip', 'on')  
+                 or is_state('light.gateway_light_f0b429cc1f11', 'on')
+              }}
+            device_class: light
+            icon: >
+              {% if is_state("binary_sensor.da_circle_light", "on") %}
+              mdi:led-strip-variant
+              {% else %}
+              mdi:led-strip-variant-off
+              {% endif %}
+
+
     automation:
     
+      - id: Детская A, запуск ночника при старте
+        alias: dа_ceiling_nightlight_start
+        initial_state: true          
+        trigger:          
+    # Запуск системы
+        - platform: homeassistant
+          event: start 
+        action:
+        - service: light.turn_on
+          entity_id: 
+           - light.gateway_light_f0b429cc1f11
+          data_template:
+             brightness_pct: 10
+             rgb_color: [0, 100, 0]
+        - delay: 00:00:01
+        - service: light.turn_off
+          entity_id: 
+           - light.gateway_light_f0b429cc1f11
+
       - id: Детская A, ручное управление люстрой
         alias: dа_ceiling_light_manual_control
         initial_state: true          
@@ -50,7 +105,15 @@ da_light:
     # Кнопка на столе
         - platform: state
           entity_id: sensor.0x00158d000186d9a9_action
+          to: 'single'
+    # Кнопка возле кровати
+        - platform: state
+          entity_id: sensor.0x00158d000155d2fb_action
           to: 'single' 
+      ## Пульт ДУ на три кнопки, первая
+        - platform: state
+          entity_id: sensor.0x60a423fffe942cf2_action
+          to: '1_single'
         condition:
         - condition: state
           entity_id: switch.control_mode
@@ -73,4 +136,165 @@ da_light:
           state: 'on'
         action:
         - service: light.toggle
-          entity_id: light.smart_desk_lamp
+          entity_id: light.smart_desk_lamp           
+           
+      - id: Детская A, управление проектором
+        alias: dа_projector_control
+        initial_state: true
+        trigger:
+      ## Пульт ДУ на три кнопки, третья
+        - platform: state
+          entity_id: sensor.0x60a423fffe942cf2_action
+          to: '3_single'
+      ## Квадратная возле кровати
+        - platform: state
+          entity_id: sensor.0x00158d0001e8a244_action
+          to: 'single'
+        condition:
+        - condition: state
+          entity_id: switch.control_mode
+          state: 'on'  
+        action:
+        - service: light.toggle
+          entity_id: light.da_projector
+        - delay: 00:00:03
+        
+      - id: Детская A, ночник в темноте
+        alias: dа_auto_night_light
+        initial_state: true
+        trigger:
+        ## Условия для срабатывания ночника
+        - platform: state
+          entity_id: binary_sensor.0x00158d00016d56f5_occupancy
+          to: 'on'
+        condition:
+        - condition: state
+          entity_id: switch.control_mode
+          state: 'on'
+        - condition: numeric_state
+          entity_id: sensor.0x04cf8cdf3c78ca91_illuminance_lux
+          below: 50
+        action:
+        - service: light.turn_on
+          entity_id: 
+           - light.gateway_light_f0b429cc1f11
+          data_template:
+             brightness_pct: 50
+             rgb_color: [0, 100, 255]
+        - delay: 00:00:20
+        - service: light.turn_off
+          entity_id: 
+           - light.gateway_light_f0b429cc1f11
+
+      - id: Детская A, циклическая подсветка
+        alias: da_light_circle
+        initial_state: true
+        trigger:
+    # Кнопка на столе
+        - platform: state
+          entity_id: sensor.0x00158d000186d9a9_action
+          to: 'double'
+    # Кнопка возле кровати
+        - platform: state
+          entity_id: sensor.0x00158d000155d2fb_action
+          to: 'double' 
+      ## Пульт ДУ на три кнопки, вторая
+        - platform: state
+          entity_id: sensor.0x60a423fffe942cf2_action
+          to: '2_single'
+        condition:
+        - condition: state
+          entity_id: switch.control_mode
+          state: 'on'
+        action:
+            - choose:
+              - conditions:
+                  - condition: state
+                    entity_id: binary_sensor.da_circle_light
+                    state: 'off'
+                sequence:
+                  - service: script.turn_on
+                    entity_id:
+                      - script.da_light_circle_1
+              - conditions:
+                  - condition: state
+                    entity_id: binary_sensor.da_circle_light
+                    state: 'on'
+                sequence:
+                  - service: script.turn_off
+                    entity_id:
+                      - script.da_light_circle_1
+                      - script.da_light_circle_2
+                  - service: light.turn_off
+                    entity_id:
+                      - light.gateway_light_f0b429cc1f11
+                      - light.da_led_strip
+
+    script:
+    
+      da_light_circle_1:
+        alias: Детская А, скрипт циклической подсветки 1
+        sequence:
+        - service: script.turn_off
+          entity_id: 
+           - script.da_light_circle_2
+        - service: light.turn_on
+          entity_id: 
+           - light.gateway_light_f0b429cc1f11
+           - light.da_led_strip
+          data_template:
+            brightness_pct: 50
+            rgb_color: [255, 107, 239]
+        - delay: 00:00:10
+        - service: light.turn_on
+          entity_id: 
+           - light.gateway_light_f0b429cc1f11
+           - light.da_led_strip
+          data_template:
+            brightness_pct: 50
+            rgb_color: [189, 0, 157]
+        - delay: 00:00:10
+        - service: light.turn_on
+          entity_id: 
+           - light.gateway_light_f0b429cc1f11
+           - light.da_led_strip
+          data_template:
+            brightness_pct: 50
+            rgb_color: [255, 251, 116]
+        - delay: 00:00:10
+        - service: script.turn_on
+          entity_id: script.da_light_circle_2
+          
+      da_light_circle_2:
+        alias: Детская А, скрипт циклической подсветки 2
+        sequence:
+        - service: script.turn_off
+          entity_id: 
+           - script.da_light_circle_1
+        - service: light.turn_on
+          entity_id: 
+           - light.gateway_light_f0b429cc1f11
+           - light.da_led_strip
+          data_template:
+            brightness_pct: 50
+            rgb_color: [0, 251, 0]
+        - delay: 00:00:10
+        - service: light.turn_on
+          entity_id: 
+           - light.gateway_light_f0b429cc1f11
+           - light.da_led_strip
+          data_template:
+            brightness_pct: 50
+            rgb_color: [71, 255, 254]
+        - delay: 00:00:10
+        - service: light.turn_on
+          entity_id: 
+           - light.gateway_light_f0b429cc1f11
+           - light.da_led_strip
+          data_template:
+            brightness_pct: 50
+            rgb_color: [7, 0, 113]
+        - delay: 00:00:10
+        - service: script.turn_on
+          entity_id: script.da_light_circle_1
+           
