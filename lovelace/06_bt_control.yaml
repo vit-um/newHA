@@ -109,14 +109,14 @@ cards:
              **Мониторинг**
              
         - type: glance
-          show_state: false
-          show_name: true
+          show_state: true
+          show_name: false
           state_color: true
           entities:
+          - entity: binary_sensor.0x00158d0001d72fa2_water_leak
+          - entity: binary_sensor.0x00158d0001bb60c2_water_leak
           - entity: binary_sensor.0x00158d0001e547a3_occupancy
-            name: Движение
           - entity: binary_sensor.0x00158d00054495dc_contact
-            name: Дверь
 
         - type: custom:mini-graph-card
           entities:
@@ -278,6 +278,28 @@ cards:
         - type: entities
           show_header_toggle: false
           entities:
+            - entity: sensor.0x00158d0001d72fa2_battery
+              type: custom:multiple-entity-row
+              icon: mdi:water
+              state_color: true
+              name: Протечка, раковина
+              secondary_info: last-changed
+              state_header: Батарейка
+              entities:
+              - attribute: linkquality
+                name: Сигнал 
+            - type: divider
+            - entity: sensor.0x00158d0001bb60c2_battery
+              type: custom:multiple-entity-row
+              icon: mdi:water
+              state_color: true
+              name: Протечка, душевая
+              secondary_info: last-changed
+              state_header: Батарейка
+              entities:
+              - attribute: linkquality
+                name: Сигнал 
+            - type: divider
             - entity: sensor.0x00158d0001e547a3_battery
               type: custom:multiple-entity-row
               icon: mdi:run
@@ -286,9 +308,20 @@ cards:
               secondary_info: last-changed
               state_header: Батарейка
               entities:
-              - entity: binary_sensor.0x00158d0001e547a3_occupancy
-                name: Состояние          
+              - attribute: linkquality
+                name: Сигнал          
             - type: divider
+            - entity: sensor.0x00158d0001dcd47e_battery
+              type: custom:multiple-entity-row
+              icon: mdi:coolant-temperature
+              state_color: true
+              name: Датчик климата
+              secondary_info: last-changed
+              state_header: Батарейка
+              entities:
+              - attribute: linkquality
+                name: Сигнал
+            - type: divider 
             - entity: sensor.0x00158d00054495dc_battery
               type: custom:multiple-entity-row
               icon: mdi:door
@@ -297,6 +330,6 @@ cards:
               secondary_info: last-changed
               state_header: Батарейка
               entities:
-              - entity: binary_sensor.0x00158d00054495dc_contact
-                name: Состояние  
+              - attribute: linkquality
+                name: Сигнал   
 

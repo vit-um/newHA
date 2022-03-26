@@ -1,3 +1,12 @@
+# 2022 03 26 _ 16
+
+## Пакаджи
+* [bt_alarm.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_BT/bt_alarm.yaml) - добавлены автоматизации по обнаружению протечки. уведомление в телеграм, голосом через шлюз Xiaomi, световая. после устранения - так же уведомление
+
+## Интерфейс, в режиме yaml
+* [06_bt_control.yaml](https://github.com/kvazis/newHA/blob/master/lovelace/06_bt_control.yaml) - на страницу добавлены датчики протечек, немного изменен формат отображения данных
+
+
 # 2022 03 25 _ 15
 
 ## Пакаджи
@@ -8,7 +17,7 @@
 * [lr_light.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_LR/lr_light.yaml) - пакадж для управления освещением в гостиной (начал перевод с старых серверов)
 
 ## Интерфейс, в режиме yaml
-* [ui-lovelace.yaml](https://github.com/kvazis/newHA/blob/master/ui-lovelace.yaml) - добавлена страница управлени для гостиной
+* [ui-lovelace.yaml](https://github.com/kvazis/newHA/blob/master/ui-lovelace.yaml) - добавлена страница управления для гостиной
 * [05_lr_control.yaml](https://github.com/kvazis/newHA/blob/master/lovelace/05_lr_control.yaml) - добавлены потолочные светильники для гостиной
 * [08_da_control.yaml](https://github.com/kvazis/newHA/blob/master/lovelace/08_da_control.yaml) - добавление новых сущностей на страницу управление, изменение шаблона (информация по zigbee датчикам)
 
