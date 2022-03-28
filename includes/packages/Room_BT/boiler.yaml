@@ -164,7 +164,7 @@ bolier:
            entity_id: switch.bathroom_bolier
            
       - id: Выключение бойлера
-        alias: boiler_on
+        alias: boiler_off
         initial_state: true
         trigger:    
          - platform: state

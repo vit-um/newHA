@@ -1,3 +1,15 @@
+# 2022 03 28 _ 17
+
+## Пакаджи
+* [kn_boiler.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_KN/kn_boiler.yaml) - пакадж управления вторым бойлером на кухне, в отличии от первого - он, при активации режима нагрева, работает в течении дня, схема немного проще.
+
+## Интерфейс, в режиме yaml
+* [ui-lovelace.yaml](https://github.com/kvazis/newHA/blob/master/ui-lovelace.yaml) - добавлена страница управления для кухни - бойлер
+* [04_kn_control.yaml](https://github.com/kvazis/newHA/blob/master/lovelace/04_kn_control.yaml) - страница управления для кухни - бойлер
+
+По остальным картинкам - косметические изменения. 
+
+
 # 2022 03 26 _ 16
 
 ## Пакаджи

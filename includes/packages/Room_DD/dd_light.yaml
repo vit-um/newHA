@@ -141,7 +141,7 @@ dd_light:
     # Кнопка на столе
         - platform: state
           entity_id: sensor.0x00158d0001a672ef_action
-          to: 'single'           
+          to: 'single' 
         condition:
         - condition: state
           entity_id: switch.control_mode

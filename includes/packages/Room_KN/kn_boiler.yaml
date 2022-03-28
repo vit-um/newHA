@@ -1,0 +1,188 @@
+kn_boiler:
+
+    recorder:
+      include:
+        entities:
+           - switch.0x00158d0001d35bc0
+           - sensor.0x00158d0001d35bc0_power
+           
+    homeassistant:
+      customize:
+        
+        switch.0x00158d0001d35bc0:
+          friendly_name: Бойлер кухня, питание
+          icon: mdi:power-plug
+        sensor.0x00158d0001d35bc0_power:
+          friendly_name: Бойлер ванная
+          unit_of_measurement: Вт
+          device_class: power
+
+
+    binary_sensor:
+    
+      - platform: mqtt
+        name: kn_boiler_mode
+        state_topic: "states/water_heater_kn"
+        payload_on: "ON"
+        payload_off: "OFF"
+        
+      - platform: tod
+        name: kn_boiler_time
+        after: '06:30'
+        before: '22:00'
+        
+    template:
+     
+      - binary_sensor:
+
+    # Включение бойлера
+          - name: kn_boiler_on
+            state: >
+              {{ is_state('binary_sensor.kn_boiler_mode', 'on')  
+                 and is_state('binary_sensor.kn_boiler_time', 'on')}}
+            icon: >
+              {% if is_state("binary_sensor.kn_boiler_on", "on") %}
+              mdi:sun-thermometer
+              {% else %}
+              mdi:sun-thermometer
+              {% endif %}
+
+
+    switch:
+    
+      - platform: template
+        switches:
+
+          kn_boiler_mode:
+            friendly_name: "Режим нагрева бойлера кухня"
+            value_template: "{{ is_state('binary_sensor.kn_boiler_mode', 'on') }}"
+            turn_on:
+              service: mqtt.publish
+              data_template:
+                topic: "states/water_heater_kn"
+                payload_template: 'ON'
+                retain: true 
+            turn_off:
+              service: mqtt.publish
+              data_template:
+                topic: "states/water_heater_kn"
+                payload_template: 'OFF'
+                retain: true 
+            icon_template: >-
+              {% if is_state('switch.kn_boiler_mode', 'on') %}
+                mdi:water-boiler
+              {% else %}
+                mdi:water-boiler-off
+              {% endif %}
+
+    automation:
+    
+      - id: Проверка корректности включения бойлера кухня
+        alias: kn_boiler_impossible
+        initial_state: true
+        trigger:
+         - platform: state
+           entity_id: switch.0x00158d0001d35bc0
+           to: 'on'
+        condition:
+         - condition: state
+           entity_id: binary_sensor.kn_boiler_mode
+           state: 'off'
+         - condition: state
+           entity_id: switch.control_mode
+           state: 'on'
+        action:
+         - service: switch.turn_off
+           entity_id: switch.0x00158d0001d35bc0
+         - service: telegram_bot.send_message
+           data_template:
+             target:
+                 - !secret chat_id_group_tech
+             message: | 
+                  {{"\U0001F6AB"}} Включение бойлера на кухне невозможно, отключен режим нагрева воды. Время события - {{ states.sensor.time_date.state }}
+                  
+      - id: Включение бойлера кухня
+        alias: kn_boiler_on
+        initial_state: true
+        trigger:    
+         - platform: state
+           entity_id: binary_sensor.kn_boiler_on
+           from: 'off'
+           to: 'on'
+         - platform: homeassistant
+           event: start 
+        condition:
+         - condition: state
+           entity_id: switch.0x00158d0001d35bc0
+           state: 'off'
+         - condition: state
+           entity_id: binary_sensor.kn_boiler_on
+           state: 'on'
+         - condition: state
+           entity_id: switch.control_mode
+           state: 'on'
+        action:
+         - service: switch.turn_on
+           entity_id: switch.0x00158d0001d35bc0
+           
+      - id: Выключение бойлера кухня
+        alias: kn_boiler_off
+        initial_state: true
+        trigger:    
+         - platform: state
+           entity_id: binary_sensor.kn_boiler_on
+           from: 'on'
+           to: 'off'
+         - platform: homeassistant
+           event: start 
+        condition:
+         - condition: state
+           entity_id: switch.0x00158d0001d35bc0
+           state: 'on'
+         - condition: state
+           entity_id: binary_sensor.kn_boiler_on
+           state: 'off'
+         - condition: state
+           entity_id: switch.control_mode
+           state: 'on'
+        action:
+         - service: switch.turn_off
+           entity_id: switch.0x00158d0001d35bc0
+           
+      - id: Уведомление при включении бойлера на кухне
+        alias: kn_boiler_notify_on
+        initial_state: true
+        trigger:
+         - platform: state
+           entity_id: switch.0x00158d0001d35bc0
+           to: 'on'
+        condition:
+         - condition: state
+           entity_id: switch.control_mode
+           state: 'on'
+        action:
+         - service: telegram_bot.send_message
+           data_template:
+             target:
+                 - !secret chat_id_group_tech
+             message: | 
+                  {{"\U00002714"}} Включение бойлера на кухне. Время события - {{ states.sensor.time_date.state }}
+             
+      - id: Уведомление при выключении бойлера на кухне
+        alias: kn_boiler_notify_off
+        initial_state: true
+        trigger:
+         - platform: state
+           entity_id: switch.0x00158d0001d35bc0
+           to: 'off'
+        condition:
+         - condition: state
+           entity_id: switch.control_mode
+           state: 'on'
+        action:
+         - service: telegram_bot.send_message
+           data_template:
+             target:
+                 - !secret chat_id_group_tech
+             message: | 
+                  {{"\U00002716"}} Выключение бойлера на кухне. Время события - {{ states.sensor.time_date.state }}

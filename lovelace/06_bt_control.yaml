@@ -110,13 +110,17 @@ cards:
              
         - type: glance
           show_state: true
-          show_name: false
+          show_name: true
           state_color: true
           entities:
           - entity: binary_sensor.0x00158d0001d72fa2_water_leak
+            name: Раковина
           - entity: binary_sensor.0x00158d0001bb60c2_water_leak
+            name: Душевая
           - entity: binary_sensor.0x00158d0001e547a3_occupancy
+            name: Движение
           - entity: binary_sensor.0x00158d00054495dc_contact
+            name: Дверь
 
         - type: custom:mini-graph-card
           entities:
@@ -331,5 +335,26 @@ cards:
               state_header: Батарейка
               entities:
               - attribute: linkquality
-                name: Сигнал   
+                name: Сигнал
+        - type: markdown
+          style: |
+              ha-card {
+                font-size: 26px;
+              }          
+          content: >
+             **Устройства**
+             
+        - type: entities
+          show_header_toggle: false
+          entities:
+            - entity: sensor.0x00158d000238a140_battery
+              type: custom:multiple-entity-row
+              icon: mdi:light-switch
+              state_color: true
+              name: Беспроводный выключатель
+              secondary_info: last-changed
+              state_header: Батарейка
+              entities:
+              - attribute: linkquality
+                name: Сигнал
 
