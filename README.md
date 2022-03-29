@@ -1,3 +1,20 @@
+# 2022 03 29 _ 18
+
+## Пакаджи
+* [dd_heat.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_DD/dd_heat.yaml) - добавлена автоматизация которая при отключении режима отопления устанавливает на термоголовке t 15
+* [da_heat.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_DA/da_heat.yaml) - аналогично
+* [lr_heat_1.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_LR/lr_heat_1.yaml) - аналогично
+* [lr_heat_2.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_LR/lr_heat_2.yaml) - аналогично
+* [kn_heat.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_KN/kn_heat.yaml) - по шаблону добавлено управление последней, пятой термоголовкой
+* [kn_sensors.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_KN/kn_sensors.yaml) - пакадж для сенсоров в кухне
+
+## Интерфейс, в режиме yaml
+* [ui-lovelace.yaml](https://github.com/kvazis/newHA/blob/master/ui-lovelace.yaml) - добавлена страница управления для кухни - климат
+* [04_kn_climate.yaml](https://github.com/kvazis/newHA/blob/master/lovelace/04_kn_climate.yaml) - страница климата и управление термостатом для кухни
+
+Страница 04_kn_climate.yaml
+![screenshot](https://raw.githubusercontent.com/kvazis/newHA/master/img/0012.png)
+
 # 2022 03 28 _ 17
 
 ## Пакаджи

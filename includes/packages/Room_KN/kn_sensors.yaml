@@ -1,0 +1,85 @@
+kn_sensors:
+
+    recorder:
+      include:
+        entities:
+           - sensor.0x00158d0001581109_temperature
+           - sensor.0x00158d0001581109_humidity
+
+    homeassistant:
+      customize:
+
+############# кухня
+        
+        binary_sensor.kn_aeration:
+          friendly_name: Кухня, проветривание
+
+        # binary_sensor.0x00158d0001a66222_occupancy:
+        #   friendly_name: Детская Д, движение
+        # sensor.0x00158d0001a66222_battery:
+        #   friendly_name: Детская Д, движение
+
+
+        binary_sensor.0x00158d0001a99562_contact:
+          friendly_name: Кухня, окно
+          device_class: window
+        sensor.0x00158d0001a99562_battery:
+          friendly_name: Кухня, окно
+
+        sensor.0x00158d0001581109_humidity:
+          friendly_name: Кухня, влажность
+          icon: mdi:water-percent
+        sensor.0x00158d0001581109_temperature:
+          friendly_name: Кухня, температура
+          icon: mdi:temperature-celsius
+        sensor.0x00158d0001581109_battery:
+          friendly_name: Кухня, климат
+          
+
+
+
+############# Балкон
+
+        binary_sensor.0x00158d0001a20885_contact:
+          friendly_name: Кухня, балкон дверь
+          device_class: door
+        sensor.0x00158d0001a20885_battery:
+          friendly_name: Кухня, балкон дверь
+
+#         binary_sensor.0x00158d0001a65b68_contact:
+#           friendly_name: Детская Д, балкон окно 1
+#           device_class: window
+#         sensor.0x00158d0001a65b68_battery:
+#           friendly_name: Детская Д, балкон окно 1
+          
+#         binary_sensor.0xec1bbdfffe3a653e_contact:
+#           friendly_name: Детская Д, балкон окно 2
+#           device_class: window
+#         sensor.0xec1bbdfffe3a653e_battery:
+#           friendly_name: Детская Д, балкон окно 2
+
+#         sensor.0x04cf8cdf3c7cf19e_illuminance_lux:
+#           friendly_name: Детская Д, балкон освещенность
+#         sensor.0x04cf8cdf3c7cf19e_battery:
+#           friendly_name: Детская Д, балкон сенсор освещенности
+         
+          
+    template:
+     
+      - binary_sensor:
+
+          - name: kn_aeration
+            state: >
+              {{ is_state('binary_sensor.0x00158d0001a99562_contact', 'on')  
+                 or is_state('binary_sensor.0x00158d0001a20885_contact', 'on')
+              }}
+            delay_on: 
+                seconds: 30
+            device_class: window
+            icon: >
+              {% if is_state("binary_sensor.kn_aeration", "on") %}
+              mdi:window-open-variant
+              {% else %}
+              mdi:window-closed-variant
+              {% endif %}
+

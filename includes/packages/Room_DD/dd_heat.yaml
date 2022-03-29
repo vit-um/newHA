@@ -142,7 +142,7 @@ dd_heat:
                     data:
                       hvac_mode: 'off'
 
-      - id: Детская Д, TRV, переключение температуры
+      - id: Детская Д, TRV, температура при включении режима отопления
         alias: dd_heating_initial_temp
         initial_state: true
         trigger:
@@ -176,6 +176,25 @@ dd_heat:
                     data:
                       entity_id: climate.0x84fd27fffe31ada3
                       temperature: "{{ states('number.0x84fd27fffe31ada3_comfort_temperature')}}"
+
+      - id: Детская Д, TRV, температура при выключении режима отопления
+        alias: dd_heating_off_temp
+        initial_state: true
+        trigger:
+        - platform: state
+          entity_id: binary_sensor.dd_radiator
+          from: 'on'
+          to: 'off'
+        condition:
+          - condition: state
+            entity_id: switch.control_mode
+            state: 'on'
+        action:
+          - delay: 00:00:10
+          - service: climate.set_temperature
+            data:
+              entity_id: climate.0x84fd27fffe31ada3
+              temperature: "15"
                       
       - id: Детская Д, TRV, температура
         alias: dd_heating_set_temp

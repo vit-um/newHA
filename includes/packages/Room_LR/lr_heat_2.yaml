@@ -108,7 +108,7 @@ lr_heat_2:
                     data:
                       hvac_mode: 'off'
 
-      - id: Гостиная 2, TRV, переключение температуры
+      - id: Гостиная 2, TRV, температура при включении режима отопления
         alias: lr_heating_initial_temp_2
         initial_state: true
         trigger:
@@ -142,6 +142,25 @@ lr_heat_2:
                     data:
                       entity_id: climate.0x2c1165fffeb3e567
                       temperature: "{{ states('number.0x2c1165fffeb3e567_comfort_temperature')}}"
+
+      - id: Гостиная 2, TRV, температура при выключении режима отопления
+        alias: lr_heating_off_temp_2
+        initial_state: true
+        trigger:
+        - platform: state
+          entity_id: binary_sensor.lr_radiator
+          from: 'on'
+          to: 'off'
+        condition:
+          - condition: state
+            entity_id: switch.control_mode
+            state: 'on'
+        action:
+          - delay: 00:00:10
+          - service: climate.set_temperature
+            data:
+              entity_id: climate.0x2c1165fffeb3e567
+              temperature: "15"
                       
       - id: Гостиная 2, TRV, температура
         alias: lr_heating_set_temp_2
