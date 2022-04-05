@@ -9,6 +9,8 @@
 * [07_dd_control.yaml](https://github.com/kvazis/newHA/blob/master/lovelace/07_dd_control.yaml) - добавлены графики с датчика климата - температура, влажность, давление
 * [02_control.yaml](https://github.com/kvazis/newHA/blob/master/lovelace/02_control.yaml) - добавлены динамические карты, отображающие switch с потреблением более 10 Ватт, включенные светильники, таймеры
 
+Страница 02_control.yaml
+![screenshot](https://raw.githubusercontent.com/kvazis/newHA/master/img/0013.png)
 
 # 2022 03 29 _ 18
 
