@@ -67,7 +67,7 @@ bolier:
 
         heater:
           name: Бойлер выкл через -
-          duration: '01:00:00'        
+          duration: '00:40:00'        
         
     switch:
     
