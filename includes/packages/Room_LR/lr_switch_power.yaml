@@ -1,0 +1,50 @@
+lr_switch_power:
+
+    recorder:
+      include:
+        entities:
+           - sensor.0xa4c1388c89a46970_power
+           - sensor.0xa4c138f41459f92a_power
+           - sensor.0x60a423fffe6850e1_power
+           
+    homeassistant:
+      customize:
+        
+        switch.0xa4c1388c89a46970:
+          friendly_name: Гостиная, ноутбук Acer
+          device_class: plug  
+          icon: mdi:power-socket-eu
+        sensor.0xa4c1388c89a46970_power:
+          friendly_name: Гостиная, ноутбук Acer
+          icon: mdi:flash
+          unit_of_measurement: 'Вт'
+        sensor.0xa4c1388c89a46970_energy:
+          friendly_name: Гостиная, ноутбук Acer
+          icon_template: mdi:gauge
+          unit_of_measurement: 'КВт*ч'
+          
+        switch.0xa4c138f41459f92a:
+          friendly_name: Гостиная, ноутбук Asus
+          device_class: plug  
+          icon: mdi:power-socket-eu
+        sensor.0xa4c138f41459f92a_power:
+          friendly_name: Гостиная, ноутбук Asus
+          icon: mdi:flash
+          unit_of_measurement: 'Вт'
+        sensor.0xa4c138f41459f92a_energy:
+          friendly_name: Гостиная, ноутбук Asus
+          icon_template: mdi:gauge
+          unit_of_measurement: 'КВт*ч'
+          
+        switch.0x60a423fffe6850e1:
+          friendly_name: Гостиная, телевизор
+          device_class: plug  
+          icon: mdi:power-socket-eu
+        sensor.0x60a423fffe6850e1_power:
+          friendly_name: Гостиная, телевизор
+          icon: mdi:flash
+          unit_of_measurement: 'Вт'
+        sensor.0x60a423fffe6850e1_energy:
+          friendly_name: Гостиная, телевизор
+          icon_template: mdi:gauge
+          unit_of_measurement: 'КВт*ч'

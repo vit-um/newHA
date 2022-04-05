@@ -18,7 +18,15 @@ lr_light:
         light.lr_ceiling_light_2_ambilight:
           friendly_name: Гостиная, амбилайт люстра 2 
           icon: mdi:dome-light
-
+          
+        light.lr_table_lamp:
+          friendly_name: Гостиная настольная лампа
+          icon: mdi:desk-lamp 
+          
+        light.lr_tv_bulb:
+          friendly_name: Гостиная ТВ подсветка
+          icon: mdi:lightbulb
+          
     template:
      
       - binary_sensor:
@@ -142,6 +150,3 @@ lr_light:
                     entity_id:
                       - light.lr_ceiling_light_1
                       - light.lr_ceiling_light_2
-          
-
-              

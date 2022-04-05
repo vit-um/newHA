@@ -27,6 +27,74 @@ cards:
             name: Окно 1
           - entity: binary_sensor.0xec1bbdfffe3a653e_contact
             name: Окно 2
+
+        - type: custom:mini-graph-card
+          entities:
+           - entity: sensor.0x00158d0001fa8321_temperature
+             name: Температура
+          color_thresholds:
+            - value: 10
+              color: "#191970"
+            - value: 15
+              color: "#0000FF"
+            - value: 20
+              color: "#ADD8E6"
+            - value: 25
+              color: "#E0FFFF"
+            - value: 30
+              color: "#FFFF00"
+            - value: 50
+              color: "#FFD700"
+          animate: true
+          line_width: 2
+          hour24: true
+          points_per_hour: 1
+          group_by: hour
+          hours_to_show: 72
+          
+        - type: custom:mini-graph-card
+          entities:
+           - entity: sensor.0x00158d0001fa8321_humidity
+             name: Влажность
+          color_thresholds:
+            - value: 20
+              color: "#FFFF00"
+            - value: 30
+              color: "#FAFAD2"
+            - value: 40
+              color: "#E0FFFF"
+            - value: 50
+              color: "#7FFFD4"
+            - value: 60
+              color: "#00CED1"
+            - value: 80
+              color: "#0000FF"
+            - value: 100
+              color: "#000080"
+          animate: true
+          line_width: 2
+          hour24: true
+          points_per_hour: 1
+          group_by: hour
+          hours_to_show: 72
+
+        - type: custom:mini-graph-card
+          entities:
+           - entity: sensor.0x00158d0001fa8321_mmhg_pressure
+             name: Давление
+          color_thresholds:
+              - value: 735
+                color: "#FFDEAD"
+              - value: 765
+                color: "#228B22"
+              - value: 850
+                color: "#A52A2A"
+          animate: true
+          line_width: 2
+          hour24: true
+          points_per_hour: 1
+          group_by: hour
+          hours_to_show: 72
             
         - type: custom:mini-graph-card
           entities:

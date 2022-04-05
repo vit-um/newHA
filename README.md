@@ -1,3 +1,15 @@
+# 2022 04 25 _ 19
+
+## Пакаджи
+* [dd_sensors.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_DD/dd_sensors.yaml) - добавлен темплейт перевода давления ГПа в мм рт. ст, с проверкой на корректность данных
+* [lr_light.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_LR/lr_light.yaml) - добавлены описания светильников
+* [lr_switch_power.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_LR/lr_switch_power.yaml) - новый пакадж для реле и розеток, добавлены описания, запись показаний энергомониторинга
+
+## Интерфейс, в режиме yaml
+* [07_dd_control.yaml](https://github.com/kvazis/newHA/blob/master/lovelace/07_dd_control.yaml) - добавлены графики с датчика климата - температура, влажность, давление
+* [02_control.yaml](https://github.com/kvazis/newHA/blob/master/lovelace/02_control.yaml) - добавлены динамические карты, отображающие switch с потреблением более 10 Ватт, включенные светильники, таймеры
+
+
 # 2022 03 29 _ 18
 
 ## Пакаджи

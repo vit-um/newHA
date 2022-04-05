@@ -420,4 +420,108 @@ cards:
                  - state: 'unknown'
                  - state: 'unavailable'
         
-        
+############################ Колонка 3 ############################
+    - type: vertical-stack
+      cards:
+      
+################# Потребление более 10 Ватт #################
+ 
+        - type: custom:stack-in-card
+          mode: vertical
+          cards:
+
+            - type: markdown
+              style: |
+                  ha-card {
+                    color: #FFA500;
+                    font-weight: bold;
+                    font-size: 16px;
+                  } 
+              content: >
+                  **Активные розетки > 10 Ватт**
+
+            - type: custom:auto-entities
+              card:
+                type: entities
+                show_header_toggle: false
+              filter:
+                include:
+                - domain: switch
+                  state: 'on'
+                  attributes:
+                    power: '! none'
+                  options:
+                     type: custom:multiple-entity-row
+                     toggle: true
+                    #  show_state: false
+                     secondary_info: last-changed
+                     entities:
+                      - attribute: power
+                        name: Потребление
+                        unit: 'Ватт'
+                exclude:
+                - domain: switch
+                  state: 'on'
+                  attributes:
+                    power: '< 10'
+                - entity_id: switch.*power_outage*
+                
+        - type: custom:stack-in-card
+          mode: vertical
+          cards:
+
+            - type: markdown
+              style: |
+                  ha-card {
+                    color: #FFA500;
+                    font-weight: bold;
+                    font-size: 16px;
+                  } 
+              content: >
+                  **Активные светильники**
+
+            - type: custom:auto-entities
+              card:
+                type: entities
+                show_header_toggle: false
+              filter:
+                include:
+                - domain: light
+                  state: 'on'
+                  options:
+                     type: custom:multiple-entity-row
+                     toggle: true
+                    #  show_state: false
+                     secondary_info: last-changed
+                     entities:
+                      - attribute: brightness
+                        name: Яркость
+                      - attribute: color_temp
+                        name: Температура
+
+                      
+        - type: custom:stack-in-card
+          mode: vertical
+          cards:
+
+            - type: markdown
+              style: |
+                  ha-card {
+                    color: #FFA500;
+                    font-weight: bold;
+                    font-size: 16px;
+                  } 
+              content: >
+                  **Активные таймеры**
+
+            - type: custom:auto-entities
+              show_empty: false
+              card:
+                type: entities
+                show_header_toggle: false
+              filter:
+                include:
+                 - domain: timer
+                   state: 'active'
+                   options:
+                      secondary_info: last-changed
