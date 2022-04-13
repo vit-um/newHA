@@ -39,12 +39,20 @@ lr_sensors:
           friendly_name: Гостиная, температура
           icon: mdi:temperature-celsius
         sensor.0x00158d00015aebb6_battery:
-          friendly_name: Гостиная, климат          
-
+          friendly_name: Гостиная, климат  
+          
         binary_sensor.lr_notification_time:
           friendly_name: Гостиная, время уведомлений о плохом воздухе
           device_class: running
           icon: mdi:clock-digital
+          
+        binary_sensor.0x54ef44100042e226_presence:
+          friendly_name: Гостиная, присутствие
+
+        binary_sensor.0x00158d0005414857_occupancy:
+          friendly_name: Гостиная, движение
+        sensor.0x00158d0005414857_battery:
+          friendly_name: Гостиная, движение
 
     binary_sensor:
     

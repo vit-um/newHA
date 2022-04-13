@@ -113,5 +113,5 @@ dd_sensors:
             state: "{{ (states('sensor.0x00158d0001fa8321_pressure')|float * 0.7500637)|round(2) }}"
             availability: "{{ (states('sensor.0x00158d0001fa8321_pressure')|float > 850 ) }}" 
             unit_of_measurement: mmHg
-            icon: mdi:gauge    
+            icon: mdi:gauge 
 

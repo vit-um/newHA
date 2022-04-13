@@ -57,9 +57,9 @@ cards:
                   secondary_info: last-changed
                   state_header: Увлажнитель
                   entities:
-                  - attribute: last_seen
-                    format: relative
-                    name: Отклик
+                  - entity: sensor.0x00158d0001a2ccab_meter
+                    name: Потреблено за месяц
+                    unit: 'кВт·ч'
                   - attribute: power
                     name: Мощность
                     unit: 'Ватт'
@@ -75,9 +75,9 @@ cards:
                   secondary_info: last-changed
                   state_header: Питание
                   entities:
-                  - attribute: last_seen
-                    format: relative
-                    name: Отклик
+                  - entity: sensor.0x00158d00030a6e78_meter
+                    name: Потреблено за месяц
+                    unit: 'кВт·ч'
                   - attribute: power
                     name: Мощность
                     unit: 'Ватт'
@@ -86,13 +86,13 @@ cards:
                   type: custom:multiple-entity-row
                   toggle: true
                   state_color: true
-                  name: Настольная лампа
+                  name: Ноутбук Acer 15
                   secondary_info: last-changed
                   state_header: Питание
                   entities:
-                  - attribute: last_seen
-                    format: relative
-                    name: Отклик
+                  - entity: sensor.0x00158d000153dd8e_meter
+                    name: Потреблено за месяц
+                    unit: 'кВт·ч'
                   - attribute: power
                     name: Мощность
                     unit: 'Ватт'

@@ -1,0 +1,72 @@
+lr_light_cinema:
+
+    template:
+     
+      - binary_sensor:
+
+          - name: lr_light_cinema
+            state: >
+              {{ is_state('light.lr_tv_bulb', 'on')  
+                 and is_state('light.lr_ceiling_light_1_ambilight', 'on')
+                 and is_state('light.lr_ceiling_light_2_ambilight', 'on')
+              }}
+            device_class: light
+            icon: >
+              {% if is_state("binary_sensor.lr_light_cinema", "on") %}
+              mdi:lightbulb-group
+              {% else %}
+              mdi:lightbulb-group-off
+              {% endif %}
+              
+    automation:
+    
+      - id: Гостиная, подсветка для ТВ
+        alias: lr_tv_cinema_light
+        initial_state: true
+        trigger:
+    ## Пульт IKEA
+        - platform: state
+          entity_id: sensor.0xccccccfffe8abc14_action
+          to: "toggle"
+    ## 6 кнопка Aqara Opple
+        - platform: state
+          entity_id: sensor.0x04cf8cdf3c79360a_action
+          to: 'button_6_single' 
+    ## Виртуальная кнопка
+        - platform: state
+          entity_id: input_button.lr_light_cinema
+        condition:
+        - condition: state
+          entity_id: switch.control_mode
+          state: 'on'
+        action:
+            - choose:
+              - conditions:
+                  - condition: state
+                    entity_id: binary_sensor.lr_light_cinema
+                    state: 'off'
+                sequence:
+                  - service: light.turn_off
+                    entity_id:
+                      - light.lr_table_lamp
+                      - light.lr_ceiling_light_1
+                      - light.lr_ceiling_light_2
+                      - light.0x00158d00015723f1_left
+                  - service: light.turn_on
+                    entity_id:
+                      - light.lr_ceiling_light_1_ambilight
+                      - light.lr_ceiling_light_2_ambilight
+                      - light.lr_tv_bulb
+                    data_template:
+                      brightness_pct: 100
+                      rgb_color: [169, 153, 255]
+              - conditions:
+                  - condition: state
+                    entity_id: binary_sensor.lr_light_cinema
+                    state: 'on'
+                sequence:
+                  - service: light.turn_off
+                    entity_id:
+                      - light.lr_ceiling_light_1_ambilight
+                      - light.lr_ceiling_light_2_ambilight
+                      - light.lr_tv_bulb

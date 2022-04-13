@@ -1,4 +1,24 @@
-# 2022 04 25 _ 19
+# 2022 04 13 _ 20
+
+Много косметических изменений, переносил кейсы управления освещением в гостиной. 
+
+## Конфигурация
+* [configuration.yaml](https://github.com/kvazis/newHA/blob/master/configuration.yaml) - добавлен раздел input_button: для виртуальных кнопок подробнее в [блоге про input button](https://youtu.be/b4VB-Sm9rvs)
+
+* [lr_light.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_LR/lr_light.yaml) - перенес несколько автоматизаций по управлению светом, контроль и перезагрузка зависших люстр
+* [lr_light_cinema.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_LR/lr_light_cinema.yaml) - отдельный пакадж для цветной подсветки для просмотра ТВ, показано в [блоге про input button](https://youtu.be/b4VB-Sm9rvs)
+
+Остальные изменения - касаются добавления описаний объектов в раздел customize
+
+## Интерфейс, в режиме yaml
+
+Изменены multiple-entity-row карты для розеток с utility meter - подсчет электроэнергии за месяц, подробнее в [блоге](https://youtu.be/rUFduUE0ZMc)
+
+* [05_lr_control.yaml](https://github.com/kvazis/newHA/blob/master/lovelace/05_lr_control.yaml) - добавлены оставшиеся светильники, карты розеток, тут пример карты entity button из [блога про input button](https://youtu.be/b4VB-Sm9rvs)
+* [07_dd_control.yaml](https://github.com/kvazis/newHA/blob/master/lovelace/07_dd_control.yaml) - карты розеток с энергомониторингом
+* [08_da_control.yaml](https://github.com/kvazis/newHA/blob/master/lovelace/08_da_control.yaml) - карты розеток с энергомониторингом
+
+# 2022 04 05 _ 19
 
 ## Пакаджи
 * [dd_sensors.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_DD/dd_sensors.yaml) - добавлен темплейт перевода давления ГПа в мм рт. ст, с проверкой на корректность данных

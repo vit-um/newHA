@@ -17,7 +17,6 @@ bolier:
           unit_of_measurement: Вт
           device_class: power
 
-
     binary_sensor:
     
       - platform: mqtt
@@ -215,6 +214,7 @@ bolier:
         trigger:
          - platform: state
            entity_id: switch.bathroom_bolier
+           from: 'on'
            to: 'off'
         condition:
          - condition: state

@@ -5,7 +5,7 @@ dd_switch:
       
         switch.0x00158d00030a6e78:
           friendly_name: Детская Д, настольная лампа
-          icon: mdi:power-plug
+          icon: mdi:power-socket-eu
         sensor.0x00158d00030a6e78_power:
           friendly_name: Детская Д, настольная лампа
           icon: mdi:lightning-bolt
@@ -15,7 +15,7 @@ dd_switch:
 
         switch.0x00158d000153dd8e:
           friendly_name: Детская Д, ноутбук Acer 15
-          icon: mdi:power-plug
+          icon: mdi:power-socket-eu
         sensor.0x00158d000153dd8e_power:
           friendly_name: Детская Д, ноутбук Acer 15
           icon: mdi:lightning-bolt
@@ -34,16 +34,16 @@ dd_switch:
 
         switch.0x842e14fffefd9721_l1:
           friendly_name: Детская Д, удлинитель розетка 1
-          icon: mdi:power-plug
+          icon: mdi:power-socket-eu
         switch.0x842e14fffefd9721_l2:
           friendly_name: Детская Д, Switch Zyxel
-          icon: mdi:power-plug
+          icon: mdi:power-socket-eu
         switch.0x842e14fffefd9721_l3:
           friendly_name: Детская Д, зарядная станция
-          icon: mdi:power-plug
+          icon: mdi:power-socket-eu
         switch.0x842e14fffefd9721_l4:
           friendly_name: Детская Д, принтер
-          icon: mdi:power-plug
+          icon: mdi:power-socket-eu
         switch.0x842e14fffefd9721_l5:
           friendly_name: Детская Д, удлинитель USB
           icon: mdi:usb
@@ -52,8 +52,7 @@ dd_switch:
           friendly_name: Детская Д, кнопка на принтере
         sensor.0x00158d00013f82b7_battery:
           friendly_name: Детская Д, кнопка на принтере
-          
-          
+
     automation:
 
       - id: Детская Д, ручное управление принтером
