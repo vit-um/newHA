@@ -1,3 +1,10 @@
+# 2022 04 14 _ 21
+
+## Пакаджи
+* [lr_tv_control.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_LR/lr_tv_control.yaml) - управление телевизором через ИК базу Broadlink кнопок подробнее в [блоге](https://youtu.be/R2jMUh-5PCE)
+
+## Интерфейс, в режиме yaml - добавление новых элементов на страницы комнат, ключевых изменений нет
+
 # 2022 04 13 _ 20
 
 Много косметических изменений, переносил кейсы управления освещением в гостиной. 
@@ -5,6 +12,7 @@
 ## Конфигурация
 * [configuration.yaml](https://github.com/kvazis/newHA/blob/master/configuration.yaml) - добавлен раздел input_button: для виртуальных кнопок подробнее в [блоге про input button](https://youtu.be/b4VB-Sm9rvs)
 
+## Пакаджи
 * [lr_light.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_LR/lr_light.yaml) - перенес несколько автоматизаций по управлению светом, контроль и перезагрузка зависших люстр
 * [lr_light_cinema.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_LR/lr_light_cinema.yaml) - отдельный пакадж для цветной подсветки для просмотра ТВ, показано в [блоге про input button](https://youtu.be/b4VB-Sm9rvs)
 
@@ -168,3 +176,13 @@
 
 # Для удобства, чтобы не перегружать файл, старые итерации переносятся в архив
 * [Архив 001-010](https://github.com/kvazis/newHA/blob/master/archive/001-010/README.md)
+
+# Как поддержать развитие проекта?
+* [Стать спонсором моего Youtube](http://kvazis.link/sponsorship)
+* [Подписаться на Patreon](http://kvazis.link/patreon)
+* [Перевод через Paypal](http://kvazis.link/paypal)
+* Webmoney - Z243592584952
+* BTC - 1Gzr7WQugfnPuWVawu47EiCMTDUBqCAshj
+* ETH - 0xa0ce3E29Cf537013649Ae9cdbc08C4853fF91FAc
+* LTC - ltc1qs493yk2wk9ywx5h6aruk4p9zm75hx42ekv4ym2
+TRX - TFTCLqvS1tMBwokRHBwz1TCDJ4oD1Z5zPk

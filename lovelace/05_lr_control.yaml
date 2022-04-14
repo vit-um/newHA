@@ -66,6 +66,21 @@ cards:
                     service: input_button.press
                     service_data:
                       entity_id: input_button.lr_full_light
+
+            - type: custom:stack-in-card
+              mode: horizontal
+              cards:
+                - type: entity-button
+                  entity: binary_sensor.lr_tv_work
+                  name: Телевизор
+                - type: entity-button
+                  entity: input_button.lr_tv_control
+                  name: Вкл/Выкл
+                  tap_action:
+                    action: call-service
+                    service: input_button.press
+                    service_data:
+                      entity_id: input_button.lr_tv_control
                 - type: entity-button
                   entity: input_button.lr_light_cinema
                   name: Подсветка для кино
@@ -86,7 +101,7 @@ cards:
             - type: entities
               show_header_toggle: false
               entities:
-                - entity: switch.0x60a423fffe6850e1
+                - entity: switch.0xa4c1384452a34172
                   type: custom:multiple-entity-row
                   toggle: true
                   state_color: true
@@ -94,7 +109,7 @@ cards:
                   secondary_info: last-changed
                   state_header: Питание
                   entities:
-                  - entity: sensor.0x60a423fffe6850e1_meter
+                  - entity: sensor.0xa4c1384452a34172_meter
                     name: Потреблено за месяц
                     unit: 'кВт·ч'
                   - attribute: power
