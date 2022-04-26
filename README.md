@@ -16,12 +16,12 @@
 ## Пакаджи
 * [lr_tv_control.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_LR/lr_tv_control.yaml) - управление телевизором через ИК базу Broadlink кнопок подробнее в [блоге](https://youtu.be/R2jMUh-5PCE)
 
-## Интерфейс, в режиме yaml - добавление новых элементов на страницы комнат, ключевых изменений нет
+Интерфейс, в режиме yaml - добавление новых элементов на страницы комнат, ключевых изменений нет
 
 
 # Для удобства, чтобы не перегружать файл, старые итерации переносятся в архив
 * [Архив 001-010](https://github.com/kvazis/newHA/blob/master/archive/001-010/README.md)
-* [Архив 001-010](https://github.com/kvazis/newHA/blob/master/archive/011-020/README.md)
+* [Архив 011-020](https://github.com/kvazis/newHA/blob/master/archive/011-020/README.md)
 
 # Как поддержать развитие проекта?
 * [Стать спонсором моего Youtube](http://kvazis.link/sponsorship)
