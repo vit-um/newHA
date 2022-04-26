@@ -1,4 +1,5 @@
 # Архив, итерации - 1-10
+* [Вернуться в основной список](https://github.com/kvazis/newHA/blob/master/README.md) 
 
 # 2022 02 21 _ 10
 

@@ -1,0 +1,264 @@
+##################   Floor, enter
+title: Этаж, вход
+icon: mdi:exit-run
+cards:
+
+############################ Колонка 1 ############################
+
+    - type: vertical-stack
+      cards:
+      
+        - type: markdown
+          style: |
+              ha-card {
+                font-size: 26px;
+              }          
+          content: >
+             **Мониторинг, этаж**
+
+        - type: custom:stack-in-card
+          mode: vertical
+          cards:
+            - type: picture-glance
+              title: Reolink 411
+              show_name: false
+              entities:
+               - entity: binary_sensor.reolink_411_ws_motion
+               - entity: input_button.reolink_411_ws
+                 tap_action:
+                    action: call-service
+                    service: input_button.press
+                    service_data:
+                      entity_id: input_button.reolink_411_ws
+              camera_image: camera.reolink_411_ws
+              camera_view: live
+
+            - type: entities
+              show_header_toggle: false
+              entities:
+                - entity: sensor.reolink_411_ws_last_event
+                  name: Последнее событие
+
+        - type: custom:stack-in-card
+          mode: vertical
+          cards:
+            - type: picture-glance
+              title: Reolink 410
+              show_name: false
+              entities:
+               - entity: binary_sensor.reolink_410_motion
+               - entity: input_button.reolink_410
+                 tap_action:
+                    action: call-service
+                    service: input_button.press
+                    service_data:
+                      entity_id: input_button.reolink_410
+              camera_image: camera.reolink_410
+              camera_view: live
+            - type: entities
+              show_header_toggle: false
+              entities:
+                - entity: sensor.reolink_410_last_event
+                  name: Последнее событие
+
+        - type: custom:stack-in-card
+          mode: vertical
+          cards:
+
+            - type: markdown
+              content: >
+                 **Питание**
+                 
+            - type: entities
+              show_header_toggle: false
+              entities:
+                - entity: switch.0x00158d0003f46bb6_l1
+                  type: custom:multiple-entity-row
+                  toggle: true
+                  state_color: true
+                  name: Реле Aqara
+                  secondary_info: last-changed
+                  state_header: Reolink 411
+                  entities:
+                  - entity: sensor.0x00158d0003f46bb6_meter
+                    name: Потреблено за месяц
+                    unit: 'кВт·ч'
+                  - attribute: power
+                    name: Мощность
+                    unit: 'Ватт'
+                  - entity: switch.0x00158d0003f46bb6_l2
+                    name: Reolink 410
+                    toggle: true
+
+
+############################ Колонка 2 ############################
+
+    - type: vertical-stack
+      cards:
+      
+        - type: markdown
+          style: |
+              ha-card {
+                font-size: 26px;
+              }          
+          content: >
+             **Управление**
+             
+        - type: custom:stack-in-card
+          mode: vertical
+          cards:  
+            - type: markdown
+              content: >
+                 **Светильники**
+
+            - type: horizontal-stack
+              cards:        
+                - type: light
+                  entity: light.0x00158d0003e74c31
+                  name: Лампочка на входе
+                  
+        - type: custom:stack-in-card
+          mode: vertical
+          cards:
+
+            - type: markdown
+              content: >
+                 **Питание**
+                 
+            - type: entities
+              show_header_toggle: false
+              entities:
+                - entity: switch.0x00158d00057305ac_right
+                  state_color: true
+                  
+############################ Колонка 3 ############################
+
+    - type: vertical-stack
+      cards:
+
+        - type: markdown
+          style: |
+              ha-card {
+                font-size: 26px;
+              }   
+          content: >
+              **Мониторинг** 
+
+        - type: custom:stack-in-card
+          mode: vertical
+          cards:
+            - type: glance
+              show_state: true
+              show_name: false
+              state_color: true
+              entities:
+              - entity: binary_sensor.0x00158d000149d28b_smoke
+              - entity: binary_sensor.0x00158d00013f7894_occupancy
+              - entity: binary_sensor.0x00158d000119378d_contact
+              - entity: binary_sensor.enter_camera_snapshot
+
+            - type: glance
+              show_state: true
+              show_name: false
+              state_color: true
+              entities:
+              - entity: sensor.0x54ef44100001b68d_temperature
+              - entity: sensor.0x54ef44100001b68d_humidity
+              - entity: sensor.0x54ef44100001b68d_voc
+
+        - type: picture-glance
+          title: Xiaofang
+          show_name: false
+          entities:
+           - entity: input_button.xiaofang
+             tap_action:
+                action: call-service
+                service: input_button.press
+                service_data:
+                  entity_id: input_button.xiaofang
+          camera_image: camera.xiaofang
+
+          
+############################ Колонка 4 ############################
+
+    - type: vertical-stack
+      cards:
+      
+        - type: markdown
+          style: |
+              ha-card {
+                font-size: 26px;
+              }          
+          content: >
+             **Датчики**
+             
+        - type: entities
+          show_header_toggle: false
+          entities:
+            - entity: sensor.0x00158d000149d28b_battery
+              type: custom:multiple-entity-row
+              icon: mdi:smoke
+              state_color: true
+              name: Датчик дыма
+              secondary_info: last-changed
+              state_header: Батарейка
+              entities:
+              - attribute: linkquality
+                name: Сигнал
+            - type: divider 
+            - entity: sensor.0x00158d000119378d_battery
+              type: custom:multiple-entity-row
+              icon: mdi:door
+              state_color: true
+              name: Датчик открытия, дверь
+              secondary_info: last-changed
+              state_header: Батарейка
+              entities:
+              - attribute: linkquality
+                name: Сигнал
+            - type: divider
+            - entity: sensor.0x00158d00013f7894_battery
+              type: custom:multiple-entity-row
+              icon: mdi:run
+              state_color: true
+              name: Датчик движения
+              secondary_info: last-changed
+              state_header: Батарейка
+              entities:
+              - attribute: linkquality
+                name: Сигнал          
+            - type: divider
+            - entity: sensor.0x54ef44100001b68d_battery
+              type: custom:multiple-entity-row
+              icon: mdi:coolant-temperature
+              state_color: true
+              name: Датчик климата
+              secondary_info: last-changed
+              state_header: Батарейка
+              entities:
+              - attribute: linkquality
+                name: Сигнал
+
+        - type: markdown
+          style: |
+              ha-card {
+                font-size: 26px;
+              }          
+          content: >
+             **Устройства**
+             
+        - type: entities
+          show_header_toggle: false
+          entities:
+            - entity: sensor.0x00158d00010b1963_battery
+              type: custom:multiple-entity-row
+              icon: mdi:gesture-tap-button
+              state_color: true
+              name: Кнопка на полке
+              secondary_info: last-changed
+              state_header: Батарейка
+              entities:
+              - attribute: linkquality
+                name: Сигнал       
+
+          

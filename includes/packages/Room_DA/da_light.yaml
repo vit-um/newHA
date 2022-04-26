@@ -75,25 +75,6 @@ da_light:
 
     automation:
     
-      - id: Детская A, запуск ночника при старте
-        alias: dа_ceiling_nightlight_start
-        initial_state: true          
-        trigger:          
-    # Запуск системы
-        - platform: homeassistant
-          event: start 
-        action:
-        - service: light.turn_on
-          entity_id: 
-           - light.gateway_light_f0b429cc1f11
-          data_template:
-             brightness_pct: 10
-             rgb_color: [0, 100, 0]
-        - delay: 00:00:01
-        - service: light.turn_off
-          entity_id: 
-           - light.gateway_light_f0b429cc1f11
-
       - id: Детская A, ручное управление люстрой
         alias: dа_ceiling_light_manual_control
         initial_state: true          
@@ -171,6 +152,9 @@ da_light:
         - condition: state
           entity_id: switch.control_mode
           state: 'on'
+        - condition: state
+          entity_id: light.da_ceiling_light
+          state: 'off'
         - condition: numeric_state
           entity_id: sensor.0x04cf8cdf3c78ca91_illuminance_lux
           below: 50

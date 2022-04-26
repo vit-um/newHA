@@ -101,6 +101,8 @@ cards:
             - type: entities
               show_header_toggle: false
               entities:
+                - entity: switch.0x00158d00015723f1_right
+                  state_color: true
                 - entity: switch.0xa4c1384452a34172
                   type: custom:multiple-entity-row
                   toggle: true
@@ -143,6 +145,13 @@ cards:
                   - attribute: power
                     name: Мощность
                     unit: 'Ватт'
+                    
+                    
+                    
+                    
+                    
+                    
+                    
                     
                     
 ############################ Колонка 2 ############################
