@@ -1,3 +1,23 @@
+# 2022 05 05 _ 23
+
+## Пакаджи
+* [ip_camera.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/ip_camera.yaml) - перенос камер на платформе generic в UI
+* [cr_light.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_CR/cr_light.yaml) - ручное управление освещением в коридоре
+* [cr_sensor.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_CR/cr_sensor.yaml) - описание сенсоров в коридоре
+* [en_camera.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_EN/en_camera.yaml) - несущественные изменения
+* [en_sensor.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_EN/en_sensor.yaml) - описание сенсоров в прихожей
+* [en_switch.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_EN/en_switch.yaml) - описание свичей в прихожей
+* [system_sensors.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/system_sensors.yaml) - перенос сенсора filesize для home-assistant_v2.db в UI
+* [telemetry.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/telemetry.yaml) - добaвлен подсчет общего числа и недоступных камер
+
+## Интерфейс, в режиме yaml
+* [ui-lovelace.yaml](https://github.com/kvazis/newHA/blob/master/ui-lovelace.yaml) - добавлена страница для коридора
+* [02_control.yaml](https://github.com/kvazis/newHA/blob/master/lovelace/02_control.yaml) - страница телеметрии, добавлен раздел для камер - всего и недоступно
+* [03_cr_control.yaml](https://github.com/kvazis/newHA/blob/master/lovelace/03_cr_control.yaml) - страница управления сущностями в коридоре
+
+Страница 03_cr_control.yaml
+![screenshot](https://raw.githubusercontent.com/kvazis/newHA/master/img/0014.png)
+
 # 2022 04 26 _ 22
 
 ## Пакаджи

@@ -1,0 +1,11 @@
+en_switch:
+
+    homeassistant:
+      customize:
+      
+        switch.0x00158d00057305ac_left:
+          friendly_name: Коридор, питание люстра
+        switch.0x00158d00057305ac_right:
+          friendly_name: Прихожая, питание лампочка
+        sensor.0x00158d00010ec4b8_energy:
+          friendly_name: Прихожая, выключатель у входа

@@ -1,0 +1,29 @@
+en_sensor:
+
+
+    recorder:
+      include:
+        entities:
+           - sensor.0x54ef44100001b68d_temperature
+           - sensor.0x54ef44100001b68d_humidity
+           - sensor.0x54ef44100001b68d_voc
+
+    homeassistant:
+      customize:
+        
+        binary_sensor.0x00158d000119378d_contact:
+          friendly_name: Прихожая, дверь
+          device_class: door
+        sensor.0x00158d000119378d_battery:
+          friendly_name: Прихожая, дверь
+
+        sensor.0x54ef44100001b68d_humidity:
+          friendly_name: Прихожая влажность
+          icon: mdi:water-percent
+        sensor.0x54ef44100001b68d_temperature:
+          friendly_name: Прихожая температура
+          icon: mdi:temperature-celsius
+        sensor.0x54ef44100001b68d_voc:
+          friendly_name: Прихожая ЛОВ
+        sensor.0x54ef44100001b68d_battery:
+          friendly_name: Прихожая климат

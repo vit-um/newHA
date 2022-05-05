@@ -33,7 +33,7 @@ sun:
 # API для предоставления информации о системе и ее компонентах
 system_health:
 # Сенсор для отображения последней версии НА
-updater:
+# updater:
 # Stream from camera
 stream:
 history:
@@ -61,10 +61,9 @@ lovelace:
      type: module
    - url: /hacsfiles/lovelace-tempometer-gauge-card/tempometer-gauge-card.js
      type: module
-   - url:  /hacsfiles/vacuum-card/vacuum-card.js
-     type: module
    - url: /hacsfiles/flipdown-timer-card/flipdown-timer-card.js
      type: module
+
 
 logbook:
 # Text to speech

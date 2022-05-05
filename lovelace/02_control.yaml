@@ -386,6 +386,58 @@ cards:
                    options:
                       secondary_info: last-changed 
 
+################# Камеры #################
+
+            - type: markdown
+              style: |
+                  ha-card {
+                    color: #FA8072;
+                    font-weight: bold;
+                    font-size: 16px;
+                  } 
+              content: >
+                  **IP Камеры**
+                  
+            - type: entities
+              style: |
+                    ha-card {
+                      color: #FA8072;
+                      --paper-item-icon-color: #E6E6FA;
+                      --iron-icon-stroke-color: #E6E6FA;
+                      font-weight: bold;
+                      font-size: 14px;
+                    }               
+              show_header_toggle: false
+              entities:
+              - entity: sensor.count_camera
+                type: custom:multiple-entity-row
+                name: IP камеры
+                state_header: Всего
+                entities:
+                  - entity: sensor.count_camera_unavailable
+                    name: Недоступно
+                    
+            - type: custom:auto-entities
+              show_empty: false
+              card:
+                type: entities
+                show_header_toggle: false
+                style: |
+                    ha-card {
+                      color: #FA8072;
+                      --paper-item-icon-color: #E6E6FA;
+                      --iron-icon-stroke-color: #E6E6FA;
+                      font-weight: bold;
+                      font-size: 14px;
+                    }  
+              filter:
+                include:
+                 - domain: camera
+                   state: 'unavailable'
+                   options:
+                      secondary_info: last-changed 
+
+
 ################# Уровень заряда #################
                       
         - type: custom:stack-in-card

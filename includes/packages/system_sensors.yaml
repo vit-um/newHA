@@ -44,10 +44,11 @@ system_sensors:
       - type: disk_free
         arg: /
       - type: processor_temperature
-        
-    - platform: filesize
-      file_paths:
-        - /config/home-assistant_v2.db
+
+# Платформа перенесена в UI    
+    # - platform: filesize
+    #   file_paths:
+    #     - /config/home-assistant_v2.db
          
     - platform: sql
       db_url: !secret db_link

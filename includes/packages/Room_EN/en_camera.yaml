@@ -90,7 +90,7 @@ en_camera:
            data_template:
              target:
               - !secret chat_id_group
-             file: "/config/www/cam_captures/reolink410.jpg"         
+             file: "/config/www/cam_captures/reolink410.jpg"  
         
 
       - id: Xiaofang - фото и отправка в телеграмм

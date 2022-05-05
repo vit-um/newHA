@@ -145,15 +145,7 @@ cards:
                   - attribute: power
                     name: Мощность
                     unit: 'Ватт'
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
+
 ############################ Колонка 2 ############################
 
     - type: vertical-stack
@@ -184,33 +176,45 @@ cards:
                 name: Присутствие              
               - entity: binary_sensor.0x00158d0005414857_occupancy
                 name: Движение
+              - entity: sensor.0x00158d00015aebb6_temperature
+                name: Температура
+              - entity: sensor.0x00158d00015aebb6_humidity
+                name: Влажность
+                
+            - type: glance
+              show_state: true
+              show_name: true
+              state_color: true
+              entities:
               - entity: binary_sensor.0x00158d00013ed373_contact
                 name: Окно 1
               - entity: binary_sensor.0xec1bbdfffedf6a6a_contact
                 name: Окно 2
               - entity: binary_sensor.0x00158d000445206b_contact
                 name: Дверь балкон
-              - entity: sensor.0x00158d00015aebb6_temperature
-                name: Температура
-              - entity: sensor.0x00158d00015aebb6_humidity
-                name: Влажность
+
                 
-        - type: 'custom:vacuum-card'
-          entity: vacuum.xa1_cloud_864771
-          actions:
-            start:
-              service: vacuum.start
-              service_data:
-                entity_id: vacuum.xa1_cloud_864771
-                segments: [16, 20]
-          stats:
-            default:
-              - attribute: vacuum_working_time
-                unit: сек
-                subtitle: Время работы
-              - attribute: filter_filter_left_time
-                unit: часов
-                subtitle: Фильтр
+        # - type: picture-entity
+        #   entity: camera.reolink_e1_pro
+        #   camera_view: live 
+        #   show_state: false
+        #   show_name: false
+          
+        - type: 'custom:webrtc-camera'
+          entity: camera.reolink_e1_pro
+          
+        - type: entities
+          show_header_toggle: false
+          entities:
+            - entity: vacuum.xa1_cloud_864771
+              type: custom:multiple-entity-row
+              name: Lydsto Robot R1
+              secondary_info: last-changed
+              state_header: Статус
+              entities:
+              - attribute: battery_level
+                name: Заряд
+                unit: '%'
               - attribute: filter_filter_life_level
-                unit: "%"
-                subtitle: Фильтр
+                name: Фильтр
+                unit: '%'  

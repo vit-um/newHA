@@ -1,0 +1,174 @@
+##################  Corridor
+title: Коридор
+icon: mdi:arrow-decision
+cards:
+
+############################ Колонка 1 ############################
+
+    - type: vertical-stack
+      cards:
+      
+        - type: markdown
+          style: |
+              ha-card {
+                font-size: 26px;
+              }          
+          content: >
+             **Управление**
+             
+        - type: custom:stack-in-card
+          mode: vertical
+          cards:  
+            - type: markdown
+              content: >
+                 **Светильники**
+
+            - type: horizontal-stack
+              cards:        
+                - type: light
+                  entity: light.cr_ceiling_light
+                  name: Люстра
+                  
+                - type: light
+                  entity: light.cr_ceiling_light_ambilight
+                  name: Амбилайт
+                  
+        - type: custom:stack-in-card
+          mode: vertical
+          cards:
+
+            - type: markdown
+              content: >
+                 **Питание**
+                 
+            - type: entities
+              show_header_toggle: false
+              entities:
+                - entity: switch.0x00158d00057305ac_left
+                  state_color: true
+                  
+############################ Колонка 2 ############################
+
+    - type: vertical-stack
+      cards:
+
+        - type: markdown
+          style: |
+              ha-card {
+                font-size: 26px;
+              }   
+          content: >
+              **Мониторинг** 
+
+        - type: custom:stack-in-card
+          mode: vertical
+          cards:
+            - type: glance
+              show_state: true
+              show_name: false
+              state_color: true
+              entities:
+              - entity: binary_sensor.0x00158d00010f8920_occupancy
+              - entity: binary_sensor.0x00158d0002a4f77e_vibration
+              - entity: binary_sensor.cr_night
+              - entity: sensor.0x00124b0022659c04_temperature
+              - entity: sensor.0x00124b0022659c04_humidity
+              - entity: binary_sensor.0x00158d0003e74c31_on
+
+        - type: custom:mini-graph-card
+          entities:
+           - entity: sensor.0x00124b0022659c04_temperature
+             name: Температура
+          color_thresholds:
+            - value: 10
+              color: "#191970"
+            - value: 15
+              color: "#0000FF"
+            - value: 20
+              color: "#ADD8E6"
+            - value: 25
+              color: "#E0FFFF"
+            - value: 30
+              color: "#FFFF00"
+            - value: 50
+              color: "#FFD700"
+          animate: true
+          line_width: 2
+          hour24: true
+          points_per_hour: 1
+          group_by: hour
+          hours_to_show: 72
+          
+        - type: custom:mini-graph-card
+          entities:
+           - entity: sensor.0x00124b0022659c04_humidity
+             name: Влажность
+          color_thresholds:
+            - value: 20
+              color: "#FFFF00"
+            - value: 30
+              color: "#FAFAD2"
+            - value: 40
+              color: "#E0FFFF"
+            - value: 50
+              color: "#7FFFD4"
+            - value: 60
+              color: "#00CED1"
+            - value: 80
+              color: "#0000FF"
+            - value: 100
+              color: "#000080"
+          animate: true
+          line_width: 2
+          hour24: true
+          points_per_hour: 1
+          group_by: hour
+          hours_to_show: 72
+              
+############################ Колонка 3 ############################
+
+    - type: vertical-stack
+      cards:
+      
+        - type: markdown
+          style: |
+              ha-card {
+                font-size: 26px;
+              }          
+          content: >
+             **Датчики**
+             
+        - type: entities
+          show_header_toggle: false
+          entities:
+            - entity: sensor.0x00124b0022659c04_battery
+              type: custom:multiple-entity-row
+              icon: mdi:coolant-temperature
+              state_color: true
+              name: Датчик климата
+              secondary_info: last-changed
+              state_header: Батарейка
+              entities:
+              - attribute: linkquality
+                name: Сигнал
+        - type: markdown
+          style: |
+              ha-card {
+                font-size: 26px;
+              }          
+          content: >
+             **Устройства**
+             
+        - type: entities
+          show_header_toggle: false
+          entities:
+            - entity: sensor.0x00158d0001f3fefe_battery
+              type: custom:multiple-entity-row
+              icon: mdi:gesture-tap-button
+              state_color: true
+              name: Кнопка в шкафу
+              secondary_info: last-changed
+              state_header: Батарейка
+              entities:
+              - attribute: linkquality
+                name: Сигнал 

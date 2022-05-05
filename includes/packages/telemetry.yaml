@@ -223,3 +223,20 @@ telemetry:
             state: "{{states.binary_sensor | selectattr ('state', 'equalto', 'unavailable') | list | length}}"
             icon: mdi:alert-circle
 
+################# Камеры #################
+
+          - name: count_camera
+            state: >
+                  {%- set domains = ['camera'] -%}
+                  {%- for domain in domains -%}
+                    {%- for item in states[domain] -%}
+                      {% if loop.first %}
+                        {{loop.length}}
+                      {% endif %}
+                    {%- endfor -%}
+                  {%- endfor -%}
+            icon: mdi:cctv
+            
+          - name: count_camera_unavailable
+            state: "{{states.camera | selectattr ('state', 'equalto', 'unavailable') | list | length}}"
+            icon: mdi:alert-circle
