@@ -68,110 +68,43 @@ cards:
 
             - type: markdown
               content: >
-                 **Версии и обновления**
+                 **Версия системы**
           
             - type: entities
               show_header_toggle: false
               entities:
+
+              - entity: update.home_assistant_supervisor_update
+                type: custom:multiple-entity-row
+                name: Supervisor
+                show_state: false
+                entities:
+                  - attribute: installed_version
+                    name: Установлено
+                  - attribute: latest_version
+                    name: Последняя
     
-              - entity: sensor.home_assistant_versions
+              - entity: update.home_assistant_core_update
                 type: custom:multiple-entity-row
                 name: Home Assistant
-                state_header: Последняя
+                show_state: false
                 entities:
-                  - entity: sensor.current_version
+                  - attribute: installed_version
                     name: Установлено
-              - type: divider
-    
-            - type: markdown
-              content: |
-                <ha-icon icon="mdi:home-assistant"></ha-icon>&nbsp;&nbsp;&nbsp;Обновлений для Supervisor - {{ states('sensor.supervisor_updates') | default }}
-                > {% for addon in state_attr('sensor.supervisor_updates', 'addons') %}
-                > {{ addon.name }} {{ addon.version }} -> {{ addon.version_latest }}
-                > {% endfor %}
+                  - attribute: latest_version
+                    name: Последняя
+
+
+            # - type: markdown
+            #   content: |
+            #     <ha-icon icon="mdi:home-assistant"></ha-icon>&nbsp;&nbsp;&nbsp;Обновлений для Supervisor - {{ states('sensor.supervisor_updates') | default }}
+            #     > {% for addon in state_attr('sensor.supervisor_updates', 'addons') %}
+            #     > {{ addon.name }} {{ addon.version }} -> {{ addon.version_latest }}
+            #     > {% endfor %}
                 
-            - type: markdown
-              content: |
-                <ha-icon icon="hacs:hacs"></ha-icon>&nbsp;&nbsp;&nbsp;Обновлений для HACS - {{ states('sensor.hacs') | default }}
-                > {% for repo in state_attr('sensor.hacs', 'repositories') %}
-                > {{ repo.display_name }} {{ repo["installed_version"] }} -> {{ repo["available_version"] }}
-                > {% endfor %}
+
     
-            - type: entities
-              show_header_toggle: false
-              entities:
-              - type: divider
-              - entity: sensor.file_editor_cpu_percent
-                type: custom:multiple-entity-row
-                name: File Editor
-                state_header: CPU %
-                entities:
-                  - entity: sensor.file_editor_version
-                    name: Установлено
-                  - entity: sensor.file_editor_newest_version
-                    name: Последняя
-    
-              - entity: sensor.home_assistant_google_drive_backup_cpu_percent
-                type: custom:multiple-entity-row
-                name: Google Backup
-                state_header: CPU %
-                entities:
-                  - entity: sensor.home_assistant_google_drive_backup_version
-                    name: Установлено
-                  - entity: sensor.home_assistant_google_drive_backup_newest_version
-                    name: Последняя
-    
-              - entity: sensor.mariadb_cpu_percent
-                type: custom:multiple-entity-row
-                name: Maria DB
-                state_header: CPU %
-                entities:
-                  - entity: sensor.mariadb_version
-                    name: Установлено
-                  - entity: sensor.mariadb_newest_version
-                    name: Последняя
-                    
-              - entity: sensor.mosquitto_broker_cpu_percent
-                type: custom:multiple-entity-row
-                name: Mosquitto broker
-                state_header: CPU %
-                entities:
-                  - entity: sensor.mosquitto_broker_version
-                    name: Установлено
-                  - entity: sensor.mosquitto_broker_newest_version
-                    name: Последняя
-                    
-              - entity: sensor.samba_share_cpu_percent
-                type: custom:multiple-entity-row
-                name: Samba share
-                state_header: CPU %
-                entities:
-                  - entity: sensor.samba_share_version
-                    name: Установлено
-                  - entity: sensor.samba_share_newest_version
-                    name: Последняя
-                    
-              - entity: sensor.zigbee2mqtt_cpu_percent
-                type: custom:multiple-entity-row
-                name: Zigbee2mqtt 1
-                state_header: CPU %
-                entities:
-                  - entity: sensor.zigbee2mqtt_version
-                    name: Установлено
-                  - entity: sensor.zigbee2mqtt_newest_version
-                    name: Последняя
-    
-              - entity: sensor.zigbee2mqtt_cpu_percent_2
-                type: custom:multiple-entity-row
-                name: Zigbee2mqtt 2
-                state_header: CPU %
-                entities:
-                  - entity: sensor.zigbee2mqtt_version_2
-                    name: Установлено
-                  - entity: sensor.zigbee2mqtt_newest_version_2
-                    name: Последняя          
-          
-          
+
     - type: vertical-stack
       cards:
       

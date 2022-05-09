@@ -63,7 +63,8 @@ lovelace:
      type: module
    - url: /hacsfiles/flipdown-timer-card/flipdown-timer-card.js
      type: module
-
+   - url:  /hacsfiles/vacuum-card/vacuum-card.js
+     type: module 
 
 logbook:
 # Text to speech

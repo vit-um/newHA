@@ -109,17 +109,82 @@ cards:
                    state: 'unavailable'
                    options:
                       secondary_info: last-changed 
+
+################# Обновления #################  
+        - type: custom:stack-in-card
+          mode: vertical
+          cards:
+
+            - type: markdown
+              style: |
+                   ha-card {
+                     color: #00BFFF;
+                     font-weight: bold;
+                     font-size: 16px;
+                   }          
+              content: >
+                 **Обновления**
+          
+            - type: entities
+              style: |
+                   ha-card {
+                     color: #00BFFF;
+                     --paper-item-icon-color: #00BFFF;
+                     --iron-icon-stroke-color: #FFFFE0;
+                     font-weight: bold;
+                     font-size: 14px;
+                   }                 
+              show_header_toggle: false
+              entities:
+              - entity: sensor.count_update
+                type: custom:multiple-entity-row
+                name: Аддоны
+                state_header: Всего
+                entities:
+                  - entity: sensor.count_update_on
+                    name: Доступно обновлений
+                      
+
+            - type: custom:auto-entities
+              card:
+                type: entities
+                show_header_toggle: false
+              filter:
+                include:
+                - domain: update
+                  state: 'on'
+                  options:
+                     type: custom:multiple-entity-row
+                     show_state: false
+                     secondary_info: last-changed
+                     entities:
+                      - attribute: installed_version
+                        name: Установлено
+                      - attribute: latest_version
+                        name: Последняя
+                        
+            - type: markdown
+              style: |
+                   ha-card {
+                     color: #00BFFF;
+                     font-weight: bold;
+                     font-size: 16px;
+                   }   
+              content: |
+                <ha-icon icon="hacs:hacs"></ha-icon>&nbsp;&nbsp;&nbsp;Обновлений для HACS - {{ states('sensor.hacs') | default }}
+                > {% for repo in state_attr('sensor.hacs', 'repositories') %}
+                > {{ repo.display_name }} {{ repo["installed_version"] }} -> {{ repo["available_version"] }}
+                > {% endfor %}
                       
 ############################ Колонка 2 ############################
     - type: vertical-stack
       cards:
 
+################# Светильники #################
 
         - type: custom:stack-in-card
           mode: vertical
           cards:
-
-################# Светильники #################
       
             - type: markdown
               style: |
@@ -173,8 +238,12 @@ cards:
                    state: 'unavailable'
                    options:
                       secondary_info: last-changed
-                      
+
 ################# Реле #################
+
+        - type: custom:stack-in-card
+          mode: vertical
+          cards: 
       
             - type: markdown
               style: |
@@ -228,9 +297,13 @@ cards:
                    state: 'unavailable'
                    options:
                       secondary_info: last-changed 
-                      
+
 ################# Термоголовки #################
-      
+
+        - type: custom:stack-in-card
+          mode: vertical
+          cards: 
+          
             - type: markdown
               style: |
                   ha-card {
@@ -286,6 +359,9 @@ cards:
                       
 ################# Сенсоры #################
 
+        - type: custom:stack-in-card
+          mode: vertical
+          cards: 
             - type: markdown
               style: |
                   ha-card {
@@ -336,7 +412,10 @@ cards:
                       secondary_info: last-changed 
                       
 ################# Бинарные сенсоры #################
-
+        - type: custom:stack-in-card
+          mode: vertical
+          cards: 
+          
             - type: markdown
               style: |
                   ha-card {
@@ -387,7 +466,10 @@ cards:
                       secondary_info: last-changed 
 
 ################# Камеры #################
-
+        - type: custom:stack-in-card
+          mode: vertical
+          cards: 
+          
             - type: markdown
               style: |
                   ha-card {
@@ -437,9 +519,7 @@ cards:
                    options:
                       secondary_info: last-changed 
 
-
 ################# Уровень заряда #################
-                      
         - type: custom:stack-in-card
           mode: vertical
           cards:
@@ -517,6 +597,8 @@ cards:
                   attributes:
                     power: '< 10'
                 - entity_id: switch.*power_outage*
+
+################# Включенные светильники #################
                 
         - type: custom:stack-in-card
           mode: vertical
@@ -551,6 +633,35 @@ cards:
                       - attribute: color_temp
                         name: Температура
 
+
+################# Активные термоголовки #################
+ 
+        - type: custom:stack-in-card
+          mode: vertical
+          cards:
+
+            - type: markdown
+              style: |
+                  ha-card {
+                    color: #FFA500;
+                    font-weight: bold;
+                    font-size: 16px;
+                  } 
+              content: >
+                  **Активные термоголовки**
+
+            - type: custom:auto-entities
+              card:
+                type: entities
+                show_header_toggle: false
+              filter:
+                include:
+                - domain: climate
+                  state: 'heat'
+                  options:
+                      secondary_info: last-changed
+
+################# Таймеры #################
                       
         - type: custom:stack-in-card
           mode: vertical
@@ -576,4 +687,133 @@ cards:
                  - domain: timer
                    state: 'active'
                    options:
+                      secondary_info: last-changed
+
+############################ Колонка 4 ############################
+
+    - type: vertical-stack
+      cards:
+
+################# Аварийные датчики #################
+      
+        - type: custom:stack-in-card
+          mode: vertical
+          cards:
+                                   
+            - type: markdown
+              style: |
+                  ha-card {
+                    color: #00FA9A;
+                    font-weight: bold;
+                    font-size: 16px;
+                  } 
+              content: >
+                  **Аварийные датчики**
+                      
+            - type: custom:auto-entities
+              card:
+                type: entities
+                show_header_toggle: false
+              filter:
+                include:
+                - domain: binary_sensor
+                  state: 'on'
+                  attributes:
+                    device_class: 'moisture'
+                  options:
+                      secondary_info: last-changed
+                - domain: binary_sensor
+                  state: 'on'
+                  attributes:
+                    device_class: 'smoke'
+                  options:
+                      secondary_info: last-changed
+                      
+################# Присутствие и движение #################
+
+        - type: custom:stack-in-card
+          mode: vertical
+          cards:
+
+            - type: markdown
+              style: |
+                  ha-card {
+                    color: #00FA9A;
+                    font-weight: bold;
+                    font-size: 16px;
+                  } 
+              content: >
+                  **Активные датчики движения и присутствия**
+
+            - type: custom:auto-entities
+              card:
+                type: entities
+                show_header_toggle: false
+              filter:
+                include:
+                - domain: binary_sensor
+                  state: 'on'
+                  attributes:
+                    device_class: 'motion'
+                  options:
+                      secondary_info: last-changed
+                - domain: binary_sensor
+                  state: 'on'
+                  attributes:
+                    device_class: 'presence'
+                  options:
+                      secondary_info: last-changed
+
+################# Окна и двери #################
+
+        - type: custom:stack-in-card
+          mode: vertical
+          cards:
+                                   
+            - type: markdown
+              style: |
+                  ha-card {
+                    color: #00FA9A;
+                    font-weight: bold;
+                    font-size: 16px;
+                  } 
+              content: >
+                  **Открытые окна**
+                      
+            - type: custom:auto-entities
+              card:
+                type: entities
+                show_header_toggle: false
+              filter:
+                include:
+                - domain: binary_sensor
+                  state: 'on'
+                  attributes:
+                    device_class: 'window'
+                  options:
+                      secondary_info: last-changed
+                exclude:
+                - entity_id: binary_sensor.*aeration*
+                                   
+            - type: markdown
+              style: |
+                  ha-card {
+                    color: #00FA9A;
+                    font-weight: bold;
+                    font-size: 16px;
+                  } 
+              content: >
+                  **Открытые двери**
+                      
+            - type: custom:auto-entities
+              card:
+                type: entities
+                show_header_toggle: false
+              filter:
+                include:
+                - domain: binary_sensor
+                  state: 'on'
+                  attributes:
+                    device_class: 'door'
+                  options:
                       secondary_info: last-changed

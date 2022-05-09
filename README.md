@@ -1,3 +1,24 @@
+# 2022 05 08 _ 24
+
+## Конфигурация
+* [configuration.yaml](https://github.com/kvazis/newHA/blob/master/configuration.yaml) - закомментирован раздел updater - интеграция выпадала в ошибку
+
+## Пакаджи
+* [entity_reboot.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/entity_reboot.yaml) - здесь будут собираться автоматизации по перезагрузке отдельных устройств, склонных к произвольному отключению
+* [telemetry.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/telemetry.yaml) - добавлены сенсоры для обновлений, подробнее в [Уроки Home Assistant - Телеметрия, часть 1. Отслеживание состояний в режиме онлайн](https://youtu.be/VuRrD-YYV70)
+* [bt_alarm.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_BT/bt_alarm.yaml) - добавлены описания сенсоров
+* [dd_sensors.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_DD/dd_sensors.yaml) - добавлены описания сенсоров
+* [kn_alarm.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_KN/kn_alarm.yaml) - пакадж уведомлений при срабатывания датчика дыма и протечки в кухне
+* [kn_light.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_KN/kn_light.yaml) - пакадж, заготовка под управление освещением в кухне
+* [kn_sensors.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_KN/kn_sensors.yaml) - добавлены описания сенсоров
+
+## Интерфейс, в режиме yaml
+Много косметических, незначительных изменений
+* [02_control.yaml](https://github.com/kvazis/newHA/blob/master/lovelace/02_control.yaml) - страница телеметрии, добавлен раздел для обновлений
+
+Страница 02_control.yaml
+![screenshot](https://raw.githubusercontent.com/kvazis/newHA/master/img/0015.png)
+
 # 2022 05 05 _ 23
 
 ## Пакаджи

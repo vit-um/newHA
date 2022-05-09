@@ -170,6 +170,12 @@ cards:
           title: Xiaofang
           show_name: false
           entities:
+           - entity: input_button.xiaofang_reload
+             tap_action:
+                action: call-service
+                service: input_button.press
+                service_data:
+                  entity_id: input_button.xiaofang_reload
            - entity: input_button.xiaofang
              tap_action:
                 action: call-service
@@ -178,6 +184,12 @@ cards:
                   entity_id: input_button.xiaofang
           camera_image: camera.xiaofang
 
+        - type: entity-filter
+          show_header_toggle: false
+          entities:
+          - entity: camera.xiaofang
+          state_filter:
+            - "unavailable"
           
 ############################ Колонка 4 ############################
 

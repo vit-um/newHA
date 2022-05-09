@@ -1,0 +1,15 @@
+kn_light:
+
+    homeassistant:
+      customize:
+
+        light.kn_ceiling_light:
+          friendly_name: Кухня, люстра
+          icon: mdi:ceiling-light
+          
+        light.gateway_light_7811dc64f4c8:
+          friendly_name: Кухня шлюз
+          icon: mdi:star-circle
+          
+
+          

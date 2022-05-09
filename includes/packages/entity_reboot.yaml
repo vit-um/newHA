@@ -1,0 +1,32 @@
+entity_reboot:
+
+
+
+    automation:
+    
+      - id: Перезагрузка камеры xiaofang
+        alias: reload_xiaofang
+        initial_state: true
+        trigger:
+    ## Недоступность 5 минут
+        - platform: state
+          entity_id: camera.xiaofang
+          to: 'unavailable'
+          for:
+            minutes: 5 
+    ## Виртуальная кнопка
+        - platform: state
+          entity_id: input_button.xiaofang_reload
+        action:  
+          - service: homeassistant.reload_config_entry
+            data:
+              entry_id: 46e8dcc0a00ba01b5854c6b0fb7019c6
+            target:
+              entity_id: camera.xiaofang
+          - service: telegram_bot.send_message
+            data_template:
+              target:
+                  - !secret chat_id_group_tech
+              message: | 
+                   {{"\U0001F4AC"}} Выполнен перезапуск камеры Xiaofang
+                   

@@ -5,6 +5,7 @@ kn_sensors:
         entities:
            - sensor.0x00158d0001581109_temperature
            - sensor.0x00158d0001581109_humidity
+           - sensor.0x04cf8cdf3c772379_illuminance_lux
 
     homeassistant:
       customize:
@@ -14,11 +15,20 @@ kn_sensors:
         binary_sensor.kn_aeration:
           friendly_name: Кухня, проветривание
 
-        # binary_sensor.0x00158d0001a66222_occupancy:
-        #   friendly_name: Детская Д, движение
-        # sensor.0x00158d0001a66222_battery:
-        #   friendly_name: Детская Д, движение
+        sensor.0x04cf8cdf3c772379_illuminance_lux:
+          friendly_name: Кухня, освещенность
+        sensor.0x04cf8cdf3c772379_battery:
+          friendly_name: Кухня, освещенность
 
+        binary_sensor.0x00158d0001e16204_occupancy:
+          friendly_name: Кухня, движение 1
+        sensor.0x00158d0001e16204_battery:
+          friendly_name: Кухня, движение 1
+
+        binary_sensor.0x00124b002266eafe_occupancy:
+          friendly_name: Кухня, движение 2
+        sensor.0x00124b002266eafe_battery:
+          friendly_name: Кухня, движение 2
 
         binary_sensor.0x00158d0001a99562_contact:
           friendly_name: Кухня, окно
@@ -36,8 +46,6 @@ kn_sensors:
           friendly_name: Кухня, климат
           
 
-
-
 ############# Балкон
 
         binary_sensor.0x00158d0001a20885_contact:
@@ -46,23 +54,14 @@ kn_sensors:
         sensor.0x00158d0001a20885_battery:
           friendly_name: Кухня, балкон дверь
 
-#         binary_sensor.0x00158d0001a65b68_contact:
-#           friendly_name: Детская Д, балкон окно 1
-#           device_class: window
-#         sensor.0x00158d0001a65b68_battery:
-#           friendly_name: Детская Д, балкон окно 1
+        binary_sensor.0x00158d0001a4a394_contact:
+          friendly_name: Кухня, балкон окно
+          device_class: window
+        sensor.0x00158d0001a4a394_battery:
+          friendly_name: Кухня, балкон окно
           
-#         binary_sensor.0xec1bbdfffe3a653e_contact:
-#           friendly_name: Детская Д, балкон окно 2
-#           device_class: window
-#         sensor.0xec1bbdfffe3a653e_battery:
-#           friendly_name: Детская Д, балкон окно 2
-
-#         sensor.0x04cf8cdf3c7cf19e_illuminance_lux:
-#           friendly_name: Детская Д, балкон освещенность
-#         sensor.0x04cf8cdf3c7cf19e_battery:
-#           friendly_name: Детская Д, балкон сенсор освещенности
-         
+        binary_sensor.0xec1bbdfffe302df1_occupancy:
+          friendly_name: Кухня, балкон движение
           
     template:
      

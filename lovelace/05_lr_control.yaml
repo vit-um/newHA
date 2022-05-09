@@ -203,18 +203,38 @@ cards:
         - type: 'custom:webrtc-camera'
           entity: camera.reolink_e1_pro
           
-        - type: entities
-          show_header_toggle: false
-          entities:
-            - entity: vacuum.xa1_cloud_864771
-              type: custom:multiple-entity-row
-              name: Lydsto Robot R1
-              secondary_info: last-changed
-              state_header: Статус
-              entities:
-              - attribute: battery_level
-                name: Заряд
-                unit: '%'
+        # - type: entities
+        #   show_header_toggle: false
+        #   entities:
+        #     - entity: vacuum.xa1_cloud_864771
+        #       type: custom:multiple-entity-row
+        #       name: Lydsto Robot R1
+        #       secondary_info: last-changed
+        #       state_header: Статус
+        #       entities:
+        #       - attribute: battery_level
+        #         name: Заряд
+        #         unit: '%'
+        #       - attribute: filter_filter_life_level
+        #         name: Фильтр
+        #         unit: '%'  
+                
+        - type: 'custom:vacuum-card'
+          entity: vacuum.xa1_cloud_864771
+          actions:
+            start:
+              service: vacuum.start
+              service_data:
+                entity_id: vacuum.xa1_cloud_864771
+                segments: [16, 20]
+          stats:
+            default:
+              - attribute: vacuum_working_time
+                unit: сек
+                subtitle: Время работы
+              - attribute: filter_filter_left_time
+                unit: часов
+                subtitle: Фильтр
               - attribute: filter_filter_life_level
-                name: Фильтр
-                unit: '%'  
+                unit: "%"
+                subtitle: Фильтр

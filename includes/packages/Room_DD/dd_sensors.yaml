@@ -85,7 +85,10 @@ dd_sensors:
         sensor.0x00158d0001fa8321_battery:
           friendly_name: Детская Д, балкон климат
 
-
+        binary_sensor.0xec1bbdfffe4521a3_occupancy:
+          friendly_name: Детская Д, балкон движение
+        sensor.0xec1bbdfffe4521a3_battery:
+          friendly_name: Детская Д, движение
 
           
     template:

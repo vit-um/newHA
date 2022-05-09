@@ -32,7 +32,7 @@ lr_light:
           icon: mdi:lighthouse
           
         light.gateway_light_34ce0088b039:
-          friendly_name: Шлюз
+          friendly_name: Гостиная шлюз
           icon: mdi:star-circle
           
         light.0x00158d00015723f1_left:

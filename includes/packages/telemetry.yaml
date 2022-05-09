@@ -19,6 +19,10 @@ telemetry:
           friendly_name: Отключенных скриптов -
         sensor.count_script_unavailable:
           friendly_name: Недоступных скриптов -
+        sensor.count_update:
+           friendly_name: Аддонов в системе -
+        sensor.count_update_on:
+           friendly_name: Доступно обновлений -
         sensor.count_light:
           friendly_name: Светильников в системе -
         sensor.count_light_on:
@@ -108,6 +112,24 @@ telemetry:
           - name: count_script_unavailable
             state: "{{states.script | selectattr ('state', 'equalto', 'unavailable') | list | length}}"
             icon: mdi:file-question
+
+################# Обновления #################
+
+          - name: count_update
+            state: >
+                  {%- set domains = ['update'] -%}
+                  {%- for domain in domains -%}
+                    {%- for item in states[domain] -%}
+                      {% if loop.first %}
+                        {{loop.length}}
+                      {% endif %}
+                    {%- endfor -%}
+                  {%- endfor -%}
+            icon: mdi:monitor-dashboard
+            
+          - name: count_update_on
+            state: "{{states.update | selectattr ('state', 'equalto', 'on') | list | length}}"
+            icon: mdi:monitor-arrow-down-variant
             
 ################# Светильники #################
 
