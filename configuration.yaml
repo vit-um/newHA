@@ -37,6 +37,8 @@ system_health:
 # Stream from camera
 stream:
 history:
+# Медиа контент
+media_source:
 
 lovelace:
   mode: yaml
@@ -71,8 +73,12 @@ logbook:
 tts:
   - platform: google_translate
   
+  - platform: reversotts
+    language: 'Alyona-Russian'
+    pitch: "100"
+    bitrate: "128k"
+  
 recorder: !include includes/recorder.yaml
-
 
 automation: !include automations.yaml
 script: !include scripts.yaml

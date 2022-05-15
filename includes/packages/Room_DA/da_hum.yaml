@@ -97,14 +97,15 @@ da_hum:
           - condition: state
             entity_id: switch.control_mode
             state: 'on'
+          - condition: state
+            entity_id: binary_sensor.da_hydration
+            state: 'on'
         action:
             service_template: >-
               {% set hi = (states('input_number.humidity_level_da') | float) + 5 %}
               {% set lo = (states('input_number.humidity_level_da') | float) - 5 %}
               {% set humidity = states('sensor.0x00158d000159c7e6_humidity') | float %}
               {% if humidity > hi %}
-                switch.turn_off
-              {% elif states.binary_sensor.da_hydration.state == 'off' %} 
                 switch.turn_off
               {% elif humidity < lo and states.binary_sensor.da_hydration.state == 'on' %}
                 switch.turn_on

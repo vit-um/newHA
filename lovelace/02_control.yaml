@@ -634,6 +634,32 @@ cards:
                         name: Температура
 
 
+################# Активные плееры #################
+ 
+        - type: custom:stack-in-card
+          mode: vertical
+          cards:
+
+            - type: markdown
+              style: |
+                  ha-card {
+                    color: #FFA500;
+                    font-weight: bold;
+                    font-size: 16px;
+                  } 
+              content: >
+                  **Активные плееры**
+
+            - type: custom:auto-entities
+              card:
+                type: entities
+                show_header_toggle: false
+              filter:
+                include:
+                - domain: media_player
+                  state: 'playing'
+
+                      
 ################# Активные термоголовки #################
  
         - type: custom:stack-in-card

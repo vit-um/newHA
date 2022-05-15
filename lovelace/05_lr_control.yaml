@@ -89,7 +89,15 @@ cards:
                     service: input_button.press
                     service_data:
                       entity_id: input_button.lr_light_cinema
-                  
+                - type: entity-button
+                  entity: input_button.light_test
+                  name: Свет
+                  tap_action:
+                    action: call-service
+                    service: input_button.press
+                    service_data:
+                      entity_id: input_button.light_test
+
         - type: custom:stack-in-card
           mode: vertical
           cards:
@@ -194,31 +202,15 @@ cards:
                 name: Дверь балкон
 
                 
-        # - type: picture-entity
-        #   entity: camera.reolink_e1_pro
-        #   camera_view: live 
-        #   show_state: false
-        #   show_name: false
-          
-        - type: 'custom:webrtc-camera'
+        - type: picture-entity
           entity: camera.reolink_e1_pro
+          camera_view: live 
+          show_state: false
+          show_name: false
           
-        # - type: entities
-        #   show_header_toggle: false
-        #   entities:
-        #     - entity: vacuum.xa1_cloud_864771
-        #       type: custom:multiple-entity-row
-        #       name: Lydsto Robot R1
-        #       secondary_info: last-changed
-        #       state_header: Статус
-        #       entities:
-        #       - attribute: battery_level
-        #         name: Заряд
-        #         unit: '%'
-        #       - attribute: filter_filter_life_level
-        #         name: Фильтр
-        #         unit: '%'  
-                
+        # - type: 'custom:webrtc-camera'
+        #   entity: camera.reolink_e1_pro
+          
         - type: 'custom:vacuum-card'
           entity: vacuum.xa1_cloud_864771
           actions:
@@ -238,3 +230,28 @@ cards:
               - attribute: filter_filter_life_level
                 unit: "%"
                 subtitle: Фильтр
+                
+############################ Колонка 3 ############################
+
+    - type: vertical-stack
+      cards:
+
+        - type: markdown
+          style: |
+              ha-card {
+                font-size: 26px;
+              }   
+          content: >
+              **Медиа** 
+              
+        - type: media-control
+          entity: media_player.mitv
+          name: Телевизор
+          
+        - type: media-control
+          entity: media_player.lr_mi_speaker
+          name: Колонка под телевизором
+          
+        - type: media-control
+          entity: media_player.mi_speaker
+          name: Колонка на столе
