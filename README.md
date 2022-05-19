@@ -81,7 +81,7 @@ ____
 * [03_cr_control.yaml](https://github.com/kvazis/newHA/blob/master/lovelace/03_cr_control.yaml) - страница управления сущностями в коридоре    
 
 Страница `03_cr_control.yaml`    
-![screenshot](https://raw.githubusercontent.com/kvazis/newHA/master/img/0014.png)
+![screenshot](https://raw.githubusercontent.com/kvazis/newHA/master/img/0014a.png)
 
 ____
 ### 2022 04 26 Итерация 22
