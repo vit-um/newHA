@@ -89,14 +89,6 @@ cards:
                     service: input_button.press
                     service_data:
                       entity_id: input_button.lr_light_cinema
-                - type: entity-button
-                  entity: input_button.light_test
-                  name: Свет
-                  tap_action:
-                    action: call-service
-                    service: input_button.press
-                    service_data:
-                      entity_id: input_button.light_test
 
         - type: custom:stack-in-card
           mode: vertical

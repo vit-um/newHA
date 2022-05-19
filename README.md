@@ -1,6 +1,20 @@
+### 2022 05 19 Итерация 26
+
+#### Конфигурация    
+:arrow_right: [configuration.yaml](https://github.com/kvazis/newHA/blob/master/configuration.yaml) - добавлен ИК контроллер Xiaomi (через UI пока добавить нельзя)    
+
+#### Пакаджи    
+:arrow_right: [alarm.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/alarm.yaml) - световая индикация при возникновении тревоги на основе [Ukraine Alarm](https://github.com/home-assistant/core/tree/dev/homeassistant/components/ukraine_alarm), подробнее в [Блоге](https://youtu.be/c1qgFBEk4xs)    
+:arrow_right: [ip_camera.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/ip_camera.yaml) - незначительные изменения    
+:arrow_right: [cr_light.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_CR/cr_light.yaml) - добавлена еще одна точка управления светом    
+:arrow_right: [kn_light.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_KN/kn_light.yaml) - управление светом в кухне, подробнее в [Блоге](https://youtu.be/Jog7RV3Wqfk)    
+:arrow_right: [kn_sensors.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_KN/kn_sensors.yaml) - незначительные добавления описаний сенсоров    
+:arrow_right: [kn_switch.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_KN/kn_switch.yaml) - описание розеток на кухне    
+:arrow_right: [kn_tv_control.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_KN/kn_tv_control.yaml) - пакадж управления телевизором на кухне, логика аналогична как в [Блоге](https://youtu.be/R2jMUh-5PCE) только используется ИК контроллер Xiaomi    
+
 ### 2022 05 15 Итерация 25
 
-Изменен формат файлов описаний `README.md` - на мой взгляд так более удобочитабельнее
+Изменен формат файлов описаний `README.md` - на мой взгляд так более удобочитабельнее    
 
 #### Интеграции
 :arrow_right: Установлена [Reverso TTS / tts](https://github.com/rt400/ReversoTTS-HA)    

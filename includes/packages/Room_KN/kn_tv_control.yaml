@@ -1,0 +1,84 @@
+kn_tv_control:
+
+    recorder:
+      include:
+        entities:
+           - sensor.0x00158d0001291d12_power
+           
+    homeassistant:
+      customize:
+
+        switch.0x00158d0001291d12:
+          friendly_name: Кухня питание телевизора
+          icon: mdi:power-socket-eu
+        sensor.0x00158d0001291d12_power:
+          friendly_name: Кухня питание телевизора
+        sensor.0x00158d0001291d12_energy:
+          friendly_name: Кухня питание телевизора
+          
+    template:
+     
+      - binary_sensor:
+
+          - name: kn_tv_work
+            state: >
+              {{ states('sensor.0x00158d0001291d12_power')|int > 10 
+              }}
+            icon: >
+              {% if is_state("binary_sensor.kn_tv_work", "on") %}
+              mdi:television
+              {% else %}
+              mdi:television-off
+              {% endif %}
+              
+    automation:
+    
+      - id: Кухня управление ТВ
+        alias: kn_tv_control
+        initial_state: true
+        trigger:
+    # 6 клавишник на входе
+        - platform: state
+          entity_id: sensor.0x04cf8cdf3c794209_action
+          to: 'button_5_single' 
+    ## Виртуальная кнопка
+        - platform: state
+          entity_id: input_button.kn_tv_control
+        condition:
+        - condition: state
+          entity_id: switch.control_mode
+          state: 'on'
+        action:
+            - choose:
+              - conditions:
+                  - condition: state
+                    entity_id: binary_sensor.kn_tv_work
+                    state: 'off'
+                sequence:
+                  - service: remote.send_command
+                    entity_id: remote.kn_ir_base
+                    data:
+                      command:
+                      - raw:Z6WRAN0AAAAfAgAAewIAACUEAAB5BQAALioAAMAMAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATEkJCEkISQhJCQlITEkJCEkISQhJCQlITEkJCEkISQhJCQlITEkJCEkISQhJCQlITEkJCEkISQhJCQlITEkJCEkISQhJCQmIA==
+              - conditions:
+                  - condition: state
+                    entity_id: binary_sensor.kn_tv_work
+                    state: 'on'
+                sequence:
+                  - service: remote.send_command
+                    entity_id: remote.kn_ir_base
+                    data:
+                      command:
+                      - raw:Z6WRAN0AAAAfAgAAewIAACUEAAB5BQAALioAAMAMAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAATEkJCEkISQhJCQlITEkJCEkISQhJCQlITEkJCEkISQhJCQlITEkJCEkISQhJCQlITEkJCEkISQhJCQlITEkJCEkISQhJCQmIA==
+                      - raw:Z6W/ABwCAAB9AgAAQgMAAE0EAAB6BQAAjjMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADMQEhMQEBQQEBMVEDMQEhMQEBQQEBMVEDMQEhMQEBQQEBMVEDMQEhMQEBQQEBMVEDMQEhMQEBQQEBMVEDMQEhMQEBQQEBMVEDMQEhMQEBQQEBMVEDMQEhMQEBQQEBMQE==
+                      - raw:Z6W/ABwCAAB9AgAAQgMAAE0EAAB6BQAAjjMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADMQEhMQEBQQEBMVEDMQEhMQEBQQEBMVEDMQEhMQEBQQEBMVEDMQEhMQEBQQEBMVEDMQEhMQEBQQEBMVEDMQEhMQEBQQEBMVEDMQEhMQEBQQEBMVEDMQEhMQEBQQEBMQE==
+                      - raw:Z6W/ABwCAAB9AgAAQgMAAE0EAAB6BQAAjjMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADMQEhMQEBQQEBMVEDMQEhMQEBQQEBMVEDMQEhMQEBQQEBMVEDMQEhMQEBQQEBMVEDMQEhMQEBQQEBMVEDMQEhMQEBQQEBMVEDMQEhMQEBQQEBMVEDMQEhMQEBQQEBMQE==
+                      - raw:Z6WPABgCAACBAgAAPgMAAEkEAABxBQAAJzEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADMQEhMQEBQSEBQVEDMQEhMQEBQSEBQVEDMQEhMQEBQSEBQVEDMQEhMQEBQSEBQVEDMQEhMQEBQSEBQVEDMQEhMQEBQSEBQQE==
+                  - service: media_player.turn_off
+                    target:
+                      entity_id: media_player.kn_mi_box 
+                      
+                      
+                      
+                      
+                      

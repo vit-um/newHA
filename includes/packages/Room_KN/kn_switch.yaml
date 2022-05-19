@@ -1,0 +1,42 @@
+kn_switch:
+
+    homeassistant:
+      customize:
+      
+        switch.0xa4c138201dcb67f6:
+          friendly_name: Кухня электрогриль
+          icon: mdi:power-socket-eu
+        sensor.0xa4c138201dcb67f6_power:
+          friendly_name: Кухня электрогриль
+        sensor.0xa4c138201dcb67f6_energy:
+          friendly_name: Кухня электрогриль
+          
+        switch.0x00158d0001d35bc0:
+          friendly_name: Кухня бойлер
+          icon: mdi:power-socket-eu
+        sensor.0x00158d0001d35bc0_power:
+          friendly_name: Кухня бойлер
+        sensor.0x00158d0001d35bc0_energy:
+          friendly_name: Кухня бойлер
+
+        switch.0x000d6f0014bb14b4:
+          friendly_name: Кухня кофемашина
+          icon: mdi:power-socket-eu
+        sensor.0x000d6f0014bb14b4_power:
+          friendly_name: Кухня бойлер
+          
+        switch.0xa4c1385bcf7d00c9:
+          friendly_name: Кухня чайник
+          icon: mdi:power-socket-eu
+        sensor.0xa4c1385bcf7d00c9_power:
+          friendly_name: Кухня чайник
+        sensor.0xa4c1385bcf7d00c9_energy:
+          friendly_name: Кухня чайник
+          
+        switch.0x00158d0001fa2934:
+          friendly_name: Кухня питание холодильника
+          icon: mdi:power-socket-eu
+        sensor.0x00158d0001fa2934_power:
+          friendly_name: Кухня питание холодильника
+        sensor.0x00158d0001fa2934_energy:
+          friendly_name: Кухня питание холодильника

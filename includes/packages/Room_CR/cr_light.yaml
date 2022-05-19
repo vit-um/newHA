@@ -116,7 +116,15 @@ cr_light:
     # Круглая кнопка в шкафу
         - platform: state
           entity_id: sensor.0x00158d0001f3fefe_action
-          to: 'single'          
+          to: 'single' 
+    # 6 клавишник на входе в кухню
+        - platform: state
+          entity_id: sensor.0x04cf8cdf3c794209_action
+          to: 'button_3_single'
+    # 4 клавишник на комоде
+        - platform: state
+          entity_id: sensor.0x04cf8cdf3c7942ca_action
+          to: 'button_3_single'          
         condition:
         - condition: state
           entity_id: switch.control_mode

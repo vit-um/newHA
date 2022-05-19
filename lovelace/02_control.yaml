@@ -755,6 +755,34 @@ cards:
                   options:
                       secondary_info: last-changed
                       
+################# Сенсоры тревоги #################
+      
+        - type: custom:stack-in-card
+          mode: vertical
+          cards:
+                                   
+            - type: markdown
+              style: |
+                  ha-card {
+                    color: #00FA9A;
+                    font-weight: bold;
+                    font-size: 16px;
+                  } 
+              content: >
+                  **Сенсоры тревоги**
+                      
+            - type: custom:auto-entities
+              card:
+                type: entities
+                show_header_toggle: false
+              filter:
+                include:
+                 - entity_id: binary_sensor.*m_kiyiv*
+                   options:
+                      secondary_info: last-changed
+                exclude:
+                 - state: 'off'
+                      
 ################# Присутствие и движение #################
 
         - type: custom:stack-in-card

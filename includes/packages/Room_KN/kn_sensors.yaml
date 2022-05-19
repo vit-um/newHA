@@ -15,21 +15,6 @@ kn_sensors:
         binary_sensor.kn_aeration:
           friendly_name: Кухня, проветривание
 
-        sensor.0x04cf8cdf3c772379_illuminance_lux:
-          friendly_name: Кухня, освещенность
-        sensor.0x04cf8cdf3c772379_battery:
-          friendly_name: Кухня, освещенность
-
-        binary_sensor.0x00158d0001e16204_occupancy:
-          friendly_name: Кухня, движение 1
-        sensor.0x00158d0001e16204_battery:
-          friendly_name: Кухня, движение 1
-
-        binary_sensor.0x00124b002266eafe_occupancy:
-          friendly_name: Кухня, движение 2
-        sensor.0x00124b002266eafe_battery:
-          friendly_name: Кухня, движение 2
-
         binary_sensor.0x00158d0001a99562_contact:
           friendly_name: Кухня, окно
           device_class: window
@@ -81,4 +66,4 @@ kn_sensors:
               {% else %}
               mdi:window-closed-variant
               {% endif %}
-
+              

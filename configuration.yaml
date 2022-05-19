@@ -69,6 +69,16 @@ lovelace:
      type: module 
 
 logbook:
+
+remote:
+  - platform: xiaomi_miio
+    name: "kn ir base"
+    host: 192.168.0.135
+    token: db472a45b4f1913439abaab3f7ff6356
+    slot: 3
+    timeout: 30
+    hidden: false
+
 # Text to speech
 tts:
   - platform: google_translate
