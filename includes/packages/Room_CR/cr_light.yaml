@@ -46,7 +46,6 @@ cr_light:
               mdi:timer-off
               {% endif %}
 
-
     # Отслеживание включения лампочки в течении 10 сек
           - name: 0x00158d0003e74c31_on
             state: >
@@ -59,6 +58,21 @@ cr_light:
               {% else %}
               mdi:radiobox-blank
               {% endif %}
+
+    # Сенсор определяющий недоступность люстры
+          - name: cr_ceiling_unavailable
+            state: >
+              {{ is_state('light.cr_ceiling_light', 'unavailable')  
+              }}
+            delay_on: 
+                minutes: 3
+            device_class: problem
+            icon: >
+              {% if is_state("binary_sensor.cr_ceiling_unavailable", "on") %}
+              mdi:ceiling-light-outline
+              {% else %}
+              mdi:ceiling-light
+              {% endif %}
           
     binary_sensor:
     
@@ -69,46 +83,37 @@ cr_light:
 
     automation:
     
-      - id: Коридор, возобновление питания на выключателе люстры
-        alias: cr_ceiling_power_on_behavior
-        initial_state: true
-        trigger:
-        - platform: time_pattern
-          minutes: '/1'
-        condition:
-        - condition: state
-          entity_id: switch.control_mode
-          state: 'on'
-        - condition: template
-          value_template: "{{ states('switch.0x00158d00057305ac_left') != 'on' }}"
-        action:
-        - service: switch.turn_on
-          entity_id: switch.0x00158d00057305ac_left
-          
       - id: Коридор, перезагрузка зависшей люстры
         alias: cr_ceiling_reboot
         initial_state: true
         trigger:
-        - platform: state
-          entity_id: light.cr_ceiling_light
-          to: 'unavailable'
-          for:
-            minutes: 5 
+    # Проверка раз в 5 минут, перезагрузка если люстра недоступна
+        - platform: time_pattern
+          minutes: '/5'
         condition:
+    # Сенсор определяющий недоступность люстры
+        - condition: state
+          entity_id: binary_sensor.cr_ceiling_unavailable
+          state: 'on'
+    # Переключатель режима работы сервера
         - condition: state
           entity_id: switch.control_mode
           state: 'on'
-        - condition: numeric_state
-          entity_id: sensor.count_light_unavailable
-          below: 5
         action:
+    # Перезагрузка по питанию
         - service: switch.turn_off
+          entity_id: switch.0x00158d00057305ac_left
+        - delay: 00:00:05
+        - service: switch.turn_on
           entity_id: switch.0x00158d00057305ac_left
           
       - id: Коридор, ручное управление люстрой
         alias: cr_ceiling_light_manual_control
         initial_state: true
         trigger:
+    # Виртуальная кнопка
+        - platform: state
+          entity_id: input_button.cr_ceiling_light
     # Выключатель на стене у входа
         - platform: state
           entity_id: sensor.0x00158d00057305ac_action
@@ -165,6 +170,9 @@ cr_light:
         - condition: state
           entity_id: binary_sensor.0x00158d00010f8920_occupancy
           state: 'on'
+        - condition: state
+          entity_id: binary_sensor.cr_night
+          state: 'off'
         - condition: state
           entity_id: light.cr_ceiling_light
           state: 'off'
@@ -309,7 +317,4 @@ cr_light:
                   - service: light.turn_off
                     entity_id:
                       - light.cr_ceiling_light
-                      
-                      
-                      
                       

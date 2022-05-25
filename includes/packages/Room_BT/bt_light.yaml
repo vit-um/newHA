@@ -137,6 +137,9 @@ bt_light:
         alias: bt_light_on
         initial_state: true
         trigger:
+    # Виртуальная кнопка для интерфейса
+        - platform: state
+          entity_id: input_button.bt_ceiling_light
       ## Проводной выключатель
         - platform: state
           entity_id: sensor.0x00158d0001117040_action
@@ -165,6 +168,9 @@ bt_light:
         alias: bt_light_off
         initial_state: true
         trigger:
+    # Виртуальная кнопка для интерфейса
+        - platform: state
+          entity_id: input_button.bt_ceiling_light
     ## Проводной выключатель
         - platform: state
           entity_id: sensor.0x00158d0001117040_action

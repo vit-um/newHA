@@ -1,3 +1,57 @@
+### 2022 05 25 Итерация 27
+
+#### Пакаджи    
+:arrow_right: [telegram_control.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/telegram_control.yaml) - интерфейс управления через телеграм, подробнее в  [Уроке Home Assistant - Управление умным домом через Telegram из любой точки мира](https://youtu.be/tPYXpQwDLYc)    
+:arrow_right: [kn_light.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_KN/kn_light.yaml) - добавлена автоматизация, которая включает основное освещение, если в кухне кто-то есть более 15 минут    
+
+```yaml
+
+    template:
+
+      - binary_sensor:
+
+    # Сенсор определяющий длительную работу дежурного освещения
+          - name: kn_ceiling_auto_long
+            state: >
+              {{ is_state('binary_sensor.kn_occupancy', 'on')  
+                 and is_state('input_boolean.kn_ceiling_light', 'off')
+                 and is_state('light.kn_ceiling_light', 'on')
+              }}
+            delay_on: 
+                minutes: 15
+            device_class: light
+            icon: >
+              {% if is_state("binary_sensor.kn_ceiling_auto_long", "on") %}
+              mdi:lightbulb-on
+              {% else %}
+              mdi:dome-light
+              {% endif %}
+              
+    automation:
+
+      - id: Кухня, переключение на основное освещение
+        alias: kn_ceiling_auto_long
+        description: Если дежурный свет включен более 15 минут, переход на основное освещение
+        initial_state: true
+        trigger:
+    # Кто-то есть в кухнее более 15 минут
+        - platform: state
+          entity_id: binary_sensor.kn_ceiling_auto_long
+          to: 'on'
+        condition:
+    # Переключатель режима работы сервера
+        - condition: state
+          entity_id: switch.control_mode
+          state: 'on'
+        action:
+    # Включение переключателя ручного управления
+        - service: input_boolean.turn_on
+          target:
+            entity_id: input_boolean.kn_ceiling_light 
+```
+
+Ряд несущественных изменений, связанных с добавлением в триггеры автоматизаций input_button - для возможности их запуска из интерфейса телеграм
+____
 ### 2022 05 19 Итерация 26
 
 #### Конфигурация    

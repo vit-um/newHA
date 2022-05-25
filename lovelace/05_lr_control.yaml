@@ -56,6 +56,22 @@ cards:
               mode: horizontal
               cards:
                 - type: entity-button
+                  entity: input_button.lr_ceiling_1
+                  name: Люстра 1
+                  tap_action:
+                    action: call-service
+                    service: input_button.press
+                    service_data:
+                      entity_id: input_button.lr_ceiling_1
+                - type: entity-button
+                  entity: input_button.lr_ceiling_2
+                  name: Люстра 2
+                  tap_action:
+                    action: call-service
+                    service: input_button.press
+                    service_data:
+                      entity_id: input_button.lr_ceiling_2
+                - type: entity-button
                   entity: light.0x00158d00015723f1_left
                   name: Свет на стене
                 - type: entity-button
@@ -89,6 +105,14 @@ cards:
                     service: input_button.press
                     service_data:
                       entity_id: input_button.lr_light_cinema
+                - type: entity-button
+                  entity: input_button.youtube
+                  name: Youtube
+                  tap_action:
+                    action: call-service
+                    service: input_button.press
+                    service_data:
+                      entity_id: input_button.youtube
 
         - type: custom:stack-in-card
           mode: vertical
@@ -102,6 +126,8 @@ cards:
               show_header_toggle: false
               entities:
                 - entity: switch.0x00158d00015723f1_right
+                  state_color: true
+                - entity: switch.0x842e14fffee5451a
                   state_color: true
                 - entity: switch.0xa4c1384452a34172
                   type: custom:multiple-entity-row
@@ -186,6 +212,10 @@ cards:
               show_name: true
               state_color: true
               entities:
+              - entity: binary_sensor.lr_ceiling_unavailable_1
+                name: Люстра 1
+              - entity: binary_sensor.lr_ceiling_unavailable_2
+                name: Люстра 2
               - entity: binary_sensor.0x00158d00013ed373_contact
                 name: Окно 1
               - entity: binary_sensor.0xec1bbdfffedf6a6a_contact

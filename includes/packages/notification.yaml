@@ -1,6 +1,5 @@
 notification:
 
-
     automation:
 
       - id: Стартовое уведомление
@@ -32,5 +31,5 @@ notification:
                    {{"\U00002668"}} Термоголовок недоступно - {{ states('sensor.count_climate_unavailable') }} 
                    {{"\U0001F321"}} Сенсоров недоступно - {{ states('sensor.count_sensor_unavailable') }} 
                    {{"\U0001F51F"}} Бинарных сенсоров недоступно - {{ states('sensor.count_binary_sensor_unavailable') }}
-            
+                   
 

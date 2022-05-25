@@ -43,12 +43,17 @@ cards:
 
             - type: glance
               show_state: true
-              show_name: false
+              show_name: true
               state_color: true
               entities:
               - entity: binary_sensor.kn_night
+                name: Ночной режим
+              - entity: binary_sensor.kn_ceiling_auto_long
+                name: Авто 15 минут
               - entity: binary_sensor.kn_ceiling_long_work
+                name: Основной 15 минут
               - entity: binary_sensor.kn_ceiling_unavailable
+                name: Доступность
 
         - type: custom:stack-in-card
           mode: horizontal
@@ -185,7 +190,7 @@ cards:
               state_color: true
               entities:
               - entity: binary_sensor.kn_occupancy
-              - entity: binary_sensor.0x00158d0001e16204_occupancy
+              - entity: binary_sensor.0x00158d0001ab3350_occupancy
               - entity: binary_sensor.0x54ef441000118375_occupancy
 
             - type: glance

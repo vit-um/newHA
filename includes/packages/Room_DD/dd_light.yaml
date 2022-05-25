@@ -64,6 +64,9 @@ dd_light:
         alias: dd_ceiling_light_manual_control
         initial_state: true
         trigger:
+    # Виртуальная кнопка
+        - platform: state
+          entity_id: input_button.dd_ceiling_light
     # Выключатель на входе
         - platform: state
           entity_id: sensor.0x00158d000163e571_action
@@ -100,6 +103,9 @@ dd_light:
         alias: dd_bra_light_manual_control
         initial_state: true
         trigger:
+    # Виртуальная кнопка
+        - platform: state
+          entity_id: input_button.0x00158d000420dbab
     # Выключатель на входе
         - platform: state
           entity_id: sensor.0x00158d000163e571_action
@@ -138,6 +144,9 @@ dd_light:
         alias: dd_wled_manual_control
         initial_state: true          
         trigger:
+    # Виртуальная кнопка
+        - platform: state
+          entity_id: input_button.dd_wled_light
     # Кнопка на столе
         - platform: state
           entity_id: sensor.0x00158d0001a672ef_action
