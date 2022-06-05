@@ -277,7 +277,7 @@ cards:
                 font-size: 26px;
               }          
           content: >
-             **Датчики**
+             **Беспроводные устройства**
              
         - type: entities
           show_header_toggle: false
@@ -336,17 +336,7 @@ cards:
               entities:
               - attribute: linkquality
                 name: Сигнал
-        - type: markdown
-          style: |
-              ha-card {
-                font-size: 26px;
-              }          
-          content: >
-             **Устройства**
-             
-        - type: entities
-          show_header_toggle: false
-          entities:
+            - type: divider
             - entity: sensor.0x00158d000238a140_battery
               type: custom:multiple-entity-row
               icon: mdi:light-switch

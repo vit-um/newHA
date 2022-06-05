@@ -2,26 +2,30 @@ telegram_control:
 
     automation:
 
-    ## Стартовая автоматизация для запуска меню
-      - id: Вызов меню управления телеграм
-        alias: telegram_menu_start
-        initial_state: true
-        trigger:
-          - platform: event
-            event_type: telegram_command
-            event_data:
-              command: '/go'
-        action:
-          - service: telegram_bot.send_message
-            data:
-              target: "{{ trigger.event.data.user_id }}"
-              message: |
-                {{'\U0001F527'}} Выбрать комнату для управления :
-              inline_keyboard: 
-              - '{{''\U0001F6B6''}} Вход:/en_control , {{''\U0001F6C0''}} Санузел:/bt_control'
-              - '{{''\U0001F3E2''}} Гостиная:/lr_control , {{''\U0001F374''}} Кухня:/kn_control'
-              - '{{''\U0001F6B9''}} Детская Д:/dd_control , {{''\U0001F6BA''}} Детская А:/da_control'
-              - '{{''\U0001F6AB''}} Убрать меню:/menu_hide'
+    # ## Стартовая автоматизация для запуска меню
+    #   - id: Вызов меню управления телеграм
+    #     alias: telegram_menu_start
+    #     initial_state: true
+    #     trigger:
+    #       - platform: event
+    #         event_type: telegram_command
+    #         event_data:
+    #           command: '/go'
+    #     condition:
+    #       - condition: state
+    #         entity_id: switch.control_mode
+    #         state: 'on'
+    #     action:
+    #       - service: telegram_bot.send_message
+    #         data:
+    #           target: "{{ trigger.event.data.user_id }}"
+    #           message: |
+    #             {{'\U0001F527'}} Выбрать комнату для управления :
+    #           inline_keyboard: 
+    #           - '{{''\U0001F6B6''}} Вход:/en_control , {{''\U0001F6C0''}} Санузел:/bt_control'
+    #           - '{{''\U0001F3E2''}} Гостиная:/lr_control , {{''\U0001F374''}} Кухня:/kn_control'
+    #           - '{{''\U0001F6B9''}} Детская Д:/dd_control , {{''\U0001F6BA''}} Детская А:/da_control'
+    #           - '{{''\U0001F6AB''}} Убрать меню:/menu_hide'
 
     # ## Автоматизация управления главным меню
       - id: Главное меню управления телеграм
@@ -205,8 +209,9 @@ telegram_control:
                   - condition: template
                     value_template: '{{ trigger.event.data.command == ''/toggle_ln_ceiling_light'' }}'
                 sequence:
-                  - service: light.toggle
-                    entity_id: light.0x00158d00014a1a55
+                  - service: input_button.press
+                    target:
+                        entity_id: input_button.ln_light
                   - delay:
                       milliseconds: 500
                   - service: telegram_bot.answer_callback_query

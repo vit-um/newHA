@@ -5,6 +5,12 @@ lr_sensors:
         entities:
            - sensor.0x00158d00015aebb6_temperature
            - sensor.0x00158d00015aebb6_humidity
+           - sensor.0xec1bbdfffe4534c0_humidity
+           - sensor.0xec1bbdfffe4534c0_temperature
+           - sensor.0x00158d0001a4b9da_humidity
+           - sensor.0x00158d0001a4b9da_temperature
+           - sensor.0x00158d0001a4b9da_mmhg_pressure
+           - sensor.0x00158d000449b773_illuminance_lux
            
     homeassistant:
       customize:
@@ -31,6 +37,11 @@ lr_sensors:
           device_class: door
         sensor.0x00158d000445206b_battery:
           friendly_name: Гостиная, дверь на балкон
+        binary_sensor.0x00158d0001a2f5f7_contact:
+          friendly_name: Гостиная, окно на балконе
+          device_class: window
+        sensor.0x00158d0001a2f5f7_battery:
+          friendly_name: Гостиная, окно на балконе
 
         sensor.0x00158d00015aebb6_humidity:
           friendly_name: Гостиная, влажность
@@ -40,6 +51,31 @@ lr_sensors:
           icon: mdi:temperature-celsius
         sensor.0x00158d00015aebb6_battery:
           friendly_name: Гостиная, климат  
+
+        sensor.0xec1bbdfffe4534c0_humidity:
+          friendly_name: Гостиная, балкон влажность
+          icon: mdi:water-percent
+        sensor.0xec1bbdfffe4534c0_temperature:
+          friendly_name: Гостиная, балкон температура
+          icon: mdi:temperature-celsius
+        sensor.0xec1bbdfffe4534c0_battery:
+          friendly_name: Гостиная, балкон климат  
+
+        sensor.0x00158d0001a4b9da_humidity:
+          friendly_name: Гостиная, балкон улица влажность
+          icon: mdi:water-percent
+        sensor.0x00158d0001a4b9da_temperature:
+          friendly_name: Гостиная, балкон улица температура
+          icon: mdi:temperature-celsius
+        sensor.0x00158d0001a4b9da_pressure:
+          friendly_name: Гостиная, балкон улица давление
+          device_class: pressure
+        sensor.0x00158d0001a4b9da_mmhg_pressure:
+          friendly_name: Гостиная, балкон улица мм рт. ст
+          device_class: pressure
+        sensor.0x00158d0001a4b9da_battery:
+          friendly_name: Гостиная, балкон улица климат  
+          device_class: battery
           
         binary_sensor.lr_notification_time:
           friendly_name: Гостиная, время уведомлений о плохом воздухе
@@ -53,6 +89,13 @@ lr_sensors:
           friendly_name: Гостиная, движение
         sensor.0x00158d0005414857_battery:
           friendly_name: Гостиная, движение
+          
+        binary_sensor.0x00158d000449b773_occupancy:
+          friendly_name: Гостиная, балкон движение
+        sensor.0x00158d000449b773_illuminance_lux:
+          friendly_name: Гостиная, балкон освещенность
+        sensor.0x00158d000449b773_battery:
+          friendly_name: Гостиная, балкон движение
 
     binary_sensor:
     
@@ -112,4 +155,10 @@ lr_sensors:
               {% else %}
               mdi:window-closed-variant
               {% endif %}
-
+              
+      - sensor:
+          - name: 0x00158d0001a4b9da_mmhg_pressure
+            state: "{{ (states('sensor.0x00158d0001a4b9da_pressure')|float * 0.7500637)|round(2) }}"
+            availability: "{{ (states('sensor.0x00158d0001a4b9da_pressure')|float > 850 ) }}" 
+            unit_of_measurement: mmHg
+            icon: mdi:gauge 

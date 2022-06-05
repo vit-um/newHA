@@ -61,18 +61,22 @@ alarm:
            data:
             scene_id: light_before
             snapshot_entities:
+             - light.cr_ceiling_light
              - light.lr_ceiling_light_1
              - light.lr_ceiling_light_2
+             - light.cr_ceiling_light_ambilight
              - light.lr_ceiling_light_1_ambilight
              - light.lr_ceiling_light_2_ambilight
     # Отключение основного освещения
          - service: light.turn_off
            entity_id: 
+             - light.cr_ceiling_light
              - light.lr_ceiling_light_1
              - light.lr_ceiling_light_2
     # Включение эффекта Alarm на задней подсветке на 30 секунд
          - service: light.turn_on
            entity_id: 
+             - light.cr_ceiling_light_ambilight
              - light.lr_ceiling_light_1_ambilight
              - light.lr_ceiling_light_2_ambilight
            data:
@@ -82,6 +86,7 @@ alarm:
     # Включение эффекта Stop на задней подсветке, иначе эффект Alarm применится при следующем включении
          - service: light.turn_on
            entity_id: 
+             - light.cr_ceiling_light_ambilight
              - light.lr_ceiling_light_1_ambilight
              - light.lr_ceiling_light_2_ambilight
            data:
@@ -89,6 +94,7 @@ alarm:
     # Отключение подсветки
          - service: light.turn_off
            entity_id: 
+             - light.cr_ceiling_light_ambilight
              - light.lr_ceiling_light_1_ambilight
              - light.lr_ceiling_light_2_ambilight
     # Возврат к предыдущему состоянию
@@ -117,13 +123,16 @@ alarm:
            data:
             scene_id: light_before
             snapshot_entities:
+             - light.cr_ceiling_light
              - light.lr_ceiling_light_1
              - light.lr_ceiling_light_2
+             - light.cr_ceiling_light_ambilight
              - light.lr_ceiling_light_1_ambilight
              - light.lr_ceiling_light_2_ambilight
     # Отключение основного освещения
          - service: light.turn_off
            entity_id: 
+             - light.cr_ceiling_light
              - light.lr_ceiling_light_1
              - light.lr_ceiling_light_2
     # Запуск скрипта светового уведомления и ожидание 20 сек
@@ -133,6 +142,7 @@ alarm:
     # Отключение подсветки
          - service: light.turn_off
            entity_id: 
+             - light.cr_ceiling_light_ambilight
              - light.lr_ceiling_light_1_ambilight
              - light.lr_ceiling_light_2_ambilight
     # Возврат к предыдущему состоянию
@@ -151,6 +161,7 @@ alarm:
               sequence:
               - service: light.turn_on
                 entity_id: 
+                   - light.cr_ceiling_light_ambilight
                    - light.lr_ceiling_light_1_ambilight
                    - light.lr_ceiling_light_2_ambilight
                 data:
@@ -160,6 +171,7 @@ alarm:
               - delay: 2
               - service: light.turn_off
                 entity_id: 
+                   - light.cr_ceiling_light_ambilight
                    - light.lr_ceiling_light_1_ambilight
                    - light.lr_ceiling_light_2_ambilight
                 data:

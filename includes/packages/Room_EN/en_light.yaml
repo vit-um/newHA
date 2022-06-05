@@ -1,0 +1,142 @@
+en_light:
+
+    homeassistant:
+      customize:
+      
+        light.0x00158d0003e74c31:
+          friendly_name: Прихожая, лампочка в прихожей
+          
+        binary_sensor.0x00158d00013f7894_occupancy:
+          friendly_name: Прихожая, датчик движения
+        sensor.0x00158d00013f7894_battery:
+          friendly_name: Прихожая, датчик движения
+          
+    template:
+     
+      - binary_sensor:
+
+    # Свет без движения в прихожей днем
+          - name: en_light_day
+            state: >
+              {{ is_state('light.0x00158d0003e74c31', 'on')  
+                 and is_state('binary_sensor.0x00158d00013f7894_occupancy', 'off')
+                 and is_state('binary_sensor.en_night', 'off')
+              }}
+            delay_on: 00:03:00
+            icon: >
+              {% if is_state("binary_sensor.en_light_day", "on") %}
+              mdi:timer
+              {% else %}
+              mdi:timer-off
+              {% endif %}
+              
+    # Свет без движения в прихожей ночью
+          - name: en_light_night
+            state: >
+              {{ is_state('light.0x00158d0003e74c31', 'on')  
+                 and is_state('binary_sensor.0x00158d00013f7894_occupancy', 'off')
+                 and is_state('binary_sensor.en_night', 'on')
+              }}
+            delay_on: 00:00:30
+            icon: >
+              {% if is_state("binary_sensor.en_light_night", "on") %}
+              mdi:timer
+              {% else %}
+              mdi:timer-off
+              {% endif %}
+              
+    # Открытие двери, лампочка выключена более 3 минут
+          - name: en_door_open
+            state: >
+              {{ is_state('binary_sensor.0x00158d000119378d_contact', 'on')
+                 and is_state('binary_sensor.en_light_off_3min', 'off')
+              }}
+            device_class: light
+            icon: >
+              {% if is_state("binary_sensor.en_door_open", "on") %}
+              mdi:lightbulb-spot
+              {% else %}
+              mdi:lightbulb-spot-off
+              {% endif %}
+
+    # Лампочка выключена менее 3х минут назад
+          - name: en_light_off_3min
+            state: >
+              {{ is_state('light.0x00158d0003e74c31', 'on')  
+              }}
+            delay_off: 
+                minutes: 3
+            device_class: light
+            icon: >
+              {% if is_state("binary_sensor.en_light_off_3min", "on") %}
+              mdi:lightbulb-on
+              {% else %}
+              mdi:lightbulb
+              {% endif %}
+          
+    binary_sensor:
+    
+      - platform: tod
+        name: en_night
+        after: '22:00'
+        before: '08:00'
+
+    automation:
+    
+      - id: Прихожая, управление лампочкой
+        alias: en_light_control
+        initial_state: true
+        trigger:
+    # Выключение света без движения днем
+        - platform: state
+          entity_id: binary_sensor.en_light_day
+          to: 'on'
+    # Выключение света без движения ночью
+        - platform: state
+          entity_id: binary_sensor.en_light_night
+          to: 'on'
+    # Включение света при открытии двери
+        - platform: state
+          entity_id: binary_sensor.en_door_open
+          to: 'on'
+    # Выключатель на стене у входа
+        - platform: state
+          entity_id: sensor.0x00158d00057305ac_action
+          to: 'single_right'
+    # Круглая кнопка в шкафу
+        - platform: state
+          entity_id: sensor.0x00158d0001f3fefe_action
+          to: 'double' 
+    # 6 клавишник на входе в кухню
+        - platform: state
+          entity_id: sensor.0x04cf8cdf3c794209_action
+          to: 'button_4_single'
+    # 4 клавишник на комоде
+        - platform: state
+          entity_id: sensor.0x04cf8cdf3c7942ca_action
+          to: 'button_1_single' 
+        condition:
+        - condition: state
+          entity_id: switch.control_mode
+          state: 'on'
+        action:
+            - choose:
+              - conditions:
+                  - condition: state
+                    entity_id: light.0x00158d0003e74c31
+                    state: 'off'
+                sequence:
+                  - service: light.turn_on
+                    entity_id:
+                      - light.0x00158d0003e74c31
+                    data_template:
+                      brightness_pct: 100
+                      kelvin: 4000
+              - conditions:
+                  - condition: state
+                    entity_id: light.0x00158d0003e74c31
+                    state: 'on'
+                sequence:
+                  - service: light.turn_off
+                    entity_id:
+                      - light.0x00158d0003e74c31

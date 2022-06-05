@@ -1,0 +1,97 @@
+lr_fan_router:
+
+    homeassistant:
+      customize:
+        
+        switch.lr_usb_socket:
+          friendly_name: Гостиная, часы
+
+        switch.lr_usb_socket_usb:
+          friendly_name: Гостиная, вентилятор роутера
+
+    binary_sensor:
+    
+      - platform: tod
+        name: lr_night
+        after: '22:00'
+        before: '09:00' 
+          
+    template:
+
+      - binary_sensor:
+
+          - name: lr_noise
+            state: >
+              {{ is_state('input_boolean.lr_silent_mode', 'off')  
+                 and is_state('binary_sensor.lr_night', 'off')
+              }}
+            device_class: sound
+            icon: >
+              {% if is_state("binary_sensor.lr_noise", "on") %}
+              mdi:volume-off
+              {% else %}
+              mdi:volume-medium
+              {% endif %}
+
+    # Сенсор отключающий режим тишины через 1 час
+          - name: lr_silent_mode_off
+            state: >
+              {{ is_state('input_boolean.lr_silent_mode', 'on')
+              }}
+            delay_on: 
+                minutes: 60
+
+    automation:
+    
+      - id: Отключение режима тишины
+        alias: lr_silent_mode_off
+        initial_state: true
+        trigger:
+        - platform: state
+          entity_id: binary_sensor.lr_silent_mode_off
+          to: 'on'
+        condition:
+    # Переключатель режима работы сервера
+        - condition: state
+          entity_id: switch.control_mode
+          state: 'on'
+        action:
+        - service: input_boolean.turn_off
+          target:
+            entity_id: input_boolean.lr_silent_mode
+    
+      - id: Гостиная вентилятор роутера
+        alias: lr_usb_fan
+        initial_state: true
+        trigger:
+        - platform: time_pattern
+          minutes: '/5'
+        - platform: state
+          entity_id: binary_sensor.lr_noise
+        condition:
+    # Переключатель режима работы сервера
+        - condition: state
+          entity_id: switch.control_mode
+          state: 'on'
+        action:
+            - choose:
+              - conditions:
+                  - condition: state
+                    entity_id: switch.lr_usb_socket_usb
+                    state: 'on'
+                  - condition: state
+                    entity_id: binary_sensor.lr_noise
+                    state: 'off'
+                sequence:
+                  - service: switch.turn_off
+                    entity_id: switch.lr_usb_socket_usb
+              - conditions:
+                  - condition: state
+                    entity_id: switch.lr_usb_socket_usb
+                    state: 'off'
+                  - condition: state
+                    entity_id: binary_sensor.lr_noise
+                    state: 'on'
+                sequence:
+                  - service: switch.turn_on
+                    entity_id: switch.lr_usb_socket_usb

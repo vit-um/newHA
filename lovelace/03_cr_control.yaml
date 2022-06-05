@@ -71,9 +71,10 @@ cards:
               - entity: binary_sensor.0x00158d00010f8920_occupancy
               - entity: binary_sensor.0x00158d0002a4f77e_vibration
               - entity: binary_sensor.cr_night
+                icon: mdi:moon-waxing-crescent
               - entity: sensor.0x00124b0022659c04_temperature
               - entity: sensor.0x00124b0022659c04_humidity
-              - entity: binary_sensor.0x00158d0003e74c31_on
+
 
         - type: custom:mini-graph-card
           entities:
@@ -136,7 +137,7 @@ cards:
                 font-size: 26px;
               }          
           content: >
-             **Датчики**
+             **Беспроводные устройства**
              
         - type: entities
           show_header_toggle: false
@@ -151,17 +152,29 @@ cards:
               entities:
               - attribute: linkquality
                 name: Сигнал
-        - type: markdown
-          style: |
-              ha-card {
-                font-size: 26px;
-              }          
-          content: >
-             **Устройства**
-             
-        - type: entities
-          show_header_toggle: false
-          entities:
+            - type: divider
+            - entity: sensor.0x00158d00010f8920_battery
+              type: custom:multiple-entity-row
+              icon: mdi:run
+              state_color: true
+              name: Датчик движения
+              secondary_info: last-changed
+              state_header: Батарейка
+              entities:
+              - attribute: linkquality
+                name: Сигнал   
+            - type: divider
+            - entity: sensor.0x00158d0002a4f77e_battery
+              type: custom:multiple-entity-row
+              icon: mdi:vibrate
+              state_color: true
+              name: Датчик вибрации
+              secondary_info: last-changed
+              state_header: Батарейка
+              entities:
+              - attribute: linkquality
+                name: Сигнал   
+            - type: divider
             - entity: sensor.0x00158d0001f3fefe_battery
               type: custom:multiple-entity-row
               icon: mdi:gesture-tap-button

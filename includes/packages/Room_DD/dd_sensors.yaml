@@ -80,8 +80,10 @@ dd_sensors:
           icon: mdi:temperature-celsius
         sensor.0x00158d0001fa8321_pressure:
           friendly_name: Детская Д, балкон давление ГПа
+          device_class: pressure
         sensor.0x00158d0001fa8321_mmhg_pressure:
           friendly_name: Детская Д, балкон давление мм рт. ст.
+          device_class: pressure
         sensor.0x00158d0001fa8321_battery:
           friendly_name: Детская Д, балкон климат
 

@@ -181,14 +181,21 @@ cards:
           content: >
              **Мониторинг**
 
+
         - type: custom:stack-in-card
           mode: vertical
           cards:
+
+            - type: markdown
+              content: >
+                 **Кухня**
             - type: glance
               show_state: true
               show_name: false
               state_color: true
               entities:
+              - entity: binary_sensor.0x842e14fffef6d9e5_smoke
+              - entity: binary_sensor.0xec1bbdfffe8f1e42_water_leak
               - entity: binary_sensor.kn_occupancy
               - entity: binary_sensor.0x00158d0001ab3350_occupancy
               - entity: binary_sensor.0x54ef441000118375_occupancy
@@ -198,39 +205,56 @@ cards:
               show_name: false
               state_color: true
               entities:
-              - entity: binary_sensor.0x842e14fffef6d9e5_smoke
-              - entity: binary_sensor.0xec1bbdfffe8f1e42_water_leak
+              - entity: sensor.0x04cf8cdf3c772379_illuminance_lux
+              - entity: sensor.0x00158d0001581109_temperature
+              - entity: sensor.0x00158d0001581109_humidity
               - entity: binary_sensor.0x00158d0001a99562_contact
+
+        - type: custom:stack-in-card
+          mode: vertical
+          cards:
+
+            - type: markdown
+              content: >
+                 **Балкон**
 
             - type: glance
               show_state: true
               show_name: false
               state_color: true
               entities:
-              - entity: sensor.0x04cf8cdf3c772379_illuminance_lux
-              - entity: sensor.0x00158d0001581109_temperature
-              - entity: sensor.0x00158d0001581109_humidity
+              - entity: binary_sensor.0x00158d0001a20885_contact
+              - entity: binary_sensor.0x00158d0001a4a394_contact
+              - entity: binary_sensor.0xec1bbdfffe302df1_occupancy
 
-        - type: glance
-          show_state: true
-          show_name: false
-          state_color: true
-          entities:
-          - entity: binary_sensor.0x00158d0001a20885_contact
-          - entity: binary_sensor.0x00158d0001a4a394_contact
-          - entity: binary_sensor.0xec1bbdfffe302df1_occupancy
+            - type: glance
+              show_state: true
+              show_name: false
+              state_color: true
+              entities:
+              - entity: sensor.0x00158d000171ffde_temperature
+              - entity: sensor.0x00158d000171ffde_humidity
+              - entity: sensor.0x00158d000171ffde_mmhg_pressure
 
-        - type: glance
-          show_state: true
-          show_name: true
-          state_color: true
-          entities:
-          - entity: sensor.0x00124b0022145c90_soil_moisture
-            name: Замиокулькас
-          - entity: sensor.0x00124b0022145bc7_soil_moisture
-            name: Юкка
-          - entity: sensor.0x00124b0022027bd2_soil_moisture
-            name: Диффенбахия
+        - type: custom:stack-in-card
+          mode: vertical
+          cards:
+
+            - type: markdown
+              content: >
+                 **Растения**
+
+            - type: glance
+              show_state: true
+              show_name: true
+              state_color: true
+              entities:
+              - entity: sensor.0x00124b0022145c90_soil_moisture
+                name: Замиокулькас
+              - entity: sensor.0x00124b0022145bc7_soil_moisture
+                name: Юкка
+              - entity: sensor.0x00124b0022027bd2_soil_moisture
+                name: Диффенбахия
             
         - type: media-control
           entity: media_player.kn_mi_box
@@ -238,76 +262,187 @@ cards:
 
 ############################ Колонка 3 ############################
 
-
     - type: vertical-stack
       cards:
-
+      
         - type: markdown
           style: |
               ha-card {
                 font-size: 26px;
               }          
           content: >
-             **Бойлер**
+             **Беспроводные устройства**
 
         - type: custom:stack-in-card
           mode: vertical
-          cards:
-
+          cards:  
+            - type: markdown
+              content: >
+                 **Кухня**
             - type: entities
               show_header_toggle: false
               entities:
-              - entity: switch.kn_boiler_mode
-                state_color: true
-                
-            - type: glance
-              show_state: true
-              show_name: true
-              state_color: true
+                - type: divider
+                - entity: sensor.0x842e14fffef6d9e5_battery
+                  type: custom:multiple-entity-row
+                  icon: mdi:smoke
+                  state_color: true
+                  name: Датчик дыма
+                  secondary_info: last-changed
+                  state_header: Батарейка
+                  entities:
+                  - attribute: linkquality
+                    name: Сигнал
+                - type: divider 
+                - entity: sensor.0xec1bbdfffe8f1e42_battery
+                  type: custom:multiple-entity-row
+                  icon: mdi:water
+                  state_color: true
+                  name: Протечка
+                  secondary_info: last-changed
+                  state_header: Батарейка
+                  entities:
+                  - attribute: linkquality
+                    name: Сигнал                 
+                - type: divider
+                - entity: sensor.0x00158d0001ab3350_battery
+                  type: custom:multiple-entity-row
+                  icon: mdi:run
+                  state_color: true
+                  name: Датчик движения 1
+                  secondary_info: last-changed
+                  state_header: Батарейка
+                  entities:
+                  - attribute: linkquality
+                    name: Сигнал
+                - type: divider
+                - entity: sensor.0x54ef441000118375_battery
+                  type: custom:multiple-entity-row
+                  icon: mdi:run
+                  state_color: true
+                  name: Датчик движения 2
+                  secondary_info: last-changed
+                  state_header: Батарейка
+                  entities:
+                  - attribute: linkquality
+                    name: Сигнал  
+                - type: divider
+                - entity: sensor.0x00158d0001581109_battery
+                  type: custom:multiple-entity-row
+                  icon: mdi:coolant-temperature
+                  state_color: true
+                  name: Датчик климата
+                  secondary_info: last-changed
+                  state_header: Батарейка
+                  entities:
+                  - attribute: linkquality
+                    name: Сигнал 
+                - type: divider
+                - entity: sensor.0x04cf8cdf3c772379_battery
+                  type: custom:multiple-entity-row
+                  icon: mdi:sun-wireless
+                  state_color: true
+                  name: Датчик освещенности
+                  secondary_info: last-changed
+                  state_header: Батарейка
+                  entities:
+                  - attribute: linkquality
+                    name: Сигнал
+                - type: divider
+                - entity: sensor.0x00158d0001a99562_battery
+                  type: custom:multiple-entity-row
+                  icon: mdi:window-open-variant
+                  state_color: true
+                  name: Датчик открытия, окно
+                  secondary_info: last-changed
+                  state_header: Батарейка
+                  entities:
+                  - attribute: linkquality
+                    name: Сигнал
+                - type: divider
+                - entity: sensor.0x04cf8cdf3c794209_battery
+                  type: custom:multiple-entity-row
+                  icon: mdi:light-switch
+                  state_color: true
+                  name: Беспроводный выключатель
+                  secondary_info: last-changed
+                  state_header: Батарейка
+                  entities:
+                  - attribute: linkquality
+                    name: Сигнал
+                - type: divider
+                - entity: sensor.0x00124b0022027bd2_battery
+                  type: custom:multiple-entity-row
+                  icon: mdi:sprout
+                  state_color: true
+                  name: Диффенбахия
+                  secondary_info: last-changed
+                  state_header: Батарейка
+                  entities:
+                  - attribute: linkquality
+                    name: Сигнал
+                - type: divider
+                - entity: sensor.0x00124b0022145bc7_battery
+                  type: custom:multiple-entity-row
+                  icon: mdi:sprout
+                  state_color: true
+                  name: Юкка
+                  secondary_info: last-changed
+                  state_header: Батарейка
+                  entities:
+                  - attribute: linkquality
+                    name: Сигнал
+                - type: divider
+                - entity: sensor.0x00124b0022145c90_battery
+                  type: custom:multiple-entity-row
+                  icon: mdi:sprout
+                  state_color: true
+                  name: Замиокулькас
+                  secondary_info: last-changed
+                  state_header: Батарейка
+                  entities:
+                  - attribute: linkquality
+                    name: Сигнал
+                    
+        - type: custom:stack-in-card
+          mode: vertical
+          cards:  
+            - type: markdown
+              content: >
+                 **Балкон**
+            - type: entities
+              show_header_toggle: false
               entities:
-              - entity: binary_sensor.kn_boiler_time
-                name: Время работы
-              - entity: binary_sensor.kn_boiler_on
-                name: Активность
-              - entity: switch.0x00158d0001d35bc0
-                name: Бойлер
-                tap_action:
-                  action: toggle
-
-        - type: custom:mini-graph-card
-          entities:
-           - entity: sensor.0x00158d0001d35bc0_power
-             name: Энергопотребление
-          color_thresholds:
-            - value: 50
-              color: "#98FB98"
-            - value: 100
-              color: "#006400"
-            - value: 500
-              color: "#8A2BE2"
-            - value: 1000
-              color: "#4B0082"
-            - value: 2000
-              color: "#A52A2A"
-            - value: 3500
-              color: "#800000"
-          animate: true
-          line_width: 2
-          hour24: true
-          points_per_hour: 2
-          group_by: hour
-          hours_to_show: 36
-
-        - type: custom:logbook-card
-          entity: switch.0x00158d0001d35bc0
-          max_items: 5
-          title: Бойлер, лог работы
-          duration_labels:
-            second:  '${value} секунда'
-            seconds: '${value} секунд'
-            minute:  '${value} минута'
-            minutes: '${value} минут'
-            hour:    '${value} час'
-            hours:   '${value} часов'
-            day:     '${value} день'
-            days:    '${value} дней'
+                - type: divider
+                - entity: sensor.0x00158d0001a20885_battery
+                  type: custom:multiple-entity-row
+                  icon: mdi:door
+                  state_color: true
+                  name: Датчик открытия, дверь балкона
+                  secondary_info: last-changed
+                  state_header: Батарейка
+                  entities:
+                  - attribute: linkquality
+                    name: Сигнал
+                - type: divider
+                - entity: sensor.0x00158d0001a4a394_battery
+                  type: custom:multiple-entity-row
+                  icon: mdi:window-open-variant
+                  state_color: true
+                  name: Датчик открытия, окно
+                  secondary_info: last-changed
+                  state_header: Батарейка
+                  entities:
+                  - attribute: linkquality
+                    name: Сигнал
+                - type: divider
+                - entity: sensor.0x00158d000171ffde_battery
+                  type: custom:multiple-entity-row
+                  icon: mdi:coolant-temperature
+                  state_color: true
+                  name: Датчик климата
+                  secondary_info: last-changed
+                  state_header: Батарейка
+                  entities:
+                  - attribute: linkquality
+                    name: Сигнал 

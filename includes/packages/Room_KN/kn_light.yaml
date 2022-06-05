@@ -28,7 +28,7 @@ kn_light:
 
         binary_sensor.0x00158d0001ab3350_occupancy:
           friendly_name: Кухня, движение 1
-        sensor.0x00158d0001e16204_battery:
+        sensor.0x00158d0001ab3350_battery:
           friendly_name: Кухня, движение 1
 
         binary_sensor.0x54ef441000118375_occupancy:
@@ -56,14 +56,8 @@ kn_light:
               }}
             delay_off: 
                 minutes: 3
-            device_class: occupancy
-            icon: >
-              {% if is_state("binary_sensor.kn_occupancy", "on") %}
-              mdi:home-circle
-              {% else %}
-              mdi:home-circle-outline
-              {% endif %}
-              
+            device_class: presence
+
     # Сенсор определения забытой люстры, включенной вручную
           - name: kn_ceiling_long_work
             state: >

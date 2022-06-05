@@ -1,0 +1,254 @@
+##################  Toilet
+title: Туалет, прачечная
+icon: mdi:toilet
+cards:
+
+############################ Колонка 1 ############################
+
+    - type: vertical-stack
+      cards:
+      
+        - type: markdown
+          style: |
+              ha-card {
+                font-size: 26px;
+              }          
+          content: >
+             **Управление**
+             
+        - type: custom:stack-in-card
+          mode: vertical
+          cards:  
+            - type: markdown
+              content: >
+                 **Туалет**
+            - type: horizontal-stack
+              cards:        
+                - type: light
+                  entity: light.tt_ceiling_light
+                  name: Люстра
+                - type: entity-button
+                  entity: light.0xec1bbdfffea37571
+                  name: Зеркало
+                - type: entity-button
+                  entity: fan.0x00158d00014dceb3_right
+                  name: Вентилятор
+
+        - type: custom:stack-in-card
+          mode: vertical
+          cards:  
+            - type: markdown
+              content: >
+                 **Прачечная**
+            - type: horizontal-stack
+              cards:
+                - type: entity-button
+                  entity: light.0x00158d00014a1a55
+                  name: Свет
+                - type: entity-button
+                  entity: input_button.ln_light
+                  name: Включение света
+                  tap_action:
+                    action: call-service
+                    service: input_button.press
+                    service_data:
+                      entity_id: input_button.ln_light
+
+        - type: custom:stack-in-card
+          mode: vertical
+          cards:  
+
+            - type: markdown
+              content: >
+                 **Питание**
+                 
+            - type: entities
+              show_header_toggle: false
+              entities:
+                - entity: switch.0x00158d00014dceb3_left
+                  state_color: true
+                - entity: switch.0x842e14fffe51c5ae
+                  type: custom:multiple-entity-row
+                  toggle: true
+                  state_color: true
+                  name: Прачечная, стиральная машина
+                  secondary_info: last-changed
+                  state_header: Питание
+                  entities:
+                  - entity: sensor.0x842e14fffe51c5ae_meter
+                    name: Потреблено за месяц
+                    unit: 'кВт·ч'
+                  - attribute: power
+                    name: Мощность
+                    unit: 'Ватт'                  
+                  
+############################ Колонка 2 ############################
+
+    - type: vertical-stack
+      cards:
+
+        - type: markdown
+          style: |
+              ha-card {
+                font-size: 26px;
+              }   
+          content: >
+              **Мониторинг** 
+
+        - type: custom:stack-in-card
+          mode: vertical
+          cards:  
+            - type: markdown
+              content: >
+                 **Туалет**
+
+            - type: glance
+              show_state: true
+              show_name: false
+              state_color: true
+              entities:
+              - entity: binary_sensor.0x00158d0001bbeba6_water_leak
+              - entity: binary_sensor.0x00158d0001a24e71_occupancy
+              - entity: sensor.0xec1bbdfffe6f3394_temperature
+              - entity: sensor.0xec1bbdfffe6f3394_humidity    
+              
+            - type: glance
+              show_state: true
+              show_name: false
+              state_color: true
+              entities:
+              - entity: binary_sensor.tt_ceiling_unavailable
+              - entity: binary_sensor.tt_light_day
+              - entity: binary_sensor.tt_light_night
+              - entity: binary_sensor.tt_night
+                icon: mdi:moon-waxing-crescent
+
+
+        - type: custom:stack-in-card
+          mode: vertical
+          cards:  
+            - type: markdown
+              content: >
+                 **Прачечная**
+
+            - type: glance
+              show_state: true
+              show_name: false
+              state_color: true
+              entities:
+              - entity: binary_sensor.ln_washing
+                icon: mdi:washing-machine
+              - entity: binary_sensor.0x00158d0002705b7b_water_leak
+              - entity: binary_sensor.0x00158d0001e16204_occupancy
+              - entity: sensor.0xec1bbdfffe8d6ac9_temperature
+              - entity: sensor.0xec1bbdfffe8d6ac9_humidity
+                  
+############################ Колонка 3 ############################
+
+    - type: vertical-stack
+      cards:
+      
+        - type: markdown
+          style: |
+              ha-card {
+                font-size: 26px;
+              }          
+          content: >
+             **Беспроводные устройства**
+
+        - type: custom:stack-in-card
+          mode: vertical
+          cards:  
+            - type: markdown
+              content: >
+                 **Туалет**
+            - type: entities
+              show_header_toggle: false
+              entities:
+                - type: divider
+                - entity: sensor.0x00158d0001bbeba6_battery
+                  type: custom:multiple-entity-row
+                  icon: mdi:water
+                  state_color: true
+                  name: Протечка
+                  secondary_info: last-changed
+                  state_header: Батарейка
+                  entities:
+                  - attribute: linkquality
+                    name: Сигнал                 
+                - type: divider
+                - entity: sensor.0x00158d0001a24e71_battery
+                  type: custom:multiple-entity-row
+                  icon: mdi:run
+                  state_color: true
+                  name: Датчик движения
+                  secondary_info: last-changed
+                  state_header: Батарейка
+                  entities:
+                  - attribute: linkquality
+                    name: Сигнал                 
+                - type: divider
+                - entity: sensor.0xec1bbdfffe6f3394_battery
+                  type: custom:multiple-entity-row
+                  icon: mdi:coolant-temperature
+                  state_color: true
+                  name: Датчик климата
+                  secondary_info: last-changed
+                  state_header: Батарейка
+                  entities:
+                  - attribute: linkquality
+                    name: Сигнал 
+                - type: divider
+                - entity: sensor.0x54ef441000279090_battery
+                  type: custom:multiple-entity-row
+                  icon: mdi:light-switch
+                  state_color: true
+                  name: Беспроводный выключатель
+                  secondary_info: last-changed
+                  state_header: Батарейка
+                  entities:
+                  - attribute: linkquality
+                    name: Сигнал
+
+        - type: custom:stack-in-card
+          mode: vertical
+          cards:  
+            - type: markdown
+              content: >
+                 **Прачечная**
+            - type: entities
+              show_header_toggle: false
+              entities:
+                - type: divider
+                - entity: sensor.0x00158d0002705b7b_battery
+                  type: custom:multiple-entity-row
+                  icon: mdi:water
+                  state_color: true
+                  name: Протечка
+                  secondary_info: last-changed
+                  state_header: Батарейка
+                  entities:
+                  - attribute: linkquality
+                    name: Сигнал
+                - type: divider
+                - entity: sensor.0x00158d0001e16204_battery
+                  type: custom:multiple-entity-row
+                  icon: mdi:run
+                  state_color: true
+                  name: Датчик движения
+                  secondary_info: last-changed
+                  state_header: Батарейка
+                  entities:
+                  - attribute: linkquality
+                    name: Сигнал
+                - type: divider
+                - entity: sensor.0xec1bbdfffe8d6ac9_battery
+                  type: custom:multiple-entity-row
+                  icon: mdi:coolant-temperature
+                  state_color: true
+                  name: Датчик климата
+                  secondary_info: last-changed
+                  state_header: Батарейка
+                  entities:
+                  - attribute: linkquality
+                    name: Сигнал                 

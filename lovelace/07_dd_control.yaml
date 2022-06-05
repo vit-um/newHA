@@ -231,7 +231,7 @@ cards:
                 font-size: 26px;
               }          
           content: >
-             **Датчики**
+             **Беспроводные устройства**
 
         - type: custom:stack-in-card
           mode: vertical
@@ -287,7 +287,52 @@ cards:
                   entities:
                   - attribute: linkquality
                     name: Сигнал
-                    
+                - type: divider
+                - entity: sensor.0x00158d000163e571_battery
+                  type: custom:multiple-entity-row
+                  icon: mdi:light-switch
+                  state_color: true
+                  name: Выключатель вход
+                  secondary_info: last-changed
+                  state_header: Батарейка
+                  entities:
+                  - attribute: linkquality
+                    name: Сигнал
+                - type: divider
+                - entity: sensor.0x00158d0003d50723_battery
+                  type: custom:multiple-entity-row
+                  icon: mdi:light-switch
+                  state_color: true
+                  name: Выключатель кровать
+                  secondary_info: last-changed
+                  state_header: Батарейка
+                  entities:
+                  - attribute: linkquality
+                    name: Сигнал
+                - type: divider
+                - entity: sensor.0x00158d00013f82b7_battery
+                  type: custom:multiple-entity-row
+                  icon: mdi:gesture-tap-button
+                  state_color: true
+                  name: Кнопка на принтере
+                  secondary_info: last-changed
+                  state_header: Батарейка
+                  entities:
+                  - attribute: linkquality
+                    name: Сигнал
+                - type: divider
+                - entity: sensor.0x00158d0001a672ef_battery
+                  type: custom:multiple-entity-row
+                  icon: mdi:gesture-tap-button
+                  state_color: true
+                  name: Квадратная кнопка на столе
+                  secondary_info: last-changed
+                  state_header: Батарейка
+                  entities:
+                  - attribute: linkquality
+                    name: Сигнал
+                - type: divider
+                
         - type: custom:stack-in-card
           mode: vertical
           cards: 
@@ -354,65 +399,4 @@ cards:
                   - attribute: linkquality
                     name: Сигнал
 
-        - type: markdown
-          style: |
-              ha-card {
-                font-size: 26px;
-              }          
-          content: >
-             **Устройства**
-        - type: custom:stack-in-card
-          mode: vertical
-          cards: 
 
-            - type: markdown
-              content: >
-                 **Комната**
-             
-            - type: entities
-              show_header_toggle: false
-              entities:
-                - entity: sensor.0x00158d000163e571_battery
-                  type: custom:multiple-entity-row
-                  icon: mdi:light-switch
-                  state_color: true
-                  name: Выключатель вход
-                  secondary_info: last-changed
-                  state_header: Батарейка
-                  entities:
-                  - attribute: linkquality
-                    name: Сигнал
-                - type: divider
-                - entity: sensor.0x00158d0003d50723_battery
-                  type: custom:multiple-entity-row
-                  icon: mdi:light-switch
-                  state_color: true
-                  name: Выключатель кровать
-                  secondary_info: last-changed
-                  state_header: Батарейка
-                  entities:
-                  - attribute: linkquality
-                    name: Сигнал
-                - type: divider
-                - entity: sensor.0x00158d00013f82b7_battery
-                  type: custom:multiple-entity-row
-                  icon: mdi:gesture-tap-button
-                  state_color: true
-                  name: Кнопка на принтере
-                  secondary_info: last-changed
-                  state_header: Батарейка
-                  entities:
-                  - attribute: linkquality
-                    name: Сигнал
-                - type: divider
-                - entity: sensor.0x00158d0001a672ef_battery
-                  type: custom:multiple-entity-row
-                  icon: mdi:gesture-tap-button
-                  state_color: true
-                  name: Квадратная кнопка на столе
-                  secondary_info: last-changed
-                  state_header: Батарейка
-                  entities:
-                  - attribute: linkquality
-                    name: Сигнал
-                - type: divider

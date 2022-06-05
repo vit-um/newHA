@@ -1,0 +1,79 @@
+tt_alarm:
+
+    homeassistant:
+      customize:
+
+        binary_sensor.0x00158d0001bbeba6_water_leak:
+          friendly_name:  Туалет, протечка
+        sensor.0x00158d0001bbeba6_battery:
+          friendly_name:  Туалет, протечка
+          
+    automation:
+
+     - id: Туалет, протечка
+       alias: tt_wleak_washstand_on
+       initial_state: true
+       trigger:       
+        platform: state
+        entity_id: binary_sensor.0x00158d0001bbeba6_water_leak
+        to: 'on'
+       condition:
+       - condition: state
+         entity_id: switch.control_mode
+         state: 'on' 
+       action:
+         - service: telegram_bot.send_message
+           data_template:
+             target:
+                 - !secret chat_id_group
+             message: | 
+                  {{"\U0001F6C0"}} Обнаружена протечка - Туалет, раковина {{ states('sensor.time_date') }}
+         - service: xiaomi_aqara.play_ringtone
+           data:
+            gw_mac: 34:CE:00:88:B0:39
+            ringtone_id: 5004
+            ringtone_vol: 50
+         - service: light.turn_on
+           entity_id: 
+              - light.lr_ceiling_light_1_ambilight
+              - light.lr_ceiling_light_2_ambilight
+           data_template:
+             brightness_pct: 100
+             rgb_color: [255, 0, 0]
+           
+     - id: Туалет, протечка устранена
+       alias: tt_wleak_washstand_off
+       initial_state: true
+       trigger:       
+        platform: state
+        entity_id: binary_sensor.0x00158d0001bbeba6_water_leak
+        from: 'on'
+        to: 'off'
+       condition:
+       - condition: state
+         entity_id: switch.control_mode
+         state: 'on' 
+       action:
+         - service: telegram_bot.send_message
+           data_template:
+             target:
+                 - !secret chat_id_group
+             message: | 
+                  {{"\U00002600"}} Протечка устранена - Туалет, раковина {{ states('sensor.time_date') }} 
+         - service: xiaomi_aqara.play_ringtone
+           data:
+            gw_mac: 34:CE:00:88:B0:39
+            ringtone_id: 5005
+            ringtone_vol: 50
+         - service: light.turn_on
+           entity_id: 
+              - light.lr_ceiling_light_1_ambilight
+              - light.lr_ceiling_light_2_ambilight
+           data_template:
+             brightness_pct: 100
+             rgb_color: [0, 255, 0]
+         - delay: 00:00:10
+         - service: light.turn_off
+           entity_id: 
+              - light.lr_ceiling_light_1_ambilight
+              - light.lr_ceiling_light_2_ambilight

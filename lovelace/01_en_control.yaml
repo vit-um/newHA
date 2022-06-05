@@ -116,7 +116,24 @@ cards:
                 - type: light
                   entity: light.0x00158d0003e74c31
                   name: Лампочка на входе
-                  
+
+        - type: custom:stack-in-card
+          mode: vertical
+          cards:
+            - type: glance
+              show_state: true
+              show_name: false
+              state_color: true
+              entities:
+              - entity: binary_sensor.en_light_day
+                name: День
+              - entity: binary_sensor.en_light_night
+                name: Ночь
+              - entity: binary_sensor.en_door_open
+                name: Вход
+              - entity: binary_sensor.en_light_off_3min
+                name: 3 мин
+
         - type: custom:stack-in-card
           mode: vertical
           cards:
@@ -202,7 +219,7 @@ cards:
                 font-size: 26px;
               }          
           content: >
-             **Датчики**
+             **Беспроводные устройства**
              
         - type: entities
           show_header_toggle: false
@@ -250,18 +267,7 @@ cards:
               entities:
               - attribute: linkquality
                 name: Сигнал
-
-        - type: markdown
-          style: |
-              ha-card {
-                font-size: 26px;
-              }          
-          content: >
-             **Устройства**
-             
-        - type: entities
-          show_header_toggle: false
-          entities:
+            - type: divider
             - entity: sensor.0x00158d00010b1963_battery
               type: custom:multiple-entity-row
               icon: mdi:gesture-tap-button

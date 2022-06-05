@@ -1,0 +1,58 @@
+ln_washmashine:
+
+    recorder:
+      include:
+        entities:
+           - sensor.0x842e14fffe51c5ae_power
+
+    homeassistant:
+      customize:
+        
+        switch.0x842e14fffe51c5ae:
+          friendly_name: Прачечная, стиральная машина
+          device_class: plug  
+          icon: mdi:power-socket-eu
+        sensor.0x842e14fffe51c5ae_power:
+          friendly_name: Прачечная, стиральная машина
+          icon: mdi:flash
+          unit_of_measurement: 'Вт'
+        sensor.0x842e14fffe51c5ae_energy:
+          friendly_name: Прачечная, стиральная машина
+          icon_template: mdi:gauge
+          unit_of_measurement: 'КВт*ч'
+          
+    template:
+    
+      - binary_sensor:
+
+          - name: ln_washing
+            state: >
+              {{ states('sensor.0x842e14fffe51c5ae_power')|int > 6
+              }}
+            delay_on: 
+                minutes: 2
+            delay_off: 
+                minutes: 2
+            device_class: running
+            
+    automation:
+
+     - id: Завершение стирки
+       alias: ln_washing_end
+       initial_state: true
+       trigger:       
+        platform: state
+        entity_id: binary_sensor.ln_washing
+        from: 'on'
+        to: 'off'
+       condition:
+       - condition: state
+         entity_id: switch.control_mode
+         state: 'on' 
+       action:
+         - service: telegram_bot.send_message
+           data_template:
+             target:
+                 - !secret chat_id_group
+             message: | 
+                  {{"\U0001F9D9"}} Стирка завершена, не забудь развесить барахлишко {{ states('sensor.time_date') }}

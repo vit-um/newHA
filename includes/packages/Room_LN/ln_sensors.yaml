@@ -1,0 +1,19 @@
+ln_sensors:
+
+    recorder:
+      include:
+        entities:
+           - sensor.0xec1bbdfffe8d6ac9_temperature
+           - sensor.0xec1bbdfffe8d6ac9_humidity
+
+    homeassistant:
+      customize:
+
+        sensor.0xec1bbdfffe8d6ac9_humidity:
+          friendly_name:  Прачечная, влажность
+          icon: mdi:water-percent
+        sensor.0xec1bbdfffe8d6ac9_temperature:
+          friendly_name:  Прачечная, температура
+          icon: mdi:temperature-celsius
+        sensor.0xec1bbdfffe8d6ac9_battery:
+          friendly_name:  Прачечная, климат

@@ -21,10 +21,33 @@ entity_reboot:
               entry_id: a1c373199136cdab9f076e7e7a76b574
             target:
               entity_id: camera.xiaofang
-        #   - service: telegram_bot.send_message
-        #     data_template:
-        #       target:
-        #           - !secret chat_id_group_tech
-        #       message: | 
-        #           {{"\U0001F4AC"}} Выполнен перезапуск камеры Xiaofang
+        #   - service: homeassistant.reload_config_entry
+        #     data:
+        #       entry_id: d44a993a9c9717d4978cc239f165c0da
+        #     target:
+        #       entity_id: camera.reolink_410
                    
+
+
+      - id: Перезагрузка шлюза Xiaomi Гостиная
+        alias: reload_xiaomi_gateway_lr
+        initial_state: true
+        trigger:
+    ## Виртуальная кнопка
+        - platform: state
+          entity_id: input_button.lr_gateway_reload
+        action:  
+          - service: homeassistant.reload_config_entry
+            data:
+              entry_id: 8df1ddd14ac8a56d9f27c34a147d1bb7
+            target:
+              entity_id: light.gateway_light_34ce0088b039
+             
+
+          
+          
+          
+          
+          
+          
+          

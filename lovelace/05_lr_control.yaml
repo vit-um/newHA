@@ -106,17 +106,24 @@ cards:
                     service_data:
                       entity_id: input_button.lr_light_cinema
                 - type: entity-button
-                  entity: input_button.youtube
-                  name: Youtube
+                  entity: input_button.lr_gateway_reload
+                  name: Перезагрузка шлюза
                   tap_action:
                     action: call-service
                     service: input_button.press
                     service_data:
-                      entity_id: input_button.youtube
+                      entity_id: input_button.lr_gateway_reload
 
         - type: custom:stack-in-card
           mode: vertical
           cards:
+
+            - type: entities
+              show_header_toggle: false
+              entities:
+                - entity: input_boolean.lr_silent_mode
+                  secondary_info: last-changed
+                  state_color: true
 
             - type: markdown
               content: >
@@ -128,6 +135,10 @@ cards:
                 - entity: switch.0x00158d00015723f1_right
                   state_color: true
                 - entity: switch.0x842e14fffee5451a
+                  state_color: true
+                - entity: switch.lr_usb_socket
+                  state_color: true
+                - entity: switch.lr_usb_socket_usb
                   state_color: true
                 - entity: switch.0xa4c1384452a34172
                   type: custom:multiple-entity-row
@@ -220,9 +231,47 @@ cards:
                 name: Окно 1
               - entity: binary_sensor.0xec1bbdfffedf6a6a_contact
                 name: Окно 2
+
+
+        - type: custom:stack-in-card
+          mode: vertical
+          cards: 
+
+            - type: markdown
+              content: >
+                 **Балкон**
+
+            - type: glance
+              show_state: true
+              show_name: true
+              state_color: true
+              entities:
               - entity: binary_sensor.0x00158d000445206b_contact
                 name: Дверь балкон
-
+              - entity: binary_sensor.0x00158d000449b773_occupancy
+                name: Движение
+              - entity: sensor.0x00158d000449b773_illuminance_lux
+                name: Освещенность
+              - entity: sensor.0xec1bbdfffe4534c0_temperature
+                name: Температура
+              - entity: sensor.0xec1bbdfffe4534c0_humidity
+                name: Влажность
+            - type: markdown
+              content: >
+                 **Улица**
+            - type: glance
+              show_state: true
+              show_name: true
+              state_color: true
+              entities:
+              - entity: binary_sensor.0x00158d0001a2f5f7_contact
+                name: Окно балкон
+              - entity: sensor.0x00158d0001a4b9da_temperature
+                name: Температура
+              - entity: sensor.0x00158d0001a4b9da_humidity
+                name: Влажность
+              - entity: sensor.0x00158d0001a4b9da_mmhg_pressure
+                name: Давление
                 
         - type: picture-entity
           entity: camera.reolink_e1_pro
@@ -233,25 +282,7 @@ cards:
         # - type: 'custom:webrtc-camera'
         #   entity: camera.reolink_e1_pro
           
-        - type: 'custom:vacuum-card'
-          entity: vacuum.xa1_cloud_864771
-          actions:
-            start:
-              service: vacuum.start
-              service_data:
-                entity_id: vacuum.xa1_cloud_864771
-                segments: [16, 20]
-          stats:
-            default:
-              - attribute: vacuum_working_time
-                unit: сек
-                subtitle: Время работы
-              - attribute: filter_filter_left_time
-                unit: часов
-                subtitle: Фильтр
-              - attribute: filter_filter_life_level
-                unit: "%"
-                subtitle: Фильтр
+
                 
 ############################ Колонка 3 ############################
 
@@ -277,3 +308,31 @@ cards:
         - type: media-control
           entity: media_player.mi_speaker
           name: Колонка на столе
+
+        - type: markdown
+          style: |
+              ha-card {
+                font-size: 26px;
+              }   
+          content: >
+              **Робот пылесос** 
+          
+        - type: 'custom:vacuum-card'
+          entity: vacuum.xa1_cloud_864771
+          actions:
+            start:
+              service: vacuum.start
+              service_data:
+                entity_id: vacuum.xa1_cloud_864771
+                segments: [16, 20]
+          stats:
+            default:
+              - attribute: vacuum_working_time
+                unit: сек
+                subtitle: Время работы
+              - attribute: filter_filter_left_time
+                unit: часов
+                subtitle: Фильтр
+              - attribute: filter_filter_life_level
+                unit: "%"
+                subtitle: Фильтр

@@ -31,6 +31,13 @@ kn_tv_control:
               mdi:television-off
               {% endif %}
               
+          - name: kn_tv_box_off
+            state: >
+              {{ is_state('binary_sensor.kn_tv_work', 'on')  
+                 and is_state('media_player.kn_mi_box', 'unavailable')
+              }}
+
+              
     automation:
     
       - id: Кухня управление ТВ
@@ -78,7 +85,35 @@ kn_tv_control:
                     target:
                       entity_id: media_player.kn_mi_box 
                       
-                      
-                      
-                      
-                      
+      - id: Кухня необходимо включить ТВ box
+        alias: kn_tv_box_offline
+        initial_state: true
+        trigger:
+        - platform: state
+          entity_id: binary_sensor.kn_tv_box_off
+        condition:
+        - condition: state
+          entity_id: switch.control_mode
+          state: 'on'
+        action:
+            - choose:
+    # Включение подсветки если ТВ включен, а ТВ бокс выключен в дневное время - проверка сенсора time of day
+              - conditions:
+                  - condition: state
+                    entity_id: binary_sensor.kn_tv_box_off
+                    state: 'on'
+                sequence:
+                  - service: light.turn_on
+                    entity_id: light.gateway_light_7811dc64f4c8
+                    data_template:
+                      brightness_pct: 70
+                      rgb_color: [0, 100, 255]
+    # Включение люстры в ночное время - проверка сенсора time of day
+              - conditions:
+                  - condition: state
+                    entity_id: binary_sensor.kn_tv_box_off
+                    state: 'off'
+                sequence:
+                  - service: light.turn_off
+                    entity_id: light.gateway_light_7811dc64f4c8
+     

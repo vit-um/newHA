@@ -27,8 +27,6 @@ cards:
               entities:
               - entity: binary_sensor.lr_radiator
                 name: Отопление
-            #   - entity: binary_sensor.lr_humidifier
-            #     name: Увлажнение
               - entity: binary_sensor.lr_notification_time
                 name: Уведомления
               - entity: binary_sensor.lr_aeration
@@ -259,4 +257,61 @@ cards:
                     format: relative
                     name: Отклик
 
+
 ############################ Колонка 3 ############################
+
+    - type: vertical-stack
+      cards:
+
+        - type: markdown
+          style: |
+              ha-card {
+                font-size: 26px;
+              }          
+          content: >
+             **Увлажнение**
+
+        - type: custom:stack-in-card
+          mode: vertical
+          cards:
+
+            - type: entities
+              show_header_toggle: false
+              entities:
+              - entity: switch.lr_humidifier_mode
+                state_color: true
+              - entity: sensor.lr_hydration_mode
+                name: Режим работы
+                icon: mdi:air-humidifier
+              - entity: humidifier.lr_humidifier
+                type: custom:multiple-entity-row
+                toggle: true
+                name: Увлажнитель
+                secondary_info: last-changed
+                state_header: Статус
+                entities:
+                  - attribute: mode
+                    name: Режим
+                  - entity: sensor.lr_humidifier_water_level
+                    name: Уровень воды
+                  - entity: sensor.lr_humidifier_motor_speed
+                    name: Обороты
+
+            - type: markdown
+              content: >
+                 **Уровень влажности**
+
+            - type: entities
+              show_header_toggle: false
+              state_color: true
+              entities:
+              - entity: input_number.humidity_level_lr
+              
+            - type: entity-button
+              entity: input_button.lr_humidifier
+              name: Перезагрузка увлажнителя
+              tap_action:
+                action: call-service
+                service: input_button.press
+                service_data:
+                  entity_id: input_button.lr_humidifier

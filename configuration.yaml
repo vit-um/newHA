@@ -37,6 +37,7 @@ system_health:
 # Stream from camera
 stream:
 history:
+
 # Медиа контент
 media_source:
 
@@ -100,5 +101,7 @@ telegram_bot:
     allowed_chat_ids:
       - !secret chat_id_alex
       - !secret chat_id_olha
+      - !secret chat_id_dima
+      - !secret chat_id_user
       - !secret chat_id_group
       - !secret chat_id_group_tech

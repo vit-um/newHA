@@ -1,0 +1,113 @@
+ln_light:
+
+    homeassistant:
+      customize:
+
+        light.0x00158d00014a1a55:
+          friendly_name: Прачечная свет
+          icon: mdi:ceiling-light
+
+        sensor.0x00158d00014a1a55_action:
+          friendly_name: Прачечная выключатель на стене
+
+        binary_sensor.0x00158d0001e16204_occupancy:
+          friendly_name: Прачечная, движение
+        sensor.0x00158d0001e16204_battery:
+          friendly_name: Прачечная, движение
+
+        binary_sensor.ln_occupancy:
+          friendly_name: Прачечная, присутствие
+
+    template:
+    
+      - trigger:
+    # Виртуальная кнопка
+        - platform: state
+          entity_id: input_button.ln_light
+    # Выключатель на входе
+        - platform: state
+          entity_id: sensor.0x00158d00014a1a55_action
+          to: 'single'
+        binary_sensor:
+          - name: ln_manual_light
+            auto_off: 300
+            state: "true"
+
+      - binary_sensor:
+
+          - name: ln_occupancy
+            state: >
+              {{ is_state('binary_sensor.ln_manual_light', 'on')  
+                 or is_state('binary_sensor.0x00158d0001e16204_occupancy', 'on')
+              }}
+            device_class: presence
+
+    
+    automation:
+
+      - id: Прачечная, включение света
+        alias: ln_light_on
+        initial_state: true
+        trigger:
+    # Виртуальная кнопка
+        - platform: state
+          entity_id: input_button.ln_light
+    # Датчик движения
+        - platform: state
+          entity_id: binary_sensor.0x00158d0001e16204_occupancy
+          to: 'on'
+        condition:
+        - condition: state
+          entity_id: switch.control_mode
+          state: 'on'
+        - condition: state
+          entity_id: light.0x00158d00014a1a55
+          state: 'off'
+        action:
+        - service: light.turn_on
+          entity_id: light.0x00158d00014a1a55
+
+      - id: Прачечная, выключение света
+        alias: ln_light_off
+        initial_state: true
+        trigger:
+    # Виртуальная кнопка
+        - platform: state
+          entity_id: input_button.ln_light
+    # Датчик движения
+        - platform: state
+          entity_id: binary_sensor.ln_occupancy
+          to: 'off'
+        condition:
+        - condition: state
+          entity_id: switch.control_mode
+          state: 'on'
+        - condition: state
+          entity_id: light.0x00158d00014a1a55
+          state: 'on'
+        action:
+        - service: light.turn_off
+          entity_id: light.0x00158d00014a1a55
+          
+      - id: Прачечная, контроль включения света
+        alias: ln_light_control
+        initial_state: true
+        trigger:
+    # Отслеживание включения светильника
+        - platform: state
+          entity_id: light.0x00158d00014a1a55
+          to: 'on'
+        condition:
+    # Переключатель режима работы сервера
+        - condition: state
+          entity_id: switch.control_mode
+          state: 'on'
+    # Сенсор присутствия выключен
+        - condition: state
+          entity_id: binary_sensor.ln_occupancy
+          state: 'off'
+        action:
+    # Выключение люстры
+        - service: light.turn_off
+          entity_id: light.0x00158d00014a1a55
+

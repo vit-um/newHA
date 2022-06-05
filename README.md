@@ -1,7 +1,39 @@
+### 2022 06 05 Итерация 28
+
+:point_up: Большое обновление, наконец перенесены все устройства и все автоматизации, старые сервера отключены.
+
+#### Конфигурация    
+:arrow_right: [configuration.yaml](https://github.com/kvazis/newHA/blob/master/configuration.yaml) - добавлен дополнительные адресат в Телеграмм
+
+#### Пакаджи    
+:arrow_right: [alarm.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/alarm.yaml) - добавлен еще один светильник к индикации    
+:arrow_right: [entity_reboot.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/entity_reboot.yaml) - добавлена тестовая автоматизация для перезагрузки шлюза Mi    
+:arrow_right: [dd_sensors.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_DD/dd_sensors.yaml) - добавлены описания сущностей    
+:arrow_right: [dd_telegram_control.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_DD/dd_telegram_control.yaml) - отдельное меню управления комнатой в телеграмм, подробнее в уроке [Управление через Telegram, текстовые диалоги, права пользователей](https://youtu.be/gksZK58ZLDQ)    
+:arrow_right: [dd_telegram_wled.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_DD/dd_telegram_wled.yaml) - управление адресной лентой через телеграмм подробнее в уроке [Управляем адресным светильником WLED через меню в Telegram](https://youtu.be/KqjjBY3QaCg)    
+:arrow_right: [en_light.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_EN/en_light.yaml) - управление лампочкой в прихожей    
+:arrow_right: [kn_light.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_KN/kn_light.yaml) - незначительные изменения, добавлен еще один триггер    
+:arrow_right: [kn_sensors.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_KN/kn_sensors.yaml) - добавлены описания сущностей    
+:arrow_right: [kn_tv_control.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_KN/kn_sensors.yaml) - добавлена контрольная автоматизация следящая за включением ТВ     
+:arrow_right: [ln_alarm.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_LN/ln_alarm.yaml) - тревога по срабатыванию датчика протечки в прачечной    
+:arrow_right: [ln_light.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_LN/ln_light.yaml) - управление светом в прачечной    
+:arrow_right: [ln_sensors.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_LN/ln_sensors.yaml) - добавлены описания сущностей    
+:arrow_right: [ln_washmashine.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_LN/ln_washmashine.yaml) - Напоминание в телеграмм о завершении стирки    
+:arrow_right: [lr_fan_router.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_LR/lr_fan_router.yaml) - управление охлаждающей подставкой для роутера    
+:arrow_right: [lr_sensors.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_LR/lr_sensors.yaml) - добавлены описания сущностей    
+:arrow_right: [lr_telegram_wled.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_LR/lr_telegram_wled.yaml) - управление адресным светильником через телеграмм подробнее в уроке [Управляем адресным светильником WLED через меню в Telegram](https://youtu.be/KqjjBY3QaCg)    
+:arrow_right: [tt_alarm.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_TT/tt_alarm.yaml) - тревога по срабатыванию датчика протечки в туалете    
+:arrow_right: [tt_sensor.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_TT/tt_sensor.yaml) - добавлены описания сущностей    
+:arrow_right: [tt_light.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_TT/tt_light.yaml) - управление светом в туалете    
+
+#### Интерфейс, в режиме yaml    
+:arrow_right: [ui-lovelace.yaml](https://github.com/kvazis/newHA/blob/master/ui-lovelace.yaml) - добавлена объединл страницы для туалета и прачечной     
+#### Много изменений связанный с приведением страниц в единый формат тображения данных     
+____
 ### 2022 05 25 Итерация 27
 
 #### Пакаджи    
-:arrow_right: [telegram_control.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/telegram_control.yaml) - интерфейс управления через телеграм, подробнее в  [Уроке Home Assistant - Управление умным домом через Telegram из любой точки мира](https://youtu.be/tPYXpQwDLYc)    
+:arrow_right: [telegram_control.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Telegram/telegram_control.yaml) - интерфейс управления через телеграм, подробнее в  [Уроке Home Assistant - Управление умным домом через Telegram из любой точки мира](https://youtu.be/tPYXpQwDLYc)    
 :arrow_right: [kn_light.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_KN/kn_light.yaml) - добавлена автоматизация, которая включает основное освещение, если в кухне кто-то есть более 15 минут    
 
 ```yaml
