@@ -13,8 +13,13 @@
 :arrow_right: [lr_light_cinema](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_LR/lr_light_cinema.yaml) - подсветка для кино, переписана через [виртуальный светильник](https://youtu.be/hmimb2mvMMc)    
 :arrow_right: [tt_light.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_TT/tt_light.yaml) - добавлены условия для параметров автовыключения в зависимости от времени суток....
 
+
+#### Интерфейс, в режиме yaml    
+:arrow_right: [ui-lovelace.yaml](https://github.com/kvazis/newHA/blob/master/ui-lovelace.yaml) - добавлена тестовая страница     
+:arrow_right: [test.yaml](https://github.com/kvazis/newHA/blob/master/lovelace/test.yaml) - страница для экспериментов    
+
 Интерфейс Home Habit на планшете    
-![screenshot](https://raw.githubusercontent.com/kvazis/newHA/master/img/0017.jpg)
+![screenshot](https://raw.githubusercontent.com/kvazis/newHA/master/img/0017.png)
 ____
 ### 2022 06 05 Итерация 28
 
@@ -45,7 +50,7 @@ ____
 :arrow_right: [tt_light.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_TT/tt_light.yaml) - управление светом в туалете    
 
 #### Интерфейс, в режиме yaml    
-:arrow_right: [ui-lovelace.yaml](https://github.com/kvazis/newHA/blob/master/ui-lovelace.yaml) - добавлена объединл страницы для туалета и прачечной     
+:arrow_right: [ui-lovelace.yaml](https://github.com/kvazis/newHA/blob/master/ui-lovelace.yaml) - добавлена объединенная страницы для туалета и прачечной     
 #### Много изменений связанный с приведением страниц в единый формат тображения данных     
 ____
 ### 2022 05 25 Итерация 27
