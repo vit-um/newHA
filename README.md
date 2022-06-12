@@ -1,3 +1,21 @@
+### 2022 06 12 Итерация 29    
+
+:point_up: Перед запуском зеркала - экспериментирую и оптимизирую пакаджи. 
+
+#### Пакаджи    
+:arrow_right: [ip_camera.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/ip_camera.yaml) - вывел еще одну камеру reolink в rtsp (параллельно с интеграцией Reolink) для отображение в интерфейсе [Home Habit](https://youtu.be/pQM16hcdcJs)
+:arrow_right: [cr_light.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_CR/cr_light.yaml) - добавлены описания сущностей    
+:arrow_right: [da_sensors.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_DA/da_sensors.yaml) - добавлены описания сущностей    
+:arrow_right: [dd_light](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_DD/dd_light.yaml) - создан [виртуальный светильник](https://youtu.be/hmimb2mvMMc), для управления настольной лампой     
+:arrow_right: [en_light.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_EN/en_light.yaml) - добавлена проверка доступности лампочкой    
+:arrow_right: [kn_light.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_KN/kn_light.yaml) - для вывода в интерфейс, создан [виртуальный светильник](https://youtu.be/hmimb2mvMMc)    
+:arrow_right: [lr_light.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_LR/lr_light.yaml) - для вывода в интерфейс, созданы [виртуальные светильники](https://youtu.be/hmimb2mvMMc)    
+:arrow_right: [lr_light_cinema](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_LR/lr_light_cinema.yaml) - подсветка для кино, переписана через [виртуальный светильник](https://youtu.be/hmimb2mvMMc)    
+:arrow_right: [tt_light.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_TT/tt_light.yaml) - добавлены условия для параметров автовыключения в зависимости от времени суток....
+
+Интерфейс Home Habit на планшете    
+![screenshot](https://raw.githubusercontent.com/kvazis/newHA/master/img/0017.jpg)
+____
 ### 2022 06 05 Итерация 28
 
 :point_up: Большое обновление, наконец перенесены все устройства и все автоматизации, старые сервера отключены.

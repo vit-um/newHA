@@ -26,20 +26,20 @@ cards:
             - type: horizontal-stack
               cards:        
                 - type: light
-                  entity: light.kn_ceiling_light
+                  entity: light.kn_ceiling_virtual_light
                   name: Люстра
                 - type: light
                   entity: light.gateway_light_7811dc64f4c8
                   name: Ночник
 
-                - type: entity-button
-                  entity: input_button.kn_ceiling_light
-                  name: Включение света
-                  tap_action:
-                    action: call-service
-                    service: input_button.press
-                    service_data:
-                      entity_id: input_button.kn_ceiling_light
+                # - type: entity-button
+                #   entity: input_button.kn_ceiling_light
+                #   name: Включение света
+                #   tap_action:
+                #     action: call-service
+                #     service: input_button.press
+                #     service_data:
+                #       entity_id: input_button.kn_ceiling_light
 
             - type: glance
               show_state: true

@@ -238,7 +238,8 @@ cards:
                    state: 'unavailable'
                    options:
                       secondary_info: last-changed
-
+                exclude:
+                 - entity_id: light.*virtual*
 ################# Реле #################
 
         - type: custom:stack-in-card
@@ -632,8 +633,8 @@ cards:
                         name: Яркость
                       - attribute: color_temp
                         name: Температура
-
-
+                exclude:
+                 - entity_id: light.*virtual*
 ################# Активные плееры #################
  
         - type: custom:stack-in-card

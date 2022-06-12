@@ -1,23 +1,73 @@
 lr_light_cinema:
 
-    template:
-     
-      - binary_sensor:
 
-          - name: lr_light_cinema
-            state: >
+    # Виртуальный светильник, для управления в интерфейсе
+    light:
+      - platform: template
+        lights:
+          lr_light_cinema:
+            friendly_name: "Подсветка"
+            value_template: >-
               {{ is_state('light.lr_tv_bulb', 'on')  
                  and is_state('light.lr_ceiling_light_1_ambilight', 'on')
                  and is_state('light.lr_ceiling_light_2_ambilight', 'on')
               }}
-            device_class: light
-            icon: >
-              {% if is_state("binary_sensor.lr_light_cinema", "on") %}
-              mdi:lightbulb-group
+            icon_template: >-
+              {% if is_state("light.lr_light_cinema", "on") %}
+              mdi:filmstrip-box
               {% else %}
-              mdi:lightbulb-group-off
+              mdi:filmstrip-off
               {% endif %}
-              
+            turn_on:
+              service: input_button.press
+              target:
+                entity_id: input_button.lr_light_cinema
+            turn_off:
+              service: input_button.press
+              target:
+                entity_id: input_button.lr_light_cinema
+            level_template: >-
+                {{ state_attr('light.lr_ceiling_light_1_ambilight', 'brightness') | int }}
+            set_level:
+              service: light.turn_on
+              entity_id:
+              - light.lr_ceiling_light_1_ambilight
+              - light.lr_ceiling_light_2_ambilight
+              - light.lr_tv_bulb
+              data_template:
+                brightness: "{{ brightness }}"
+            temperature_template: >-
+                {{ state_attr('light.lr_ceiling_light_1_ambilight', 'color_temp') | int }}
+            set_temperature:
+              service: light.turn_on
+              entity_id:
+              - light.lr_ceiling_light_1_ambilight
+              - light.lr_ceiling_light_2_ambilight
+              - light.lr_tv_bulb
+              data_template:
+                color_temp: "{{ color_temp }}"
+            color_template: >-
+                {{ state_attr('light.lr_ceiling_light_1_ambilight', 'hs_color') }}
+            set_color:
+              service: light.turn_on
+              entity_id:
+              - light.lr_ceiling_light_1_ambilight
+              - light.lr_ceiling_light_2_ambilight
+              - light.lr_tv_bulb
+              data_template:
+                hs_color: "[{{h}}, {{s}}]"
+            effect_list_template: "{{ state_attr('light.lr_ceiling_light_1_ambilight', 'effect_list') }}"
+            effect_template: Stop
+            set_effect:
+              service: light.turn_on
+              entity_id:
+              - light.lr_ceiling_light_1_ambilight
+              - light.lr_ceiling_light_2_ambilight
+              - light.lr_tv_bulb
+              data_template:
+                effect: "{{ effect }}"
+
+
     automation:
     
       - id: Гостиная, подсветка для ТВ
@@ -43,7 +93,7 @@ lr_light_cinema:
             - choose:
               - conditions:
                   - condition: state
-                    entity_id: binary_sensor.lr_light_cinema
+                    entity_id: light.lr_light_cinema
                     state: 'off'
                 sequence:
                   - service: light.turn_off
@@ -62,7 +112,7 @@ lr_light_cinema:
                       rgb_color: [169, 153, 255]
               - conditions:
                   - condition: state
-                    entity_id: binary_sensor.lr_light_cinema
+                    entity_id: light.lr_light_cinema
                     state: 'on'
                 sequence:
                   - service: light.turn_off

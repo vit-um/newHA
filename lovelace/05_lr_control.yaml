@@ -26,13 +26,13 @@ cards:
             - type: horizontal-stack
               cards:        
                 - type: light
-                  entity: light.lr_ceiling_light_1
+                  entity: light.lr_ceiling_virtual_light_1
                   name: Люстра 1
                 - type: light
                   entity: light.lr_ceiling_light_1_ambilight
                   name: Амби 1
                 - type: light
-                  entity: light.lr_ceiling_light_2
+                  entity: light.lr_ceiling_virtual_light_2
                   name: Люстра 2
                 - type: light
                   entity: light.lr_ceiling_light_2_ambilight
@@ -56,22 +56,6 @@ cards:
               mode: horizontal
               cards:
                 - type: entity-button
-                  entity: input_button.lr_ceiling_1
-                  name: Люстра 1
-                  tap_action:
-                    action: call-service
-                    service: input_button.press
-                    service_data:
-                      entity_id: input_button.lr_ceiling_1
-                - type: entity-button
-                  entity: input_button.lr_ceiling_2
-                  name: Люстра 2
-                  tap_action:
-                    action: call-service
-                    service: input_button.press
-                    service_data:
-                      entity_id: input_button.lr_ceiling_2
-                - type: entity-button
                   entity: light.0x00158d00015723f1_left
                   name: Свет на стене
                 - type: entity-button
@@ -82,6 +66,9 @@ cards:
                     service: input_button.press
                     service_data:
                       entity_id: input_button.lr_full_light
+                - type: entity-button
+                  entity: light.lr_light_cinema
+                  name: Подсветка для кино
 
             - type: custom:stack-in-card
               mode: horizontal
@@ -97,14 +84,14 @@ cards:
                     service: input_button.press
                     service_data:
                       entity_id: input_button.lr_tv_control
-                - type: entity-button
-                  entity: input_button.lr_light_cinema
-                  name: Подсветка для кино
-                  tap_action:
-                    action: call-service
-                    service: input_button.press
-                    service_data:
-                      entity_id: input_button.lr_light_cinema
+                 # - type: entity-button
+                #   entity: input_button.lr_light_cinema
+                #   name: Подсветка для кино
+                #   tap_action:
+                #     action: call-service
+                #     service: input_button.press
+                #     service_data:
+                #       entity_id: input_button.lr_light_cinema
                 - type: entity-button
                   entity: input_button.lr_gateway_reload
                   name: Перезагрузка шлюза

@@ -68,7 +68,9 @@ lovelace:
      type: module
    - url:  /hacsfiles/vacuum-card/vacuum-card.js
      type: module 
-
+   - url: /hacsfiles/light-entity-card/light-entity-card.js
+     type: module
+                
 logbook:
 
 remote:

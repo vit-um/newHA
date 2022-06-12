@@ -7,9 +7,9 @@ ip_camera:
         #     still_image_url: http://192.168.0.125/image.jpg
         #     stream_source: rtsp://192.168.0.125:554/unicast
             
-        #   - platform: ffmpeg
-        #     name: reolink_411
-        #     input: !secret reolink_411_rtsp
+          - platform: ffmpeg
+            name: reolink_411
+            input: !secret reolink_411_rtsp
             
         #   - platform: ffmpeg
         #     name: reolink_410

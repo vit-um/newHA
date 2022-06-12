@@ -64,7 +64,7 @@ cards:
           mode: vertical
           cards:
             - type: glance
-              show_state: true
+              show_state: false
               show_name: false
               state_color: true
               entities:
@@ -72,6 +72,15 @@ cards:
               - entity: binary_sensor.0x00158d0002a4f77e_vibration
               - entity: binary_sensor.cr_night
                 icon: mdi:moon-waxing-crescent
+              - entity: binary_sensor.cr_ceiling_unavailable
+              - entity: binary_sensor.0x00158d0003e74c31_on
+                icon: mdi:timer-10
+                
+            - type: glance
+              show_state: true
+              show_name: false
+              state_color: true
+              entities:
               - entity: sensor.0x00124b0022659c04_temperature
               - entity: sensor.0x00124b0022659c04_humidity
 

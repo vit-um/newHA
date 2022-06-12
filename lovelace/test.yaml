@@ -1,0 +1,55 @@
+##################   Управление
+title: Test
+icon: mdi:lightbulb-on
+cards:
+
+############################ Колонка 1 ############################
+
+    - type: vertical-stack
+      cards:
+
+        - type: custom:stack-in-card
+          mode: vertical
+          cards:  
+            - type: markdown
+              content: >
+                 **  **      
+            - type: custom:light-entity-card
+              entity: light.lr_light_cinema
+              shorten_cards: true
+    
+            - type: markdown
+              content: >
+                 **  **                
+            - type: custom:light-entity-card
+              entity: light.lr_tv_bulb
+              shorten_cards: true
+            - type: markdown
+              content: >
+                 **  **      
+
+
+
+    - type: vertical-stack
+      cards:
+      
+        - type: custom:stack-in-card
+          mode: vertical
+          cards:  
+            - type: markdown
+              content: >
+                 **  **                
+            - type: custom:light-entity-card
+              entity: light.lr_ceiling_light_1_ambilight
+              shorten_cards: true
+            - type: markdown
+              content: >
+                 **  **                
+            - type: custom:light-entity-card
+              entity: light.lr_ceiling_light_2_ambilight
+              shorten_cards: true
+            - type: markdown
+              content: >
+                 **  **      
+
+                            

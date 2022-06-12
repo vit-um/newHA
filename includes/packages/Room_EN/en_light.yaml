@@ -15,6 +15,21 @@ en_light:
      
       - binary_sensor:
 
+    # Сенсор определяющий недоступность лампочки
+          - name: en_light_unavailable
+            state: >
+              {{ is_state('light.0x00158d0003e74c31', 'unavailable')  
+              }}
+            delay_on: 
+                minutes: 3
+            device_class: problem
+            icon: >
+              {% if is_state("binary_sensor.en_light_unavailable", "on") %}
+              mdi:ceiling-light-outline
+              {% else %}
+              mdi:ceiling-light
+              {% endif %}
+
     # Свет без движения в прихожей днем
           - name: en_light_day
             state: >
@@ -82,6 +97,30 @@ en_light:
         before: '08:00'
 
     automation:
+    
+      - id: Прихожая, перезагрузка зависшей лампочки
+        alias: en_bulb_reboot
+        initial_state: true
+        trigger:
+    # Проверка раз в 5 минут, перезагрузка если лампочка недоступна
+        - platform: time_pattern
+          minutes: '/5'
+        condition:
+    # Сенсор определяющий недоступность люстры
+        - condition: state
+          entity_id: binary_sensor.en_light_unavailable
+          state: 'on'
+    # Переключатель режима работы сервера
+        - condition: state
+          entity_id: switch.control_mode
+          state: 'on'
+        action:
+    # Перезагрузка по питанию
+        - service: switch.turn_off
+          entity_id: switch.0x00158d00057305ac_right
+        - delay: 00:00:05
+        - service: switch.turn_on
+          entity_id: switch.0x00158d00057305ac_right
     
       - id: Прихожая, управление лампочкой
         alias: en_light_control

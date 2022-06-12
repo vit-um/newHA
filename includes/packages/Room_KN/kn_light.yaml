@@ -43,7 +43,57 @@ kn_light:
           friendly_name: Кухня, ночной режим
           icon: mdi:weather-night
 
+    # Виртуальный светильник, для управления в интерфейсе
+    light:
+      - platform: template
+        lights:
+          kn_ceiling_virtual_light:
+            friendly_name: "Кухня, виртуальная люстра"
+            value_template: >-
+              {{ is_state('light.kn_ceiling_light', 'on')  
+              }}
+            icon_template: >-
+              {% if is_state("light.kn_ceiling_virtual_light", "on") %}
+              mdi:ceiling-light
+              {% else %}
+              mdi:ceiling-light-outline
+              {% endif %}
+            turn_on:
+              service: input_boolean.turn_on
+              target:
+                entity_id: input_boolean.kn_ceiling_light
+            turn_off:
+              service: input_boolean.turn_off
+              target:
+                entity_id: input_boolean.kn_ceiling_light
+            level_template: >-
+                {{ state_attr('light.kn_ceiling_light', 'brightness') | int }}
+            set_level:
+              service: light.turn_on
+              entity_id: light.kn_ceiling_light
+              data_template:
+                brightness: "{{ brightness }}"
+            temperature_template: >-
+                {{ state_attr('light.kn_ceiling_light', 'color_temp') | int }}
+            set_temperature:
+              service: light.turn_on
+              entity_id: light.kn_ceiling_light
+              data_template:
+                color_temp: "{{ color_temp }}"
+
     template:
+
+    # Сенсор работающий 30 секунд после выключения люстры
+      - trigger:
+    # Выключение люстры
+        - platform: state
+          entity_id: light.kn_ceiling_light
+          from: 'on'
+          to: 'off'
+        binary_sensor:
+          - name: kn_ceiling_off
+            auto_off: 30
+            state: "true"
 
       - binary_sensor:
 
@@ -257,6 +307,10 @@ kn_light:
         - condition: state
           entity_id: input_boolean.kn_ceiling_light
           state: 'off'
+    # Люстра выключена более 30 секунд назад
+        - condition: state
+          entity_id: binary_sensor.kn_ceiling_off
+          state: 'off'          
     # Уровень освещенности нниже 100
         - condition: numeric_state
           entity_id: sensor.0x04cf8cdf3c772379_illuminance_lux
@@ -326,7 +380,7 @@ kn_light:
     # 6 клавишник на входе
         - platform: state
           entity_id: sensor.0x04cf8cdf3c794209_action
-          to: 'button_1_double'
+          to: 'button_2_single'
         condition:
     # Переключатель режима работы сервера
         - condition: state

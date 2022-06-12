@@ -14,3 +14,4 @@ views:
   - !include lovelace/07_dd_control.yaml
   - !include lovelace/08_da_climate.yaml
   - !include lovelace/08_da_control.yaml
+  - !include lovelace/test.yaml

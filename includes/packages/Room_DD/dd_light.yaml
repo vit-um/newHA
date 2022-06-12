@@ -14,10 +14,6 @@ dd_light:
         light.dd_wled_light:
           friendly_name: Детская Д, адресная лента
           icon: mdi:led-strip-variant
-          
-        light.dd_table_lamp:
-          friendly_name: Детская Д, настольная лампа
-          icon: mdi:desk-lamp
 
         sensor.0x00158d000163e571_action:
           friendly_name: Детская Д, выключатель на входе
@@ -34,13 +30,14 @@ dd_light:
         sensor.0x00158d0001a672ef_battery:
           friendly_name: Детская Д, кнопка на столе
 
-    switch:
 
+    light:
       - platform: template
-        switches:
+        lights:
           dd_table_lamp:
-            friendly_name: "Детская Д, питание настольной лампы"
+            friendly_name: "Детская Д, настольная лампа"
             value_template: "{{ states('sensor.0x00158d00030a6e78_power') | float > 5 }}"
+            icon_template: mdi:desk-lamp
             turn_on:
               service: switch.turn_on
               data:
@@ -49,14 +46,6 @@ dd_light:
               service: switch.turn_off
               data:
                 entity_id: switch.0x00158d00030a6e78
-                
-    light:
-
-########## Перевод сущности switch в light - для удобства и единообразия управления ########## 
-
-      - platform: switch
-        name: dd_table_lamp
-        entity_id: switch.dd_table_lamp
 
     automation:
 

@@ -63,6 +63,78 @@ lr_light:
         sensor.0xccccccfffe8abc14_battery:
           friendly_name: Гостиная, пульт IKEA
 
+    # Виртуальные светильники, для управления в интерфейсе
+    light:
+      - platform: template
+        lights:
+          lr_ceiling_virtual_light_1:
+            friendly_name: "Гостиная, виртуальная люстра 1"
+            value_template: >-
+              {{ is_state('light.lr_ceiling_light_1', 'on')  
+              }}
+            icon_template: >-
+              {% if is_state("light.lr_ceiling_virtual_light_1", "on") %}
+              mdi:ceiling-light
+              {% else %}
+              mdi:ceiling-light-outline
+              {% endif %}
+            turn_on:
+              service: input_button.press
+              target:
+                entity_id: input_button.lr_ceiling_1
+            turn_off:
+              service: input_button.press
+              target:
+                entity_id: input_button.lr_ceiling_1
+            level_template: >-
+                {{ state_attr('light.lr_ceiling_light_1', 'brightness') | int }}
+            set_level:
+              service: light.turn_on
+              entity_id: light.lr_ceiling_light_1
+              data_template:
+                brightness: "{{ brightness }}"
+            temperature_template: >-
+                {{ state_attr('light.lr_ceiling_light_1', 'color_temp') | int }}
+            set_temperature:
+              service: light.turn_on
+              entity_id: light.lr_ceiling_light_1
+              data_template:
+                color_temp: "{{ color_temp }}"
+
+          lr_ceiling_virtual_light_2:
+            friendly_name: "Гостиная, виртуальная люстра 2"
+            value_template: >-
+              {{ is_state('light.lr_ceiling_light_2', 'on')  
+              }}
+            icon_template: >-
+              {% if is_state("light.lr_ceiling_virtual_light_2", "on") %}
+              mdi:ceiling-light
+              {% else %}
+              mdi:ceiling-light-outline
+              {% endif %}
+            turn_on:
+              service: input_button.press
+              target:
+                entity_id: input_button.lr_ceiling_2
+            turn_off:
+              service: input_button.press
+              target:
+                entity_id: input_button.lr_ceiling_2
+            level_template: >-
+                {{ state_attr('light.lr_ceiling_light_2', 'brightness') | int }}
+            set_level:
+              service: light.turn_on
+              entity_id: light.lr_ceiling_light_2
+              data_template:
+                brightness: "{{ brightness }}"
+            temperature_template: >-
+                {{ state_attr('light.lr_ceiling_light_2', 'color_temp') | int }}
+            set_temperature:
+              service: light.turn_on
+              entity_id: light.lr_ceiling_light_2
+              data_template:
+                color_temp: "{{ color_temp }}"
+
     template:
     
       - trigger:

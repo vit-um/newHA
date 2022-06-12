@@ -120,23 +120,6 @@ cards:
         - type: custom:stack-in-card
           mode: vertical
           cards:
-            - type: glance
-              show_state: true
-              show_name: false
-              state_color: true
-              entities:
-              - entity: binary_sensor.en_light_day
-                name: День
-              - entity: binary_sensor.en_light_night
-                name: Ночь
-              - entity: binary_sensor.en_door_open
-                name: Вход
-              - entity: binary_sensor.en_light_off_3min
-                name: 3 мин
-
-        - type: custom:stack-in-card
-          mode: vertical
-          cards:
 
             - type: markdown
               content: >
@@ -164,21 +147,37 @@ cards:
         - type: custom:stack-in-card
           mode: vertical
           cards:
+
             - type: glance
-              show_state: true
+              show_state: false
               show_name: false
               state_color: true
               entities:
-              - entity: binary_sensor.0x00158d000149d28b_smoke
+              - entity: binary_sensor.en_light_day
+                icon: mdi:white-balance-sunny
+              - entity: binary_sensor.en_light_night
+                icon: mdi:moon-waxing-crescent
+              - entity: binary_sensor.en_door_open
+                icon: mdi:outdoor-lamp
+              - entity: binary_sensor.en_light_off_3min
+                icon: mdi:timer
+
+            - type: glance
+              show_state: false
+              show_name: false
+              state_color: true
+              entities:
               - entity: binary_sensor.0x00158d00013f7894_occupancy
               - entity: binary_sensor.0x00158d000119378d_contact
               - entity: binary_sensor.enter_camera_snapshot
+              - entity: binary_sensor.en_light_unavailable
 
             - type: glance
               show_state: true
               show_name: false
               state_color: true
               entities:
+              - entity: binary_sensor.0x00158d000149d28b_smoke
               - entity: sensor.0x54ef44100001b68d_temperature
               - entity: sensor.0x54ef44100001b68d_humidity
               - entity: sensor.0x54ef44100001b68d_voc

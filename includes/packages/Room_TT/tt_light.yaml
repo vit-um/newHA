@@ -45,14 +45,6 @@ tt_light:
               {% endif %}
 
     # Свет без движения в туалете днем
-          - name: tt_moving_without_light
-            state: >
-              {{ is_state('light.tt_ceiling_light', 'off')  
-                 and is_state('binary_sensor.0x00158d0001a24e71_occupancy', 'on')
-              }}
-            device_class: motion
-
-    # Свет без движения в туалете днем
           - name: tt_light_day
             state: >
               {{ is_state('light.tt_ceiling_light', 'on')  
@@ -96,7 +88,7 @@ tt_light:
               mdi:timer-off
               {% endif %}
               
-    # Вентиляция более 10 минут, условие дял выключения вентиляции
+    # Вентиляция более 10 минут, условие для выключения вентиляции
           - name: tt_fan_off
             state: >
               {{ is_state('fan.0x00158d00014dceb3_right', 'on')  
@@ -117,7 +109,6 @@ tt_light:
         before: '07:00'
 
     automation:
-
 
       - id: Туалет, перезагрузка зависшей люстры 
         alias: tt_ceiling_reboot
@@ -142,15 +133,65 @@ tt_light:
         - delay: 00:00:05
         - service: switch.turn_on
           entity_id: switch.0x00158d00014dceb3_left
-    
-      - id: Туалет, управление люстрой
-        alias: tt_light_control
+
+      - id: Туалет, включение люстры
+        alias: tt_light_on
         initial_state: true
         trigger:
-    # Датчик движения при выключенном свете
+    # Датчик движения 
         - platform: state
-          entity_id: binary_sensor.tt_moving_without_light
+          entity_id: binary_sensor.0x00158d0001a24e71_occupancy
           to: 'on'
+    # Выключатель на стене у входа
+        - platform: state
+          entity_id: sensor.0x00158d00014dceb3_action
+          to: 'single_left'
+    # Выключатель в туалете
+        - platform: state
+          entity_id: sensor.0x54ef441000279090_action
+          to: 'single_left'
+    # 4 клавишник на комоде
+        - platform: state
+          entity_id: sensor.0x04cf8cdf3c7942ca_action
+          to: 'button_2_single' 
+        condition:
+    # Переключатель режима работы сервера
+        - condition: state
+          entity_id: switch.control_mode
+          state: 'on'
+    # Люстра выключена
+        - condition: state
+          entity_id: light.tt_ceiling_light
+          state: 'off'
+        action:          
+            - choose:
+              - conditions:
+                  - condition: state
+                    entity_id: binary_sensor.tt_night
+                    state: 'off'
+                sequence:
+                  - service: light.turn_on
+                    entity_id:
+                      - light.tt_ceiling_light
+                    data_template:
+                      brightness_pct: 100
+                      kelvin: 4000
+              - conditions:
+                  - condition: state
+                    entity_id: binary_sensor.tt_night
+                    state: 'on'
+                sequence:
+                  - service: light.turn_on
+                    entity_id:
+                      - light.tt_ceiling_light
+                    data_template:
+                      brightness_pct: 50
+                      kelvin: 3500
+    
+      - id: Туалет, выключение люстры
+        alias: tt_light_off
+        initial_state: true
+        trigger:
     # Выключатель на стене у входа
         - platform: state
           entity_id: sensor.0x00158d00014dceb3_action
@@ -172,31 +213,18 @@ tt_light:
           entity_id: binary_sensor.tt_light_night
           to: 'on'
         condition:
+    # Переключатель режима работы сервера
         - condition: state
           entity_id: switch.control_mode
           state: 'on'
+    # Люстра включена
+        - condition: state
+          entity_id: light.tt_ceiling_light
+          state: 'on'
         action:
-            - choose:
-              - conditions:
-                  - condition: state
-                    entity_id: light.tt_ceiling_light
-                    state: 'off'
-                sequence:
-                  - service: light.turn_on
-                    entity_id:
-                      - light.tt_ceiling_light
-                    data_template:
-                      brightness_pct: 100
-                      kelvin: 4000
-              - conditions:
-                  - condition: state
-                    entity_id: light.tt_ceiling_light
-                    state: 'on'
-                sequence:
-                  - service: light.turn_off
-                    entity_id:
-                      - light.tt_ceiling_light
-                      
+        - service: light.turn_off
+          entity_id: light.tt_ceiling_light
+
     # Управление вентиляцией   
       - id: Туалет, управление вентилятором
         alias: tt_fan_control

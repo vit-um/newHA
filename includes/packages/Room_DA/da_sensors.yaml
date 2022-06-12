@@ -10,7 +10,11 @@ da_sensors:
 
     homeassistant:
       customize:
-        
+
+        binary_sensor.0x00158d00016d56f5_occupancy:
+          friendly_name: Детская А, движение
+        sensor.0x00158d00016d56f5_battery:
+          friendly_name: Детская А, движение        
         binary_sensor.0x00158d0001583c7b_contact:
           friendly_name: Детская А, окно
           device_class: window
