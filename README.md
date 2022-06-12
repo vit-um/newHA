@@ -3,7 +3,7 @@
 :point_up: Перед запуском зеркала - экспериментирую и оптимизирую пакаджи. 
 
 #### Пакаджи    
-:arrow_right: [ip_camera.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/ip_camera.yaml) - вывел еще одну камеру reolink в rtsp (параллельно с интеграцией Reolink) для отображение в интерфейсе [Home Habit](https://youtu.be/pQM16hcdcJs)
+:arrow_right: [ip_camera.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/ip_camera.yaml) - вывел еще одну камеру reolink в rtsp (параллельно с интеграцией Reolink) для отображение в интерфейсе [Home Habit](https://youtu.be/pQM16hcdcJs)    
 :arrow_right: [cr_light.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_CR/cr_light.yaml) - добавлены описания сущностей    
 :arrow_right: [da_sensors.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_DA/da_sensors.yaml) - добавлены описания сущностей    
 :arrow_right: [dd_light](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_DD/dd_light.yaml) - создан [виртуальный светильник](https://youtu.be/hmimb2mvMMc), для управления настольной лампой     
