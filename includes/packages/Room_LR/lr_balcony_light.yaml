@@ -1,0 +1,174 @@
+lr_balcony_light:
+
+    homeassistant:
+      customize:
+
+        light.smart_cw_light:
+          friendly_name: Гостиная балкон
+          icon: mdi:ceiling-light
+          
+        sensor.0x00158d00010b5aee_action:
+          friendly_name: Гостиная выключатель вход балкона
+        sensor.0x00158d00010b5aee_battery:
+          friendly_name: Гостиная выключатель на стене снаружи у входа
+          
+        sensor.0x00158d0001b86d2e_action:
+          friendly_name: Гостиная балкон кнопка
+        sensor.0x00158d0001b86d2e_battery:
+          friendly_name: Гостиная балкон кнопка
+
+        binary_sensor.0x00158d000449b773_occupancy:
+          friendly_name: Гостиная балкон движение
+        sensor.0x00158d000449b773_illuminance_lux:
+          friendly_name: Гостиная балкон освещенность
+        sensor.0x00158d000449b773_battery:
+          friendly_name: Гостиная балкон движение
+
+    input_button:
+
+      lr_balcony_light_virtual:
+        name: Гостиная балкон виртуальная люстра
+
+    input_boolean:
+    
+    # Переключатель для определения того, что свет включен вручную
+      lr_balcony_light_virtual:
+        name: Гостиная балкон ручное включение люстры
+        icon: mdi:lightbulb-off-outline
+
+    template:
+     
+      - binary_sensor:
+
+    # Движение без света
+          - name: lr_balcony_moving_in_dark
+            state: >
+              {{ is_state('light.smart_cw_light', 'off')  
+                 and is_state('binary_sensor.0x00158d000449b773_occupancy', 'on')
+                 and states('sensor.0x00158d000449b773_illuminance')|float < 100 
+              }}
+
+    # Свет без движения
+          - name: lr_balcony_light_no_move
+            state: >
+              {{ is_state('light.smart_cw_light', 'on')  
+                 and is_state('binary_sensor.0x00158d000449b773_occupancy', 'off')
+              }}
+            delay_on: 00:02:00
+            device_class: light
+          
+    # Виртуальный светильник
+    light:
+      - platform: template
+        lights:
+          lr_balcony_light_virtual:
+            friendly_name: "Гостиная балкон виртуальная люстра"
+            value_template: >-
+              {{ is_state('light.smart_cw_light', 'on')  
+              }}
+            icon_template: >-
+              {% if is_state("light.lr_balcony_light_virtual", "on") %}
+              mdi:ceiling-light
+              {% else %}
+              mdi:ceiling-light-outline
+              {% endif %}
+            turn_on:
+              service: input_button.press
+              target:
+                entity_id: input_button.lr_balcony_light_virtual
+            turn_off:
+              service: input_button.press
+              target:
+                entity_id: input_button.lr_balcony_light_virtual
+            level_template: >-
+                {{ state_attr('light.smart_cw_light', 'brightness') | int }}
+            set_level:
+              service: light.turn_on
+              entity_id: light.smart_cw_light
+              data_template:
+                brightness: "{{ brightness }}"
+            temperature_template: >-
+                {{ state_attr('light.smart_cw_light', 'color_temp') | int }}
+            set_temperature:
+              service: light.turn_on
+              entity_id: light.smart_cw_light
+              data_template:
+                color_temp: "{{ color_temp }}"
+
+
+    automation:
+    
+      - id: Гостиная балкон ручное управление люстрой
+        alias: lr_balcony_light_manual_control
+        initial_state: true
+        trigger:
+    # Виртуальная кнопка
+        - platform: state
+          entity_id: input_button.lr_balcony_light_virtual
+    # Выключатель на входе
+        - platform: state
+          entity_id: sensor.0x00158d00010b5aee_action
+          to: 'single'
+    # Кнопка на балконе
+        - platform: state
+          entity_id: sensor.0x00158d0001b86d2e_action
+          to: 'single'
+    # Движение в темноте
+        - platform: state
+          entity_id: binary_sensor.lr_balcony_moving_in_dark
+          to: 'on'
+    # Свет без движения
+        - platform: state
+          entity_id: binary_sensor.lr_balcony_light_no_move
+          to: 'on'
+        condition:
+        - condition: state
+          entity_id: switch.control_mode
+          state: 'on'
+        action:
+            - choose:
+              - conditions:
+                  - condition: state
+                    entity_id: light.smart_cw_light
+                    state: 'off'
+                sequence:
+                  - service: input_boolean.turn_on
+                    target:
+                      entity_id: input_boolean.lr_balcony_light_virtual
+                  - service: light.turn_on
+                    entity_id:
+                      - light.smart_cw_light
+                    data_template:
+                      brightness_pct: 100
+                      kelvin: 4000
+              - conditions:
+                  - condition: state
+                    entity_id: light.smart_cw_light
+                    state: 'on'
+                sequence:
+                  - service: input_boolean.turn_off
+                    target:
+                      entity_id: input_boolean.lr_balcony_light_virtual
+                  - service: light.turn_off
+                    entity_id:
+                      - light.smart_cw_light             
+                
+
+      - id: Гостиная балкон контроль включения люстры 
+        alias: lr_balcony_light_control
+        initial_state: true
+        trigger:
+        - platform: state
+          entity_id: light.smart_cw_light
+          to: 'on'
+        condition:
+        - condition: state
+          entity_id: switch.control_mode
+          state: 'on'
+        - condition: state
+          entity_id: input_boolean.lr_balcony_light_virtual
+          state: 'off'
+        action:
+        - service: light.turn_off
+          entity_id:
+            - light.smart_cw_light  

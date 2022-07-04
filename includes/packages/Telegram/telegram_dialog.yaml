@@ -27,8 +27,11 @@ telegram_dialog:
                     data:
                       target: "{{ trigger.event.data.user_id }}"
                       message: |
-                        {{'\U0001F527'}} Выбрать комнату для управления :
-                      inline_keyboard: 
+                        {{'\U0001F527'}} *Управление умным домом*
+                        * *
+                        {{'\U0001F4BB'}} *CPU* - {{ states('sensor.processor_use') }} %, {{'\U0001F321'}} - {{ states('sensor.processor_temperature') }} °C
+                      inline_keyboard:
+                      - '{{''\U00002328''}} Телеметрия:/telemetry'
                       - '{{''\U0001F6B6''}} Вход:/en_control , {{''\U0001F6C0''}} Санузел:/bt_control'
                       - '{{''\U0001F3E2''}} Гостиная:/lr_control , {{''\U0001F374''}} Кухня:/kn_control'
                       - '{{''\U0001F6B9''}} Детская Д:/dd_control , {{''\U0001F6BA''}} Детская А:/da_control'

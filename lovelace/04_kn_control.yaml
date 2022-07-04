@@ -26,7 +26,7 @@ cards:
             - type: horizontal-stack
               cards:        
                 - type: light
-                  entity: light.kn_ceiling_virtual_light
+                  entity: light.kn_ceiling_virtual
                   name: Люстра
                 - type: light
                   entity: light.gateway_light_7811dc64f4c8
@@ -92,6 +92,20 @@ cards:
                   state_header: Питание
                   entities:
                   - entity: sensor.0xa4c138201dcb67f6_meter
+                    name: Потреблено за месяц
+                    unit: 'кВт·ч'
+                  - attribute: power
+                    name: Мощность
+                    unit: 'Ватт'
+                - entity: switch.0xa4c138d571b656c5
+                  type: custom:multiple-entity-row
+                  toggle: true
+                  state_color: true
+                  name: Кухня аэрогриль
+                  secondary_info: last-changed
+                  state_header: Питание
+                  entities:
+                  - entity: sensor.0xa4c138d571b656c5_meter
                     name: Потреблено за месяц
                     unit: 'кВт·ч'
                   - attribute: power

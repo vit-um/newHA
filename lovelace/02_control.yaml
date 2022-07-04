@@ -20,6 +20,37 @@ cards:
                      font-size: 16px;
                    }          
               content: >
+                 **Уведомления**
+
+            - type: entities
+              style: |
+                   ha-card {
+                     color: #00BFFF;
+                     --paper-item-icon-color: #00BFFF;
+                     --iron-icon-stroke-color: #FFFFE0;
+                     font-weight: bold;
+                     font-size: 14px;
+                   }               
+              show_header_toggle: false
+              entities:
+                - entity: sensor.custom_time
+                - entity: input_datetime.notification_start
+                - entity: input_datetime.notification_stop
+                - entity: binary_sensor.notification_time
+
+
+        - type: custom:stack-in-card
+          mode: vertical
+          cards:
+      
+            - type: markdown
+              style: |
+                   ha-card {
+                     color: #00BFFF;
+                     font-weight: bold;
+                     font-size: 16px;
+                   }          
+              content: >
                  **Автоматизации и скрипты**
 
 ################# Автоматизации #################
@@ -533,7 +564,7 @@ cards:
                     font-size: 16px;
                   } 
               content: >
-                  **Сенсоры < 30% заряда**
+                  **Батарейки < 30% заряда**
             - type: custom:auto-entities
               show_empty: false
               card:
@@ -547,7 +578,9 @@ cards:
                     } 
               filter:
                 include:
-                 - entity_id: sensor.*battery*
+                 - domain: sensor
+                   attributes:
+                     device_class: 'battery'
                 exclude:
                  - state: '> 30.0'
                  - state: 'unknown'

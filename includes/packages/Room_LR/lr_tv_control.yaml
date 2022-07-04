@@ -9,17 +9,17 @@ lr_tv_control:
       customize:
 
         switch.0xa4c1384452a34172:
-          friendly_name: Гостиная, телевизор
-          device_class: plug  
+          friendly_name: Гостиная телевизор, питание
           icon: mdi:power-socket-eu
         sensor.0xa4c1384452a34172_power:
-          friendly_name: Гостиная, телевизор
-          icon: mdi:flash
-          unit_of_measurement: 'Вт'
+          friendly_name: Гостиная телевизор, мощность
+          unit_of_measurement: Вт
+          device_class: power
         sensor.0xa4c1384452a34172_energy:
-          friendly_name: Гостиная, телевизор
-          icon_template: mdi:gauge
-          unit_of_measurement: 'КВт*ч'
+          friendly_name: Гостиная телевизор, энергия
+          icon: mdi:chart-line
+        sensor.0xa4c1384452a34172_voltage:
+          friendly_name: Гостиная телевизор, напряжение
           
     template:
      
@@ -38,7 +38,7 @@ lr_tv_control:
               
     automation:
     
-      - id: Гостиная, управление ТВ
+      - id: Гостиная управление ТВ
         alias: lr_tv_control
         initial_state: true
         trigger:

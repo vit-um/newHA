@@ -12,30 +12,45 @@ da_sensors:
       customize:
 
         binary_sensor.0x00158d00016d56f5_occupancy:
-          friendly_name: Детская А, движение
+          friendly_name: Детская А движение
         sensor.0x00158d00016d56f5_battery:
-          friendly_name: Детская А, движение        
+          friendly_name: Детская А движение        
+
         binary_sensor.0x00158d0001583c7b_contact:
-          friendly_name: Детская А, окно
+          friendly_name: Детская А окно
           device_class: window
         sensor.0x00158d0001583c7b_battery:
-          friendly_name: Детская А, окно
+          friendly_name: Детская А окно
+
         binary_sensor.da_aeration:
-          friendly_name: Детская А, проветривание
+          friendly_name: Детская А проветривание
+        
         sensor.0x00158d000159c7e6_humidity:
-          friendly_name: Детская А, влажность
+          friendly_name: Детская А влажность
           icon: mdi:water-percent
         sensor.0x00158d000159c7e6_temperature:
-          friendly_name: Детская А, температура
+          friendly_name: Детская А температура
           icon: mdi:temperature-celsius
         sensor.0x00158d000159c7e6_battery:
-          friendly_name: Детская А, климат
+          friendly_name: Детская А климат
+
         sensor.0x04cf8cdf3c78ca91_illuminance_lux:
-          friendly_name: Детская А, освещенность
+          friendly_name: Детская А освещенность
         sensor.0x04cf8cdf3c78ca91_battery:
-          friendly_name: Детская А, сенсор освещенности
+          friendly_name: Детская А сенсор освещенности
 
-
+        sensor.0xcc86ecfffecb4056_humidity:
+          friendly_name: Детская А влажность LCD
+          icon: mdi:water-percent
+        sensor.0xcc86ecfffecb4056_temperature:
+          friendly_name: Детская А температура LCD
+        sensor.0xcc86ecfffecb4056_illuminance_lux:
+          friendly_name: Детская А освещенность LCD          
+        sensor.0xcc86ecfffecb4056_battery:
+          friendly_name: Детская А климат LCD  
+          
+          
+          
     template:
      
       - binary_sensor:
@@ -46,7 +61,7 @@ da_sensors:
               }}
             delay_on: 
                 seconds: 30
-            device_class: window
+            device_class: opening
             icon: >
               {% if is_state("binary_sensor.da_aeration", "on") %}
               mdi:window-open-variant

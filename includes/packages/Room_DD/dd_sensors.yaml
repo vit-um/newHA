@@ -104,7 +104,7 @@ dd_sensors:
               }}
             delay_on: 
                 seconds: 30
-            device_class: window
+            device_class: opening
             icon: >
               {% if is_state("binary_sensor.dd_aeration", "on") %}
               mdi:window-open-variant

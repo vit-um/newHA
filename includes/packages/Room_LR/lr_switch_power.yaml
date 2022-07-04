@@ -10,27 +10,27 @@ lr_switch_power:
       customize:
         
         switch.0xa4c1388c89a46970:
-          friendly_name: Гостиная, ноутбук Acer
-          device_class: plug  
+          friendly_name: Гостиная ноутбук Acer, питание
           icon: mdi:power-socket-eu
         sensor.0xa4c1388c89a46970_power:
-          friendly_name: Гостиная, ноутбук Acer
-          icon: mdi:flash
-          unit_of_measurement: 'Вт'
+          friendly_name: Гостиная ноутбук Acer, мощность
+          unit_of_measurement: Вт
+          device_class: power
         sensor.0xa4c1388c89a46970_energy:
-          friendly_name: Гостиная, ноутбук Acer
-          icon_template: mdi:gauge
-          unit_of_measurement: 'КВт*ч'
+          friendly_name: Гостиная ноутбук Acer, энергия
+          icon: mdi:chart-line
+        sensor.0xa4c1388c89a46970_voltage:
+          friendly_name: Гостиная ноутбук Acer, напряжение
           
         switch.0xa4c138f41459f92a:
-          friendly_name: Гостиная, ноутбук Asus
-          device_class: plug  
+          friendly_name: Гостиная ноутбук Asus, питание
           icon: mdi:power-socket-eu
         sensor.0xa4c138f41459f92a_power:
-          friendly_name: Гостиная, ноутбук Asus
-          icon: mdi:flash
-          unit_of_measurement: 'Вт'
+          friendly_name: Гостиная ноутбук Asus, мощность
+          unit_of_measurement: Вт
+          device_class: power
         sensor.0xa4c138f41459f92a_energy:
-          friendly_name: Гостиная, ноутбук Asus
-          icon_template: mdi:gauge
-          unit_of_measurement: 'КВт*ч'
+          friendly_name: Гостиная ноутбук Asus, энергия
+          icon: mdi:chart-line
+        sensor.0xa4c138f41459f92a_voltage:
+          friendly_name: Гостиная ноутбук Asus, напряжение

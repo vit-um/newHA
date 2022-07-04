@@ -31,7 +31,7 @@ lr_air_quality:
           - name: lr_poor_air
             state: >
                   {{ states('sensor.lr_carbon_dioxide')|float > 1500 
-                     and is_state('binary_sensor.lr_notification_time', 'on' )
+                     and is_state('binary_sensor.notification_time', 'on' )
                      and is_state('binary_sensor.lr_aeration', 'off' ) }}
             availability: "{{ (states('sensor.lr_carbon_dioxide')|float > 250 ) }}" 
             icon: >

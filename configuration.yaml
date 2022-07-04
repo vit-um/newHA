@@ -11,7 +11,7 @@ homeassistant:
   # Pick yours from here: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
   time_zone: Europe/Kiev
   # Customization file
-  customize: !include_dir_merge_named includes/customize
+#  customize: !include_dir_merge_named includes/customize
   packages: !include_dir_merge_named includes/packages
 # default_config:
   whitelist_external_dirs :
@@ -26,8 +26,6 @@ frontend:
 # map:
 # Включение поддержки приложения
 mobile_app:
-# Включение кнопок ввода
-input_button:
 # Отслеживание солнца
 sun:
 # API для предоставления информации о системе и ее компонентах
@@ -90,9 +88,10 @@ tts:
     language: 'Alyona-Russian'
     pitch: "100"
     bitrate: "128k"
-  
-recorder: !include includes/recorder.yaml
 
+input_button:
+input_datetime:  
+recorder: 
 automation: !include automations.yaml
 script: !include scripts.yaml
 scene: !include scenes.yaml

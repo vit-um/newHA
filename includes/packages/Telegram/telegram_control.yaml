@@ -58,8 +58,11 @@ telegram_control:
                     data:
                       target: "{{ trigger.event.data.chat_id }}"
                       message: |
-                        {{'\U0001F527'}} Выбрать комнату для управления :
+                        {{'\U0001F527'}} *Управление умным домом*
+                        * *
+                        {{'\U0001F4BB'}} *CPU* - {{ states('sensor.processor_use') }} %, {{'\U0001F321'}} - {{ states('sensor.processor_temperature') }} °C
                       inline_keyboard: 
+                      - '{{''\U00002328''}} Телеметрия:/telemetry'
                       - '{{''\U0001F6B6''}} Вход:/en_control , {{''\U0001F6C0''}} Санузел:/bt_control'
                       - '{{''\U0001F3E2''}} Гостиная:/lr_control , {{''\U0001F374''}} Кухня:/kn_control'
                       - '{{''\U0001F6B9''}} Детская Д:/dd_control , {{''\U0001F6BA''}} Детская А:/da_control'
@@ -88,13 +91,13 @@ telegram_control:
                     data:
                       target: '{{ trigger.event.data.chat_id }}'
                       message: &msg_en |
-                        {{'\U0001F6B6'}} Управление прихожая, коридор :
+                        {{'\U0001F6B6'}} *Управление прихожая, коридор :*
                         {{'\U0001F6AA'}} Входная дверь - {% if is_state('binary_sensor.0x00158d000119378d_contact', 'on') %} Открыта {% else %} Закрыта {% endif %}
-                        {{'\U0001F6AD'}} Датчик дыма - {% if is_state('binary_sensor.0x00158d000149d28b_smoke', 'on') %} Обнаружен дым {% else %} Задымления нет {% endif %}
-                        Прихожая -
+                        {{'\U0001F6AD'}} Датчик дыма - {% if is_state('binary_sensor.0x00158d000149d28b_smoke', 'on') %} {{'\U000026A0'}} *Обнаружено* {% else %} {{'\U0001F197'}} {% endif %}
+                        *Прихожая :*
                         {{'\U0001F6B6'}} - {% if is_state('binary_sensor.0x00158d00013f7894_occupancy', 'on') %} Движение {% else %} Нет движения {% endif %} 
                         {{'\U0001F321'}} - {{ states('sensor.0x54ef44100001b68d_temperature') }} °C, {{'\U0001F4A7'}} - {{ states('sensor.0x54ef44100001b68d_humidity') }} %
-                        Коридор -
+                        *Коридор :*
                         {{'\U0001F6B6'}} - {% if is_state('binary_sensor.0x00158d00010f8920_occupancy', 'on') %} Движение {% else %} Нет движения {% endif %}
                         {{'\U0001F321'}} - {{ states('sensor.0x00124b0022659c04_temperature') }} °C, {{'\U0001F4A7'}} - {{ states('sensor.0x00124b0022659c04_humidity') }} %
                       inline_keyboard: &keyb_en
@@ -179,23 +182,23 @@ telegram_control:
                         {{'\U0001F6B1'}} - Раковина - {% if is_state('binary_sensor.0x00158d0001d72fa2_water_leak', 'on') %} Протечка {% else %} Сухо {% endif %} {{'\U0001F6B1'}} - Душевая - {% if is_state('binary_sensor.0x00158d0001bb60c2_water_leak', 'on') %} Протечка {% else %} Сухо {% endif %}
                         {{'\U0001F321'}} - {{ states('sensor.0x00158d0001dcd47e_temperature') }} °C, {{'\U0001F4A7'}} - {{ states('sensor.0x00158d0001dcd47e_humidity') }} %
                       inline_keyboard: &keyb_bt
-                        - '{{''\U0001F4A1''}} Туалет - {% if is_state(''light.tt_ceiling_light'', ''off'')%}{{''🔴''}}{% else %}{{''🟢''}}{% endif %}:/toggle_tt_ceiling_light , {{''\U0001F4A1''}} Прачечная - {% if is_state(''light.0x00158d00014a1a55'', ''off'')%}{{''🔴''}}{% else %}{{''🟢''}}{% endif %}:/toggle_ln_ceiling_light'
+                        - '{{''\U0001F4A1''}} Туалет - {% if is_state(''light.tt_ceiling_virtual'', ''off'')%}{{''🔴''}}{% else %}{{''🟢''}}{% endif %}:/toggle_tt_ceiling_light , {{''\U0001F4A1''}} Прачечная - {% if is_state(''light.0x00158d00014a1a55'', ''off'')%}{{''🔴''}}{% else %}{{''🟢''}}{% endif %}:/toggle_ln_ceiling_light'
                         - '{{''\U0001F4A1''}} Ванная - {% if is_state(''light.bt_ceiling_light'', ''off'')%}{{''🔴''}}{% else %}{{''🟢''}}{% endif %}:/toggle_bt_ceiling_light , {{''\U0001F300''}} Вентилятор - {% if is_state(''switch.0x00158d0001117040_left'', ''off'')%}{{''🔴''}}{% else %}{{''🟢''}}{% endif %}:/toggle_bt_fan'
-                        - '{{''\U00002668''}} Нагрев воды - {% if is_state(''switch.heater_mode'', ''off'')%}{{''🔴''}}{% else %}{{''🟢''}}{% endif %}:/toggle_bt_boiler_mode , {{''\U0001F50C''}} Бойлер - {% if is_state(''switch.bathroom_bolier'', ''off'')%}{{''🔴''}}{% else %}{{''🟢''}}{% endif %}:/toggle_bt_boiler'
+                        - '{{''\U00002668''}} Нагрев воды - {% if is_state(''switch.heater_mode'', ''off'')%}{{''🔴''}}{% else %}{{''🟢''}}{% endif %}:/toggle_bt_boiler_mode , {{''\U0001F50C''}} Бойлер - {% if is_state(''switch.0x00158d00015751f4'', ''off'')%}{{''🔴''}}{% else %}{{''🟢''}}{% endif %}:/toggle_bt_boiler'
                         - '{{''\U000021A9''}} Вернуться:/menu_back , {{''\U000021AA''}} Обновить:/bt_control' 
               - conditions:
                   - condition: template
                     value_template: '{{ trigger.event.data.command == ''/toggle_tt_ceiling_light'' }}'
                 sequence:
                   - service: light.toggle
-                    entity_id: light.tt_ceiling_light
+                    entity_id: light.tt_ceiling_virtual
                   - delay:
                       milliseconds: 500
                   - service: telegram_bot.answer_callback_query
                     data:
                       callback_query_id: "{{ trigger.event.data.id }}"
                       message: | 
-                          {{"\U0001F4AC"}} Люстра туалет - {% if is_state('light.tt_ceiling_light', 'on') %} Включена {% else %} Выключена {% endif %}
+                          {{"\U0001F4AC"}} Люстра туалет - {% if is_state('light.tt_ceiling_virtual', 'on') %} Включена {% else %} Выключена {% endif %}
                   - service: telegram_bot.delete_message
                     data_template:
                       message_id: '{{ trigger.event.data.message.message_id }}'
@@ -301,14 +304,14 @@ telegram_control:
                     value_template: '{{ trigger.event.data.command == ''/toggle_bt_boiler'' }}'
                 sequence:
                   - service: switch.toggle
-                    entity_id: switch.bathroom_bolier
+                    entity_id: switch.0x00158d00015751f4
                   - delay:
                       milliseconds: 500
                   - service: telegram_bot.answer_callback_query
                     data:
                       callback_query_id: "{{ trigger.event.data.id }}"
                       message: | 
-                          {{"\U0001F4AC"}} Бойлер ванная - {% if is_state('switch.bathroom_bolier', 'on') %} Включен {% else %} Выключен {% endif %}
+                          {{"\U0001F4AC"}} Бойлер ванная - {% if is_state('switch.0x00158d00015751f4', 'on') %} Включен {% else %} Выключен {% endif %}
                       show_alert: true
                   - service: telegram_bot.delete_message
                     data_template:
@@ -353,8 +356,8 @@ telegram_control:
                         - '{{''\U0001F525''}} Отопление - {% if is_state(''switch.lr_radiator_mode'', ''off'')%}{{''🔴''}}{% else %}{{''🟢''}}{% endif %}:/toggle_lr_heat'
                         - '{{''\U0001F4A1''}} Люстра 1 - {% if is_state(''light.lr_ceiling_light_1'', ''off'')%}{{''🔴''}}{% else %}{{''🟢''}}{% endif %}:/toggle_lr_ceiling_light_1 , {{''\U0001F4A1''}} Люстра 2 - {% if is_state(''light.lr_ceiling_light_2'', ''off'')%}{{''🔴''}}{% else %}{{''🟢''}}{% endif %}:/toggle_lr_ceiling_light_2'
                         - '{{''\U0001F4A1''}} Свет на стене - {% if is_state(''light.0x00158d00015723f1_left'', ''off'')%}{{''🔴''}}{% else %}{{''🟢''}}{% endif %}:/toggle_0x00158d00015723f1_left , {{''\U0001F4A1''}} Настольная - {% if is_state(''light.lr_table_lamp'', ''off'')%}{{''🔴''}}{% else %}{{''🟢''}}{% endif %}:/toggle_lr_table_lamp'
-                        - '{{''\U0001F4FA''}} Телевизор - {% if is_state(''binary_sensor.lr_tv_work'', ''off'')%}{{''🔴''}}{% else %}{{''🟢''}}{% endif %}:/toggle_lr_tv_work , {{''\U0001F39E''}} Подсветка кино - {% if is_state(''binary_sensor.lr_light_cinema'', ''off'')%}{{''🔴''}}{% else %}{{''🟢''}}{% endif %}:/toggle_lr_light_cinema'
-                        - '{{''\U0001F4A1''}} Люстра на балконе - {% if is_state(''light.smart_cw_light'', ''off'')%}{{''🔴''}}{% else %}{{''🟢''}}{% endif %}:/toggle_lr_balcony_ceiling_light'
+                        - '{{''\U0001F4FA''}} Телевизор - {% if is_state(''binary_sensor.lr_tv_work'', ''off'')%}{{''🔴''}}{% else %}{{''🟢''}}{% endif %}:/toggle_lr_tv_work , {{''\U0001F39E''}} Подсветка кино - {% if is_state(''light.lr_light_cinema'', ''off'')%}{{''🔴''}}{% else %}{{''🟢''}}{% endif %}:/toggle_lr_light_cinema'
+                        - '{{''\U0001F4A1''}} Люстра на балконе - {% if is_state(''light.lr_balcony_light_virtual'', ''off'')%}{{''🔴''}}{% else %}{{''🟢''}}{% endif %}:/toggle_lr_balcony_ceiling_light'
                         - '{{''\U000021A9''}} Вернуться:/menu_back , {{''\U000021AA''}} Обновить:/lr_control' 
               - conditions:
                   - condition: template
@@ -496,16 +499,16 @@ telegram_control:
                   - condition: template
                     value_template: '{{ trigger.event.data.command == ''/toggle_lr_light_cinema'' }}'
                 sequence:              
-                  - service: input_button.press
+                  - service: light.toggle
                     target:
-                        entity_id: input_button.lr_light_cinema
+                        entity_id: light.lr_light_cinema
                   - delay:
                       milliseconds: 500
                   - service: telegram_bot.answer_callback_query
                     data:
                       callback_query_id: "{{ trigger.event.data.id }}"
                       message: | 
-                          {{"\U0001F4AC"}} Подсветка для кино - {% if is_state('binary_sensor.lr_light_cinema', 'on') %} Включена {% else %} Выключена {% endif %}
+                          {{"\U0001F4AC"}} Подсветка для кино - {% if is_state('light.lr_light_cinema', 'on') %} Включена {% else %} Выключена {% endif %}
                   - service: telegram_bot.delete_message
                     data_template:
                       message_id: '{{ trigger.event.data.message.message_id }}'
@@ -520,14 +523,14 @@ telegram_control:
                     value_template: '{{ trigger.event.data.command == ''/toggle_lr_balcony_ceiling_light'' }}'
                 sequence:              
                   - service: light.toggle
-                    entity_id: light.smart_cw_light
+                    entity_id: light.lr_balcony_light_virtual
                   - delay:
                       milliseconds: 500
                   - service: telegram_bot.answer_callback_query
                     data:
                       callback_query_id: "{{ trigger.event.data.id }}"
                       message: | 
-                          {{"\U0001F4AC"}} Люстра на балконе - {% if is_state('light.smart_cw_light', 'on') %} Включена {% else %} Выключена {% endif %}
+                          {{"\U0001F4AC"}} Люстра на балконе - {% if is_state('light.lr_balcony_light_virtual', 'on') %} Включена {% else %} Выключена {% endif %}
                   - service: telegram_bot.delete_message
                     data_template:
                       message_id: '{{ trigger.event.data.message.message_id }}'
@@ -622,9 +625,8 @@ telegram_control:
                   - condition: template
                     value_template: '{{ trigger.event.data.command == ''/toggle_kn_ceiling_light'' }}'
                 sequence:              
-                  - service: input_button.press
-                    target:
-                        entity_id: input_button.kn_ceiling_light
+                  - service: light.toggle
+                    entity_id: light.kn_ceiling_virtual
                   - delay:
                       milliseconds: 500
                   - service: telegram_bot.answer_callback_query

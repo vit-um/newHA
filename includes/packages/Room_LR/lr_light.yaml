@@ -4,19 +4,19 @@ lr_light:
       customize:
 
         light.lr_ceiling_light_1:
-          friendly_name: Гостиная, люстра 1
+          friendly_name: Гостиная люстра 1
           icon: mdi:ceiling-light
           
         light.lr_ceiling_light_1_ambilight:
-          friendly_name: Гостиная, амбилайт люстра 1 
+          friendly_name: Гостиная амбилайт люстра 1 
           icon: mdi:dome-light
           
         light.lr_ceiling_light_2:
-          friendly_name: Гостиная, люстра 2
+          friendly_name: Гостиная люстра 2
           icon: mdi:ceiling-light
           
         light.lr_ceiling_light_2_ambilight:
-          friendly_name: Гостиная, амбилайт люстра 2 
+          friendly_name: Гостиная амбилайт люстра 2 
           icon: mdi:dome-light
           
         light.lr_table_lamp:
@@ -40,40 +40,53 @@ lr_light:
           icon: mdi:track-light
           
         switch.0x00158d00015723f1_right:
-          friendly_name: Гостиная, питание люстра 1
-          
+          friendly_name: Гостиная питание люстра 1
+        sensor.0x00158d00015723f1_device_temperature:
+          friendly_name: Гостиная питание люстра 1, температура
+          icon: mdi:thermometer-check
+        
+        
+        
         switch.0x842e14fffee5451a:
-          friendly_name: Гостиная, питание люстра 2
+          friendly_name: Гостиная питание люстра 2
+
 
         sensor.0x00158d00013fc3bc_action:
-          friendly_name: Гостиная, выключатель на стене снаружи у входа
+          friendly_name: Гостиная выключатель на стене снаружи у входа
         sensor.0x00158d00013fc3bc_battery:
-          friendly_name: Гостиная, выключатель на стене снаружи у входа
+          friendly_name: Гостиная выключатель на стене снаружи у входа
           
         sensor.0x00158d00027c0e2b_action:
-          friendly_name: Гостиная, выключатель на столе
+          friendly_name: Гостиная выключатель на столе
         sensor.0x00158d00027c0e2b_battery:
-          friendly_name: Гостиная, выключатель на столе
+          friendly_name: Гостиная выключатель на столе
           
         sensor.0x04cf8cdf3c79360a_action:
-          friendly_name: Гостиная, выключатель на комоде 6 клавиш
+          friendly_name: Гостиная выключатель на комоде 6 клавиш
+        sensor.0x04cf8cdf3c79360a_battery:
+          friendly_name: Гостиная выключатель на комоде 6 клавиш
+          
+        sensor.0x04cf8cdf3c7942ca_action:
+          friendly_name: Гостиная выключатель на комоде 4 клавиши
+        sensor.0x04cf8cdf3c7942ca_battery:
+          friendly_name: Гостиная выключатель на комоде 4 клавиши
 
         sensor.0xccccccfffe8abc14_action:
-          friendly_name: Гостиная, пульт IKEA
+          friendly_name: Гостиная пульт IKEA
         sensor.0xccccccfffe8abc14_battery:
-          friendly_name: Гостиная, пульт IKEA
-
+          friendly_name: Гостиная пульт IKEA
+          
     # Виртуальные светильники, для управления в интерфейсе
     light:
       - platform: template
         lights:
-          lr_ceiling_virtual_light_1:
-            friendly_name: "Гостиная, виртуальная люстра 1"
+          lr_ceiling_light_1_virtual:
+            friendly_name: "Гостиная виртуальная люстра 1"
             value_template: >-
               {{ is_state('light.lr_ceiling_light_1', 'on')  
               }}
             icon_template: >-
-              {% if is_state("light.lr_ceiling_virtual_light_1", "on") %}
+              {% if is_state("light.lr_ceiling_light_1_virtual", "on") %}
               mdi:ceiling-light
               {% else %}
               mdi:ceiling-light-outline
@@ -101,13 +114,14 @@ lr_light:
               data_template:
                 color_temp: "{{ color_temp }}"
 
-          lr_ceiling_virtual_light_2:
-            friendly_name: "Гостиная, виртуальная люстра 2"
+              
+          lr_ceiling_light_2_virtual:
+            friendly_name: "Гостиная виртуальная люстра 2"
             value_template: >-
               {{ is_state('light.lr_ceiling_light_2', 'on')  
               }}
             icon_template: >-
-              {% if is_state("light.lr_ceiling_virtual_light_2", "on") %}
+              {% if is_state("light.lr_ceiling_light_2_virtual", "on") %}
               mdi:ceiling-light
               {% else %}
               mdi:ceiling-light-outline
@@ -135,71 +149,19 @@ lr_light:
               data_template:
                 color_temp: "{{ color_temp }}"
 
+    input_boolean:
+    
+    # Переключатель для определения того, что свет включен вручную
+      lr_ceiling_1:
+        name: Гостиная ручное включение люстры 1
+        icon: mdi:lightbulb-off-outline
+        
+      lr_ceiling_2:
+        name: Гостиная ручное включение люстры 2
+        icon: mdi:lightbulb-off-outline
+
     template:
     
-      - trigger:
-    # Виртуальная кнопка
-        - platform: state
-          entity_id: input_button.lr_ceiling_1
-    # Выключатель на столе
-        - platform: state
-          entity_id: sensor.0x00158d00027c0e2b_action
-          to: 'single_left'
-    # Выключатель на стене внутри у входа
-        - platform: state
-          entity_id: sensor.0x00158d00015723f1_action
-          to: 'single_right'
-    # Выключатель на стене снаружи у входа
-        - platform: state
-          entity_id: sensor.0x00158d00013fc3bc_action
-          to: 'single_left'          
-    ## Пульт IKEA
-        - platform: state
-          entity_id: sensor.0xccccccfffe8abc14_action
-          to: "arrow_left_click"
-    ## 3 кнопка Aqara Opple
-        - platform: state
-          entity_id: sensor.0x04cf8cdf3c79360a_action
-          to: 'button_3_single'  
-        binary_sensor:
-          - name: lr_ceiling_1
-            auto_off: 2
-            state: "true"
-    
-      - trigger:
-    # Виртуальная кнопка
-        - platform: state
-          entity_id: input_button.lr_ceiling_2
-    # Выключатель на столе
-        - platform: state
-          entity_id: sensor.0x00158d00027c0e2b_action
-          to: 'single_right'
-    ## Пульт IKEA
-        - platform: state
-          entity_id: sensor.0xccccccfffe8abc14_action
-          to: "arrow_right_click"
-    ## 4 кнопка Aqara Opple
-        - platform: state
-          entity_id: sensor.0x04cf8cdf3c79360a_action
-          to: 'button_4_single' 
-        binary_sensor:
-          - name: lr_ceiling_2
-            auto_off: 2
-            state: "true"
-            
-      - trigger:
-    # Выключатель на столе
-        - platform: state
-          entity_id: sensor.0x00158d00027c0e2b_action
-          to: 'single_both'
-    # Виртуальная кнопка
-        - platform: state
-          entity_id: input_button.lr_full_light
-        binary_sensor:
-          - name: lr_ceiling_full
-            auto_off: 2
-            state: "true"
-     
       - binary_sensor:
 
           - name: lr_ceiling
@@ -247,7 +209,7 @@ lr_light:
 
     automation:
     
-      - id: Гостиная, перезагрузка зависшей люстры 1
+      - id: Гостиная перезагрузка зависшей люстры 1
         alias: lr_ceiling_reboot_1
         initial_state: true
         trigger:
@@ -271,7 +233,7 @@ lr_light:
         - service: switch.turn_on
           entity_id: switch.0x00158d00015723f1_right
           
-      - id: Гостиная, перезагрузка зависшей люстры 2
+      - id: Гостиная перезагрузка зависшей люстры 2
         alias: lr_ceiling_reboot_2
         initial_state: true
         trigger:
@@ -296,13 +258,33 @@ lr_light:
           entity_id: switch.0x842e14fffee5451a
           
 
-      - id: Гостиная, ручное управление люстрой 1
+      - id: Гостиная ручное управление люстрой 1
         alias: lr_ceiling_light_manual_control_1
         initial_state: true
         trigger:
+    # Виртуальная кнопка
         - platform: state
-          entity_id: binary_sensor.lr_ceiling_1
-          to: 'on'
+          entity_id: input_button.lr_ceiling_1
+    # Выключатель на столе
+        - platform: state
+          entity_id: sensor.0x00158d00027c0e2b_action
+          to: 'single_left'
+    # Выключатель на стене внутри у входа
+        - platform: state
+          entity_id: sensor.0x00158d00015723f1_action
+          to: 'single_right'
+    # Выключатель на стене снаружи у входа
+        - platform: state
+          entity_id: sensor.0x00158d00013fc3bc_action
+          to: 'single_left'          
+    ## Пульт IKEA
+        - platform: state
+          entity_id: sensor.0xccccccfffe8abc14_action
+          to: "arrow_left_click"
+    ## 3 кнопка Aqara Opple
+        - platform: state
+          entity_id: sensor.0x04cf8cdf3c79360a_action
+          to: 'button_3_single'
         condition:
         - condition: state
           entity_id: switch.control_mode
@@ -314,6 +296,9 @@ lr_light:
                     entity_id: light.lr_ceiling_light_1
                     state: 'off'
                 sequence:
+                  - service: input_boolean.turn_on
+                    target:
+                      entity_id: input_boolean.lr_ceiling_1
                   - service: light.turn_on
                     entity_id:
                       - light.lr_ceiling_light_1
@@ -325,11 +310,14 @@ lr_light:
                     entity_id: light.lr_ceiling_light_1
                     state: 'on'
                 sequence:
+                  - service: input_boolean.turn_off
+                    target:
+                      entity_id: input_boolean.lr_ceiling_1
                   - service: light.turn_off
                     entity_id:
                       - light.lr_ceiling_light_1
 
-      - id: Гостиная, контроль включения люстры 1
+      - id: Гостиная контроль включения люстры 1
         alias: lr_ceiling_light_control_1
         initial_state: true
         trigger:
@@ -341,10 +329,7 @@ lr_light:
           entity_id: switch.control_mode
           state: 'on'
         - condition: state
-          entity_id: binary_sensor.lr_ceiling_1
-          state: 'off'
-        - condition: state
-          entity_id: binary_sensor.lr_ceiling_full
+          entity_id: input_boolean.lr_ceiling_1
           state: 'off'
         action:
         - service: light.turn_off
@@ -352,13 +337,25 @@ lr_light:
             - light.lr_ceiling_light_1
 
                       
-      - id: Гостиная, ручное управление люстрой 2
+      - id: Гостиная ручное управление люстрой 2
         alias: lr_ceiling_light_manual_control_2
         initial_state: true
         trigger:
+    # Виртуальная кнопка
         - platform: state
-          entity_id: binary_sensor.lr_ceiling_2
-          to: 'on'
+          entity_id: input_button.lr_ceiling_2
+    # Выключатель на столе
+        - platform: state
+          entity_id: sensor.0x00158d00027c0e2b_action
+          to: 'single_right'
+    ## Пульт IKEA
+        - platform: state
+          entity_id: sensor.0xccccccfffe8abc14_action
+          to: "arrow_right_click"
+    ## 4 кнопка Aqara Opple
+        - platform: state
+          entity_id: sensor.0x04cf8cdf3c79360a_action
+          to: 'button_4_single' 
         condition:
         - condition: state
           entity_id: switch.control_mode
@@ -370,6 +367,9 @@ lr_light:
                     entity_id: light.lr_ceiling_light_2
                     state: 'off'
                 sequence:
+                  - service: input_boolean.turn_on
+                    target:
+                      entity_id: input_boolean.lr_ceiling_2
                   - service: light.turn_on
                     entity_id:
                       - light.lr_ceiling_light_2
@@ -381,11 +381,14 @@ lr_light:
                     entity_id: light.lr_ceiling_light_2
                     state: 'on'
                 sequence:
+                  - service: input_boolean.turn_off
+                    target:
+                      entity_id: input_boolean.lr_ceiling_2
                   - service: light.turn_off
                     entity_id:
                       - light.lr_ceiling_light_2
                       
-      - id: Гостиная, контроль включения люстры 2
+      - id: Гостиная контроль включения люстры 2
         alias: lr_ceiling_light_control_2
         initial_state: true
         trigger:
@@ -397,23 +400,24 @@ lr_light:
           entity_id: switch.control_mode
           state: 'on'
         - condition: state
-          entity_id: binary_sensor.lr_ceiling_2
-          state: 'off'
-        - condition: state
-          entity_id: binary_sensor.lr_ceiling_full
+          entity_id: input_boolean.lr_ceiling_2
           state: 'off'
         action:
         - service: light.turn_off
           entity_id:
             - light.lr_ceiling_light_2
                       
-      - id: Гостиная, полная яркость
+      - id: Гостиная полная яркость
         alias: lr_ceiling_light_full_brigtness
         initial_state: true
         trigger:
+    # Выключатель на столе
         - platform: state
-          entity_id: binary_sensor.lr_ceiling_full
-          to: 'on'
+          entity_id: sensor.0x00158d00027c0e2b_action
+          to: 'single_both'
+    # Виртуальная кнопка
+        - platform: state
+          entity_id: input_button.lr_full_light
         condition:
         - condition: state
           entity_id: switch.control_mode
@@ -425,6 +429,11 @@ lr_light:
                     entity_id: binary_sensor.lr_ceiling
                     state: 'off'
                 sequence:
+                  - service: input_boolean.turn_on
+                    target:
+                      entity_id: 
+                       - input_boolean.lr_ceiling_1
+                       - input_boolean.lr_ceiling_2
                   - service: light.turn_on
                     entity_id:
                       - light.lr_ceiling_light_1
@@ -437,12 +446,17 @@ lr_light:
                     entity_id: binary_sensor.lr_ceiling
                     state: 'on'
                 sequence:
+                  - service: input_boolean.turn_off
+                    target:
+                      entity_id: 
+                       - input_boolean.lr_ceiling_1
+                       - input_boolean.lr_ceiling_2
                   - service: light.turn_off
                     entity_id:
                       - light.lr_ceiling_light_1
                       - light.lr_ceiling_light_2
                       
-      - id: Гостиная, управление светом на стене
+      - id: Гостиная управление светом на стене
         alias: lr_wall_light_control
         initial_state: true
         trigger:
@@ -470,7 +484,7 @@ lr_light:
         - service: light.toggle
           entity_id: light.0x00158d00015723f1_left
           
-      - id: Гостиная, управление настольной лампой
+      - id: Гостиная управление настольной лампой
         alias: lr_table_lamp_control
         initial_state: true
         trigger:

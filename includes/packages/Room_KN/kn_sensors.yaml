@@ -29,8 +29,24 @@ kn_sensors:
           icon: mdi:temperature-celsius
         sensor.0x00158d0001581109_battery:
           friendly_name: Кухня, климат
-          
 
+############# Растения
+
+        sensor.0x00124b0022027bd2_soil_moisture:
+          friendly_name: Диффенбахия, растение, кухня 
+        sensor.0x00124b0022027bd2_battery:
+          friendly_name: Диффенбахия, растение, кухня 
+
+        sensor.0x00124b0022145bc7_soil_moisture:
+          friendly_name: Юкка, растение, кухня 
+        sensor.0x00124b0022145bc7_battery:
+          friendly_name: Юкка, растение, кухня 
+          
+        sensor.0x00124b0022145c90_soil_moisture:
+          friendly_name: Замиокулькас, растение, кухня 
+        sensor.0x00124b0022145c90_battery :
+          friendly_name: Замиокулькас, растение, кухня 
+          
 ############# Балкон
 
         binary_sensor.0x00158d0001a20885_contact:
@@ -71,7 +87,7 @@ kn_sensors:
               }}
             delay_on: 
                 seconds: 30
-            device_class: window
+            device_class: opening
             icon: >
               {% if is_state("binary_sensor.kn_aeration", "on") %}
               mdi:window-open-variant

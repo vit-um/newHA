@@ -4,31 +4,39 @@ da_switch:
       customize:
       
         switch.0x00158d00010ec4b8:
-          friendly_name: Детская А, увлажнитель воздуха
+          friendly_name: ДА увлажнитель воздуха, питание
           icon: mdi:power-socket-eu
         sensor.0x00158d00010ec4b8_power:
-          friendly_name: Детская А, увлажнитель воздуха
-          icon: mdi:lightning-bolt
+          friendly_name: ДА увлажнитель воздуха, мощность
+          unit_of_measurement: Вт
+          device_class: power
         sensor.0x00158d00010ec4b8_energy:
-          friendly_name: Детская А, увлажнитель воздуха
+          friendly_name: ДА увлажнитель воздуха, энергия
           icon: mdi:chart-line
+        sensor.0x00158d00010ec4b8_device_temperature:
+          friendly_name: ДА увлажнитель воздуха, температура
+          icon: mdi:thermometer-check
           
         switch.0x00158d00012896cb:
-          friendly_name: Детская А, зарядная станция
+          friendly_name: ДА зарядная станция, питание
           icon: mdi:power-socket-eu
         sensor.0x00158d00012896cb_power:
-          friendly_name: Детская А, зарядная станция
-          icon: mdi:lightning-bolt
+          friendly_name: ДА зарядная станция, мощность
+          unit_of_measurement: Вт
+          device_class: power
         sensor.0x00158d00012896cb_energy:
-          friendly_name: Детская А, зарядная станция
+          friendly_name: ДА зарядная станция, энергия
           icon: mdi:chart-line
+        sensor.0x00158d00012896cb_device_temperature:
+          friendly_name: ДА зарядная станция, температура
+          icon: mdi:thermometer-check
 
         switch.0x00158d000635ded8_left:
-          friendly_name: Детская А, проводной выключатель на входе
+          friendly_name: ДА проводной выключатель на входе
           icon: mdi:light-switch
         switch.0x00158d000635ded8_right:
-          friendly_name: Детская А, питание люстры
+          friendly_name: ДА питание люстры
           icon: mdi:light-switch
         sensor.0x00158d000635ded8_action:
-          friendly_name: Детская А, проводной выключатель на входе
+          friendly_name: ДА проводной выключатель на входе
 

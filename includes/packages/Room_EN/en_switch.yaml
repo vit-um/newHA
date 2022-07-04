@@ -4,8 +4,23 @@ en_switch:
       customize:
       
         switch.0x00158d00057305ac_left:
-          friendly_name: Коридор, питание люстра
+          friendly_name: Коридор питание люстра
         switch.0x00158d00057305ac_right:
-          friendly_name: Прихожая, питание лампочка
-        sensor.0x00158d00010ec4b8_energy:
-          friendly_name: Прихожая, выключатель у входа
+          friendly_name: Прихожая питание лампочка
+          
+        switch.0x00158d0003f46bb6_l1:
+          friendly_name: Этаж питание Reolink 411
+        switch.0x00158d0003f46bb6_l2:
+          friendly_name: Этаж питание Reolink 410
+        sensor.0x00158d0003f46bb6_power:
+          friendly_name: Этаж питание камер, мощность
+          unit_of_measurement: Вт
+          device_class: power
+        sensor.0x00158d0003f46bb6_energy:
+          friendly_name: Этаж питание камер, энергия
+          icon: mdi:chart-line
+        sensor.0x00158d0003f46bb6_device_temperature:
+          friendly_name: Этаж питание камер
+          icon: mdi:thermometer-check
+        
+

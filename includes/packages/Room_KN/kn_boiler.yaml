@@ -17,6 +17,26 @@ kn_boiler:
           unit_of_measurement: Вт
           device_class: power
 
+    input_datetime:
+      kn_boiler_1:
+        name: Бойлер кухня - 1 период
+        has_date: false
+        has_time: true
+        
+      kn_boiler_2:
+        name: Бойлер кухня - 2 период
+        has_date: false
+        has_time: true
+
+      kn_boiler_3:
+        name: Бойлер кухня - 3 период
+        has_date: false
+        has_time: true
+        
+      kn_boiler_timer:
+        name: Бойлер кухня - длительность работы
+        has_date: false
+        has_time: true
 
     binary_sensor:
     
@@ -26,27 +46,11 @@ kn_boiler:
         payload_on: "ON"
         payload_off: "OFF"
         
-      - platform: tod
-        name: kn_boiler_time
-        after: '06:30'
-        before: '22:00'
-        
-    template:
-     
-      - binary_sensor:
+    timer:
 
-    # Включение бойлера
-          - name: kn_boiler_on
-            state: >
-              {{ is_state('binary_sensor.kn_boiler_mode', 'on')  
-                 and is_state('binary_sensor.kn_boiler_time', 'on')}}
-            icon: >
-              {% if is_state("binary_sensor.kn_boiler_on", "on") %}
-              mdi:sun-thermometer
-              {% else %}
-              mdi:sun-thermometer
-              {% endif %}
-
+        kn_boiler:
+          name: Кухня бойлер - 
+          restore: true
 
     switch:
     
@@ -83,40 +87,63 @@ kn_boiler:
         trigger:
          - platform: state
            entity_id: switch.0x00158d0001d35bc0
+           from: 'off'    
            to: 'on'
         condition:
-         - condition: state
-           entity_id: binary_sensor.kn_boiler_mode
-           state: 'off'
          - condition: state
            entity_id: switch.control_mode
            state: 'on'
         action:
-         - service: switch.turn_off
-           entity_id: switch.0x00158d0001d35bc0
-         - service: telegram_bot.send_message
-           data_template:
-             target:
-                 - !secret chat_id_group_tech
-             message: | 
-                  {{"\U0001F6AB"}} Включение бойлера на кухне невозможно, отключен режим нагрева воды. Время события - {{ states.sensor.time_date.state }}
-                  
+            - choose:
+    # Разрешенное включение
+              - conditions:
+                  - condition: state
+                    entity_id: binary_sensor.kn_boiler_mode
+                    state: 'on'
+                sequence:
+                  - service: timer.start
+                    entity_id: timer.kn_boiler
+                    data_template: 
+                        duration: >
+                              {{strptime(states("input_datetime.kn_boiler_timer"), "%H:%M:%S").time()}}
+                  - service: telegram_bot.send_message
+                    data_template:
+                      target:
+                          - !secret chat_id_group_tech
+                      message: | 
+                          {{"\U00002714"}} Включение бойлера на кухне. Время события - {{ states.sensor.time_date.state }}
+    # Случайное включение
+              - conditions:
+                  - condition: state
+                    entity_id: binary_sensor.kn_boiler_mode
+                    state: 'off'
+                sequence:
+                  - service: switch.turn_off
+                    entity_id: switch.0x00158d0001d35bc0
+                  - service: telegram_bot.send_message
+                    data_template:
+                      target:
+                         - !secret chat_id_group_tech
+                      message: | 
+                          {{"\U0001F6AB"}} Включение бойлера на кухне невозможно, отключен режим нагрева воды. Время события - {{ states.sensor.time_date.state }}
+
+
       - id: Включение бойлера кухня
         alias: kn_boiler_on
         initial_state: true
         trigger:    
-         - platform: state
-           entity_id: binary_sensor.kn_boiler_on
-           from: 'off'
-           to: 'on'
-         - platform: homeassistant
-           event: start 
+         - platform: time
+           at: input_datetime.kn_boiler_1
+         - platform: time
+           at: input_datetime.kn_boiler_2
+         - platform: time
+           at: input_datetime.kn_boiler_3
         condition:
          - condition: state
            entity_id: switch.0x00158d0001d35bc0
            state: 'off'
          - condition: state
-           entity_id: binary_sensor.kn_boiler_on
+           entity_id: binary_sensor.kn_boiler_mode
            state: 'on'
          - condition: state
            entity_id: switch.control_mode
@@ -130,44 +157,24 @@ kn_boiler:
         initial_state: true
         trigger:    
          - platform: state
-           entity_id: binary_sensor.kn_boiler_on
+           entity_id: binary_sensor.kn_boiler_mode
            from: 'on'
            to: 'off'
-         - platform: homeassistant
-           event: start 
+         - platform: event
+           event_type: timer.finished
+           event_data:
+             entity_id: timer.kn_boiler
         condition:
          - condition: state
            entity_id: switch.0x00158d0001d35bc0
            state: 'on'
-         - condition: state
-           entity_id: binary_sensor.kn_boiler_on
-           state: 'off'
          - condition: state
            entity_id: switch.control_mode
            state: 'on'
         action:
          - service: switch.turn_off
            entity_id: switch.0x00158d0001d35bc0
-           
-      - id: Уведомление при включении бойлера на кухне
-        alias: kn_boiler_notify_on
-        initial_state: true
-        trigger:
-         - platform: state
-           entity_id: switch.0x00158d0001d35bc0
-           to: 'on'
-        condition:
-         - condition: state
-           entity_id: switch.control_mode
-           state: 'on'
-        action:
-         - service: telegram_bot.send_message
-           data_template:
-             target:
-                 - !secret chat_id_group_tech
-             message: | 
-                  {{"\U00002714"}} Включение бойлера на кухне. Время события - {{ states.sensor.time_date.state }}
-             
+
       - id: Уведомление при выключении бойлера на кухне
         alias: kn_boiler_notify_off
         initial_state: true
@@ -179,6 +186,9 @@ kn_boiler:
         condition:
          - condition: state
            entity_id: switch.control_mode
+           state: 'on'
+         - condition: state
+           entity_id: binary_sensor.kn_boiler_mode
            state: 'on'
         action:
          - service: telegram_bot.send_message

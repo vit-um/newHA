@@ -55,9 +55,46 @@ telemetry:
           friendly_name: Бинарных сенсоров в системе -
         sensor.count_binary_sensor_unavailable:
           friendly_name: Недоступных бинарных сенсоров -
+        binary_sensor.notification_time:
+          friendly_name: Уведомления
 
+
+    input_datetime:
+      notification_start:
+        name: Начало уведомлений
+        has_date: false
+        has_time: true
+
+      notification_stop:
+        name: Завершение уведомлений
+        has_date: false
+        has_time: true
           
     template:
+    
+      - binary_sensor:
+
+################# Время уведомлений #################     
+          - name: notification_time
+            state: >
+                {% set t = now().strftime('%H:%M:%S') %}
+                {% set begin = states("input_datetime.notification_start") %}
+                {% set end = states("input_datetime.notification_stop") %}
+                {% set midnight = now().replace(hour=0, minute=0, second=0).strftime('%H:%M:%S') %}
+                {% if begin <= end %} 
+                {{ (begin <= t < end) }}
+                {% elif midnight == end %} 
+                {{ (begin <= t > end) }}
+                {% elif begin >= end %} 
+                        {%  if begin <= t >= midnight %}                       
+                        {{ (begin <= t > end) }}
+                        {%  elif midnight <= t <= end %}                       
+                        {{ (midnight <= t < end) }}
+                        {%  elif end <= t <= begin %}                       
+                        {{ (midnight <= t <= end) }}
+                        {% endif %}
+                {% endif %}
+            device_class: running
      
       - sensor:
 
@@ -156,7 +193,7 @@ telemetry:
           - name: count_light_unavailable
             state: "{{states.light | selectattr ('state', 'equalto', 'unavailable') | list | length}}"
             icon: mdi:lightbulb-question
-            
+
 ################# Реле #################
 
           - name: count_switch
@@ -240,6 +277,9 @@ telemetry:
                     {%- endfor -%}
                   {%- endfor -%}
             icon: mdi:numeric-10-circle
+
+          - name: count_window_sensor
+            state: "{{states.binary_sensor | selectattr('state', 'equalto', 'on') | selectattr('attributes.device_class', 'equalto', 'window') | list | count | int }}"
             
           - name: count_binary_sensor_unavailable
             state: "{{states.binary_sensor | selectattr ('state', 'equalto', 'unavailable') | list | length}}"

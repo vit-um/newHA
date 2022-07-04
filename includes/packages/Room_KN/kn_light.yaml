@@ -4,7 +4,7 @@ kn_light:
       customize:
 
         light.kn_ceiling_light:
-          friendly_name: Кухня, люстра
+          friendly_name: Кухня люстра
           icon: mdi:ceiling-light
           
         light.gateway_light_7811dc64f4c8:
@@ -12,48 +12,51 @@ kn_light:
           icon: mdi:star-circle
           
         switch.0x54ef4410000f4741_right:
-          friendly_name: Кухня, питание люстра
+          friendly_name: Кухня люстра, питание
         switch.0x54ef4410000f4741_left:
-          friendly_name: Кухня, реле слева
+          friendly_name: Кухня Aqara E1 на входе, реле слева
         sensor.0x54ef4410000f4741_action:
-          friendly_name: Кухня, Aqara E1 на входе
+          friendly_name: Кухня Aqara E1 на входе
+        sensor.0x54ef4410000f4741_device_temperature:
+          friendly_name: Кухня Aqara E1, температура
+          icon: mdi:thermometer-check
           
         sensor.0x04cf8cdf3c794209_action:
-          friendly_name: Кухня, Aqara Opple на входе
+          friendly_name: Кухня Aqara Opple на входе
           
         sensor.0x04cf8cdf3c772379_illuminance_lux:
-          friendly_name: Кухня, освещенность
+          friendly_name: Кухня освещенность
         sensor.0x04cf8cdf3c772379_battery:
-          friendly_name: Кухня, освещенность
+          friendly_name: Кухня освещенность
 
         binary_sensor.0x00158d0001ab3350_occupancy:
-          friendly_name: Кухня, движение 1
+          friendly_name: Кухня движение 1
         sensor.0x00158d0001ab3350_battery:
-          friendly_name: Кухня, движение 1
+          friendly_name: Кухня движение 1
 
         binary_sensor.0x54ef441000118375_occupancy:
-          friendly_name: Кухня, движение 2
+          friendly_name: Кухня движение 2
         sensor.0x54ef441000118375_battery:
-          friendly_name: Кухня, движение 2
+          friendly_name: Кухня движение 2
           
         binary_sensor.kn_occupancy:
-          friendly_name: Кухня, присутствие
+          friendly_name: Кухня присутствие
           
         binary_sensor.kn_night:
-          friendly_name: Кухня, ночной режим
+          friendly_name: Кухня ночной режим
           icon: mdi:weather-night
 
     # Виртуальный светильник, для управления в интерфейсе
     light:
       - platform: template
         lights:
-          kn_ceiling_virtual_light:
-            friendly_name: "Кухня, виртуальная люстра"
+          kn_ceiling_virtual:
+            friendly_name: "Кухня виртуальная люстра"
             value_template: >-
               {{ is_state('light.kn_ceiling_light', 'on')  
               }}
             icon_template: >-
-              {% if is_state("light.kn_ceiling_virtual_light", "on") %}
+              {% if is_state("light.kn_ceiling_virtual", "on") %}
               mdi:ceiling-light
               {% else %}
               mdi:ceiling-light-outline
@@ -63,9 +66,9 @@ kn_light:
               target:
                 entity_id: input_boolean.kn_ceiling_light
             turn_off:
-              service: input_boolean.turn_off
+              service: light.turn_off
               target:
-                entity_id: input_boolean.kn_ceiling_light
+                entity_id: light.kn_ceiling_light
             level_template: >-
                 {{ state_attr('light.kn_ceiling_light', 'brightness') | int }}
             set_level:
@@ -173,7 +176,7 @@ kn_light:
 
     automation:
 
-      - id: Кухня, перезагрузка зависшей люстры
+      - id: Кухня перезагрузка зависшей люстры
         alias: kn_ceiling_reboot
         initial_state: true
         trigger:
@@ -197,7 +200,7 @@ kn_light:
         - service: switch.turn_on
           entity_id: switch.0x54ef4410000f4741_right
           
-      - id: Кухня, фиксация ручного включения люстры
+      - id: Кухня фиксация ручного включения люстры
         alias: kn_ceiling_manual_inpbool
         initial_state: true
         trigger:
@@ -222,7 +225,7 @@ kn_light:
           target:
             entity_id: input_boolean.kn_ceiling_light
             
-      - id: Кухня, ручное управление люстрой
+      - id: Кухня ручное управление люстрой
         alias: kn_ceiling_manual_control
         initial_state: true
         trigger:
@@ -258,7 +261,7 @@ kn_light:
                     entity_id:
                       - light.kn_ceiling_light
                       
-      - id: Кухня, контроль включения люстры
+      - id: Кухня контроль включения люстры
         alias: kn_ceiling_manual_control
         initial_state: true
         trigger:
@@ -285,7 +288,7 @@ kn_light:
           entity_id:
             - light.kn_ceiling_light
             
-      - id: Кухня, автоматическое включение освещения
+      - id: Кухня автоматическое включение освещения
         alias: kn_ceiling_auto_light_on
         initial_state: true
         trigger:
@@ -342,7 +345,7 @@ kn_light:
                       brightness_pct: 10
                       kelvin: 3000
              
-      - id: Кухня, автоматическое выключение освещения
+      - id: Кухня автоматическое выключение освещения
         alias: kn_ceiling_auto_light_off
         initial_state: true
         trigger:
@@ -369,7 +372,7 @@ kn_light:
           entity_id: 
            - light.kn_ceiling_light
            
-      - id: Кухня, альтернативное выключение освещения
+      - id: Кухня альтернативное выключение освещения
         alias: kn_ceiling_alt_light_off
         initial_state: true
         trigger:
@@ -392,7 +395,7 @@ kn_light:
           entity_id: 
            - light.kn_ceiling_light
 
-      - id: Кухня, синхронизация люстры и переключателя
+      - id: Кухня синхронизация люстры и переключателя
         alias: kn_ceiling_input_boolean
         initial_state: true
         trigger:
@@ -411,7 +414,7 @@ kn_light:
           target:
             entity_id: input_boolean.kn_ceiling_light
 
-      - id: Кухня, переключение на основное освещение
+      - id: Кухня переключение на основное освещение
         alias: kn_ceiling_auto_long
         description: Если дежурный свет включен более 15 минут, переход на основное освещение
         initial_state: true

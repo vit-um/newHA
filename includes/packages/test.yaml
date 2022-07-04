@@ -1,0 +1,138 @@
+test:
+
+    homeassistant:
+
+      customize:
+        binary_sensor.test_sensor:
+          friendly_name: Датчик протечки на кухне
+        binary_sensor.test_sensor_2:
+          friendly_name: Датчик протечки в санузле
+
+    template:
+
+
+      - trigger:
+    # кнопка на столе
+        - platform: state
+          entity_id: sensor.0x00158d0001531698_action
+          to: 'single'    
+        binary_sensor:
+          - name: test_sensor
+            state: True
+            auto_off: 10
+            device_class: moisture
+            
+      - trigger:
+    # кнопка на столе
+        - platform: state
+          entity_id: sensor.0x00158d0001531698_action
+          to: 'single'    
+        binary_sensor:
+          - name: test_sensor_2
+            state: True
+            auto_off: 20
+            device_class: moisture
+
+
+      - sensor:
+      
+          - name: secundomer
+            state: >
+               {% if is_state('input_boolean.secundomer', 'on') %}     
+                 {% set uptime = (as_timestamp (now()) - (strptime(states("input_datetime.secundomer"), "%Y-%m-%d %H:%M:%S").timestamp())) | int %}
+                 {% set seconds = (uptime % 60) | int %}                 
+                 {% set minutes = (( uptime % 3600) / 60) | int %}
+                 {% set hours = ((uptime % 86400) / 3600) | int %}
+                 {% set days = (uptime / 86400) | int %}
+                 {% if days > 0 %}
+                     {{ days }} д.
+                 {% endif %}
+                 {% if hours > 0 %}
+                     {{ hours }} ч.
+                 {% endif %}
+                 {% if minutes > 0 %}
+                     {{ minutes }} мин.
+                 {% endif %}
+                 {{ seconds }} сек
+               {% else %}
+               Выключено
+               {% endif %}
+
+
+          - name: all_binary_sensor_on
+            state: >
+                {% set variable = namespace(value = {}) %}
+                {% for entity in states.binary_sensor if is_state(entity.entity_id, 'on')   %}
+                 {% set variable.value = dict(variable.value, **{entity.name: entity.state }) %}
+                {% endfor %}
+                {% if (variable.value | length) | int > 0 %}
+                {{ variable.value | length }}
+                {% else %}
+                 0
+                {% endif %}
+            attributes:
+              list_entities: >
+               {% set variable = namespace(value = {}) %}
+                {% for entity in states.binary_sensor if is_state(entity.entity_id, 'on')   %}
+                 {% set variable.value = dict(variable.value, **{entity.name: entity.state }) %}
+                {% endfor %}
+                {{ variable.value |dictsort(false, 'value') }}
+
+    automation:
+
+    #   - id: Проигрывание локального mp3
+    #     alias: mp3_play
+    #     initial_state: true
+    #     trigger:
+    #     - platform: state
+    #       entity_id: input_button.mp3
+    #     action:
+    #       - service: media_player.play_media
+    #         data:
+    #           media_content_type: audio/mp3
+    #           media_content_id: /media/local/washmachine.mp3
+    #         target:
+    #           entity_id: media_player.lr_mi_speaker media_player.mi_smart_clock
+
+      - id: Проигрывание локального mp3
+        alias: mp3_play
+        initial_state: true
+        trigger:
+        - platform: state
+          entity_id: input_button.mp3
+        action:
+        - service: tts.reversotts_say
+          entity_id: 
+             - media_player.lr_mi_speaker
+             - media_player.mi_smart_clock
+          data:
+            message: "Включенные светильники {% for entity_name, entity_state in state_attr('sensor.all_light_on', 'list_entities')-%} {{ entity_name }} {{ '\n' -}} {% endfor %} "
+    
+      - id: Запуск таймера с заданным значением
+        alias: timer_start
+        initial_state: true
+        trigger:
+    # Переключатель ручного управления
+        - platform: state
+          entity_id: input_button.timer
+        action:
+        - service: timer.start
+          entity_id: timer.timer
+          data_template: 
+              duration: >
+                    {{strptime(states("input_datetime.timer"), "%H:%M:%S").time()}}
+    
+      - id: Старт секундомера
+        alias: secund_start
+        initial_state: true
+        trigger:
+    # Переключатель ручного управления
+        - platform: state
+          entity_id: input_boolean.secundomer
+          to: 'on'
+        action:
+        - service: input_datetime.set_datetime
+          target:
+            entity_id: input_datetime.secundomer
+          data:
+            datetime: "{{ now().strftime('%Y-%m-%d %H:%M:%S') }}"

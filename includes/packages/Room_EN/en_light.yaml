@@ -4,12 +4,17 @@ en_light:
       customize:
       
         light.0x00158d0003e74c31:
-          friendly_name: Прихожая, лампочка в прихожей
+          friendly_name: Прихожая лампочка в прихожей
           
         binary_sensor.0x00158d00013f7894_occupancy:
-          friendly_name: Прихожая, датчик движения
+          friendly_name: Прихожая датчик движения
         sensor.0x00158d00013f7894_battery:
-          friendly_name: Прихожая, датчик движения
+          friendly_name: Прихожая датчик движения
+          
+        sensor.0x00158d00010b1963_action:
+          friendly_name: Прихожая кнопка на шкафу
+        sensor.0x00158d00010b1963_battery:
+          friendly_name: Прихожая кнопка на шкафу
           
     template:
      
@@ -98,7 +103,7 @@ en_light:
 
     automation:
     
-      - id: Прихожая, перезагрузка зависшей лампочки
+      - id: Прихожая перезагрузка зависшей лампочки
         alias: en_bulb_reboot
         initial_state: true
         trigger:
@@ -122,7 +127,7 @@ en_light:
         - service: switch.turn_on
           entity_id: switch.0x00158d00057305ac_right
     
-      - id: Прихожая, управление лампочкой
+      - id: Прихожая управление лампочкой
         alias: en_light_control
         initial_state: true
         trigger:

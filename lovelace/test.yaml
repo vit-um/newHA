@@ -8,48 +8,31 @@ cards:
     - type: vertical-stack
       cards:
 
-        - type: custom:stack-in-card
-          mode: vertical
-          cards:  
-            - type: markdown
-              content: >
-                 **  **      
-            - type: custom:light-entity-card
-              entity: light.lr_light_cinema
-              shorten_cards: true
-    
-            - type: markdown
-              content: >
-                 **  **                
-            - type: custom:light-entity-card
-              entity: light.lr_tv_bulb
-              shorten_cards: true
-            - type: markdown
-              content: >
-                 **  **      
+        - type: entities
+          show_header_toggle: false
+          entities:
+            - entity: sensor.time
 
+        - type: entities
+          show_header_toggle: false
+          entities:
+            - entity: input_datetime.timer
+            - entity: timer.timer
+            - entity: input_datetime.secundomer
+            - entity: input_boolean.secundomer
+            - entity: sensor.secundomer
+            - entity: sensor.history
+            
+        - type: entity-button
+          entity: input_button.timer
+          name: Запуск таймера
+          tap_action:
+            action: call-service
+            service: input_button.press
+            service_data:
+              entity_id: input_button.timer
+              
+              
 
-
-    - type: vertical-stack
-      cards:
-      
-        - type: custom:stack-in-card
-          mode: vertical
-          cards:  
-            - type: markdown
-              content: >
-                 **  **                
-            - type: custom:light-entity-card
-              entity: light.lr_ceiling_light_1_ambilight
-              shorten_cards: true
-            - type: markdown
-              content: >
-                 **  **                
-            - type: custom:light-entity-card
-              entity: light.lr_ceiling_light_2_ambilight
-              shorten_cards: true
-            - type: markdown
-              content: >
-                 **  **      
-
+        
                             

@@ -193,23 +193,35 @@ cards:
             - type: entities
               show_header_toggle: false
               entities:
-              - entity: switch.heater_mode
+              - entity: switch.bt_boiler_mode
                 state_color: true
-                
-            - type: glance
-              show_state: true
-              show_name: true
-              state_color: true
-              entities:
-              - entity: binary_sensor.boiler_morning_on
-                name: Утро
-              - entity: binary_sensor.boiler_evening_on
-                name: Вечер
-              - entity: switch.bathroom_bolier
-                name: Бойлер
-                tap_action:
-                  action: toggle
+              - entity: switch.0x00158d00015751f4
+                state_color: true
+                secondary_info: last-changed
+              - entity: input_datetime.bt_boiler_1
+              - entity: input_datetime.bt_boiler_2
+              - entity: input_datetime.bt_boiler_timer
 
+
+        - type: custom:flipdown-timer-card
+          entity: timer.bt_boiler
+          show_hour: false
+          show_title: false
+          show_header: false
+          theme: dark
+          duration: "01:00:00"
+          localize:
+            button: start, stop, cancel, resume, reset
+            header: Hours, Minutes, Seconds
+          styles:
+            rotor:
+              width: 60px
+              height: 80px
+            button:
+              width: 60px
+              location: right
+
+              
         - type: custom:mini-graph-card
           entities:
            - entity: sensor.0x00158d00015751f4_power
@@ -233,38 +245,6 @@ cards:
           points_per_hour: 2
           group_by: hour
           hours_to_show: 36
-              
-        - type: custom:flipdown-timer-card
-          entity: timer.heater
-          show_hour: false
-          show_title: false
-          show_header: false
-          theme: dark
-          duration: "01:00:00"
-          localize:
-            button: start, stop, cancel, resume, reset
-            header: Hours, Minutes, Seconds
-          styles:
-            rotor:
-              width: 60px
-              height: 80px
-            button:
-              width: 60px
-              location: right
-              
-        - type: custom:logbook-card
-          entity: switch.bathroom_bolier
-          max_items: 5
-          title: Бойлер, лог работы
-          duration_labels:
-            second:  '${value} секунда'
-            seconds: '${value} секунд'
-            minute:  '${value} минута'
-            minutes: '${value} минут'
-            hour:    '${value} час'
-            hours:   '${value} часов'
-            day:     '${value} день'
-            days:    '${value} дней'
 
 ############################ Колонка 4 ############################
 

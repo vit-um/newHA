@@ -9,12 +9,18 @@ kn_tv_control:
       customize:
 
         switch.0x00158d0001291d12:
-          friendly_name: Кухня питание телевизора
+          friendly_name: Кухня телевизор, питание
           icon: mdi:power-socket-eu
         sensor.0x00158d0001291d12_power:
-          friendly_name: Кухня питание телевизора
+          friendly_name: Кухня телевизор, мощность
+          unit_of_measurement: Вт
+          device_class: power
         sensor.0x00158d0001291d12_energy:
-          friendly_name: Кухня питание телевизора
+          friendly_name: Кухня телевизор, энергия
+          icon: mdi:chart-line
+        sensor.0x00158d0001291d12_device_temperature:
+          friendly_name: Кухня телевизор, температура
+          icon: mdi:thermometer-check
           
     template:
      

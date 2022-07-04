@@ -16,94 +16,94 @@ lr_sensors:
       customize:
         
         binary_sensor.lr_aeration:
-          friendly_name: Гостиная, проветривание
+          friendly_name: Гостиная проветривание
 
         binary_sensor.lr_radiator:
-          friendly_name: Гостиная, режим отопления      
+          friendly_name: Гостиная режим отопления      
+
+        sensor.0x00158d0001531698_action:
+          friendly_name: Гостиная круглая кнопка на столе
+        sensor.0x00158d0001531698_battery:
+          friendly_name: Гостиная круглая кнопка на столе
           
+        sensor.0x00158d0001f47e10_action:
+          friendly_name: Гостиная беспроводный выключатель за комодом
+        sensor.0x00158d0001f47e10_battery:
+          friendly_name: Гостиная беспроводный выключатель за комодом
+         
           
         binary_sensor.0x00158d00013ed373_contact:
-          friendly_name: Гостиная, окно
+          friendly_name: Гостиная окно
           device_class: window
         sensor.0x00158d00013ed373_battery:
-          friendly_name: Гостиная, окно
+          friendly_name: Гостиная окно
         binary_sensor.0xec1bbdfffedf6a6a_contact:
-          friendly_name: Гостиная, окно 2
+          friendly_name: Гостиная окно 2
           device_class: window
         sensor.0xec1bbdfffedf6a6a_battery:
-          friendly_name: Гостиная, окно 2
+          friendly_name: Гостиная окно 2
         binary_sensor.0x00158d000445206b_contact:
-          friendly_name: Гостиная, дверь на балкон
+          friendly_name: Гостиная дверь на балкон
           device_class: door
         sensor.0x00158d000445206b_battery:
-          friendly_name: Гостиная, дверь на балкон
+          friendly_name: Гостиная дверь на балкон
         binary_sensor.0x00158d0001a2f5f7_contact:
-          friendly_name: Гостиная, окно на балконе
+          friendly_name: Гостиная окно на балконе
           device_class: window
         sensor.0x00158d0001a2f5f7_battery:
-          friendly_name: Гостиная, окно на балконе
+          friendly_name: Гостиная окно на балконе
 
         sensor.0x00158d00015aebb6_humidity:
-          friendly_name: Гостиная, влажность
+          friendly_name: Гостиная влажность
           icon: mdi:water-percent
         sensor.0x00158d00015aebb6_temperature:
-          friendly_name: Гостиная, температура
+          friendly_name: Гостиная температура
           icon: mdi:temperature-celsius
         sensor.0x00158d00015aebb6_battery:
-          friendly_name: Гостиная, климат  
+          friendly_name: Гостиная климат  
 
         sensor.0xec1bbdfffe4534c0_humidity:
-          friendly_name: Гостиная, балкон влажность
+          friendly_name: Гостиная балкон влажность
           icon: mdi:water-percent
         sensor.0xec1bbdfffe4534c0_temperature:
-          friendly_name: Гостиная, балкон температура
+          friendly_name: Гостиная балкон температура
           icon: mdi:temperature-celsius
         sensor.0xec1bbdfffe4534c0_battery:
-          friendly_name: Гостиная, балкон климат  
+          friendly_name: Гостиная балкон климат  
 
         sensor.0x00158d0001a4b9da_humidity:
-          friendly_name: Гостиная, балкон улица влажность
+          friendly_name: Гостиная балкон улица влажность
           icon: mdi:water-percent
         sensor.0x00158d0001a4b9da_temperature:
-          friendly_name: Гостиная, балкон улица температура
+          friendly_name: Гостиная балкон улица температура
           icon: mdi:temperature-celsius
         sensor.0x00158d0001a4b9da_pressure:
-          friendly_name: Гостиная, балкон улица давление
+          friendly_name: Гостиная балкон улица давление
           device_class: pressure
         sensor.0x00158d0001a4b9da_mmhg_pressure:
-          friendly_name: Гостиная, балкон улица мм рт. ст
+          friendly_name: Гостиная балкон улица мм рт. ст
           device_class: pressure
         sensor.0x00158d0001a4b9da_battery:
-          friendly_name: Гостиная, балкон улица климат  
+          friendly_name: Гостиная балкон улица климат  
           device_class: battery
           
         binary_sensor.lr_notification_time:
-          friendly_name: Гостиная, время уведомлений о плохом воздухе
+          friendly_name: Гостиная время уведомлений о плохом воздухе
           device_class: running
           icon: mdi:clock-digital
           
         binary_sensor.0x54ef44100042e226_presence:
-          friendly_name: Гостиная, присутствие
+          friendly_name: Гостиная присутствие
+        sensor.0x54ef44100042e226_presence_event:
+          friendly_name: Гостиная присутствие, событие
 
         binary_sensor.0x00158d0005414857_occupancy:
-          friendly_name: Гостиная, движение
+          friendly_name: Гостиная движение
         sensor.0x00158d0005414857_battery:
-          friendly_name: Гостиная, движение
-          
-        binary_sensor.0x00158d000449b773_occupancy:
-          friendly_name: Гостиная, балкон движение
-        sensor.0x00158d000449b773_illuminance_lux:
-          friendly_name: Гостиная, балкон освещенность
-        sensor.0x00158d000449b773_battery:
-          friendly_name: Гостиная, балкон движение
+          friendly_name: Гостиная движение
 
     binary_sensor:
     
-      - platform: tod
-        name: lr_notification_time
-        after: '10:00'
-        before: '22:00'
-
       - platform: mqtt
         name: lr_radiator
         state_topic: "states/lr_radiator"
@@ -148,7 +148,9 @@ lr_sensors:
               }}
             delay_on: 
                 seconds: 30
-            device_class: window
+            delay_off: 
+                seconds: 30
+            device_class: opening
             icon: >
               {% if is_state("binary_sensor.lr_aeration", "on") %}
               mdi:window-open-variant

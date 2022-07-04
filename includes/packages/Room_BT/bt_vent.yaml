@@ -12,6 +12,7 @@ bt_vent:
         bt_vent:
           name: Вентилятор в ванной отключится через - 
           duration: '00:10:00'
+          restore: true
 
     automation:
 

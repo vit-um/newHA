@@ -1,8 +1,13 @@
 system_sensors:
 
     recorder:
+      db_url: !secret db_link
+    #   db_url: sqlite:////config/home-assistant_v2.db
+      purge_keep_days: 7
+      auto_purge: true
       include:
         entities:
+          - binary_sensor.rpi_power_status    
           - sensor.processor_use
           - sensor.disk_use_percent
           - sensor.memory_use_percent
@@ -32,6 +37,8 @@ system_sensors:
           friendly_name: Home Assistant в онлайне -
         sensor.last_boot_custom:
           friendly_name: Сервер в онлайне -
+        sensor.custom_time:
+          friendly_name: Текущее время -
 
     sensor:    
     - platform: systemmonitor
@@ -79,63 +86,84 @@ system_sensors:
       - current_version
       - addons
 
+    binary_sensor:
+      - platform: workday
+        country: UA
+
     template:
-     
+    
+      - trigger:
+          - platform: time_pattern
+            seconds: "/30"
+        sensor:
+          - name: time_1_sec
+            state: '{{ as_timestamp(now()) | round(default=0)}}'
+            
       - sensor:
+      
+          - name: custom_time
+            state: >
+              {{states("sensor.time_1_sec") | int | timestamp_custom("%H:%M:%S") }}
+
     # Время с последней перезагрузки Home Assistant
           - name: online_custom
             state: >
-               {% set uptime = as_timestamp (now()) -as_timestamp(states('sensor.online')) | int %}
-               {% set minutes = (( uptime % 3600) / 60) | int %}
-               {% set hours = ((uptime % 86400) / 3600) | int %}
-               {% set days = (uptime / 86400) | int %}
+               {% set s = (states("sensor.time_1_sec") | int - as_timestamp(states('sensor.online')) | int) %}
+               {{ '{:d} дн. {:02d}:{:02d}:{:02d}'.format (s // 86400, s % 86400 // 3600, s % 3600 // 60, s % 60) }}
+
+            #   {% set uptime = as_timestamp (now()) -as_timestamp(states('sensor.online')) | int %}
+            #   {% set minutes = (( uptime % 3600) / 60) | int %}
+            #   {% set hours = ((uptime % 86400) / 3600) | int %}
+            #   {% set days = (uptime / 86400) | int %}
     
-                 {% if uptime < 1 %}
-                   Меньше минуты
-                 {% else %}
-                   {% if days > 0 %}
-                     {{ days }} д.
-                   {% endif %}
-                   {% if hours > 0 %}
-                     {% if days > 0 %}
-                       {{ ' ' }}
-                     {% endif %}
-                     {{ hours }} ч.
-                   {% endif %}
-                   {% if minutes > 0 %}
-                     {% if days > 0 or hours > 0 %}
-                       {{ ' ' }}
-                     {% endif %}
-                       {{ minutes }} мин.
-                   {% endif %}
-                 {% endif %}
-            icon: mdi:clock 
+            #      {% if uptime < 60 %}
+            #       Меньше минуты
+            #      {% else %}
+            #       {% if days > 0 %}
+            #          {{ days }} д.
+            #       {% endif %}
+            #       {% if hours > 0 %}
+            #          {% if days > 0 %}
+            #           {{ ' ' }}
+            #          {% endif %}
+            #          {{ hours }} ч.
+            #       {% endif %}
+            #       {% if minutes > 0 %}
+            #          {% if days > 0 or hours > 0 %}
+            #           {{ ' ' }}
+            #          {% endif %}
+            #           {{ minutes }} мин.
+            #       {% endif %}
+            #      {% endif %}
+            # icon: mdi:clock 
 
     # Время с последней перезагрузки сервера
           - name: last_boot_custom
             state: >
-               {% set uptime = as_timestamp (now()) -as_timestamp(states('sensor.last_boot')) | int %}
-               {% set minutes = (( uptime % 3600) / 60) | int %}
-               {% set hours = ((uptime % 86400) / 3600) | int %}
-               {% set days = (uptime / 86400) | int %}
+               {% set s = (states("sensor.time_1_sec") | int - as_timestamp(states('sensor.last_boot')) | int) %}
+               {{ '{:d} дн. {:02d}:{:02d}:{:02d}'.format (s // 86400, s % 86400 // 3600, s % 3600 // 60, s % 60) }}
+            #   {% set uptime = as_timestamp (now()) -as_timestamp(states('sensor.last_boot')) | int %}
+            #   {% set minutes = (( uptime % 3600) / 60) | int %}
+            #   {% set hours = ((uptime % 86400) / 3600) | int %}
+            #   {% set days = (uptime / 86400) | int %}
     
-                 {% if uptime < 1 %}
-                   Меньше минуты
-                 {% else %}
-                   {% if days > 0 %}
-                     {{ days }} д.
-                   {% endif %}
-                   {% if hours > 0 %}
-                     {% if days > 0 %}
-                       {{ ' ' }}
-                     {% endif %}
-                     {{ hours }} ч.
-                   {% endif %}
-                   {% if minutes > 0 %}
-                     {% if days > 0 or hours > 0 %}
-                       {{ ' ' }}
-                     {% endif %}
-                       {{ minutes }} мин.
-                   {% endif %}
-                 {% endif %}
-            icon: mdi:clock 
+            #      {% if uptime < 60 %}
+            #       Меньше минуты
+            #      {% else %}
+            #       {% if days > 0 %}
+            #          {{ days }} д.
+            #       {% endif %}
+            #       {% if hours > 0 %}
+            #          {% if days > 0 %}
+            #           {{ ' ' }}
+            #          {% endif %}
+            #          {{ hours }} ч.
+            #       {% endif %}
+            #       {% if minutes > 0 %}
+            #          {% if days > 0 or hours > 0 %}
+            #           {{ ' ' }}
+            #          {% endif %}
+            #           {{ minutes }} мин.
+            #       {% endif %}
+            #      {% endif %}
+            # icon: mdi:clock 

@@ -1,3 +1,51 @@
+<a href="https://www.youtube.com/channel/UCcq9onYHbs6go3kDpfBoqhg?sub_confirmation=1" target="_blank"><img src="https://raw.githubusercontent.com/kvazis/training/master/lessons/img/subscribe.png" alt="Subscribe" style="height: 71px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a>
+
+### 2022 07 02 Итерация 30    
+
+:point_up: Много изменений, постарался максимально все охватить уроками на Youtube, поэтому долго не было обновлений.    
+:point_up: По возможности добавляю комментарии ко всем измененным файлам, но много вызывано просто дообавлением описания в раздел кастомизации.    
+
+#### Конфигурация    
+:arrow_right: [configuration.yaml](https://github.com/kvazis/newHA/blob/master/configuration.yaml) - добавлены дополнительные ID чат телеграмм, мелкие несущественные изменения    
+
+#### Пакаджи    
+
+:arrow_right: [system_sensors.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/system_sensors.yaml) - сюда перенесены базовые настройки recorder, добавлен кастомный сенсор времени, обновляется раз в 30 сек, обновлен формат вывода сенсоров времени с последне загрузка НА и сервера. [Подробнее](https://youtu.be/O13Rbm_sdLE)    
+:arrow_right: [telemetry.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/telemetry.yaml) - не влияющие на логику изменения в ходе тестирования.    
+:arrow_right: [test.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/test.yaml) - небольшой испытательный полигон    
+:arrow_right: [telegram_alarm.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Telegram/telegram_alarm.yaml) - пакадж аварийных уведомлений - [Телеметрия, часть 2. Аварийные уведомления](https://youtu.be/IKxOpfoptzg)    
+:arrow_right: [telegram_telemetry.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Telegram/telegram_telemetry.yaml) - пакадж для мониторинга - [Телеметрия, часть 3. Мониторинг состояния системы в Telegram](https://youtu.be/EGxy2jm5Sb8)    
+:arrow_right: [telegram_dialog.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Telegram/telegram_dialog.yaml) - стартовый диалог для меню управления - [Управление через Telegram, текстовые диалоги](https://youtu.be/gksZK58ZLDQ)    
+:arrow_right: [telegram_control.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Telegram/telegram_control.yaml) - меню управления через телеграмм, изменения связанные с добавлением телеметри. [Управление умным домом через Telegram](https://youtu.be/tPYXpQwDLYc)    
+:arrow_right: [boiler.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_BT/boiler.yaml) - полностью переписан пакадж для бойлера, урока еще не не делал    
+:arrow_right: [bt_light.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_BT/bt_light.yaml) - не влияющие на логику изменения в ходе тестирования.    
+:arrow_right: [bt_switch.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_BT/bt_switch.yaml) - замена розетки, в кастомизации прописана новая.    
+:arrow_right: [bt_vent.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_BT/bt_vent.yaml) - не влияющие на логику изменения в ходе тестирования.  
+:arrow_right: [da_sensors.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_DA/da_sensors.yaml) - добавлены описания сущностей    
+:arrow_right: [da_switch.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_DA/da_switch.yaml) - добавлены описания сущностей    
+:arrow_right: [dd_hum.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_DD/dd_hum.yaml) - оптимизация логики работы увлажнения воздуха    
+:arrow_right: [en_light.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_EN/en_light.yaml) - добавлены описания сущностей    
+:arrow_right: [en_switch.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_EN/en_switch.yaml) - добавлены описания сущностей    
+:arrow_right: [kn_alarm.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_KN/kn_alarm.yaml) - закомментировано, в виду внедрения общей автоматизации аварийных уведомлений    
+:arrow_right: [kn_boiler.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_KN/kn_boiler.yaml) - новый пакадж для бойлера, урока еще не не делал    
+:arrow_right: [kn_light.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_KN/kn_light.yaml) - добавлены описания сущностей    
+:arrow_right: [kn_sensors.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_KN/kn_sensors.yaml) - добавлены описания сущностей    
+:arrow_right: [kn_switch.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_KN/kn_switch.yaml) - добавлены описания сущностей    
+:arrow_right: [kn_tv_control.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_KN/kn_tv_control.yaml) - добавлена специфическая контрольная автоматизация    
+:arrow_right: [ln_washmashine.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_LN/ln_washmashine.yaml) - уведомление о завершении стирки    
+:arrow_right: [lr_air_quality.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_LR/lr_air_quality.yaml) - небольшие изменения в логике (общее время для уведомлений)    
+:arrow_right: [lr_balcony_light.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_LR/lr_balcony_light.yaml) - забыл при переносе про управлением светом на балконе, добавил    
+:arrow_right: [lr_conditioner.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_LR/lr_conditioner.yaml) - Сделал "Ленивый кондиционер", чтобы не искать пульт     
+:arrow_right: [lr_hum.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_LR/lr_hum.yaml) - пакадж управление увлажнителем Smartmi (мойка воздуха)    
+:arrow_right: [lr_light.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_LR/lr_light.yaml) - добавлены описания сущностей    
+:arrow_right: [lr_sensors.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_LR/lr_sensors.yaml) - добавлены описания сущностей    
+:arrow_right: [lr_tv_control.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_LR/lr_tv_control.yaml) - добавлены описания сущностей  
+:arrow_right: [tt_light.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_TT/tt_light.yaml) - создан [виртуальный светильник](https://youtu.be/hmimb2mvMMc) с логикой перехода на запасной в случае сбоя и параметрами включения от времени суток    
+
+#### Интерфейс, в режиме yaml    
+#### Много косметмических изменений    
+
+____
 ### 2022 06 12 Итерация 29    
 
 :point_up: Перед запуском зеркала - экспериментирую и оптимизирую пакаджи. 
@@ -12,7 +60,8 @@
 :arrow_right: [lr_light.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_LR/lr_light.yaml) - для вывода в интерфейс, созданы [виртуальные светильники](https://youtu.be/hmimb2mvMMc)    
 :arrow_right: [lr_light_cinema](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_LR/lr_light_cinema.yaml) - подсветка для кино, переписана через [виртуальный светильник](https://youtu.be/hmimb2mvMMc)    
 :arrow_right: [tt_light.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_TT/tt_light.yaml) - добавлены условия для параметров автовыключения в зависимости от времени суток....
-
+:arrow_right: [dd_sensors.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_DD/dd_sensors.yaml) - добавлены описания сущностей    
+:arrow_right: [dd_switch.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_DD/dd_switch.yaml) - добавлены описания сущностей    
 
 #### Интерфейс, в режиме yaml    
 :arrow_right: [ui-lovelace.yaml](https://github.com/kvazis/newHA/blob/master/ui-lovelace.yaml) - добавлена тестовая страница     
@@ -221,10 +270,13 @@ ____
 :arrow_right_hook: [Архив 011-020](https://github.com/kvazis/newHA/blob/master/archive/011-020/README.md)    
 
 ____
-### Как поддержать развитие проекта?
-* [Стать спонсором моего Youtube](http://kvazis.link/sponsorship)
-* [Подписаться на Patreon](http://kvazis.link/patreon)
-* [Перевод через Paypal](http://kvazis.link/paypal)
+#### Поддержать развитие проекта *Умный дом с Alex Kvazis*    
+<a href="https://www.youtube.com/channel/UCcq9onYHbs6go3kDpfBoqhg/join" target="_blank"><img src="https://raw.githubusercontent.com/kvazis/training/master/lessons/img/youtube.png" alt="Youtube Sponsorship" style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a>
+<a href="https://www.patreon.com/alex_kvazis" target="_blank"><img src="https://raw.githubusercontent.com/kvazis/training/master/lessons/img/patreon-button.png" alt="Patreon Support" style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a>
+<a href="https://www.buymeacoffee.com/greatkvazis" target="_blank"><img src="https://raw.githubusercontent.com/kvazis/training/master/lessons/img/buymeacoffee.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a>
+<a href="https://www.paypal.com/paypalme/greatkvazis" target="_blank"><img src="https://raw.githubusercontent.com/kvazis/training/master/lessons/img/paypal.png" alt="PayPal Me" style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a>
+
+#### Или перевод любой суммы на -     
 * Webmoney - Z243592584952
 * BTC - 1Gzr7WQugfnPuWVawu47EiCMTDUBqCAshj
 * ETH - 0xa0ce3E29Cf537013649Ae9cdbc08C4853fF91FAc
