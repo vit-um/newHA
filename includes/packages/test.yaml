@@ -11,27 +11,27 @@ test:
     template:
 
 
-      - trigger:
-    # кнопка на столе
-        - platform: state
-          entity_id: sensor.0x00158d0001531698_action
-          to: 'single'    
-        binary_sensor:
-          - name: test_sensor
-            state: True
-            auto_off: 10
-            device_class: moisture
+    #   - trigger:
+    # # кнопка на столе
+    #     - platform: state
+    #       entity_id: sensor.0x00158d0001531698_action
+    #       to: 'single'    
+    #     binary_sensor:
+    #       - name: test_sensor
+    #         state: True
+    #         auto_off: 10
+    #         device_class: moisture
             
-      - trigger:
-    # кнопка на столе
-        - platform: state
-          entity_id: sensor.0x00158d0001531698_action
-          to: 'single'    
-        binary_sensor:
-          - name: test_sensor_2
-            state: True
-            auto_off: 20
-            device_class: moisture
+    #   - trigger:
+    # # кнопка на столе
+    #     - platform: state
+    #       entity_id: sensor.0x00158d0001531698_action
+    #       to: 'single'    
+    #     binary_sensor:
+    #       - name: test_sensor_2
+    #         state: True
+    #         auto_off: 20
+    #         device_class: moisture
 
 
       - sensor:

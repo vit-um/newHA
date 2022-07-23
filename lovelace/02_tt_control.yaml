@@ -33,6 +33,17 @@ cards:
                 - type: entity-button
                   entity: fan.0x00158d00014dceb3_right
                   name: Вентилятор
+            - type: glance
+              show_state: true
+              show_name: false
+              state_color: true
+              entities:
+              - entity: binary_sensor.tt_ceiling_unavailable
+              - entity: binary_sensor.tt_light_day
+              - entity: binary_sensor.tt_light_night
+              - entity: binary_sensor.tt_night
+                icon: mdi:moon-waxing-crescent
+
 
         - type: custom:stack-in-card
           mode: vertical
@@ -93,7 +104,7 @@ cards:
                 font-size: 26px;
               }   
           content: >
-              **Мониторинг** 
+              **Мониторинг туалет** 
 
         - type: custom:stack-in-card
           mode: vertical
@@ -109,20 +120,85 @@ cards:
               entities:
               - entity: binary_sensor.0x00158d0001bbeba6_water_leak
               - entity: binary_sensor.0x00158d0001a24e71_occupancy
-              - entity: sensor.0xec1bbdfffe6f3394_temperature
-              - entity: sensor.0xec1bbdfffe6f3394_humidity    
-              
-            - type: glance
-              show_state: true
-              show_name: false
-              state_color: true
-              entities:
-              - entity: binary_sensor.tt_ceiling_unavailable
-              - entity: binary_sensor.tt_light_day
-              - entity: binary_sensor.tt_light_night
-              - entity: binary_sensor.tt_night
-                icon: mdi:moon-waxing-crescent
 
+        - type: custom:plotly-graph
+          entities:
+            - entity: sensor.0xec1bbdfffe6f3394_temperature
+              yaxis: y1
+              line:
+                color: 'rgb(255,239,97)'
+            - entity: sensor.0xec1bbdfffe6f3394_humidity
+              yaxis: y2
+              line:
+                color: 'rgb(0,250,255)'
+          no_default_layout: true
+          defaults:
+            entity:
+              line:
+                width: 2
+              show_value:
+                right_margin: 10
+          layout:
+            xaxis:
+              rangeselector:
+                "y": 1.1
+                buttons:
+                - count: 1
+                  step: minute
+                - count: 1
+                  step: hour
+                - count: 12
+                  step: hour
+                - count: 1
+                  step: day
+                - count: 7
+                  step: day
+            dragmode: pan
+            annotations:
+              - xref: paper
+                yref: paper
+                'y': 1.05
+                text: <b>Температура</b>
+                showarrow: false
+                font: {family: 'Courier New, monospace', size: 18, color: 'rgb(255,239,97)'}
+              - xref: paper
+                yref: paper
+                'y': 0.5
+                text: <b>Влажность</b>
+                showarrow: false
+                font: {family: 'Courier New, monospace', size: 18, color: 'rgb(0,250,255)'}
+            margin:
+              t: 30
+              l: 45
+              r: 30
+              b: 40
+            showlegend: false
+            height: 500
+            yaxis:
+              fixedrange: true
+            yaxis2:
+              fixedrange: true
+            grid:
+              rows: 2
+              columns: 1
+              pattern: coupled
+              roworder: top to bottom
+          hours_to_show: 72
+          refresh_interval: 10
+              
+
+############################ Колонка 3 ############################
+
+    - type: vertical-stack
+      cards:
+
+        - type: markdown
+          style: |
+              ha-card {
+                font-size: 26px;
+              }   
+          content: >
+              **Мониторинг прачечная** 
 
         - type: custom:stack-in-card
           mode: vertical
@@ -136,14 +212,79 @@ cards:
               show_name: false
               state_color: true
               entities:
-              - entity: binary_sensor.ln_washing
-                icon: mdi:washing-machine
               - entity: binary_sensor.0x00158d0002705b7b_water_leak
               - entity: binary_sensor.0x00158d0001e16204_occupancy
-              - entity: sensor.0xec1bbdfffe8d6ac9_temperature
-              - entity: sensor.0xec1bbdfffe8d6ac9_humidity
-                  
-############################ Колонка 3 ############################
+              - entity: binary_sensor.ln_washing
+                icon: mdi:washing-machine
+
+
+        - type: custom:plotly-graph
+          entities:
+            - entity: sensor.0xec1bbdfffe8d6ac9_temperature
+              yaxis: y1
+              line:
+                color: 'rgb(255,239,97)'
+            - entity: sensor.0xec1bbdfffe8d6ac9_humidity
+              yaxis: y2
+              line:
+                color: 'rgb(0,250,255)'
+          no_default_layout: true
+          defaults:
+            entity:
+              line:
+                width: 2
+              show_value:
+                right_margin: 10
+          layout:
+            xaxis:
+              rangeselector:
+                "y": 1.1
+                buttons:
+                - count: 1
+                  step: minute
+                - count: 1
+                  step: hour
+                - count: 12
+                  step: hour
+                - count: 1
+                  step: day
+                - count: 7
+                  step: day
+            dragmode: pan
+            annotations:
+              - xref: paper
+                yref: paper
+                'y': 1.05
+                text: <b>Температура</b>
+                showarrow: false
+                font: {family: 'Courier New, monospace', size: 18, color: 'rgb(255,239,97)'}
+              - xref: paper
+                yref: paper
+                'y': 0.5
+                text: <b>Влажность</b>
+                showarrow: false
+                font: {family: 'Courier New, monospace', size: 18, color: 'rgb(0,250,255)'}
+            margin:
+              t: 30
+              l: 45
+              r: 30
+              b: 40
+            showlegend: false
+            height: 500
+            yaxis:
+              fixedrange: true
+            yaxis2:
+              fixedrange: true
+            grid:
+              rows: 2
+              columns: 1
+              pattern: coupled
+              roworder: top to bottom
+          hours_to_show: 72
+          refresh_interval: 10
+
+                 
+############################ Колонка 4 ############################
 
     - type: vertical-stack
       cards:

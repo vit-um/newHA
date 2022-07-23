@@ -45,7 +45,10 @@ entity_reboot:
              
 
           
-          
+# service: homeassistant.reload_config_entry
+# data: {}
+# target:
+#   device_id: 783c06b5a0a4500e137006a7b05d9564          
           
           
           

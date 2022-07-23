@@ -202,7 +202,6 @@ cards:
               - entity: input_datetime.bt_boiler_2
               - entity: input_datetime.bt_boiler_timer
 
-
         - type: custom:flipdown-timer-card
           entity: timer.bt_boiler
           show_hour: false

@@ -26,7 +26,7 @@ cards:
             - type: horizontal-stack
               cards:        
                 - type: light
-                  entity: light.dd_ceiling_light
+                  entity: light.dd_ceiling_light_virtual
                   name: Люстра 
                 - type: light
                   entity: light.0x00158d000420dbab
@@ -37,6 +37,7 @@ cards:
                 - type: light
                   entity: light.dd_table_lamp
                   name: Настольная лампа
+
 
         - type: custom:stack-in-card
           mode: vertical
@@ -49,6 +50,18 @@ cards:
             - type: entities
               show_header_toggle: false
               entities:
+                - entity: switch.0x54ef44100024689c_right
+                  type: custom:multiple-entity-row
+                  toggle: true
+                  state_color: true
+                  name: Питание люстры
+                  secondary_info: last-changed
+                  state_header: Питание
+                  entities:
+                  - attribute: device_temperature
+                    name: Температура
+                    unit: 'С'
+                - type: divider
                 - entity: switch.0x00158d0001a2ccab_left
                   type: custom:multiple-entity-row
                   toggle: true

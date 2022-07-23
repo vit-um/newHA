@@ -57,13 +57,13 @@ system_sensors:
     #   file_paths:
     #     - /config/home-assistant_v2.db
          
-    - platform: sql
-      db_url: !secret db_link
-      queries:
-        - name: maria_db
-          query: 'SELECT table_schema "database", Round(Sum(data_length + index_length) / 1048576, 2) "value" FROM information_schema.tables WHERE table_schema="homeassistant" GROUP BY table_schema;'
-          column: 'value'
-          unit_of_measurement: MB
+    # - platform: sql
+    #   db_url: !secret db_link
+    #   queries:
+    #     - name: maria_db
+    #       query: 'SELECT table_schema "database", Round(Sum(data_length + index_length) / 1048576, 2) "value" FROM information_schema.tables WHERE table_schema="homeassistant" GROUP BY table_schema;'
+    #       column: 'value'
+    #       unit_of_measurement: MB
 
     - platform: uptime
       name: online
@@ -142,28 +142,3 @@ system_sensors:
             state: >
                {% set s = (states("sensor.time_1_sec") | int - as_timestamp(states('sensor.last_boot')) | int) %}
                {{ '{:d} дн. {:02d}:{:02d}:{:02d}'.format (s // 86400, s % 86400 // 3600, s % 3600 // 60, s % 60) }}
-            #   {% set uptime = as_timestamp (now()) -as_timestamp(states('sensor.last_boot')) | int %}
-            #   {% set minutes = (( uptime % 3600) / 60) | int %}
-            #   {% set hours = ((uptime % 86400) / 3600) | int %}
-            #   {% set days = (uptime / 86400) | int %}
-    
-            #      {% if uptime < 60 %}
-            #       Меньше минуты
-            #      {% else %}
-            #       {% if days > 0 %}
-            #          {{ days }} д.
-            #       {% endif %}
-            #       {% if hours > 0 %}
-            #          {% if days > 0 %}
-            #           {{ ' ' }}
-            #          {% endif %}
-            #          {{ hours }} ч.
-            #       {% endif %}
-            #       {% if minutes > 0 %}
-            #          {% if days > 0 or hours > 0 %}
-            #           {{ ' ' }}
-            #          {% endif %}
-            #           {{ minutes }} мин.
-            #       {% endif %}
-            #      {% endif %}
-            # icon: mdi:clock 

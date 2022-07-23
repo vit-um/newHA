@@ -8,20 +8,20 @@ ip_camera:
         #     stream_source: rtsp://192.168.0.125:554/unicast
             
           - platform: ffmpeg
-            name: reolink_411
+            name: reolink_411_rtsp
             input: !secret reolink_411_rtsp
             
-        #   - platform: ffmpeg
-        #     name: reolink_410
-        #     input: !secret reolink_410_rtsp
+          - platform: ffmpeg
+            name: reolink_410_rtsp
+            input: !secret reolink_410_sub_rtsp
             
           - platform: ffmpeg
-            name: reolink_e1_pro
+            name: reolink_e1_pro_rtsp
             input: !secret reolink_e1_pro_rtsp
             
-          - platform: ffmpeg
-            name: reolink_e1_zoom
-            input: !secret reolink_e1_zoom_rtsp
+        #   - platform: ffmpeg
+        #     name: reolink_e1_zoom_rtsp
+        #     input: !secret reolink_e1_zoom_rtsp
             
         # Hikvision HDR
 

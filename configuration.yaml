@@ -13,6 +13,10 @@ homeassistant:
   # Customization file
 #  customize: !include_dir_merge_named includes/customize
   packages: !include_dir_merge_named includes/packages
+  auth_providers:
+   - type: homeassistant
+
+
 # default_config:
   whitelist_external_dirs :
    - /config
@@ -68,7 +72,12 @@ lovelace:
      type: module 
    - url: /hacsfiles/light-entity-card/light-entity-card.js
      type: module
-                
+   - url: /hacsfiles/lovelace-plotly-graph-card/plotly-graph-card.js
+     type: module 
+   - url: /hacsfiles/history-explorer-card/history-explorer-card.js
+     type: module 
+
+
 logbook:
 
 remote:

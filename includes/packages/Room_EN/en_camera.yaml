@@ -60,9 +60,9 @@ en_camera:
         action:
          - service: camera.snapshot
            data:
-              entity_id: camera.reolink_411_ws
+              entity_id: camera.reolink_411_rtsp
               filename: "/config/www/cam_captures/reolink411.jpg"
-         - delay: 00:00:20
+         - delay: 00:00:10
          - service: telegram_bot.send_photo
            data_template:
              target:
@@ -83,7 +83,7 @@ en_camera:
         action:
          - service: camera.snapshot
            data:
-              entity_id: camera.reolink_410
+              entity_id: camera.reolink_410_rtsp
               filename: "/config/www/cam_captures/reolink410.jpg"
          - delay: 00:00:20
          - service: telegram_bot.send_photo
@@ -109,7 +109,7 @@ en_camera:
            data:
               entity_id: camera.xiaofang
               filename: "/config/www/cam_captures/xiaofang.jpg"
-         - delay: 00:00:20
+         - delay: 00:00:10
          - service: telegram_bot.send_photo
            data_template:
              target:

@@ -39,14 +39,22 @@ bolier:
         has_date: false
         has_time: true
 
-    binary_sensor:
-    
-      - platform: mqtt
-        name: bt_boiler_mode
-        state_topic: "states/water_heater"
-        payload_on: "ON"
-        payload_off: "OFF"
-        
+    mqtt:
+      binary_sensor:
+        - name: bt_boiler_mode
+          state_topic: "states/water_heater"
+
+
+      sensor:
+        - name: bt_boiler_1_on_mqtt
+          state_topic: "states/period/bt_boiler_1"
+
+        - name: bt_boiler_2_on_mqtt
+          state_topic: "states/period/bt_boiler_2"
+
+        - name: bt_boiler_timer_on_mqtt
+          state_topic: "states/timer/bt_boiler"
+
     timer:
 
         bt_boiler:
@@ -79,15 +87,52 @@ bolier:
               {% else %}
                 mdi:water-boiler-off
               {% endif %}
+
+    template:
+     
+      - binary_sensor:
+
+    # Сенсор активности бойлера с устранением паразитных срабатываний
+          - name: bt_boiler_active
+            state: >
+              {{ is_state('switch.0x00158d00015751f4', 'on')  
+              }}
+            delay_on: 00:00:01
+            delay_off: 00:00:01
+            device_class: running
+
               
     automation:
+
+      - id: Включение бойлера в ванной
+        alias: bt_boiler_on
+        initial_state: true
+        trigger:    
+         - platform: time
+           at: input_datetime.bt_boiler_1
+         - platform: time
+           at: input_datetime.bt_boiler_2
+        condition:
+         - condition: state
+           entity_id: switch.0x00158d00015751f4
+           state: 'off'
+         - condition: state
+           entity_id: binary_sensor.bt_boiler_mode
+           state: 'on'
+         - condition: state
+           entity_id: switch.control_mode
+           state: 'on'
+        action:
+         - service: switch.turn_on
+           entity_id: switch.0x00158d00015751f4
+
     
       - id: Проверка корректности включения бойлера ванная
         alias: bt_boiler_impossible
         initial_state: true
         trigger:
          - platform: state
-           entity_id: switch.0x00158d00015751f4
+           entity_id: binary_sensor.bt_boiler_active
            from: 'off'    
            to: 'on'
         condition:
@@ -128,28 +173,45 @@ bolier:
                       message: | 
                           {{"\U0001F6AB"}} Включение бойлера в ванной, отключен режим нагрева воды. Время события - {{ states.sensor.time_date.state }}
 
-      - id: Включение бойлера в ванной
-        alias: bt_boiler_on
+      - id: Дублирование таймера ванная на резервном сервере
+        alias: bt_boiler_timer_double
         initial_state: true
-        trigger:    
-         - platform: time
-           at: input_datetime.bt_boiler_1
-         - platform: time
-           at: input_datetime.bt_boiler_2
-        condition:
-         - condition: state
+        trigger:
+         - platform: state
            entity_id: switch.0x00158d00015751f4
-           state: 'off'
-         - condition: state
-           entity_id: binary_sensor.bt_boiler_mode
-           state: 'on'
+           from: 'on'
+           to: 'off'
+         - platform: state
+           entity_id: switch.0x00158d00015751f4
+           from: 'off'
+           to: 'on'
+        condition:
+    # Работает на выключенном сервере!!!
          - condition: state
            entity_id: switch.control_mode
-           state: 'on'
+           state: 'off'
         action:
-         - service: switch.turn_on
-           entity_id: switch.0x00158d00015751f4
-           
+            - choose:
+    # Выключение таймера
+              - conditions:
+                  - condition: state
+                    entity_id: switch.0x00158d00015751f4
+                    state: 'on'
+                sequence:
+                  - service: timer.start
+                    entity_id: timer.bt_boiler
+                    data_template: 
+                        duration: >
+                              {{strptime(states("input_datetime.bt_boiler_timer"), "%H:%M:%S").time()}}
+    # Отмена таймера
+              - conditions:
+                  - condition: state
+                    entity_id: switch.0x00158d00015751f4
+                    state: 'off'
+                sequence:
+                  - service: timer.cancel
+                    entity_id: timer.bt_boiler
+
       - id: Выключение бойлера в ванной
         alias: bt_boiler_off
         initial_state: true
@@ -178,7 +240,7 @@ bolier:
         initial_state: true
         trigger:
          - platform: state
-           entity_id: switch.0x00158d00015751f4
+           entity_id: binary_sensor.bt_boiler_active
            from: 'on'
            to: 'off'
         condition:
@@ -189,9 +251,177 @@ bolier:
            entity_id: binary_sensor.bt_boiler_mode
            state: 'on'
         action:
+         - service: timer.cancel
+           entity_id: timer.bt_boiler
          - service: telegram_bot.send_message
            data_template:
              target:
                  - !secret chat_id_group_tech
              message: | 
                   {{"\U00002716"}} Выключение бойлера в ванной. Время события - {{ states.sensor.time_date.state }}
+         - delay: 00:00:10                  
+         - service: mqtt.publish
+           data_template:
+             topic: "zigstar_poe/BT boiler/get"
+             payload_template: '{"power": ""}'  
+
+      - id: Сохранение периода 1 бойлера в ванной в mqtt
+        alias: bt_boiler_1_on_mqtt
+        initial_state: true
+        trigger:    
+         - platform: state
+           entity_id: input_datetime.bt_boiler_1
+        action:
+            - choose:
+    # Сервер активен
+              - conditions:
+                  - condition: state
+                    entity_id: switch.control_mode
+                    state: 'on'
+                sequence:
+                  - service: mqtt.publish
+                    data_template:
+                      topic: "states/period/bt_boiler_1"
+                      payload_template: "{{states('input_datetime.bt_boiler_1')}}"
+                      retain: true 
+    # Сервер неактивен
+              - conditions:
+                  - condition: state
+                    entity_id: switch.control_mode
+                    state: 'off'
+                sequence:
+                  - service: input_datetime.set_datetime
+                    target:
+                     entity_id: input_datetime.bt_boiler_1
+                    data:
+                      time: "{{states('sensor.bt_boiler_1_on_mqtt')}}"
+
+      - id: Синхронизация периода 1 бойлера в ванной с mqtt
+        alias: bt_boiler_1_on_mqtt
+        initial_state: true
+        trigger:    
+        - platform: state
+          entity_id: sensor.bt_boiler_1_on_mqtt
+        condition:
+          - condition: template
+            value_template: "{{states('input_datetime.bt_boiler_1') != states('sensor.bt_boiler_1_on_mqtt')}}"
+        action:
+          - service: input_datetime.set_datetime
+            target:
+             entity_id: input_datetime.bt_boiler_1
+            data:
+              time: "{{states('sensor.bt_boiler_1_on_mqtt')}}"
+
+      - id: Сохранение периода 2 бойлера в ванной в mqtt
+        alias: bt_boiler_2_on_mqtt
+        initial_state: true
+        trigger:    
+         - platform: state
+           entity_id: input_datetime.bt_boiler_2
+        action:
+            - choose:
+    # Сервер активен
+              - conditions:
+                  - condition: state
+                    entity_id: switch.control_mode
+                    state: 'on'
+                sequence:
+                  - service: mqtt.publish
+                    data_template:
+                      topic: "states/period/bt_boiler_2"
+                      payload_template: "{{states('input_datetime.bt_boiler_2')}}"
+                      retain: true 
+    # Сервер неактивен
+              - conditions:
+                  - condition: state
+                    entity_id: switch.control_mode
+                    state: 'off'
+                sequence:
+                  - service: input_datetime.set_datetime
+                    target:
+                     entity_id: input_datetime.bt_boiler_2
+                    data:
+                      time: "{{states('sensor.bt_boiler_2_on_mqtt')}}"
+
+      - id: Синхронизация периода 2 бойлера в ванной с mqtt
+        alias: bt_boiler_2_on_mqtt
+        initial_state: true
+        trigger:    
+        - platform: state
+          entity_id: sensor.bt_boiler_2_on_mqtt
+        condition:
+          - condition: template
+            value_template: "{{states('input_datetime.bt_boiler_2') != states('sensor.bt_boiler_2_on_mqtt')}}"
+        action:
+          - service: input_datetime.set_datetime
+            target:
+             entity_id: input_datetime.bt_boiler_2
+            data:
+              time: "{{states('sensor.bt_boiler_2_on_mqtt')}}"
+
+      - id: Сохранение таймера бойлера в ванной в mqtt
+        alias: bt_boiler_timer_on_mqtt
+        initial_state: true
+        trigger:    
+         - platform: state
+           entity_id: input_datetime.bt_boiler_timer
+        action:
+            - choose:
+    # Сервер активен
+              - conditions:
+                  - condition: state
+                    entity_id: switch.control_mode
+                    state: 'on'
+                sequence:
+                  - service: mqtt.publish
+                    data_template:
+                      topic: "states/timer/bt_boiler"
+                      payload_template: "{{states('input_datetime.bt_boiler_timer')}}"
+                      retain: true 
+    # Сервер неактивен
+              - conditions:
+                  - condition: state
+                    entity_id: switch.control_mode
+                    state: 'off'
+                sequence:
+                  - service: input_datetime.set_datetime
+                    target:
+                     entity_id: input_datetime.bt_boiler_timer
+                    data:
+                      time: "{{states('sensor.bt_boiler_timer_on_mqtt')}}"
+
+      - id: Синхронизация таймера бойлера в ванной с mqtt
+        alias: bt_boiler_timer_on_mqtt
+        initial_state: true
+        trigger:    
+        - platform: state
+          entity_id: sensor.bt_boiler_timer_on_mqtt
+        condition:
+          - condition: template
+            value_template: "{{states('input_datetime.bt_boiler_timer') != states('sensor.bt_boiler_timer_on_mqtt')}}"
+        action:
+          - service: input_datetime.set_datetime
+            target:
+             entity_id: input_datetime.bt_boiler_timer
+            data:
+              time: "{{states('sensor.bt_boiler_timer_on_mqtt')}}"
+              
+              
+      - id: Обновление данных по мощности
+        alias: bt_boiler_power_update
+        initial_state: true
+        trigger:
+          - platform: time_pattern
+            seconds: "/15"
+        condition:
+         - condition: state
+           entity_id: switch.control_mode
+           state: 'on'
+         - condition: state
+           entity_id: switch.0x00158d00015751f4
+           state: 'on'
+        action:
+         - service: mqtt.publish
+           data_template:
+             topic: "zigstar_poe/BT boiler/get"
+             payload_template: '{"power": ""}'   

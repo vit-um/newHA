@@ -258,7 +258,7 @@ cards:
                 name: Давление
                 
         - type: picture-entity
-          entity: camera.reolink_e1_pro
+          entity: camera.reolink_e1_pro_rtsp
           camera_view: live 
           show_state: false
           show_name: false

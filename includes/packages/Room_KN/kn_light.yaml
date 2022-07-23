@@ -158,12 +158,22 @@ kn_light:
               {% else %}
               mdi:dome-light
               {% endif %}
+
+    input_button:
+
+      kn_gateway_reset:
+        name: Перезагрузка шлюза
+        icon: mdi:reload
           
     input_boolean:
     
     # Переключатель для определения того, что свет включен вручную
       kn_ceiling_light:
         name: Кухня ручное включение света
+        icon: mdi:lightbulb-off-outline
+        
+      kn_xiaomi_gateway:
+        name: Предохранитель, кухня шлюз
         icon: mdi:lightbulb-off-outline
 
     binary_sensor:
@@ -176,6 +186,63 @@ kn_light:
 
     automation:
 
+      - id: Кухня перезагрузка шлюза xiaomi
+        alias: reload_xiaomi_gateway_kn
+        initial_state: true
+        trigger:
+    ## Виртуальная кнопка
+        - platform: state
+          entity_id: input_button.kn_gateway_reset
+    # Проверка раз в 10 минут
+        - platform: time_pattern
+          minutes: '/10'
+        condition:
+    # Шлюз недоступен
+        - condition: state
+          entity_id: light.gateway_light_7811dc64f4c8
+          state: 'unavailable'
+    # Предохранитель
+        - condition: state
+          entity_id: input_boolean.kn_xiaomi_gateway
+          state: 'off'
+    # Переключатель режима работы сервера
+        - condition: state
+          entity_id: switch.control_mode
+          state: 'on'
+        action:  
+        - service: homeassistant.reload_config_entry
+          data: {}
+          target:
+            device_id: 4063f2da86f527b793ff4d1e9790782e
+        - wait_template: "{{ not is_state('light.gateway_light_7811dc64f4c8', 'unavailable') }}"
+          timeout: 10
+        - if:
+             - "{{ not wait.completed }}"
+          then:
+             - service: telegram_bot.send_message
+               data_template:
+                 target:
+                     - !secret chat_id_group_tech
+                 message: | 
+                      Внимание!
+                      Шлюз недоступен, перезагрузка не имела успеха
+    # Включение предохранителя
+             - service: input_boolean.turn_on
+               entity_id: input_boolean.kn_xiaomi_gateway
+
+      - id: Кухня шлюза xiaomi отключение блокировки
+        alias: block_off_xiaomi_gateway_kn
+        initial_state: true
+        trigger:
+    ## Виртуальная кнопка
+        - platform: state
+          entity_id: light.gateway_light_7811dc64f4c8
+          from: 'unavailable'
+        action:                
+        - service: input_boolean.turn_off
+          entity_id: input_boolean.kn_xiaomi_gateway
+
+               
       - id: Кухня перезагрузка зависшей люстры
         alias: kn_ceiling_reboot
         initial_state: true

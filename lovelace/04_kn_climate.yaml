@@ -27,80 +27,95 @@ cards:
             name: Проветривание
           - entity: binary_sensor.0x00158d0001a99562_contact
             name: Окно
-            
-        - type: custom:mini-graph-card
-          entities:
-           - entity: sensor.0x00158d0001581109_temperature
-             name: Температура
-          color_thresholds:
-            - value: 10
-              color: "#191970"
-            - value: 15
-              color: "#0000FF"
-            - value: 20
-              color: "#ADD8E6"
-            - value: 25
-              color: "#E0FFFF"
-            - value: 30
-              color: "#FFFF00"
-            - value: 50
-              color: "#FFD700"
-          animate: true
-          line_width: 2
-          hour24: true
-          points_per_hour: 1
-          group_by: hour
-          hours_to_show: 72
-          
-        - type: custom:mini-graph-card
-          entities:
-           - entity: sensor.0x00158d0001581109_humidity
-             name: Влажность
-          color_thresholds:
-            - value: 20
-              color: "#FFFF00"
-            - value: 30
-              color: "#FAFAD2"
-            - value: 40
-              color: "#E0FFFF"
-            - value: 50
-              color: "#7FFFD4"
-            - value: 60
-              color: "#00CED1"
-            - value: 80
-              color: "#0000FF"
-            - value: 100
-              color: "#000080"
-          animate: true
-          line_width: 2
-          hour24: true
-          points_per_hour: 1
-          group_by: hour
-          hours_to_show: 72
 
-        - type: custom:mini-graph-card
+        - type: glance
+          show_state: false
+          show_name: false
+          state_color: true
           entities:
-           - entity: sensor.0x04cf8cdf3c772379_illuminance_lux
-             name: Освещенность
-          color_thresholds:
-              - value: 100
-                color: "#000000"
-              - value: 1000
-                color: "#2F4F4F"
-              - value: 5000
-                color: "#708090"
-              - value: 10000
-                color: "#A9A9A9"
-              - value: 20000
-                color: "#D3D3D3"
-              - value: 82000
-                color: "#FFFFFF"
-          animate: true
-          line_width: 2
-          hour24: true
-          points_per_hour: 1
-          group_by: hour
+          - entity: binary_sensor.0x00158d000149d28b_smoke
+          - entity: binary_sensor.0x00158d00013f7894_occupancy
+          - entity: binary_sensor.0x00158d000119378d_contact
+          - entity: binary_sensor.enter_camera_snapshot
+
+        - type: custom:plotly-graph
+          entities:
+            - entity: sensor.0x00158d0001581109_temperature
+              yaxis: y1
+              line:
+                color: 'rgb(255,239,97)'
+            - entity: sensor.0x00158d0001581109_humidity
+              yaxis: y2
+              line:
+                color: 'rgb(0,250,255)'
+            #   fill: tozeroy
+            - entity: sensor.0x04cf8cdf3c772379_illuminance_lux
+              yaxis: y3
+              line:
+                color: 'rgb(255,253,229)'
+          no_default_layout: true
+          defaults:
+            entity:
+              line:
+                width: 2
+              show_value:
+                right_margin: 10
+          layout:
+            xaxis:
+              rangeselector:
+                "y": 1.1
+                buttons:
+                - count: 1
+                  step: minute
+                - count: 1
+                  step: hour
+                - count: 12
+                  step: hour
+                - count: 1
+                  step: day
+                - count: 7
+                  step: day
+            dragmode: pan
+            annotations:
+              - xref: paper
+                yref: paper
+                'y': 1.05
+                text: <b>Температура</b>
+                showarrow: false
+                font: {family: 'Courier New, monospace', size: 18, color: 'rgb(255,239,97)'}
+              - xref: paper
+                yref: paper
+                'y': 0.68
+                text: <b>Влажность</b>
+                showarrow: false
+                font: {family: 'Courier New, monospace', size: 18, color: 'rgb(0,250,255)'}
+              - xref: paper
+                yref: paper
+                'y': 0.3
+                text: <b>Освещенность</b>
+                font: {family: 'Courier New, monospace', size: 18, color: 'rgb(255,253,229)'}
+                showarrow: false
+            margin:
+              t: 30
+              l: 45
+              r: 30
+              b: 40
+            showlegend: false
+            height: 700
+            yaxis:
+              fixedrange: true
+            yaxis2:
+              fixedrange: true
+            yaxis3:
+              fixedrange: true
+            grid:
+              rows: 3
+              columns: 1
+              pattern: coupled
+              roworder: top to bottom
           hours_to_show: 72
+          refresh_interval: 10
+
 
 ############################ Колонка 2 ############################
 
@@ -152,32 +167,61 @@ cards:
               width: 60px
               location: right
 
-              
-        - type: custom:mini-graph-card
-          entities:
-           - entity: sensor.0x00158d0001d35bc0_power
-             name: Энергопотребление
-          color_thresholds:
-            - value: 50
-              color: "#98FB98"
-            - value: 100
-              color: "#006400"
-            - value: 500
-              color: "#8A2BE2"
-            - value: 1000
-              color: "#4B0082"
-            - value: 2000
-              color: "#A52A2A"
-            - value: 3500
-              color: "#800000"
-          animate: true
-          line_width: 2
-          hour24: true
-          points_per_hour: 2
-          group_by: hour
-          hours_to_show: 36
 
-          
+        - type: custom:plotly-graph
+          entities:
+            - entity: sensor.0x00158d0001d35bc0_power
+              yaxis: y1
+              line:
+                color: 'rgb(199,255,217)'
+              fill: tozeroy
+          no_default_layout: true
+          defaults:
+            entity:
+              line:
+                width: 2
+              show_value:
+                right_margin: 10
+          layout:
+            xaxis:
+              rangeselector:
+                "y": 1.1
+                buttons:
+                - count: 1
+                  step: minute
+                - count: 1
+                  step: hour
+                - count: 12
+                  step: hour
+                - count: 1
+                  step: day
+                - count: 7
+                  step: day
+            dragmode: pan
+            annotations:
+              - xref: paper
+                yref: paper
+                'y': 1.05
+                text: <b>Бойлер</b>
+                showarrow: false
+                font: {family: 'Courier New, monospace', size: 18, color: 'rgb(199,255,217)'}
+            margin:
+              t: 30
+              l: 45
+              r: 30
+              b: 40
+            showlegend: false
+            height: 300
+            yaxis:
+              fixedrange: true
+            grid:
+              rows: 1
+              columns: 1
+              pattern: coupled
+              roworder: top to bottom
+          hours_to_show: 24
+          refresh_interval: 10
+
 ############################ Колонка 3 ############################
 
     - type: vertical-stack

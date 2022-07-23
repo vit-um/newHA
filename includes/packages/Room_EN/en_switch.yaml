@@ -9,9 +9,9 @@ en_switch:
           friendly_name: Прихожая питание лампочка
           
         switch.0x00158d0003f46bb6_l1:
-          friendly_name: Этаж питание Reolink 411
-        switch.0x00158d0003f46bb6_l2:
           friendly_name: Этаж питание Reolink 410
+        switch.0x00158d0003f46bb6_l2:
+          friendly_name: Этаж питание Reolink 411
         sensor.0x00158d0003f46bb6_power:
           friendly_name: Этаж питание камер, мощность
           unit_of_measurement: Вт

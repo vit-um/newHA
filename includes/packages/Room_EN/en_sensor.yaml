@@ -7,6 +7,7 @@ en_sensor:
            - sensor.0x54ef44100001b68d_temperature
            - sensor.0x54ef44100001b68d_humidity
            - sensor.0x54ef44100001b68d_voc
+           - binary_sensor.0x00158d00013f7894_occupancy
 
     homeassistant:
       customize:

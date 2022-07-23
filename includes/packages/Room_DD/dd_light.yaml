@@ -4,38 +4,43 @@ dd_light:
       customize:
 
         light.dd_ceiling_light:
-          friendly_name: Детская Д, люстра
+          friendly_name: Детская Д люстра
           icon: mdi:ceiling-light
         
         light.0x00158d000420dbab:
-          friendly_name: Детская Д, бра
+          friendly_name: Детская Д бра
           icon: mdi:coach-lamp
 
         light.dd_wled_light:
-          friendly_name: Детская Д, адресная лента
+          friendly_name: Детская Д адресная лента
           icon: mdi:led-strip-variant
 
-        sensor.0x00158d000163e571_action:
-          friendly_name: Детская Д, выключатель на входе
-        sensor.0x00158d000163e571_battery:
-          friendly_name: Детская Д, выключатель на входе
+        switch.0x54ef44100024689c_left:
+          friendly_name: Детская Д H1 вход, пустое реле
+        switch.0x54ef44100024689c_right:
+          friendly_name: Детская Д H1 вход, питание люстры
+        sensor.0x54ef44100024689c_action:
+          friendly_name: Детская Д H1 вход
+        sensor.0x54ef44100024689c_device_temperature:
+          friendly_name: Детская Д H1 вход
 
         sensor.0x00158d0003d50723_action:
-          friendly_name: Детская Д, выключатель возле кровати
+          friendly_name: Детская Д выключатель возле кровати
         sensor.0x00158d0003d50723_battery:
-          friendly_name: Детская Д, выключатель возле кровати
+          friendly_name: Детская Д выключатель возле кровати
           
         sensor.0x00158d0001a672ef_action:
-          friendly_name: Детская Д, кнопка на столе
+          friendly_name: Детская Д кнопка на столе
         sensor.0x00158d0001a672ef_battery:
-          friendly_name: Детская Д, кнопка на столе
+          friendly_name: Детская Д кнопка на столе
 
 
     light:
+    # Виртуальная настольная лампа
       - platform: template
         lights:
           dd_table_lamp:
-            friendly_name: "Детская Д, настольная лампа"
+            friendly_name: "Детская Д настольная лампа"
             value_template: "{{ states('sensor.0x00158d00030a6e78_power') | float > 5 }}"
             icon_template: mdi:desk-lamp
             turn_on:
@@ -46,10 +51,106 @@ dd_light:
               service: switch.turn_off
               data:
                 entity_id: switch.0x00158d00030a6e78
+    # Виртуальная люстра, для управления в интерфейсе
+
+          dd_ceiling_light_virtual:
+            friendly_name: "Детская Д виртуальная люстра"
+            value_template: >-
+              {{ is_state('light.dd_ceiling_light', 'on')  
+              }}
+            icon_template: >-
+              {% if is_state("light.dd_ceiling_light", "on") %}
+              mdi:ceiling-light
+              {% else %}
+              mdi:ceiling-light-outline
+              {% endif %}
+            turn_on:
+              service: input_button.press
+              target:
+                entity_id: input_button.dd_ceiling_light
+            turn_off:
+              service: input_button.press
+              target:
+                entity_id: input_button.dd_ceiling_light
+            level_template: >-
+                {{ state_attr('light.dd_ceiling_light', 'brightness') | int }}
+            set_level:
+              service: light.turn_on
+              entity_id: light.dd_ceiling_light
+              data_template:
+                brightness: "{{ brightness }}"
+            temperature_template: >-
+                {{ state_attr('light.dd_ceiling_light', 'color_temp') | int }}
+            set_temperature:
+              service: light.turn_on
+              entity_id: light.dd_ceiling_light
+              data_template:
+                color_temp: "{{ color_temp }}"
+
+    input_boolean:
+    
+    # Переключатель для определения того, что свет включен вручную
+      dd_ceiling:
+        name: Детская Д ручное включение люстры
+        icon: mdi:lightbulb-off-outline
+
+    template:
+      - binary_sensor:    
+    # Сенсор определяющий недоступность люстры 
+          - name: dd_ceiling_unavailable
+            state: >
+              {{ is_state('light.dd_ceiling_light', 'unavailable')  
+              }}
+            delay_on: 
+                minutes: 5
+            device_class: problem
+            icon: >
+              {% if is_state("binary_sensor.dd_ceiling_unavailable", "on") %}
+              mdi:ceiling-light-outline
+              {% else %}
+              mdi:ceiling-light
+              {% endif %}
+
+    # Сенсор для устранения задваивания событий с Aqara H1
+      - trigger:
+    # Выключатель на входе
+        - platform: state
+          entity_id: sensor.0x54ef44100024689c_action
+          to: 'single_left'
+        binary_sensor:
+          - name: dd_bra
+            state: True
+            auto_off: 2
+
 
     automation:
+    
+      - id: Детская Д перезагрузка зависшей люстры
+        alias: dd_ceiling_reboot
+        initial_state: true
+        trigger:
+    # Проверка раз в 5 минут, перезагрузка если люстра недоступна
+        - platform: time_pattern
+          minutes: '/5'
+        condition:
+    # Сенсор определяющий недоступность люстры
+        - condition: state
+          entity_id: binary_sensor.dd_ceiling_unavailable
+          state: 'on'
+    # Переключатель режима работы сервера
+        - condition: state
+          entity_id: switch.control_mode
+          state: 'on'
+        action:
+    # Перезагрузка по питанию
+        - service: switch.turn_off
+          entity_id: switch.0x54ef44100024689c_right
+        - delay: 00:00:05
+        - service: switch.turn_on
+          entity_id: switch.0x54ef44100024689c_right
 
-      - id: Детская Д, ручное управление люстрой
+
+      - id: Детская Д ручное управление люстрой
         alias: dd_ceiling_light_manual_control
         initial_state: true
         trigger:
@@ -58,7 +159,7 @@ dd_light:
           entity_id: input_button.dd_ceiling_light
     # Выключатель на входе
         - platform: state
-          entity_id: sensor.0x00158d000163e571_action
+          entity_id: sensor.0x54ef44100024689c_action
           to: 'single_right'
     # Выключатель возле кровати
         - platform: state
@@ -75,30 +176,62 @@ dd_light:
                     entity_id: light.dd_ceiling_light
                     state: 'off'
                 sequence:
-                  - service: xiaomi_miio.light_set_scene
-                    entity_id: light.dd_ceiling_light
-                    data:
-                       scene: 1 
+                  - service: input_boolean.turn_on
+                    target:
+                      entity_id: input_boolean.dd_ceiling
+                  - service: light.turn_on
+                    entity_id:
+                      - light.dd_ceiling_light
+                    data_template:
+                      brightness_pct: 100
+                      kelvin: 4000
+                #   - service: xiaomi_miio.light_set_scene
+                #     entity_id: light.dd_ceiling_light
+                #     data:
+                #       scene: 1 
               - conditions:
                   - condition: state
                     entity_id: light.dd_ceiling_light
                     state: 'on'
                 sequence:
+                  - service: input_boolean.turn_off
+                    target:
+                      entity_id: input_boolean.dd_ceiling
                   - service: light.turn_off
                     entity_id:
                       - light.dd_ceiling_light
-                      
-      - id: Детская Д, ручное управление бра
+
+      - id: Детская Д включения люстры
+        alias: ldd_ceiling_light_control
+        initial_state: true
+        trigger:
+        - platform: state
+          entity_id: light.dd_ceiling_light
+          to: 'on'
+        condition:
+        - condition: state
+          entity_id: switch.control_mode
+          state: 'on'
+        - condition: state
+          entity_id: input_boolean.dd_ceiling
+          state: 'off'
+        action:
+        - service: light.turn_off
+          entity_id:
+            - light.dd_ceiling_light
+
+
+      - id: Детская Д ручное управление бра
         alias: dd_bra_light_manual_control
         initial_state: true
         trigger:
     # Виртуальная кнопка
         - platform: state
           entity_id: input_button.0x00158d000420dbab
-    # Выключатель на входе
-        - platform: state
-          entity_id: sensor.0x00158d000163e571_action
-          to: 'single_left'
+    # Событие от выключателя
+        - platform: state     
+          entity_id: binary_sensor.dd_bra
+          to: 'on'
     # Выключатель возле кровати
         - platform: state
           entity_id: sensor.0x00158d0003d50723_action
@@ -129,7 +262,7 @@ dd_light:
                     entity_id:
                       - light.0x00158d000420dbab
 
-      - id: Детская Д, ручное управление адресной лентой
+      - id: Детская Д ручное управление адресной лентой
         alias: dd_wled_manual_control
         initial_state: true          
         trigger:
@@ -145,10 +278,42 @@ dd_light:
           entity_id: switch.control_mode
           state: 'on'
         action:
-        - service: light.toggle
-          entity_id: light.dd_wled_light
-
-      - id: Детская Д, включение питания на настольную лампу
+            - choose:
+              - conditions:
+                  - condition: state
+                    entity_id: light.dd_wled_light
+                    state: 'off'
+                sequence:
+                  - service: light.turn_on
+                    entity_id: light.dd_wled_light
+                    data:
+                      effect: Saw
+                      brightness_pct: 50
+                  - service: select.select_option
+                    data:
+                      option: Splash
+                    target:
+                      entity_id: select.dd_wled_light_color_palette
+                  - service: number.set_value
+                    target:
+                      entity_id: number.dd_wled_light_speed
+                    data:
+                      value: 114
+                  - service: number.set_value
+                    target:
+                      entity_id: number.dd_wled_light_intensity
+                    data:
+                      value: 76
+              - conditions:
+                  - condition: state
+                    entity_id: light.dd_wled_light
+                    state: 'on'
+                sequence:
+                  - service: light.turn_off
+                    entity_id:
+                      - light.dd_wled_light
+        
+      - id: Детская Д включение питания на настольную лампу
         alias: dd_table_autoswitch
         initial_state: true
         trigger:
@@ -165,7 +330,7 @@ dd_light:
           entity_id:
             - switch.0x00158d00030a6e78
             
-      - id: Детская Д, выключение всего освещения
+      - id: Детская Д выключение всего освещения
         alias: dd_all_light_off
         initial_state: true
         trigger:
@@ -185,13 +350,13 @@ dd_light:
             - light.dd_table_lamp
             - light.dd_wled_light
             
-      - id: Детская Д, выключение всего освещения без ленты
+      - id: Детская Д выключение всего освещения без ленты
         alias: dd_wwled_light_off
         initial_state: true
         trigger:
     # Выключатель на входе
         - platform: state
-          entity_id: sensor.0x00158d000163e571_action
+          entity_id: sensor.0x54ef44100024689c_action
           to: 'single_both'
         condition:
         - condition: state

@@ -20,7 +20,7 @@ cards:
 
             - type: markdown
               content: >
-                 **Состояние сервера**
+                 **Состояние основного сервера**
     
             - type: entities
               show_header_toggle: false
@@ -41,6 +41,8 @@ cards:
                 entities:
                   - entity: sensor.local_ip
                     name: IP адрес
+
+              - entity: sensor.server_telemetry
     
               - type: divider
               - entity: switch.control_mode
@@ -94,6 +96,21 @@ cards:
                   - attribute: latest_version
                     name: Последняя
 
+        - type: custom:stack-in-card
+          mode: vertical
+          cards:
+
+            - type: markdown
+              content: >
+                 **Состояние резервного сервера**
+    
+            - type: entities
+              show_header_toggle: false
+              entities:
+    
+              - entity: sensor.reserve_state
+                name: Home Assistant в online - 
+              - entity: sensor.reserve_telemetry
 
             # - type: markdown
             #   content: |
@@ -115,73 +132,96 @@ cards:
               }          
           content: >
              **Ресурсы**
-             
-        - type: custom:mini-graph-card
-          entities:
-           - entity: sensor.processor_use
-             name: Использование процессора
-          color_thresholds:
-            - value: 20
-              color: "#7FFF00"
-            - value: 40
-              color: "#98FB98"
-            - value: 60
-              color: "#FFFF00"
-            - value: 80
-              color: "#FF8C00"
-            - value: 100
-              color: "#DC143C"
-          animate: true
-          line_width: 2
-          hour24: true
-          points_per_hour: 5
-          group_by: hour
-          hours_to_show: 168
+
+        - type: custom:stack-in-card
+          mode: vertical
+          cards: 
           
-        - type: custom:mini-graph-card
-          entities:
-           - entity: sensor.processor_temperature
-             name: Температура процессора
-          color_thresholds:
-            - value: 20
-              color: "#7FFF00"
-            - value: 40
-              color: "#98FB98"
-            - value: 60
-              color: "#FFFF00"
-            - value: 80
-              color: "#FF8C00"
-            - value: 100
-              color: "#DC143C"
-          animate: true
-          line_width: 2
-          hour24: true
-          points_per_hour: 5
-          group_by: hour
-          hours_to_show: 168
+            - type: markdown
+              content: >
+                 **Процессор**
+
+            - type: custom:stack-in-card
+              mode: horizontal
+              cards:
+                - type: sensor
+                  entity: sensor.processor_use
+                  name: Загрузка
+                  graph: none
+                - type: sensor
+                  entity: sensor.processor_temperature
+                  name: Температура
+                  graph: none
+
+            - type: custom:history-explorer-card
+              header: hide
+              defaultTimeRange: 4h
+              lineMode: curves
+              decimation: true
+              uimode: dark
+              recordedEntitiesOnly: true
+              labelsVisible: false
+              uiColors:
+                gridlines: rgb(100,100,100)
+              uiLayout:
+                toolbar: hide
+                selector: hide
+              graphs:
+              - type: line
+                # title: Процессор
+                entities:
+                  - entity: sensor.processor_use
+                    color: rgb(255,218,241)
+                    fill: rgba(255,218,241,0.1)
+                  - entity: sensor.processor_temperature
+                    color: rgb(255,70,62)
+                    fill: rgba(255,70,62,0.05)
+
+        - type: custom:stack-in-card
+          mode: vertical
+          cards: 
           
-        - type: custom:mini-graph-card
-          entities:
-           - entity: sensor.memory_use_percent
-             name: Использование ОЗУ
-          color_thresholds:
-            - value: 20
-              color: "#7FFF00"
-            - value: 40
-              color: "#98FB98"
-            - value: 60
-              color: "#FFFF00"
-            - value: 80
-              color: "#FF8C00"
-            - value: 100
-              color: "#DC143C"
-          animate: true
-          line_width: 2
-          hour24: true
-          points_per_hour: 5
-          group_by: hour
-          hours_to_show: 168
-          
+            - type: markdown
+              content: >
+                 **RAM SSD**
+
+            - type: custom:stack-in-card
+              mode: horizontal
+              cards:
+                - type: sensor
+                  entity: sensor.memory_use_percent
+                  name: Память
+                  graph: none
+                - type: sensor
+                  entity: sensor.disk_use_percent
+                  name: Диск
+                  graph: none
+
+
+            - type: custom:history-explorer-card
+              header: hide
+              defaultTimeRange: 4h
+              lineMode: curves
+              decimation: true
+              uimode: dark
+              recordedEntitiesOnly: true
+              labelsVisible: false
+              uiColors:
+                gridlines: rgb(100,100,100)
+              uiLayout:
+                toolbar: hide
+                selector: hide
+              graphs:
+              - type: line
+                entities:
+                  - entity: sensor.memory_use_percent
+                    color: rgb(191,255,162)
+                    fill: rgba(191,255,162,0.1)
+                  - entity: sensor.disk_use_percent
+                    color: rgb(255,91,255)
+                    fill: rgba(255,91,255,0.05)
+
+
     - type: vertical-stack
       cards:
       
@@ -191,72 +231,68 @@ cards:
                 font-size: 26px;
               }          
           content: >
-             **Хранилище, бекап**
+             **Хранилище**
 
-        - type: custom:mini-graph-card
-          entities:
-           - entity: sensor.disk_use_percent
-             name: Использование диска
-          color_thresholds:
-            - value: 20
-              color: "#7FFF00"
-            - value: 40
-              color: "#98FB98"
-            - value: 60
-              color: "#FFFF00"
-            - value: 80
-              color: "#FF8C00"
-            - value: 100
-              color: "#DC143C"
-          animate: true
-          line_width: 2
-          hour24: true
-          points_per_hour: 5
-          group_by: hour
-          hours_to_show: 168
-      
-        - type: custom:mini-graph-card
-          entities:
-           - entity: sensor.disk_free
-             name: Свободно на диске
-          color_thresholds:
-            - value: 25
-              color: "#DC143C"
-            - value: 50
-              color: "#FF8C00"
-            - value: 75
-              color: "#FFFF00"
-            - value: 90
-              color: "#98FB98"
-            - value: 110
-              color: "#7FFF00"
-        #   show:
-        #       graph: bar
-          animate: true
-          line_width: 2
-          hour24: true
-          points_per_hour: 5
-          group_by: hour
-          hours_to_show: 168
+        - type: custom:stack-in-card
+          mode: vertical
+          cards: 
           
-        - type: custom:mini-graph-card
-          entities:
-           - entity: sensor.maria_db          
-             name: Объем базы Maria DB
-          color_thresholds:
-            - value: 500
-              color: "#7FFF00"
-            - value: 750
-              color: "#98FB98"
-            - value: 1000
-              color: "#FFFF00"
-            - value: 1250
-              color: "#FF8C00"
-            - value: 1500
-              color: "#DC143C"
-          animate: true
-          line_width: 2
-          hour24: true
-          points_per_hour: 5
-          group_by: hour
-          hours_to_show: 168
+            - type: markdown
+              content: >
+                 **Свободно на диске**
+
+            - type: sensor
+              entity: sensor.disk_free
+              name: Свободно
+
+            - type: custom:history-explorer-card
+              header: hide
+              defaultTimeRange: 4h
+              lineMode: curves
+              decimation: true
+              uimode: dark
+              recordedEntitiesOnly: true
+              labelsVisible: false
+              uiColors:
+                gridlines: rgb(100,100,100)
+              uiLayout:
+                toolbar: hide
+                selector: hide
+              graphs:
+              - type: line
+                entities:
+                  - entity: sensor.disk_free
+                    color: rgb(0,255,0)
+                    fill: rgba(0,255,0,0.1)
+
+        - type: custom:stack-in-card
+          mode: vertical
+          cards: 
+          
+            - type: markdown
+              content: >
+                 **База данных Maria DB**
+
+            - type: sensor
+              entity: sensor.disk_free
+              name: Размер базы
+
+            - type: custom:history-explorer-card
+              header: hide
+              defaultTimeRange: 4h
+              lineMode: curves
+              decimation: true
+              uimode: dark
+              recordedEntitiesOnly: true
+              labelsVisible: false
+              uiColors:
+                gridlines: rgb(100,100,100)
+              uiLayout:
+                toolbar: hide
+                selector: hide
+              graphs:
+              - type: line
+                entities:
+                  - entity: sensor.maria_db
+                    color: rgb(214,204,0)
+                    fill: rgba(214,204,0,0.1)

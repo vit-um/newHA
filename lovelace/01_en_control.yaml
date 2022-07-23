@@ -14,7 +14,7 @@ cards:
                 font-size: 26px;
               }          
           content: >
-             **Мониторинг, этаж**
+             **Видеонаблюдение**
 
         - type: custom:stack-in-card
           mode: vertical
@@ -23,21 +23,47 @@ cards:
               title: Reolink 411
               show_name: false
               entities:
-               - entity: binary_sensor.reolink_411_ws_motion
+            #   - entity: binary_sensor.reolink_411_ws_motion
                - entity: input_button.reolink_411_ws
                  tap_action:
                     action: call-service
                     service: input_button.press
                     service_data:
                       entity_id: input_button.reolink_411_ws
-              camera_image: camera.reolink_411_ws
+              camera_image: camera.reolink_411_rtsp
               camera_view: live
-
             - type: entities
               show_header_toggle: false
               entities:
-                - entity: sensor.reolink_411_ws_last_event
-                  name: Последнее событие
+                # - entity: sensor.reolink_411_ws_last_event
+                #   name: Последнее событие
+                - entity: switch.0x00158d0003f46bb6_l2
+
+        - type: picture-glance
+          title: Xiaofang
+          show_name: false
+          entities:
+           - entity: input_button.xiaofang_reload
+             tap_action:
+                action: call-service
+                service: input_button.press
+                service_data:
+                  entity_id: input_button.xiaofang_reload
+           - entity: input_button.xiaofang
+             tap_action:
+                action: call-service
+                service: input_button.press
+                service_data:
+                  entity_id: input_button.xiaofang
+          camera_image: camera.xiaofang
+
+        - type: entity-filter
+          show_header_toggle: false
+          entities:
+          - entity: camera.xiaofang
+          state_filter:
+            - "unavailable"
+
 
         - type: custom:stack-in-card
           mode: vertical
@@ -46,21 +72,22 @@ cards:
               title: Reolink 410
               show_name: false
               entities:
-               - entity: binary_sensor.reolink_410_motion
+            #   - entity: binary_sensor.reolink_410_motion
                - entity: input_button.reolink_410
                  tap_action:
                     action: call-service
                     service: input_button.press
                     service_data:
                       entity_id: input_button.reolink_410
-              camera_image: camera.reolink_410
+              camera_image: camera.reolink_410_rtsp
               camera_view: live
             - type: entities
               show_header_toggle: false
               entities:
-                - entity: sensor.reolink_410_last_event
-                  name: Последнее событие
-
+                # - entity: sensor.reolink_410_last_event
+                #   name: Последнее событие
+                - entity: switch.0x00158d0003f46bb6_l1
+                
         - type: custom:stack-in-card
           mode: vertical
           cards:
@@ -78,7 +105,7 @@ cards:
                   state_color: true
                   name: Реле Aqara
                   secondary_info: last-changed
-                  state_header: Reolink 411
+                  state_header: Reolink 410
                   entities:
                   - entity: sensor.0x00158d0003f46bb6_meter
                     name: Потреблено за месяц
@@ -87,7 +114,7 @@ cards:
                     name: Мощность
                     unit: 'Ватт'
                   - entity: switch.0x00158d0003f46bb6_l2
-                    name: Reolink 410
+                    name: Reolink 411
                     toggle: true
 
 
@@ -117,6 +144,19 @@ cards:
                   entity: light.0x00158d0003e74c31
                   name: Лампочка на входе
 
+            - type: glance
+              show_state: false
+              show_name: false
+              state_color: true
+              entities:
+              - entity: binary_sensor.en_light_unavailable
+              - entity: binary_sensor.en_light_day
+                icon: mdi:white-balance-sunny
+              - entity: binary_sensor.en_light_night
+                icon: mdi:moon-waxing-crescent
+              - entity: binary_sensor.en_door_open
+                icon: mdi:outdoor-lamp
+
         - type: custom:stack-in-card
           mode: vertical
           cards:
@@ -130,7 +170,45 @@ cards:
               entities:
                 - entity: switch.0x00158d00057305ac_right
                   state_color: true
+                  secondary_info: last-changed
                   
+            - type: custom:history-explorer-card
+              defaultTimeRange: 1d
+            #   recordedEntitiesOnly: true
+              labelsVisible: false
+              legendsVisible: false
+              stateColors:
+                binary_sensor.off: red
+                binary_sensor.on: green
+              uiLayout:
+                toolbar: top
+                selector: hide
+              graphs:
+              - type: timeline
+                title: Датчик движения
+                entities:
+                  - entity: binary_sensor.0x00158d00013f7894_occupancy
+                    name: Прихожая
+
+              - type: line
+                title: Температура
+                entities:
+                  - entity: sensor.0x54ef44100001b68d_temperature
+                    color: rgb(255,239,97)
+                    fill: rgba(255,239,97,0.05)
+              - type: line
+                title: Влажность
+                entities:
+                  - entity: sensor.0x54ef44100001b68d_humidity
+                    color: rgb(0,250,255)
+                    fill: rgba(0,250,255,0.05)
+              - type: line
+                title: Влажность
+                entities:
+                  - entity: sensor.0x54ef44100001b68d_voc
+                    color: rgb(116,255,169)
+                    fill: rgba(116,255,169,0.05)
+
 ############################ Колонка 3 ############################
 
     - type: vertical-stack
@@ -144,69 +222,95 @@ cards:
           content: >
               **Мониторинг** 
 
-        - type: custom:stack-in-card
-          mode: vertical
-          cards:
-
-            - type: glance
-              show_state: false
-              show_name: false
-              state_color: true
-              entities:
-              - entity: binary_sensor.en_light_day
-                icon: mdi:white-balance-sunny
-              - entity: binary_sensor.en_light_night
-                icon: mdi:moon-waxing-crescent
-              - entity: binary_sensor.en_door_open
-                icon: mdi:outdoor-lamp
-              - entity: binary_sensor.en_light_off_3min
-                icon: mdi:timer
-
-            - type: glance
-              show_state: false
-              show_name: false
-              state_color: true
-              entities:
-              - entity: binary_sensor.0x00158d00013f7894_occupancy
-              - entity: binary_sensor.0x00158d000119378d_contact
-              - entity: binary_sensor.enter_camera_snapshot
-              - entity: binary_sensor.en_light_unavailable
-
-            - type: glance
-              show_state: true
-              show_name: false
-              state_color: true
-              entities:
-              - entity: binary_sensor.0x00158d000149d28b_smoke
-              - entity: sensor.0x54ef44100001b68d_temperature
-              - entity: sensor.0x54ef44100001b68d_humidity
-              - entity: sensor.0x54ef44100001b68d_voc
-
-        - type: picture-glance
-          title: Xiaofang
+        - type: glance
+          show_state: false
           show_name: false
+          state_color: true
           entities:
-           - entity: input_button.xiaofang_reload
-             tap_action:
-                action: call-service
-                service: input_button.press
-                service_data:
-                  entity_id: input_button.xiaofang_reload
-           - entity: input_button.xiaofang
-             tap_action:
-                action: call-service
-                service: input_button.press
-                service_data:
-                  entity_id: input_button.xiaofang
-          camera_image: camera.xiaofang
+          - entity: binary_sensor.0x00158d000149d28b_smoke
+          - entity: binary_sensor.0x00158d00013f7894_occupancy
+          - entity: binary_sensor.0x00158d000119378d_contact
+          - entity: binary_sensor.enter_camera_snapshot
 
-        - type: entity-filter
-          show_header_toggle: false
+        - type: custom:plotly-graph
           entities:
-          - entity: camera.xiaofang
-          state_filter:
-            - "unavailable"
-          
+            - entity: sensor.0x54ef44100001b68d_temperature
+              yaxis: y1
+              line:
+                color: 'rgb(255,239,97)'
+            - entity: sensor.0x54ef44100001b68d_humidity
+              yaxis: y2
+              line:
+                color: 'rgb(0,250,255)'
+            #   fill: tozeroy
+            - entity: sensor.0x54ef44100001b68d_voc
+              yaxis: y3
+              line:
+                color: 'rgb(116,255,169)'
+          no_default_layout: true
+          defaults:
+            entity:
+              line:
+                width: 2
+              show_value:
+                right_margin: 10
+          layout:
+            xaxis:
+              rangeselector:
+                "y": 1.1
+                buttons:
+                - count: 1
+                  step: minute
+                - count: 1
+                  step: hour
+                - count: 12
+                  step: hour
+                - count: 1
+                  step: day
+                - count: 7
+                  step: day
+            dragmode: pan
+            annotations:
+              - xref: paper
+                yref: paper
+                'y': 1.05
+                text: <b>Температура</b>
+                showarrow: false
+                font: {family: 'Courier New, monospace', size: 18, color: 'rgb(255,239,97)'}
+              - xref: paper
+                yref: paper
+                'y': 0.68
+                text: <b>Влажность</b>
+                showarrow: false
+                font: {family: 'Courier New, monospace', size: 18, color: 'rgb(0,250,255)'}
+              - xref: paper
+                yref: paper
+                'y': 0.3
+                text: <b>VOC</b>
+                font: {family: 'Courier New, monospace', size: 18, color: 'rgb(116,255,169)'}
+                showarrow: false
+            margin:
+              t: 30
+              l: 45
+              r: 30
+              b: 40
+            showlegend: false
+            height: 700
+            yaxis:
+              fixedrange: true
+            yaxis2:
+              fixedrange: true
+            yaxis3:
+              fixedrange: true
+            grid:
+              rows: 3
+              columns: 1
+              pattern: coupled
+              roworder: top to bottom
+          hours_to_show: 72
+          refresh_interval: 10
+
+
 ############################ Колонка 4 ############################
 
     - type: vertical-stack
