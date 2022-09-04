@@ -39,12 +39,47 @@ kn_light:
         sensor.0x54ef441000118375_battery:
           friendly_name: Кухня движение 2
           
+        binary_sensor.reolink_e1_zoom_motion:
+          friendly_name: Кухня движение камера
+          
         binary_sensor.kn_occupancy:
           friendly_name: Кухня присутствие
           
         binary_sensor.kn_night:
           friendly_name: Кухня ночной режим
           icon: mdi:weather-night
+
+    mqtt:
+      binary_sensor:
+        - name: kn_ceiling_light
+          state_topic: "states/light/kn_light"
+
+    switch:
+    
+      - platform: template
+        switches:
+          kn_ceiling_light:
+            friendly_name: "Кухня ручной режим"
+            value_template: "{{ is_state('binary_sensor.kn_ceiling_light', 'on') }}"
+            turn_on:
+              service: mqtt.publish
+              data_template:
+                topic: "states/light/kn_light"
+                payload_template: 'ON'
+                retain: true 
+            turn_off:
+              service: mqtt.publish
+              data_template:
+                topic: "states/light/kn_light"
+                payload_template: 'OFF'
+                retain: true 
+            # icon_template: >-
+            #   {% if is_state('switch.control_mode', 'on') %}
+            #     mdi:server
+            #   {% else %}
+            #     mdi:server-off
+            #   {% endif %}
+
 
     # Виртуальный светильник, для управления в интерфейсе
     light:
@@ -62,9 +97,9 @@ kn_light:
               mdi:ceiling-light-outline
               {% endif %}
             turn_on:
-              service: input_boolean.turn_on
+              service: switch.turn_on
               target:
-                entity_id: input_boolean.kn_ceiling_light
+                entity_id: switch.kn_ceiling_light
             turn_off:
               service: light.turn_off
               target:
@@ -105,6 +140,7 @@ kn_light:
             state: >
               {{ is_state('binary_sensor.0x00158d0001ab3350_occupancy', 'on')  
                  or is_state('binary_sensor.0x54ef441000118375_occupancy', 'on')
+                 or is_state('binary_sensor.reolink_e1_zoom_motion', 'on')
                  or is_state('binary_sensor.kn_tv_work', 'on')
               }}
             delay_off: 
@@ -115,7 +151,7 @@ kn_light:
           - name: kn_ceiling_long_work
             state: >
               {{ is_state('binary_sensor.kn_occupancy', 'off')  
-                 and is_state('input_boolean.kn_ceiling_light', 'on')
+                 and is_state('binary_sensor.kn_ceiling_light', 'on')
               }}
             delay_on: 
                 minutes: 15
@@ -131,7 +167,7 @@ kn_light:
           - name: kn_ceiling_unavailable
             state: >
               {{ is_state('light.kn_ceiling_light', 'unavailable')  
-              }}
+                 and states('sensor.count_light_unavailable')|int < 3 }}
             delay_on: 
                 minutes: 3
             device_class: problem
@@ -146,7 +182,7 @@ kn_light:
           - name: kn_ceiling_auto_long
             state: >
               {{ is_state('binary_sensor.kn_occupancy', 'on')  
-                 and is_state('input_boolean.kn_ceiling_light', 'off')
+                 and is_state('binary_sensor.kn_ceiling_light', 'off')
                  and is_state('light.kn_ceiling_light', 'on')
               }}
             delay_on: 
@@ -167,11 +203,6 @@ kn_light:
           
     input_boolean:
     
-    # Переключатель для определения того, что свет включен вручную
-      kn_ceiling_light:
-        name: Кухня ручное включение света
-        icon: mdi:lightbulb-off-outline
-        
       kn_xiaomi_gateway:
         name: Предохранитель, кухня шлюз
         icon: mdi:lightbulb-off-outline
@@ -205,11 +236,16 @@ kn_light:
         - condition: state
           entity_id: input_boolean.kn_xiaomi_gateway
           state: 'off'
-    # Переключатель режима работы сервера
-        - condition: state
-          entity_id: switch.control_mode
-          state: 'on'
         action:  
+        - service: switch.turn_off
+          entity_id:
+            - switch.0x00158d000114a1e1
+        - delay: 00:00:03
+        - service: switch.turn_on
+          entity_id:
+            - switch.0x00158d000114a1e1
+        - delay: 00:00:15 
+ 
         - service: homeassistant.reload_config_entry
           data: {}
           target:
@@ -225,12 +261,12 @@ kn_light:
                      - !secret chat_id_group_tech
                  message: | 
                       Внимание!
-                      Шлюз недоступен, перезагрузка не имела успеха
+                      Шлюз кухня недоступен, перезагрузка не имела успеха
     # Включение предохранителя
              - service: input_boolean.turn_on
                entity_id: input_boolean.kn_xiaomi_gateway
 
-      - id: Кухня шлюза xiaomi отключение блокировки
+      - id: Кухня шлюз xiaomi отключение блокировки
         alias: block_off_xiaomi_gateway_kn
         initial_state: true
         trigger:
@@ -288,9 +324,9 @@ kn_light:
           to: 'button_4_single'
         action:
     # Переключатель ручного управления
-        - service: input_boolean.toggle
+        - service: switch.toggle
           target:
-            entity_id: input_boolean.kn_ceiling_light
+            entity_id: switch.kn_ceiling_light
             
       - id: Кухня ручное управление люстрой
         alias: kn_ceiling_manual_control
@@ -298,7 +334,7 @@ kn_light:
         trigger:
     # Переключатель ручного управления
         - platform: state
-          entity_id: input_boolean.kn_ceiling_light
+          entity_id: binary_sensor.kn_ceiling_light
         condition:
     # Переключатель режима работы сервера
         - condition: state
@@ -309,7 +345,7 @@ kn_light:
     # Включение люстры
               - conditions:
                   - condition: state
-                    entity_id: input_boolean.kn_ceiling_light
+                    entity_id: binary_sensor.kn_ceiling_light
                     state: 'on'
                 sequence:
                   - service: light.turn_on
@@ -321,7 +357,7 @@ kn_light:
     # Выключение люстры
               - conditions:
                   - condition: state
-                    entity_id: input_boolean.kn_ceiling_light
+                    entity_id: binary_sensor.kn_ceiling_light
                     state: 'off'
                 sequence:
                   - service: light.turn_off
@@ -343,7 +379,7 @@ kn_light:
           state: 'on'
     # Переключатель ручного управления выключен
         - condition: state
-          entity_id: input_boolean.kn_ceiling_light
+          entity_id: binary_sensor.kn_ceiling_light
           state: 'off'
     # Сенсор присутствия выключен
         - condition: state
@@ -368,6 +404,10 @@ kn_light:
           entity_id: binary_sensor.0x54ef441000118375_occupancy
           to: 'on'
           from: 'off'
+        - platform: state
+          entity_id: binary_sensor.reolink_e1_zoom_motion
+          to: 'on'
+          from: 'off'
         condition:
     # Переключатель режима работы сервера
         - condition: state
@@ -375,7 +415,7 @@ kn_light:
           state: 'on'
     # Переключатель ручного управления выключен
         - condition: state
-          entity_id: input_boolean.kn_ceiling_light
+          entity_id: binary_sensor.kn_ceiling_light
           state: 'off'
     # Люстра выключена более 30 секунд назад
         - condition: state
@@ -427,7 +467,7 @@ kn_light:
           state: 'on'
     # Переключатель ручного управления выключен - люстра не была включена вручную
         - condition: state
-          entity_id: input_boolean.kn_ceiling_light
+          entity_id: binary_sensor.kn_ceiling_light
           state: 'off'
     # Люстра работает
         - condition: state
@@ -473,13 +513,13 @@ kn_light:
         condition:
     # Переключатель ручного управления
         - condition: state
-          entity_id: input_boolean.kn_ceiling_light
+          entity_id: binary_sensor.kn_ceiling_light
           state: 'on'
         action:
     # Выключение переключателя ручного управления
-        - service: input_boolean.turn_off
+        - service: switch.turn_off
           target:
-            entity_id: input_boolean.kn_ceiling_light
+            entity_id: switch.kn_ceiling_light
 
       - id: Кухня переключение на основное освещение
         alias: kn_ceiling_auto_long
@@ -497,7 +537,7 @@ kn_light:
           state: 'on'
         action:
     # Включение переключателя ручного управления
-        - service: input_boolean.turn_on
+        - service: switch.turn_on
           target:
-            entity_id: input_boolean.kn_ceiling_light 
+            entity_id: switch.kn_ceiling_light 
 

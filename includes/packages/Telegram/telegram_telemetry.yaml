@@ -41,7 +41,8 @@ telegram_telemetry:
           - name: all_light_unavailable
             state: >
                 {% set variable = namespace(value = {}) %}
-                {% for entity in states.light if is_state(entity.entity_id, 'unavailable')   %}
+                {% for entity in states.light if is_state(entity.entity_id, 'unavailable')   
+                   and not (entity.entity_id.endswith("_virtual")) %}
                  {% set variable.value = dict(variable.value, **{entity.name: entity.state }) %}
                 {% endfor %}
                 {% if (variable.value | length) | int > 0 %}
@@ -52,7 +53,8 @@ telegram_telemetry:
             attributes:
               list_entities: >
                 {% set variable = namespace(value = {}) %}
-                {% for entity in states.light if is_state(entity.entity_id, 'unavailable')   %}
+                {% for entity in states.light if is_state(entity.entity_id, 'unavailable')   
+                   and not (entity.entity_id.endswith("_virtual")) %}
                  {% set variable.value = dict(variable.value, **{entity.name: entity.state }) %}
                 {% endfor %}
                 {{ variable.value |dictsort(false, 'value') }}

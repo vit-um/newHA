@@ -1,0 +1,328 @@
+##################  Bathroom
+title: Ванная комната
+icon: mdi:shower
+cards:
+
+############################ Колонка 1 ############################
+
+    - type: vertical-stack
+      cards:
+      
+        - type: markdown
+          style: |
+              ha-card {
+                font-size: 26px;
+              }          
+          content: >
+             **Управление**
+             
+        - type: custom:stack-in-card
+          mode: vertical
+          cards:  
+            - type: markdown
+              content: >
+                 **Светильники**
+
+            - type: horizontal-stack
+              cards:        
+                - type: light
+                  entity: light.bt_ceiling_light
+                  name: Люстра
+                - type: light
+                  entity: light.slmap2_cloud_402139
+                  name: УФ ламна
+                  
+        - type: custom:stack-in-card
+          mode: vertical
+          cards:
+            - type: glance
+              show_state: true
+              show_name: true
+              state_color: true
+              entities:
+              - entity: binary_sensor.bt_light_on
+                name: Свет днем
+              - entity: binary_sensor.bt_light_night_on
+                name: Свет ночью
+    
+            - type: custom:flipdown-timer-card
+              entity: timer.bt_light
+              show_hour: false
+              show_title: false
+              show_header: false
+              theme: dark
+              duration: "01:00:00"
+              localize:
+                button: start, stop, cancel, resume, reset
+                header: Hours, Minutes, Seconds
+              styles:
+                rotor:
+                  width: 60px
+                  height: 80px
+                button:
+                  width: 60px
+                  location: hide
+
+        - type: custom:stack-in-card
+          mode: vertical
+          cards:
+
+            - type: entities
+              show_header_toggle: false
+              entities:
+                - entity: switch.0x00158d0001117040_right
+                  state_color: true
+                  name: Питание люстры
+                - entity: switch.0x00158d0001117040_left
+                  state_color: true
+                  name: Вентилятор              
+             
+                - entity: switch.0x00158d00015751f4
+                  type: custom:multiple-entity-row
+                  toggle: true
+                  state_color: true
+                  name: Бойлер
+                  secondary_info: last-changed
+                  state_header: Питание
+                  entities:
+                  - entity: sensor.0x00158d00015751f4_meter
+                    name: Потреблено за месяц
+                    unit: 'кВт·ч'
+                  - attribute: power
+                    name: Мощность
+                    unit: 'Ватт'
+            
+                - entity: switch.0x540f57fffe78ba20
+                  type: custom:multiple-entity-row
+                  toggle: true
+                  state_color: true
+                  name: Розетка
+                  secondary_info: last-changed
+                  state_header: Питание
+                  entities:
+                  - entity: sensor.0x540f57fffe78ba20_meter
+                    name: Потреблено за месяц
+                    unit: 'кВт·ч'
+                  - attribute: power
+                    name: Мощность
+                    unit: 'Ватт'
+              
+            - type: custom:flipdown-timer-card
+              entity: timer.bt_vent
+              show_hour: false
+              show_title: false
+              show_header: false
+              theme: dark
+              duration: "01:00:00"
+              localize:
+                button: start, stop, cancel, resume, reset
+                header: Hours, Minutes, Seconds
+              styles:
+                rotor:
+                  width: 60px
+                  height: 80px
+                button:
+                  width: 60px
+                  location: hide
+
+############################ Колонка 2 ############################
+
+    - type: vertical-stack
+      cards:
+
+        - type: markdown
+          style: |
+              ha-card {
+                font-size: 26px;
+              }          
+          content: >
+             **Мониторинг**
+             
+        - type: glance
+          show_state: true
+          show_name: true
+          state_color: true
+          entities:
+          - entity: binary_sensor.0x00158d0001d72fa2_water_leak
+            name: Раковина
+          - entity: binary_sensor.0x00158d0001bb60c2_water_leak
+            name: Душевая
+          - entity: binary_sensor.0x00158d0001e547a3_occupancy
+            name: Движение
+          - entity: binary_sensor.0x00158d00054495dc_contact
+            name: Дверь
+
+        - type: custom:stack-in-card
+          mode: vertical
+          cards:
+
+            - type: custom:stack-in-card
+              mode: horizontal
+              cards:
+                - type: sensor
+                  entity: sensor.0x00158d0001dcd47e_temperature
+                  name: Температура
+                  graph: none
+              
+                - type: sensor
+                  entity: sensor.0x00158d0001dcd47e_humidity
+                  name: Влажность
+                  graph: none
+
+            - type: custom:history-explorer-card
+              header: hide
+              defaultTimeRange: 1d
+              decimation: true
+              uimode: dark
+              labelsVisible: false
+              stateColors:
+                off: red
+                on: green
+              uiLayout:
+                toolbar: top
+                selector: hide
+              graphs:
+              - type: line
+                # title: Температура
+                entities:
+                  - entity: sensor.0x00158d0001dcd47e_temperature
+                    color: rgb(255,239,97)
+                    fill: rgba(255,239,97,0.05)
+              - type: line
+                # title: Влажность
+                entities:
+                  - entity: sensor.0x00158d0001dcd47e_humidity
+                    color: rgb(0,250,255)
+                    fill: rgba(0,250,255,0.05)
+
+############################ Колонка 3 ############################
+
+
+    - type: vertical-stack
+      cards:
+
+        - type: markdown
+          style: |
+              ha-card {
+                font-size: 26px;
+              }          
+          content: >
+             **Бойлер**
+
+        - type: custom:stack-in-card
+          mode: vertical
+          cards:
+
+            - type: entities
+              show_header_toggle: false
+              entities:
+              - entity: switch.bt_boiler_mode
+                state_color: true
+              - entity: switch.0x00158d00015751f4
+                state_color: true
+                secondary_info: last-changed
+              - entity: input_datetime.bt_boiler_1
+              - entity: input_datetime.bt_boiler_2
+              - entity: input_datetime.bt_boiler_3
+              - entity: input_datetime.bt_boiler_timer
+
+        - type: custom:flipdown-timer-card
+          entity: timer.bt_boiler
+          show_hour: true
+          show_title: false
+          show_header: false
+          theme: dark
+        #   duration: "01:00:00"
+          localize:
+            button: start, stop, cancel, resume, reset
+            header: Hours, Minutes, Seconds
+          styles:
+            rotor:
+              width: 60px
+              height: 80px
+            button:
+              width: 60px
+              location: hide
+
+############################ Колонка 4 ############################
+
+    - type: vertical-stack
+      cards:
+      
+        - type: markdown
+          style: |
+              ha-card {
+                font-size: 26px;
+              }          
+          content: >
+             **Беспроводные устройства**
+             
+        - type: entities
+          show_header_toggle: false
+          entities:
+            - entity: sensor.0x00158d0001d72fa2_battery
+              type: custom:multiple-entity-row
+              icon: mdi:water
+              state_color: true
+              name: Протечка, раковина
+              secondary_info: last-changed
+              state_header: Батарейка
+              entities:
+              - attribute: linkquality
+                name: Сигнал 
+            - type: divider
+            - entity: sensor.0x00158d0001bb60c2_battery
+              type: custom:multiple-entity-row
+              icon: mdi:water
+              state_color: true
+              name: Протечка, душевая
+              secondary_info: last-changed
+              state_header: Батарейка
+              entities:
+              - attribute: linkquality
+                name: Сигнал 
+            - type: divider
+            - entity: sensor.0x00158d0001e547a3_battery
+              type: custom:multiple-entity-row
+              icon: mdi:run
+              state_color: true
+              name: Датчик движения
+              secondary_info: last-changed
+              state_header: Батарейка
+              entities:
+              - attribute: linkquality
+                name: Сигнал          
+            - type: divider
+            - entity: sensor.0x00158d0001dcd47e_battery
+              type: custom:multiple-entity-row
+              icon: mdi:coolant-temperature
+              state_color: true
+              name: Датчик климата
+              secondary_info: last-changed
+              state_header: Батарейка
+              entities:
+              - attribute: linkquality
+                name: Сигнал
+            - type: divider 
+            - entity: sensor.0x00158d00054495dc_battery
+              type: custom:multiple-entity-row
+              icon: mdi:door
+              state_color: true
+              name: Датчик открытия, дверь
+              secondary_info: last-changed
+              state_header: Батарейка
+              entities:
+              - attribute: linkquality
+                name: Сигнал
+            - type: divider
+            - entity: sensor.0x00158d000238a140_battery
+              type: custom:multiple-entity-row
+              icon: mdi:light-switch
+              state_color: true
+              name: Беспроводный выключатель
+              secondary_info: last-changed
+              state_header: Батарейка
+              entities:
+              - attribute: linkquality
+                name: Сигнал
+

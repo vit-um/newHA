@@ -40,6 +40,9 @@ system_health:
 stream:
 history:
 
+# Nabu Casa
+cloud:
+
 # Медиа контент
 media_source:
 
@@ -76,7 +79,31 @@ lovelace:
      type: module 
    - url: /hacsfiles/history-explorer-card/history-explorer-card.js
      type: module 
+   - url: /hacsfiles/ha-sankey-chart/ha-sankey-chart.js
+     type: module      
+   - url: /hacsfiles/lovelace-mushroom/mushroom.js
+     type: module
+     
+  dashboards:
+    lovelace-graph:
+      mode: yaml
+      filename: ui_graph.yaml
+      title: Графики
+      icon: mdi:chart-bell-curve-cumulative
+      show_in_sidebar: true
+      require_admin: true
 
+
+panel_custom:
+  - name: server_state
+    sidebar_title: 'Система'
+    sidebar_icon: mdi:server
+    js_url: /api/hassio/app/entrypoint.js
+    url_path: 'hassio/system'
+    embed_iframe: true
+    require_admin: true
+    config:
+      ingress: core_configurator  
 
 logbook:
 

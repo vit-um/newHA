@@ -1,0 +1,90 @@
+title: Потребление
+panel: true
+icon: mdi:chart-gantt
+cards:
+
+    - type: custom:sankey-chart
+      show_names: true
+      height: 900
+      wide: true
+      sections:
+        - entities:
+          - entity_id: sensor.total_load
+            color: pink
+            children:
+               - sensor.0x00158d0003f46bb6_power
+               - sensor.0x842e14fffe51c5ae_power
+               - sensor.kitchen_total_load
+               - sensor.lr_total_load
+               - sensor.bt_total_load
+               - sensor.dd_total_load
+               - sensor.da_total_load
+               
+        - entities:
+               - entity_id: sensor.0x00158d0003f46bb6_power
+                 color: navy
+               - entity_id: sensor.0x842e14fffe51c5ae_power
+                 color: violet
+               - entity_id: sensor.kitchen_total_load
+                 color: cyan
+                 children:
+                   - sensor.0x00158d0001d35bc0_power
+                   - sensor.0xa4c1385bcf7d00c9_power
+                   - sensor.0xa4c138201dcb67f6_power
+                   - sensor.0xa4c138d571b656c5_power
+                   - sensor.0xa4c138273b49e4d0_power
+                   - sensor.0x000d6f0014bb14b4_power
+                   - sensor.0x00158d0001fa2934_power
+                   - sensor.0x00158d0001291d12_power
+                   - sensor.0x00158d000114a1e1_power
+               - entity_id: sensor.lr_total_load
+                 color: orange
+                 children:
+                   - sensor.0xa4c1388c89a46970_power
+                   - sensor.0xa4c138f41459f92a_power
+                   - sensor.0xa4c1384452a34172_power
+                   - sensor.0xa4c1387c6584d955_power
+                   - sensor.lr_strip_usb_power
+                   - sensor.lr_usb_socket_power
+                   - sensor.lr_6x_power_strip_power
+               - entity_id: sensor.bt_total_load
+                 color: bisque
+                 children:
+                   - sensor.0x00158d00015751f4_power
+                   - sensor.0x540f57fffe78ba20_power
+               - entity_id: sensor.dd_total_load
+                 color: khaki
+                 children:
+                   - sensor.0x00158d0001a2ccab_power
+                   - sensor.0x00158d00030a6e78_power
+                   - sensor.0x00158d000153dd8e_power
+               - entity_id: sensor.da_total_load
+                 color: coral
+                 children:
+                   - sensor.0x00158d00010ec4b8_power
+                   - sensor.0x00158d00012896cb_power 
+                   
+        - entities:
+           - sensor.0x00158d0001d35bc0_power
+           - sensor.0xa4c1385bcf7d00c9_power
+           - sensor.0xa4c138201dcb67f6_power
+           - sensor.0xa4c138d571b656c5_power
+           - sensor.0xa4c138273b49e4d0_power
+           - sensor.0x000d6f0014bb14b4_power
+           - sensor.0x00158d0001fa2934_power
+           - sensor.0x00158d0001291d12_power
+           - sensor.0x00158d000114a1e1_power
+           - sensor.0xa4c1388c89a46970_power
+           - sensor.0xa4c138f41459f92a_power
+           - sensor.0xa4c1384452a34172_power
+           - sensor.0xa4c1387c6584d955_power
+           - sensor.lr_strip_usb_power
+           - sensor.lr_usb_socket_power
+           - sensor.lr_6x_power_strip_power 
+           - sensor.0x00158d00015751f4_power
+           - sensor.0x540f57fffe78ba20_power
+           - sensor.0x00158d0001a2ccab_power
+           - sensor.0x00158d00030a6e78_power
+           - sensor.0x00158d000153dd8e_power
+           - sensor.0x00158d00010ec4b8_power
+           - sensor.0x00158d00012896cb_power                    

@@ -1,138 +1,160 @@
 test:
 
-    homeassistant:
 
-      customize:
-        binary_sensor.test_sensor:
-          friendly_name: Датчик протечки на кухне
-        binary_sensor.test_sensor_2:
-          friendly_name: Датчик протечки в санузле
-
-    template:
-
-
-    #   - trigger:
-    # # кнопка на столе
-    #     - platform: state
-    #       entity_id: sensor.0x00158d0001531698_action
-    #       to: 'single'    
-    #     binary_sensor:
-    #       - name: test_sensor
-    #         state: True
-    #         auto_off: 10
-    #         device_class: moisture
-            
-    #   - trigger:
-    # # кнопка на столе
-    #     - platform: state
-    #       entity_id: sensor.0x00158d0001531698_action
-    #       to: 'single'    
-    #     binary_sensor:
-    #       - name: test_sensor_2
-    #         state: True
-    #         auto_off: 20
-    #         device_class: moisture
-
-
-      - sensor:
-      
-          - name: secundomer
-            state: >
-               {% if is_state('input_boolean.secundomer', 'on') %}     
-                 {% set uptime = (as_timestamp (now()) - (strptime(states("input_datetime.secundomer"), "%Y-%m-%d %H:%M:%S").timestamp())) | int %}
-                 {% set seconds = (uptime % 60) | int %}                 
-                 {% set minutes = (( uptime % 3600) / 60) | int %}
-                 {% set hours = ((uptime % 86400) / 3600) | int %}
-                 {% set days = (uptime / 86400) | int %}
-                 {% if days > 0 %}
-                     {{ days }} д.
-                 {% endif %}
-                 {% if hours > 0 %}
-                     {{ hours }} ч.
-                 {% endif %}
-                 {% if minutes > 0 %}
-                     {{ minutes }} мин.
-                 {% endif %}
-                 {{ seconds }} сек
-               {% else %}
-               Выключено
-               {% endif %}
-
-
-          - name: all_binary_sensor_on
-            state: >
-                {% set variable = namespace(value = {}) %}
-                {% for entity in states.binary_sensor if is_state(entity.entity_id, 'on')   %}
-                 {% set variable.value = dict(variable.value, **{entity.name: entity.state }) %}
-                {% endfor %}
-                {% if (variable.value | length) | int > 0 %}
-                {{ variable.value | length }}
-                {% else %}
-                 0
-                {% endif %}
-            attributes:
-              list_entities: >
-               {% set variable = namespace(value = {}) %}
-                {% for entity in states.binary_sensor if is_state(entity.entity_id, 'on')   %}
-                 {% set variable.value = dict(variable.value, **{entity.name: entity.state }) %}
-                {% endfor %}
-                {{ variable.value |dictsort(false, 'value') }}
-
+    input_boolean:
+      lovelace_lr:
+        name: lovelace_cast_lr
+        icon: mdi:view-dashboard
+        
+        
     automation:
-
-    #   - id: Проигрывание локального mp3
-    #     alias: mp3_play
-    #     initial_state: true
-    #     trigger:
-    #     - platform: state
-    #       entity_id: input_button.mp3
-    #     action:
-    #       - service: media_player.play_media
-    #         data:
-    #           media_content_type: audio/mp3
-    #           media_content_id: /media/local/washmachine.mp3
-    #         target:
-    #           entity_id: media_player.lr_mi_speaker media_player.mi_smart_clock
-
-      - id: Проигрывание локального mp3
-        alias: mp3_play
-        initial_state: true
-        trigger:
-        - platform: state
-          entity_id: input_button.mp3
-        action:
-        - service: tts.reversotts_say
-          entity_id: 
-             - media_player.lr_mi_speaker
-             - media_player.mi_smart_clock
-          data:
-            message: "Включенные светильники {% for entity_name, entity_state in state_attr('sensor.all_light_on', 'list_entities')-%} {{ entity_name }} {{ '\n' -}} {% endfor %} "
     
-      - id: Запуск таймера с заданным значением
-        alias: timer_start
+      - id: Cast Lovelace LR
+        alias: cast_lovelace_lr
         initial_state: true
         trigger:
-    # Переключатель ручного управления
         - platform: state
-          entity_id: input_button.timer
+          entity_id: input_boolean.lovelace_lr
+        condition:
+    # Переключатель режима работы сервера
+        - condition: state
+          entity_id: switch.control_mode
+          state: 'on'
         action:
-        - service: timer.start
-          entity_id: timer.timer
-          data_template: 
-              duration: >
-                    {{strptime(states("input_datetime.timer"), "%H:%M:%S").time()}}
+            - choose:
+              - conditions:
+                  - condition: state
+                    entity_id: input_boolean.lovelace_lr
+                    state: 'on'
+                sequence:
+                  - service: cast.show_lovelace_view
+                    data:
+                      entity_id: media_player.nesthub7a33
+                      dashboard_path: lovelace
+                      view_path: "8"
+
+              - conditions:
+                  - condition: state
+                    entity_id: input_boolean.lovelace_lr
+                    state: 'off'
+                sequence:
+                  - service: media_player.turn_off
+                    data: {}
+                    target:
+                      entity_id: media_player.nesthub7a33
+
+#     recorder:
+#       include:
+#         entities:
+#           - sensor.0x00158d0001bb60c2_control
+#           - sensor.0x00158d0001d72fa2_control
+#           - sensor.0xec1bbdfffe8f1e42_control
+#           - sensor.0x00158d0002705b7b_control
+#           - sensor.0x00158d0001bbeba6_control
+#           - sensor.0x00158d000149d28b_control
+#           - sensor.0x842e14fffef6d9e5_control           
+           
+#     homeassistant:
+
+#       customize:
+#         sensor.0x00158d0001bb60c2_control:
+#           friendly_name: Ванная протечка, душевая
+#         sensor.0x00158d0001d72fa2_control:
+#           friendly_name: Ванная протечка, раковина
+#         sensor.0xec1bbdfffe8f1e42_control:
+#           friendly_name: Кухня протечка
+#         sensor.0x00158d0002705b7b_control:
+#           friendly_name: Прачечная протечка
+#         sensor.0x00158d0001bbeba6_control:
+#           friendly_name: Туалет протечка
+#         sensor.0x00158d000149d28b_control:
+#           friendly_name: Прихожая дым
+#         sensor.0x842e14fffef6d9e5_control:
+#           friendly_name: Кухня дым
+
+#     template:
     
-      - id: Старт секундомера
-        alias: secund_start
-        initial_state: true
-        trigger:
-    # Переключатель ручного управления
-        - platform: state
-          entity_id: input_boolean.secundomer
-          to: 'on'
-        action:
-        - service: input_datetime.set_datetime
-          target:
-            entity_id: input_datetime.secundomer
-          data:
-            datetime: "{{ now().strftime('%Y-%m-%d %H:%M:%S') }}"
+#       - trigger:
+#         - platform: time_pattern
+#           minutes: '/1'
+#         sensor:
+#           - name: '0x00158d0001bb60c2_control'
+#             state: >
+#               {{(as_timestamp (now()) -as_timestamp(state_attr('binary_sensor.0x00158d0001bb60c2_water_leak', 'last_seen')))|int(0) }}
+#             attributes:
+#               time: >
+#                 {% set s = (as_timestamp (now()) -as_timestamp(state_attr('binary_sensor.0x00158d0001bb60c2_water_leak', 'last_seen')))|int(0) %}
+#                 {{ '{:d} дней {:02d}:{:02d}:{:02d}'.format (s // 86400, s % 86400 // 3600, s % 3600 // 60, s % 60) }}
+
+
+#       - trigger:
+#         - platform: time_pattern
+#           minutes: '/1'
+#         sensor:
+#           - name: '0x00158d0001d72fa2_control'
+#             state: >
+#               {{(as_timestamp (now()) -as_timestamp(state_attr('binary_sensor.0x00158d0001d72fa2_water_leak', 'last_seen')))|int(0) }}
+#             attributes:
+#               time: >
+#                 {% set s = (as_timestamp (now()) -as_timestamp(state_attr('binary_sensor.0x00158d0001d72fa2_water_leak', 'last_seen')))|int(0) %}
+#                 {{ '{:d} дней {:02d}:{:02d}:{:02d}'.format (s // 86400, s % 86400 // 3600, s % 3600 // 60, s % 60) }}
+                
+#       - trigger:
+#         - platform: time_pattern
+#           minutes: '/1'
+#         sensor:
+#           - name: '0xec1bbdfffe8f1e42_control'
+#             state: >
+#               {{(as_timestamp (now()) -as_timestamp(state_attr('binary_sensor.0xec1bbdfffe8f1e42_water_leak', 'last_seen')))|int(0) }}
+#             attributes:
+#               time: >
+#                 {% set s = (as_timestamp (now()) -as_timestamp(state_attr('binary_sensor.0xec1bbdfffe8f1e42_water_leak', 'last_seen')))|int(0) %}
+#                 {{ '{:d} дней {:02d}:{:02d}:{:02d}'.format (s // 86400, s % 86400 // 3600, s % 3600 // 60, s % 60) }}
+                
+#       - trigger:
+#         - platform: time_pattern
+#           minutes: '/1'
+#         sensor:
+#           - name: '0x00158d0002705b7b_control'
+#             state: >
+#               {{(as_timestamp (now()) -as_timestamp(state_attr('binary_sensor.0x00158d0002705b7b_water_leak', 'last_seen')))|int(0) }}
+#             attributes:
+#               time: >
+#                 {% set s = (as_timestamp (now()) -as_timestamp(state_attr('binary_sensor.0x00158d0002705b7b_water_leak', 'last_seen')))|int(0) %}
+#                 {{ '{:d} дней {:02d}:{:02d}:{:02d}'.format (s // 86400, s % 86400 // 3600, s % 3600 // 60, s % 60) }}                
+                
+#       - trigger:
+#         - platform: time_pattern
+#           minutes: '/1'
+#         sensor:
+#           - name: '0x00158d0001bbeba6_control'
+#             state: >
+#               {{(as_timestamp (now()) -as_timestamp(state_attr('binary_sensor.0x00158d0001bbeba6_water_leak', 'last_seen')))|int(0) }}
+#             attributes:
+#               time: >
+#                 {% set s = (as_timestamp (now()) -as_timestamp(state_attr('binary_sensor.0x00158d0001bbeba6_water_leak', 'last_seen')))|int(0) %}
+#                 {{ '{:d} дней {:02d}:{:02d}:{:02d}'.format (s // 86400, s % 86400 // 3600, s % 3600 // 60, s % 60) }}                  
+                
+#       - trigger:
+#         - platform: time_pattern
+#           minutes: '/1'
+#         sensor:
+#           - name: '0x00158d000149d28b_control'
+#             state: >
+#               {{(as_timestamp (now()) -as_timestamp(state_attr('binary_sensor.0x00158d000149d28b_smoke', 'last_seen')))|int(0) }}
+#             attributes:
+#               time: >
+#                 {% set s = (as_timestamp (now()) -as_timestamp(state_attr('binary_sensor.0x00158d000149d28b_smoke', 'last_seen')))|int(0) %}
+#                 {{ '{:d} дней {:02d}:{:02d}:{:02d}'.format (s // 86400, s % 86400 // 3600, s % 3600 // 60, s % 60) }}                  
+                
+#       - trigger:
+#         - platform: time_pattern
+#           minutes: '/1'
+#         sensor:
+#           - name: '0x842e14fffef6d9e5_control'
+#             state: >
+#               {{(as_timestamp (now()) -as_timestamp(state_attr('binary_sensor.0x842e14fffef6d9e5_smoke', 'last_seen')))|int(0) }}
+#             attributes:
+#               time: >
+#                 {% set s = (as_timestamp (now()) -as_timestamp(state_attr('binary_sensor.0x842e14fffef6d9e5_smoke', 'last_seen')))|int(0) %}
+#                 {{ '{:d} дней {:02d}:{:02d}:{:02d}'.format (s // 86400, s % 86400 // 3600, s % 3600 // 60, s % 60) }}                  

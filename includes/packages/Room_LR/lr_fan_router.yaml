@@ -1,14 +1,5 @@
 lr_fan_router:
 
-    homeassistant:
-      customize:
-        
-        switch.lr_usb_socket:
-          friendly_name: Гостиная, часы
-
-        switch.lr_usb_socket_usb:
-          friendly_name: Гостиная, вентилятор роутера
-
     binary_sensor:
     
       - platform: tod

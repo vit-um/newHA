@@ -1,0 +1,358 @@
+##################   Климат
+title: Гостиная Климат
+icon: mdi:thermometer-lines
+cards:
+
+############################ Колонка 1 ############################
+
+    - type: vertical-stack
+      cards:
+      
+        - type: markdown
+          style: |
+              ha-card {
+                font-size: 26px;
+              }          
+          content: >
+             **Климат**
+
+        - type: custom:stack-in-card
+          mode: vertical
+          cards:
+
+
+            - type: glance
+              show_state: true
+              show_name: true
+              state_color: true
+              entities:
+              - entity: binary_sensor.0x00158d00013ed373_contact
+                name: Окно 1
+              - entity: binary_sensor.0xec1bbdfffedf6a6a_contact
+                name: Окно 2
+              - entity: binary_sensor.lr_aeration
+                name: Проветривание
+                
+            - type: glance
+              show_state: true
+              show_name: true
+              state_color: true
+              entities:
+              - entity: binary_sensor.lr_poor_air
+                name: Плохой воздух
+              - entity: sensor.lr_hydration_mode
+                name: Увлажнение
+                icon: mdi:water-percent
+
+        - type: custom:stack-in-card
+          mode: vertical
+          cards:
+
+            - type: custom:stack-in-card
+              mode: horizontal
+              cards:
+                - type: sensor
+                  entity: sensor.0x00158d00015aebb6_temperature
+                  name: Температура
+                  graph: none
+                - type: sensor
+                  entity: sensor.0x00158d00015aebb6_humidity
+                  name: Влажность
+                  graph: none
+                - type: sensor
+                  entity: sensor.lr_carbon_dioxide
+                  name: CO2
+                  graph: none
+
+            - type: custom:history-explorer-card
+              header: hide
+              defaultTimeRange: 1d
+              decimation: true
+              uimode: dark
+              labelsVisible: false
+              stateColors:
+                off: red
+                on: green
+              uiLayout:
+                toolbar: top
+                selector: hide
+              graphs:
+              - type: line
+                # title: Температура
+                entities:
+                  - entity: sensor.0x00158d00015aebb6_temperature
+                    color: rgb(255,239,97)
+                    fill: rgba(255,239,97,0.05)
+              - type: line
+                # title: Влажность
+                entities:
+                  - entity: sensor.0x00158d00015aebb6_humidity
+                    color: rgb(0,250,255)
+                    fill: rgba(0,250,255,0.05)
+              - type: line
+                # title: ЛОВ
+                entities:
+                  - entity: sensor.lr_carbon_dioxide
+                    color: rgb(116,255,169)
+                    fill: rgba(116,255,169,0.05)
+############################ Колонка 2 ############################
+
+############################ Колонка 3 ############################
+
+    - type: vertical-stack
+      cards:
+
+        - type: markdown
+          style: |
+              ha-card {
+                font-size: 26px;
+              }          
+          content: >
+             **Отопление**
+
+        - type: entities
+          show_header_toggle: false
+          entities:
+          - entity: switch.lr_radiator_mode
+            state_color: true
+
+        - type: custom:stack-in-card
+          mode: horizontal
+          cards:
+
+            - type: thermostat
+              name: Гостиная 1
+              entity: climate.0x2c1165fffec61c89
+              
+            - type: thermostat
+              name: Гостиная 2
+              entity: climate.0x2c1165fffeb3e567
+
+        - type: custom:stack-in-card
+          mode: horizontal
+          cards: 
+
+            - type: button
+              name: Калибровка 1
+              icon: mdi:sync
+              tap_action:
+                action: call-service
+                service: script.turn_on
+                service_data:
+                    entity_id: script.lr_temperature_calibration_1
+                    
+            - type: button
+              name: Калибровка 2
+              icon: mdi:sync
+              tap_action:
+                action: call-service
+                service: script.turn_on
+                service_data:
+                    entity_id: script.lr_temperature_calibration_2
+
+              
+        - type: custom:stack-in-card
+          mode: vertical
+          cards:
+
+            - type: markdown
+              content: >
+                 **Текущие значения**
+
+            - type: entities
+              show_header_toggle: false
+              entities:
+              - entity: number.0x2c1165fffec61c89_local_temperature_calibration
+                type: custom:multiple-entity-row
+                name: Термоголовка 1
+                icon: mdi:temperature-celsius
+                state_header: Поправка
+                entities:
+                  - entity: sensor.0x00158d00015aebb6_temperature
+                    name: t датчик
+                  - attribute: local_temperature
+                    name: t головка
+                  - entity: sensor.lr_thermostat_difference_1
+                    name: Разница                    
+              - entity: number.0x2c1165fffeb3e567_local_temperature_calibration
+                type: custom:multiple-entity-row
+                name: Термоголовка 2
+                icon: mdi:temperature-celsius
+                state_header: Поправка
+                entities:
+                  - entity: sensor.0x00158d00015aebb6_temperature
+                    name: t датчик
+                  - attribute: local_temperature
+                    name: t головка
+                  - entity: sensor.lr_thermostat_difference_2
+                    name: Разница 
+              - type: divider
+
+            - type: markdown
+              content: >
+                 **Целевая температура**
+
+            - type: entities
+              show_header_toggle: false
+              entities:
+              - entity: number.0x2c1165fffec61c89_comfort_temperature
+                name: Термоголовка 1
+              - entity: number.0x2c1165fffeb3e567_comfort_temperature
+                name: Термоголовка 2
+              - type: divider
+
+            - type: markdown
+              content: >
+                 **Температура проветривания**
+
+            - type: entities
+              show_header_toggle: false
+              entities:
+              - type: divider
+              - entity: number.0x2c1165fffec61c89_open_window_temperature
+                name: Термоголовка 1
+              - entity: number.0x2c1165fffeb3e567_open_window_temperature
+                name: Термоголовка 2
+              - type: divider
+
+            - type: markdown
+              content: >
+                 **Отклик и питание**
+ 
+            - type: entities
+              show_header_toggle: false
+              entities:
+
+              - entity: binary_sensor.0x2c1165fffec61c89_battery_low
+                type: custom:multiple-entity-row
+                name: Термоголовка 1
+                state_header: Батарейка
+                entities:
+                  - attribute: last_seen
+                    format: relative
+                    name: Отклик
+              - entity: binary_sensor.0x2c1165fffeb3e567_battery_low
+                type: custom:multiple-entity-row
+                name: Термоголовка 2
+                state_header: Батарейка
+                entities:
+                  - attribute: last_seen
+                    format: relative
+                    name: Отклик
+
+############################ Колонка 4 ############################
+
+    - type: vertical-stack
+      cards:
+
+        - type: markdown
+          style: |
+              ha-card {
+                font-size: 26px;
+              }          
+          content: >
+             **Кондиционер**
+
+        - type: entities
+          show_header_toggle: false
+          entities:
+          - entity: switch.lr_conditioner_mode
+            state_color: true
+
+        - type: custom:stack-in-card
+          mode: vertical
+          cards:
+
+            - type: entities
+              show_header_toggle: false
+              entities:
+              - entity: input_datetime.lr_conditioner_from
+              - entity: input_datetime.lr_conditioner_to
+              - entity: input_number.lr_conditioner_min
+              - entity: input_number.lr_conditioner_max     
+              
+              
+            - type: glance
+              show_state: false
+              show_name: true
+              state_color: true
+              entities:
+              - entity: binary_sensor.0x00158d00054496b0_contact
+                name: Кондиционер
+              - entity: binary_sensor.lr_conditioner_time
+                name: Время работы
+              - entity: input_button.lr_conditioner
+                name: Вкл/Выкл
+                icon: mdi:air-conditioner
+                tap_action:
+                  action: call-service
+                  service: input_button.press
+                  service_data:
+                    entity_id: input_button.lr_conditioner
+                    
+            - type: glance
+              show_state: false
+              show_name: true
+              state_color: true
+              entities:
+              - entity: binary_sensor.lr_conditioning_off
+              - entity: binary_sensor.lr_conditioning_terms
+              - entity: binary_sensor.lr_conditioning_on
+              
+              
+        - type: markdown
+          style: |
+              ha-card {
+                font-size: 26px;
+              }          
+          content: >
+             **Увлажнение**
+
+        - type: entities
+          show_header_toggle: false
+          entities:
+          - entity: switch.lr_humidifier_mode
+            state_color: true
+
+        - type: custom:stack-in-card
+          mode: vertical
+          cards:
+
+            - type: entities
+              show_header_toggle: false
+              entities:
+              - entity: sensor.lr_hydration_mode
+                name: Режим работы
+                icon: mdi:air-humidifier
+              - entity: humidifier.lr_humidifier
+                type: custom:multiple-entity-row
+                toggle: true
+                name: Увлажнитель
+                secondary_info: last-changed
+                state_header: Статус
+                entities:
+                  - attribute: mode
+                    name: Режим
+                  - entity: sensor.lr_humidifier_water_level
+                    name: Уровень воды
+                  - entity: sensor.lr_humidifier_motor_speed
+                    name: Обороты
+
+            - type: markdown
+              content: >
+                 **Уровень влажности**
+
+            - type: entities
+              show_header_toggle: false
+              state_color: true
+              entities:
+              - entity: input_number.humidity_level_lr
+              
+            - type: entity-button
+              entity: input_button.lr_humidifier
+              name: Перезагрузка увлажнителя
+              tap_action:
+                action: call-service
+                service: input_button.press
+                service_data:
+                  entity_id: input_button.lr_humidifier

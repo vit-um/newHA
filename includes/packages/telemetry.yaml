@@ -1,5 +1,15 @@
 telemetry:
 
+    recorder:
+      include:
+        entities:
+           - sensor.total_load
+           - sensor.kitchen_total_load
+           - sensor.lr_total_load
+           - sensor.bt_total_load
+           - sensor.dd_total_load
+           - sensor.da_total_load
+
     homeassistant:
 
       customize:
@@ -58,6 +68,35 @@ telemetry:
         binary_sensor.notification_time:
           friendly_name: Уведомления
 
+        sensor.total_load:
+          friendly_name: Общая мощность
+          device_class: power
+          unit_of_measurement: Вт
+
+        sensor.kitchen_total_load:
+          friendly_name: Кухня мощность
+          device_class: power
+          unit_of_measurement: Вт
+          
+        sensor.lr_total_load:
+          friendly_name: Гостиная мощность
+          device_class: power
+          unit_of_measurement: Вт
+          
+        sensor.bt_total_load:
+          friendly_name: Ванная мощность
+          device_class: power
+          unit_of_measurement: Вт
+
+        sensor.dd_total_load:
+          friendly_name: Детская Д мощность
+          device_class: power
+          unit_of_measurement: Вт
+          
+        sensor.da_total_load:
+          friendly_name: Детская А мощность
+          device_class: power
+          unit_of_measurement: Вт
 
     input_datetime:
       notification_start:
@@ -71,6 +110,24 @@ telemetry:
         has_time: true
           
     template:
+
+
+    #   - trigger:
+    #       - platform: time_pattern
+    #         seconds: "/30"
+    #     sensor:
+    #       - name: total_load
+    #         state: >
+    #             {% set variable = namespace(value = {}) %}
+    #             {% set power = namespace(value = 0) %}
+    #             {% for entity in states.sensor if (entity.entity_id.endswith("_power"))
+    #             and states(entity.entity_id) not in ['unavailable','unknown','None']  %}
+    #             {% set variable.value = dict(variable.value, **{entity.name: entity.state }) %}
+    #             {% set power.value = power.value |int + entity.state |int %}
+    #             {% endfor %}
+    #             {{ (power.value) |round(2) }}
+            
+
     
       - binary_sensor:
 
@@ -97,6 +154,45 @@ telemetry:
             device_class: running
      
       - sensor:
+
+################# Сенсоры потребления #################
+
+          - name: total_load
+            state: >
+                {% set variable = namespace(value = {}) %}
+                {% set power = namespace(value = 0) %}
+                {% for entity in states.sensor if (entity.entity_id.endswith("_power"))
+                and states(entity.entity_id) not in ['unavailable','unknown','None']  %}
+                {% set variable.value = dict(variable.value, **{entity.name: entity.state }) %}
+                {% set power.value = power.value |int + entity.state |int %}
+                {% endfor %}
+                {{ (power.value) |round(2) }}
+
+          - name: kitchen_total_load
+            state: >
+                {{states('sensor.0x00158d0001d35bc0_power')|float + states('sensor.0xa4c1385bcf7d00c9_power')|float
+                + states('sensor.0xa4c138201dcb67f6_power')|float + states('sensor.0xa4c138d571b656c5_power')|float
+                + states('sensor.0xa4c138273b49e4d0_power')|float + states('sensor.0x000d6f0014bb14b4_power')|float
+                + states('sensor.0x00158d0001fa2934_power')|float + states('sensor.0x00158d0001291d12_power')|float
+                + states('sensor.0x00158d000114a1e1_power')|float}}
+ 
+          - name: lr_total_load
+            state: > 
+                {{states('sensor.0xa4c1388c89a46970_power')|float + states('sensor.0xa4c138f41459f92a_power')|float
+                + states('sensor.0xa4c1384452a34172_power')|float  + states('sensor.0xa4c1387c6584d955_power')|float + states('sensor.lr_strip_usb_power')|float
+                + states('sensor.lr_usb_socket_power')|float + states('sensor.lr_6x_power_strip_power')|float}}  
+ 
+          - name: bt_total_load
+            state: > 
+                {{states('sensor.0x00158d00015751f4_power')|float + states('sensor.0x540f57fffe78ba20_power')|float}}
+                
+          - name: dd_total_load
+            state: > 
+                {{states('sensor.0x00158d0001a2ccab_power')|float + states('sensor.0x00158d00030a6e78_power')|float + states('sensor.0x00158d000153dd8e_power')|float}}
+
+          - name: da_total_load
+            state: > 
+                {{states('sensor.0x00158d00010ec4b8_power')|float + states('sensor.0x00158d00012896cb_power')|float}}
 
 ################# Автоматизации #################
 
@@ -191,7 +287,17 @@ telemetry:
             icon: mdi:lightbulb
 
           - name: count_light_unavailable
-            state: "{{states.light | selectattr ('state', 'equalto', 'unavailable') | list | length}}"
+            state: >
+                {% set variable = namespace(value = {}) %}
+                {% for entity in states.light if is_state(entity.entity_id, 'unavailable')   
+                   and not (entity.entity_id.endswith("_virtual")) %}
+                 {% set variable.value = dict(variable.value, **{entity.name: entity.state }) %}
+                {% endfor %}
+                {% if (variable.value | length) | int > 0 %}
+                {{ variable.value | length }}
+                {% else %}
+                 0
+                {% endif %}
             icon: mdi:lightbulb-question
 
 ################# Реле #################
@@ -219,7 +325,8 @@ telemetry:
           - name: count_switch_unavailable
             state: "{{states.switch | selectattr ('state', 'equalto', 'unavailable') | list | length}}"
             icon: mdi:power-plug-outline
-            
+
+
 ################# Термоголовки #################
 
           - name: count_climate
@@ -302,3 +409,8 @@ telemetry:
           - name: count_camera_unavailable
             state: "{{states.camera | selectattr ('state', 'equalto', 'unavailable') | list | length}}"
             icon: mdi:alert-circle
+            
+
+
+            
+

@@ -1,11 +1,6 @@
 dd_hum:
 ## Детская Д увлажнение
 
-    recorder:
-      include:
-        entities:
-           - switch.0x00158d0001a2ccab_left
-
     homeassistant:
       customize:
         

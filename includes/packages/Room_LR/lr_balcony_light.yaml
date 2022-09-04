@@ -29,6 +29,10 @@ lr_balcony_light:
       lr_balcony_light_virtual:
         name: Гостиная балкон виртуальная люстра
 
+      lr_balcony_light_reload:
+        name: Гостиная балкон перезагрузка люстры
+        icon: mdi:reload
+
     input_boolean:
     
     # Переключатель для определения того, что свет включен вручную
@@ -43,9 +47,8 @@ lr_balcony_light:
     # Движение без света
           - name: lr_balcony_moving_in_dark
             state: >
-              {{ is_state('light.smart_cw_light', 'off')  
-                 and is_state('binary_sensor.0x00158d000449b773_occupancy', 'on')
-                 and states('sensor.0x00158d000449b773_illuminance')|float < 100 
+              {{ is_state('binary_sensor.0x00158d000449b773_occupancy', 'on')
+                 and states('sensor.0x00158d000449b773_illuminance_lux')|float < 100 
               }}
 
     # Свет без движения
@@ -98,8 +101,8 @@ lr_balcony_light:
 
     automation:
     
-      - id: Гостиная балкон ручное управление люстрой
-        alias: lr_balcony_light_manual_control
+      - id: Гостиная балкон включение люстры
+        alias: lr_balcony_light_on
         initial_state: true
         trigger:
     # Виртуальная кнопка
@@ -117,6 +120,40 @@ lr_balcony_light:
         - platform: state
           entity_id: binary_sensor.lr_balcony_moving_in_dark
           to: 'on'
+        condition:
+        - condition: state
+          entity_id: switch.control_mode
+          state: 'on'
+        - condition: state
+          entity_id: light.smart_cw_light
+          state: 'off'
+        action:
+        - service: input_boolean.turn_on
+          target:
+            entity_id: input_boolean.lr_balcony_light_virtual
+        - service: light.turn_on
+          entity_id:
+            - light.smart_cw_light
+          data_template:
+            brightness_pct: 100
+            kelvin: 4000
+          
+
+      - id: Гостиная балкон выключение люстры
+        alias: lr_balcony_light_off
+        initial_state: true
+        trigger:
+    # Виртуальная кнопка
+        - platform: state
+          entity_id: input_button.lr_balcony_light_virtual
+    # Выключатель на входе
+        - platform: state
+          entity_id: sensor.0x00158d00010b5aee_action
+          to: 'single'
+    # Кнопка на балконе
+        - platform: state
+          entity_id: sensor.0x00158d0001b86d2e_action
+          to: 'single'
     # Свет без движения
         - platform: state
           entity_id: binary_sensor.lr_balcony_light_no_move
@@ -125,33 +162,16 @@ lr_balcony_light:
         - condition: state
           entity_id: switch.control_mode
           state: 'on'
+        - condition: state
+          entity_id: light.smart_cw_light
+          state: 'on'
         action:
-            - choose:
-              - conditions:
-                  - condition: state
-                    entity_id: light.smart_cw_light
-                    state: 'off'
-                sequence:
-                  - service: input_boolean.turn_on
-                    target:
-                      entity_id: input_boolean.lr_balcony_light_virtual
-                  - service: light.turn_on
-                    entity_id:
-                      - light.smart_cw_light
-                    data_template:
-                      brightness_pct: 100
-                      kelvin: 4000
-              - conditions:
-                  - condition: state
-                    entity_id: light.smart_cw_light
-                    state: 'on'
-                sequence:
-                  - service: input_boolean.turn_off
-                    target:
-                      entity_id: input_boolean.lr_balcony_light_virtual
-                  - service: light.turn_off
-                    entity_id:
-                      - light.smart_cw_light             
+        - service: input_boolean.turn_off
+          target:
+            entity_id: input_boolean.lr_balcony_light_virtual
+        - service: light.turn_off
+          entity_id:
+            - light.smart_cw_light
                 
 
       - id: Гостиная балкон контроль включения люстры 
@@ -172,3 +192,26 @@ lr_balcony_light:
         - service: light.turn_off
           entity_id:
             - light.smart_cw_light  
+            
+            
+      - id: Гостиная балкон перезагрузка люстры
+        alias: lr_balcony_light_reload
+        initial_state: true
+        trigger:
+    # Виртуальная кнопка
+        - platform: state
+          entity_id: input_button.lr_balcony_light_reload
+    # Перезагрузка раз в 2 часа
+        - platform: time_pattern
+          hours: '/2'            
+        condition:
+        - condition: state
+          entity_id: switch.control_mode
+          state: 'on'            
+        action:            
+        - service: homeassistant.reload_config_entry
+          data: {}
+          target:
+            entity_id: light.smart_cw_light            
+            
+            

@@ -104,18 +104,11 @@ tt_light:
     # Сенсор определяющий недоступность люстры 
           - name: tt_ceiling_unavailable
             state: >
-              {{ is_state('light.tt_ceiling_light', 'unavailable')  
-              }}
+              {{  is_state('light.tt_ceiling_light', 'unavailable')  
+                 and states('sensor.count_light_unavailable')|int < 3 }}
             delay_on: 
                 minutes: 5
             device_class: problem
-
-    # Движение без света
-          - name: tt_moving_in_dark
-            state: >
-              {{ is_state('light.tt_ceiling_virtual', 'off')  
-                 and is_state('binary_sensor.0x00158d0001a24e71_occupancy', 'on')
-              }}
 
     # Свет без движения в туалете днем
           - name: tt_light_day
@@ -198,15 +191,45 @@ tt_light:
         - service: switch.turn_on
           entity_id: switch.0x00158d00014dceb3_left
 
-      - id: Туалет управление светом
-        alias: tt_light_control
+      - id: Туалет включение света
+        alias: tt_light_control_on
+        initial_state: true
+        trigger:
+    # Физические сущности 
+    # Датчик движения
+        - platform: state
+          entity_id: binary_sensor.0x00158d0001a24e71_occupancy
+          to: 'on'
+    # Выключатель на стене у входа
+        - platform: state
+          entity_id: sensor.0x00158d00014dceb3_action
+          to: 'single_left'
+    # Выключатель в туалете
+        - platform: state
+          entity_id: sensor.0x54ef441000279090_action
+          to: 'single_left'
+    # 4 клавишник на комоде
+        - platform: state
+          entity_id: sensor.0x04cf8cdf3c7942ca_action
+          to: 'button_2_single' 
+        condition:
+    # Переключатель режима работы сервера
+        - condition: state
+          entity_id: switch.control_mode
+          state: 'on'
+    # Свет выключен
+        - condition: state
+          entity_id: light.tt_ceiling_virtual
+          state: 'off'
+        action:
+        - service: light.turn_on
+          entity_id: light.tt_ceiling_virtual
+          
+      - id: Туалет выключение света
+        alias: tt_light_control_off
         initial_state: true
         trigger:
     # Виртуальные сущности 
-    # Движение в темноте
-        - platform: state
-          entity_id: binary_sensor.tt_moving_in_dark
-          to: 'on'
     # Выключение света без движения днем
         - platform: state
           entity_id: binary_sensor.tt_light_day
@@ -233,8 +256,12 @@ tt_light:
         - condition: state
           entity_id: switch.control_mode
           state: 'on'
+    # Свет включен
+        - condition: state
+          entity_id: light.tt_ceiling_virtual
+          state: 'on'
         action:
-        - service: light.toggle
+        - service: light.turn_off
           entity_id: light.tt_ceiling_virtual
         
     # Управление вентиляцией   

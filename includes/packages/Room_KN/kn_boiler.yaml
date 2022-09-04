@@ -1,22 +1,5 @@
 kn_boiler:
 
-    recorder:
-      include:
-        entities:
-           - switch.0x00158d0001d35bc0
-           - sensor.0x00158d0001d35bc0_power
-           
-    homeassistant:
-      customize:
-        
-        switch.0x00158d0001d35bc0:
-          friendly_name: Бойлер кухня, питание
-          icon: mdi:power-plug
-        sensor.0x00158d0001d35bc0_power:
-          friendly_name: Бойлер кухня
-          unit_of_measurement: Вт
-          device_class: power
-
     input_datetime:
       kn_boiler_1:
         name: Бойлер кухня - 1 период

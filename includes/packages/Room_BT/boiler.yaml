@@ -33,6 +33,11 @@ bolier:
         name: Бойлер ванная - 2 период
         has_date: false
         has_time: true
+        
+      bt_boiler_3:
+        name: Бойлер ванная - 3 период
+        has_date: false
+        has_time: true
 
       bt_boiler_timer:
         name: Бойлер ванная - длительность работы
@@ -51,6 +56,9 @@ bolier:
 
         - name: bt_boiler_2_on_mqtt
           state_topic: "states/period/bt_boiler_2"
+          
+        - name: bt_boiler_3_on_mqtt
+          state_topic: "states/period/bt_boiler_3"
 
         - name: bt_boiler_timer_on_mqtt
           state_topic: "states/timer/bt_boiler"
@@ -112,6 +120,8 @@ bolier:
            at: input_datetime.bt_boiler_1
          - platform: time
            at: input_datetime.bt_boiler_2
+         - platform: time
+           at: input_datetime.bt_boiler_3
         condition:
          - condition: state
            entity_id: switch.0x00158d00015751f4
@@ -266,7 +276,7 @@ bolier:
              payload_template: '{"power": ""}'  
 
       - id: Сохранение периода 1 бойлера в ванной в mqtt
-        alias: bt_boiler_1_on_mqtt
+        alias: bt_boiler_1_on_mqtt_save
         initial_state: true
         trigger:    
          - platform: state
@@ -297,7 +307,7 @@ bolier:
                       time: "{{states('sensor.bt_boiler_1_on_mqtt')}}"
 
       - id: Синхронизация периода 1 бойлера в ванной с mqtt
-        alias: bt_boiler_1_on_mqtt
+        alias: bt_boiler_1_on_mqtt_sync
         initial_state: true
         trigger:    
         - platform: state
@@ -313,7 +323,7 @@ bolier:
               time: "{{states('sensor.bt_boiler_1_on_mqtt')}}"
 
       - id: Сохранение периода 2 бойлера в ванной в mqtt
-        alias: bt_boiler_2_on_mqtt
+        alias: bt_boiler_2_on_mqtt_save
         initial_state: true
         trigger:    
          - platform: state
@@ -344,7 +354,7 @@ bolier:
                       time: "{{states('sensor.bt_boiler_2_on_mqtt')}}"
 
       - id: Синхронизация периода 2 бойлера в ванной с mqtt
-        alias: bt_boiler_2_on_mqtt
+        alias: bt_boiler_2_on_mqtt_sync
         initial_state: true
         trigger:    
         - platform: state
@@ -358,6 +368,53 @@ bolier:
              entity_id: input_datetime.bt_boiler_2
             data:
               time: "{{states('sensor.bt_boiler_2_on_mqtt')}}"
+              
+      - id: Сохранение периода 3 бойлера в ванной в mqtt
+        alias: bt_boiler_3_on_mqtt_save
+        initial_state: true
+        trigger:    
+         - platform: state
+           entity_id: input_datetime.bt_boiler_3
+        action:
+            - choose:
+    # Сервер активен
+              - conditions:
+                  - condition: state
+                    entity_id: switch.control_mode
+                    state: 'on'
+                sequence:
+                  - service: mqtt.publish
+                    data_template:
+                      topic: "states/period/bt_boiler_3"
+                      payload_template: "{{states('input_datetime.bt_boiler_3')}}"
+                      retain: true 
+    # Сервер неактивен
+              - conditions:
+                  - condition: state
+                    entity_id: switch.control_mode
+                    state: 'off'
+                sequence:
+                  - service: input_datetime.set_datetime
+                    target:
+                     entity_id: input_datetime.bt_boiler_3
+                    data:
+                      time: "{{states('sensor.bt_boiler_3_on_mqtt')}}"
+
+      - id: Синхронизация периода 3 бойлера в ванной с mqtt
+        alias: bt_boiler_3_on_mqtt_sync
+        initial_state: true
+        trigger:    
+        - platform: state
+          entity_id: sensor.bt_boiler_3_on_mqtt
+        condition:
+          - condition: template
+            value_template: "{{states('input_datetime.bt_boiler_3') != states('sensor.bt_boiler_3_on_mqtt')}}"
+        action:
+          - service: input_datetime.set_datetime
+            target:
+             entity_id: input_datetime.bt_boiler3
+            data:
+              time: "{{states('sensor.bt_boiler_3_on_mqtt')}}"
 
       - id: Сохранение таймера бойлера в ванной в mqtt
         alias: bt_boiler_timer_on_mqtt

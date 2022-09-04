@@ -29,19 +29,27 @@ entity_reboot:
                    
 
 
-      - id: Перезагрузка шлюза Xiaomi Гостиная
-        alias: reload_xiaomi_gateway_lr
-        initial_state: true
-        trigger:
-    ## Виртуальная кнопка
-        - platform: state
-          entity_id: input_button.lr_gateway_reload
-        action:  
-          - service: homeassistant.reload_config_entry
-            data:
-              entry_id: 8df1ddd14ac8a56d9f27c34a147d1bb7
-            target:
-              entity_id: light.gateway_light_34ce0088b039
+    #   - id: Перезагрузка шлюза Xiaomi Гостиная
+    #     alias: reload_xiaomi_gateway_lr
+    #     initial_state: true
+    #     trigger:
+    # ## Виртуальная кнопка
+    #     - platform: state
+    #       entity_id: input_button.lr_gateway_reload
+    #     action:  
+    #       - service: switch.turn_off
+    #         entity_id:
+    #           - switch.0xa4c1387c6584d955  
+    #       - delay: 00:00:03
+    #       - service: switch.turn_on
+    #         entity_id:
+    #           - switch.0xa4c1387c6584d955
+    #       - delay: 00:00:15
+    #       - service: homeassistant.reload_config_entry
+    #         data:
+    #           entry_id: 8df1ddd14ac8a56d9f27c34a147d1bb7
+    #         target:
+    #           entity_id: light.gateway_light_34ce0088b039
              
 
           
@@ -50,7 +58,17 @@ entity_reboot:
 # target:
 #   device_id: 783c06b5a0a4500e137006a7b05d9564          
           
-          
+    #   - id: Перезагрузка аддона Maria DB
+    #     alias: reload_maria_db
+    #     initial_state: true
+    #     trigger:
+    #       - platform: time
+    #         at: '05:00:00'
+    #     action:  
+    #       - service: hassio.addon_restart
+    #         data:
+    #           addon: core_mariadb     
+                    
           
           
           

@@ -1,0 +1,627 @@
+##################   Kitchen
+title: Кухня
+icon: mdi:food-fork-drink
+cards:
+
+############################ Колонка 1 ############################
+
+    - type: vertical-stack
+      cards:
+      
+        - type: markdown
+          style: |
+              ha-card {
+                color: #f8ffd8;
+                --paper-item-icon-color: #f8ffd8;
+                --paper-item-icon-active-color: #f8ffd8;
+                font-weight: bold;
+                font-size: 26px;
+              }          
+          content: >
+             **Управление**
+             
+        - type: custom:stack-in-card
+          mode: vertical
+          cards:  
+            - type: markdown
+              style: |
+                   ha-card {
+                     color: #f8ffd8;
+                     --paper-item-icon-color: #f8ffd8;
+                     --paper-item-icon-active-color: #f8ffd8;
+                     font-weight: bold;
+                     font-size: 14px;
+                   } 
+              content: >
+                 **Освещение**
+
+            - type: glance
+              style: |
+                   ha-card {
+                     color: #f8ffd8;
+                     --paper-item-icon-color: #ff4f3c;
+                     --paper-item-icon-active-color: #009933;
+                     font-weight: bold;
+                     font-size: 14px;
+                   } 
+                   
+              show_state: true
+              show_name: true
+              state_color: true
+              entities:
+              - entity: binary_sensor.kn_night
+                name: Ночной режим
+              - entity: binary_sensor.kn_ceiling_off           
+                name: 30 сек отключение
+              - entity: binary_sensor.kn_ceiling_unavailable
+                name: Доступность
+              - entity: binary_sensor.kn_ceiling_light
+                name: Ручной
+                
+            - type: horizontal-stack
+              cards:        
+                - type: light
+                  style: |
+                       ha-card {
+                         color: #f8ffd8;
+                         --paper-item-icon-color: #666666;
+                         font-weight: bold;
+                         font-size: 14px;
+                       }
+                  entity: light.kn_ceiling_virtual
+                  name: Люстра
+                - type: light
+                  style: |
+                       ha-card {
+                         color: #f8ffd8;
+                         --paper-item-icon-color: #666666;
+                         font-weight: bold;
+                         font-size: 14px;
+                       }
+                  entity: light.gateway_light_7811dc64f4c8
+                  name: Ночник
+
+
+
+        - type: custom:stack-in-card
+          mode: horizontal
+          cards:
+            - type: entity-button
+              style: |
+                   ha-card {
+                     color: #f8ffd8;
+                     --paper-item-icon-color: #666666;
+                     --paper-item-icon-active-color: #009933;
+                     font-weight: bold;
+                     font-size: 14px;
+                   }  
+              entity: binary_sensor.kn_tv_work
+              name: Телевизор
+            - type: entity-button
+              style: |
+                   ha-card {
+                     color: #f8ffd8;
+                     --paper-item-icon-color: #666666;
+                     --paper-item-icon-active-color: #009933;
+                     font-weight: bold;
+                     font-size: 14px;
+                   } 
+              entity: input_button.kn_tv_control
+              name: Вкл/Выкл
+              tap_action:
+                action: call-service
+                service: input_button.press
+                service_data:
+                  entity_id: input_button.kn_tv_control
+            - type: entity-button
+              style: |
+                   ha-card {
+                     color: #f8ffd8;
+                     --paper-item-icon-color: #666666;
+                     --paper-item-icon-active-color: #009933;
+                     font-weight: bold;
+                     font-size: 14px;
+                   } 
+              entity: input_button.kn_gateway_reset
+              name: Шлюз
+              tap_action:
+                action: call-service
+                service: input_button.press
+                service_data:
+                  entity_id: input_button.kn_gateway_reset
+              
+        - type: custom:stack-in-card
+          mode: vertical
+          cards:
+
+            - type: markdown
+              content: >
+                 **Питание**
+                 
+            - type: entities
+              style: |
+                   ha-card {
+                     color: #f8ffd8;
+                     --paper-item-icon-color: #ff4f3c;
+                     --paper-item-icon-active-color: #009933;
+                     --switch-unchecked-button-color: #ff0922;
+                     --switch-checked-color: #009933;
+                     --switch-checked-button-color: #009933;
+                     --switch-checked-track-color: #009933;
+                     font-weight: bold;
+                     font-size: 14px;
+                   }  
+              show_header_toggle: false
+              entities:
+                - entity: switch.0x54ef4410000f4741_right
+                  state_color: true
+                  name: Питание люстры
+                - entity: switch.kn_ceiling_light
+                  state_color: true
+                  name: Ручной режим
+                - entity: switch.0xa4c138201dcb67f6
+                  type: custom:multiple-entity-row
+                  toggle: true
+                  state_color: true
+                  name: Электрогриль
+                  secondary_info: last-changed
+                  state_header: Питание
+                  entities:
+                  - entity: sensor.0xa4c138201dcb67f6_meter
+                    name: Потреблено за месяц
+                    unit: 'кВт·ч'
+                  - attribute: power
+                    name: Мощность
+                    unit: 'Ватт'
+                - entity: switch.0xa4c138d571b656c5
+                  type: custom:multiple-entity-row
+                  toggle: true
+                  state_color: true
+                  name: Аэрогриль
+                  secondary_info: last-changed
+                  state_header: Питание
+                  entities:
+                  - entity: sensor.0xa4c138d571b656c5_meter
+                    name: Потреблено за месяц
+                    unit: 'кВт·ч'
+                  - attribute: power
+                    name: Мощность
+                    unit: 'Ватт'
+                - entity: switch.0xa4c138273b49e4d0
+                  type: custom:multiple-entity-row
+                  toggle: true
+                  state_color: true
+                  name: Микроволновка
+                  secondary_info: last-changed
+                  state_header: Питание
+                  entities:
+                  - entity: sensor.0xa4c138273b49e4d0_meter
+                    name: Потреблено за месяц
+                    unit: 'кВт·ч'
+                  - attribute: power
+                    name: Мощность
+                    unit: 'Ватт'                    
+                - entity: switch.0x00158d0001d35bc0
+                  type: custom:multiple-entity-row
+                  toggle: true
+                  state_color: true
+                  name: Бойлер
+                  secondary_info: last-changed
+                  state_header: Питание
+                  entities:
+                  - entity: sensor.0x00158d0001d35bc0_meter
+                    name: Потреблено за месяц
+                    unit: 'кВт·ч'
+                  - attribute: power
+                    name: Мощность
+                    unit: 'Ватт'
+                - entity: switch.0x000d6f0014bb14b4
+                  type: custom:multiple-entity-row
+                  toggle: true
+                  state_color: true
+                  name: Кофемашина
+                  secondary_info: last-changed
+                  state_header: Питание
+                  entities:
+                  - entity: sensor.0x000d6f0014bb14b4_meter
+                    name: Потреблено за месяц
+                    unit: 'кВт·ч'
+                  - attribute: power
+                    name: Мощность
+                    unit: 'Ватт'
+                - entity: switch.0xa4c1385bcf7d00c9
+                  type: custom:multiple-entity-row
+                  toggle: true
+                  state_color: true
+                  name: Чайник
+                  secondary_info: last-changed
+                  state_header: Питание
+                  entities:
+                  - entity: sensor.0xa4c1385bcf7d00c9_meter
+                    name: Потреблено за месяц
+                    unit: 'кВт·ч'
+                  - attribute: power
+                    name: Мощность
+                    unit: 'Ватт'
+                - entity: switch.0x00158d0001291d12
+                  type: custom:multiple-entity-row
+                  toggle: true
+                  state_color: true
+                  name: Телевизор
+                  secondary_info: last-changed
+                  state_header: Питание
+                  entities:
+                  - entity: sensor.0x00158d0001291d12_meter
+                    name: Потреблено за месяц
+                    unit: 'кВт·ч'
+                  - attribute: power
+                    name: Мощность
+                    unit: 'Ватт'
+                - entity: switch.0x00158d0001fa2934
+                  type: custom:multiple-entity-row
+                  toggle: true
+                  state_color: true
+                  name: Холодильник
+                  secondary_info: last-changed
+                  state_header: Питание
+                  entities:
+                  - entity: sensor.0x00158d0001fa2934_meter
+                    name: Потреблено за месяц
+                    unit: 'кВт·ч'
+                  - attribute: power
+                    name: Мощность
+                    unit: 'Ватт'
+    
+
+
+############################ Колонка 2 ############################
+
+    - type: vertical-stack
+      cards:
+
+        - type: markdown
+          style: |
+              ha-card {
+                color: #f8ffd8;
+                --paper-item-icon-color: #f8ffd8;
+                --paper-item-icon-active-color: #f8ffd8;
+                font-weight: bold;
+                font-size: 26px;
+              }     
+          content: >
+              **Мониторинг** 
+
+        - type: custom:stack-in-card
+          mode: vertical
+          cards:  
+            - type: markdown
+              style: |
+                   ha-card {
+                     color: #f8ffd8;
+                     --paper-item-icon-color: #f8ffd8;
+                     --paper-item-icon-active-color: #f8ffd8;
+                     font-weight: bold;
+                     font-size: 14px;
+                   } 
+              content: >
+                 **Датчики и сенсоры**
+
+            - type: glance
+              style: |
+                   ha-card {
+                     color: #f8ffd8;
+                     --paper-item-icon-color: #ff4f3c;
+                     --paper-item-icon-active-color: #009933;
+                     font-weight: bold;
+                     font-size: 14px;
+                   } 
+              show_state: true
+              show_name: false
+              state_color: true
+              entities:
+              - entity: binary_sensor.0x842e14fffef6d9e5_smoke
+              - entity: binary_sensor.0xec1bbdfffe8f1e42_water_leak
+              - entity: binary_sensor.0x00158d0001a99562_contact
+
+            - type: glance
+              style: |
+                   ha-card {
+                     color: #f8ffd8;
+                     --paper-item-icon-color: #ff4f3c;
+                     --paper-item-icon-active-color: #009933;
+                     font-weight: bold;
+                     font-size: 14px;
+                   } 
+              show_state: true
+              show_name: false
+              state_color: true
+              entities:
+
+              - entity: binary_sensor.kn_occupancy
+              - entity: binary_sensor.0x00158d0001ab3350_occupancy
+              - entity: binary_sensor.0x54ef441000118375_occupancy
+              - entity: binary_sensor.reolink_e1_zoom_motion
+
+
+
+        - type: custom:stack-in-card
+          mode: vertical
+          cards:
+            - type: picture-glance
+              title: Reolink E1 Zoom
+              show_name: false
+              entities:
+                - binary_sensor.reolink_e1_zoom_motion
+              camera_image: camera.reolink_e1_zoom
+              camera_view: live
+            - type: entities
+              show_header_toggle: false
+              entities:
+                - entity: sensor.reolink_e1_zoom_last_event
+                  name: Последнее событие
+
+        - type: media-control
+          entity: media_player.kn_mi_box
+          name: ТВ бокс, кухня
+
+ 
+        - type: custom:stack-in-card
+          mode: vertical
+          cards:
+
+            - type: markdown
+              style: |
+                   ha-card {
+                     color: #f8ffd8;
+                     --paper-item-icon-color: #f8ffd8;
+                     --paper-item-icon-active-color: #f8ffd8;
+                     font-weight: bold;
+                     font-size: 14px;
+                   } 
+              content: >
+                 **Растения**
+
+            - type: glance
+              style: |
+                   ha-card {
+                     color: #f8ffd8;
+                     --paper-item-icon-color: #5ac0ff;
+                     --paper-item-icon-active-color: #009933;
+                     font-weight: bold;
+                     font-size: 14px;
+                   } 
+              show_state: true
+              show_name: true
+              state_color: true
+              entities:
+              - entity: sensor.0x00124b0022145c90_soil_moisture
+                name: Замиокулькас
+              - entity: sensor.0x00124b0022145bc7_soil_moisture
+                name: Юкка
+              - entity: sensor.0x00124b0022027bd2_soil_moisture
+                name: Диффенбахия
+
+############################ Колонка 3 ############################
+
+    - type: vertical-stack
+      cards:
+      
+        - type: markdown
+          style: |
+              ha-card {
+                color: #f8ffd8;
+                --paper-item-icon-color: #f8ffd8;
+                --paper-item-icon-active-color: #f8ffd8;
+                font-weight: bold;
+                font-size: 26px;
+              }     
+          content: >
+              **Телеметрия** 
+
+        - type: custom:stack-in-card
+          mode: vertical
+          cards:  
+            - type: markdown
+              style: |
+                   ha-card {
+                     color: #f8ffd8;
+                     --paper-item-icon-color: #f8ffd8;
+                     --paper-item-icon-active-color: #f8ffd8;
+                     font-weight: bold;
+                     font-size: 14px;
+                   } 
+              content: >
+                 **Состояние датчиков кухня**
+
+            - type: entities
+              style: |
+                   ha-card {
+                     color: #f8ffd8;
+                     --paper-item-icon-color: #f8ffd8;
+                     --paper-item-icon-active-color: #f8ffd8;
+                     font-weight: bold;
+                     font-size: 14px;
+                   } 
+              show_header_toggle: false
+              entities:
+                - type: divider
+                - entity: sensor.0x842e14fffef6d9e5_battery
+                  type: custom:multiple-entity-row
+                  icon: mdi:smoke
+                  state_color: true
+                  name: Датчик дыма
+                  secondary_info: last-changed
+                  state_header: Батарейка
+                  entities:
+                  - attribute: linkquality
+                    name: Сигнал
+                - type: divider 
+                - entity: sensor.0xec1bbdfffe8f1e42_battery
+                  type: custom:multiple-entity-row
+                  icon: mdi:water
+                  state_color: true
+                  name: Протечка
+                  secondary_info: last-changed
+                  state_header: Батарейка
+                  entities:
+                  - attribute: linkquality
+                    name: Сигнал                 
+                - type: divider
+                - entity: sensor.0x00158d0001ab3350_battery
+                  type: custom:multiple-entity-row
+                  icon: mdi:run
+                  state_color: true
+                  name: Датчик движения 1
+                  secondary_info: last-changed
+                  state_header: Батарейка
+                  entities:
+                  - attribute: linkquality
+                    name: Сигнал
+                - type: divider
+                - entity: sensor.0x54ef441000118375_battery
+                  type: custom:multiple-entity-row
+                  icon: mdi:run
+                  state_color: true
+                  name: Датчик движения 2
+                  secondary_info: last-changed
+                  state_header: Батарейка
+                  entities:
+                  - attribute: linkquality
+                    name: Сигнал  
+                - type: divider
+                - entity: sensor.0x00158d0001581109_battery
+                  type: custom:multiple-entity-row
+                  icon: mdi:coolant-temperature
+                  state_color: true
+                  name: Датчик климата
+                  secondary_info: last-changed
+                  state_header: Батарейка
+                  entities:
+                  - attribute: linkquality
+                    name: Сигнал 
+                - type: divider
+                - entity: sensor.0x04cf8cdf3c772379_battery
+                  type: custom:multiple-entity-row
+                  icon: mdi:sun-wireless
+                  state_color: true
+                  name: Датчик освещенности
+                  secondary_info: last-changed
+                  state_header: Батарейка
+                  entities:
+                  - attribute: linkquality
+                    name: Сигнал
+                - type: divider
+                - entity: sensor.0x00158d0001a99562_battery
+                  type: custom:multiple-entity-row
+                  icon: mdi:window-open-variant
+                  state_color: true
+                  name: Датчик открытия, окно
+                  secondary_info: last-changed
+                  state_header: Батарейка
+                  entities:
+                  - attribute: linkquality
+                    name: Сигнал
+                - type: divider
+                - entity: sensor.0x04cf8cdf3c794209_battery
+                  type: custom:multiple-entity-row
+                  icon: mdi:light-switch
+                  state_color: true
+                  name: Беспроводный выключатель
+                  secondary_info: last-changed
+                  state_header: Батарейка
+                  entities:
+                  - attribute: linkquality
+                    name: Сигнал
+                - type: divider
+                - entity: sensor.0x00124b0022027bd2_battery
+                  type: custom:multiple-entity-row
+                  icon: mdi:sprout
+                  state_color: true
+                  name: Диффенбахия
+                  secondary_info: last-changed
+                  state_header: Батарейка
+                  entities:
+                  - attribute: linkquality
+                    name: Сигнал
+                - type: divider
+                - entity: sensor.0x00124b0022145bc7_battery
+                  type: custom:multiple-entity-row
+                  icon: mdi:sprout
+                  state_color: true
+                  name: Юкка
+                  secondary_info: last-changed
+                  state_header: Батарейка
+                  entities:
+                  - attribute: linkquality
+                    name: Сигнал
+                - type: divider
+                - entity: sensor.0x00124b0022145c90_battery
+                  type: custom:multiple-entity-row
+                  icon: mdi:sprout
+                  state_color: true
+                  name: Замиокулькас
+                  secondary_info: last-changed
+                  state_header: Батарейка
+                  entities:
+                  - attribute: linkquality
+                    name: Сигнал
+                    
+        - type: custom:stack-in-card
+          mode: vertical
+          cards:  
+            - type: markdown
+              style: |
+                   ha-card {
+                     color: #f8ffd8;
+                     --paper-item-icon-color: #f8ffd8;
+                     --paper-item-icon-active-color: #f8ffd8;
+                     font-weight: bold;
+                     font-size: 14px;
+                   } 
+              content: >
+                 **Состояние датчиков балкон**
+
+            - type: entities
+              style: |
+                   ha-card {
+                     color: #f8ffd8;
+                     --paper-item-icon-color: #f8ffd8;
+                     --paper-item-icon-active-color: #f8ffd8;
+                     font-weight: bold;
+                     font-size: 14px;
+                   } 
+              show_header_toggle: false
+              entities:
+                - type: divider
+                - entity: sensor.0x00158d0001a20885_battery
+                  type: custom:multiple-entity-row
+                  icon: mdi:door
+                  state_color: true
+                  name: Датчик открытия, дверь балкона
+                  secondary_info: last-changed
+                  state_header: Батарейка
+                  entities:
+                  - attribute: linkquality
+                    name: Сигнал
+                - type: divider
+                - entity: sensor.0x00158d0001a4a394_battery
+                  type: custom:multiple-entity-row
+                  icon: mdi:window-open-variant
+                  state_color: true
+                  name: Датчик открытия, окно
+                  secondary_info: last-changed
+                  state_header: Батарейка
+                  entities:
+                  - attribute: linkquality
+                    name: Сигнал
+                - type: divider
+                - entity: sensor.0x00158d000171ffde_battery
+                  type: custom:multiple-entity-row
+                  icon: mdi:coolant-temperature
+                  state_color: true
+                  name: Датчик климата
+                  secondary_info: last-changed
+                  state_header: Батарейка
+                  entities:
+                  - attribute: linkquality
+                    name: Сигнал 

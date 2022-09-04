@@ -12,6 +12,9 @@ kn_sensors:
            - sensor.0x00124b0022027bd2_soil_moisture
            - sensor.0x00124b0022145bc7_soil_moisture
            - sensor.0x00124b0022145c90_soil_moisture
+           - sensor.0x00158d000171ffde_temperature
+           - sensor.0x00158d000171ffde_humidity
+           - sensor.0x00158d000171ffde_mmhg_pressure
 
     homeassistant:
       customize:
@@ -35,7 +38,7 @@ kn_sensors:
           icon: mdi:temperature-celsius
         sensor.0x00158d0001581109_battery:
           friendly_name: Кухня, климат
-
+        
 ############# Растения
 
         sensor.0x00124b0022027bd2_soil_moisture:
@@ -77,8 +80,8 @@ kn_sensors:
         sensor.0x00158d000171ffde_temperature:
           friendly_name: Кухня, балкон температура
           icon: mdi:temperature-celsius
-        sensor.0x00158d000171ffde_pressure:
-          friendly_name: Кухня, балкон давление
+        sensor.0x00158d000171ffde_mmhg_pressure:
+          friendly_name: Кухня, балкон давление мм рт. ст.
         sensor.0x00158d000171ffde_battery:
           friendly_name: Кухня, балкон климат
 

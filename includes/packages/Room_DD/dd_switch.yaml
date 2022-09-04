@@ -1,5 +1,14 @@
 dd_switch:
 
+    recorder:
+      include:
+        entities:
+           - switch.0x00158d0001a2ccab_left
+           - sensor.0x00158d0001a2ccab_power
+           - sensor.0x00158d00030a6e78_power
+           - sensor.0x00158d000153dd8e_power
+           - switch.0x842e14fffefd9721_l4
+
     homeassistant:
       customize:
       

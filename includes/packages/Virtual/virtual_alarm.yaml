@@ -1,0 +1,72 @@
+virtual_alarm:
+
+
+    template:
+
+      - binary_sensor:
+
+    # Сборный сенсор тревоги - будет активен при любой из видов тревог
+          - name: threat_dnipro
+            state: >
+              {{ is_state('binary_sensor.m_dnipro_ta_dniprovska_teritorialna_gromada_air', 'on')  
+                 or is_state('binary_sensor.m_dnipro_ta_dniprovska_teritorialna_gromada_artillery', 'on')
+                 or is_state('binary_sensor.m_dnipro_ta_dniprovska_teritorialna_gromada_unknown', 'on')
+                 or is_state('binary_sensor.m_dnipro_ta_dniprovska_teritorialna_gromada_urban_fights', 'on')
+              }}
+            device_class: safety
+            icon: >
+              {% if is_state("binary_sensor.threat_dnipro", "on") %}
+              mdi:skull
+              {% else %}
+              mdi:shield-check
+              {% endif %}
+              
+    automation:
+
+      - id: Тревога Днепр
+        alias: dnepr_threat_notification
+        description: Включение световой индикации для Днепра
+        initial_state: true
+        trigger:
+    # Сборный сенсор тревоги
+        - platform: state
+          entity_id: binary_sensor.threat_dnipro
+          from: 'off'
+          to: 'on'
+        condition:
+    # Переключатель режима работы сервера
+          - condition: state
+            entity_id: switch.control_mode
+            state: 'on'
+        action:
+          - service: light.turn_on
+            entity_id: 
+              - light.smart_lighting_virtual
+              - light.smart_lighting_2_virtual
+            data_template:
+              brightness_pct: 10
+              rgb_color: [255, 0, 0]
+              
+      - id: Отбой тревоги, Днепр
+        alias: dnepr_threat_cancel_notification
+        description: Выключение световой индикации для Днепра
+        initial_state: true
+        trigger:
+    # Сборный сенсор тревоги
+        - platform: state
+          entity_id: binary_sensor.threat_dnipro
+          from: 'on'
+          to: 'off'
+        condition:
+    # Переключатель режима работы сервера
+          - condition: state
+            entity_id: switch.control_mode
+            state: 'on'
+        action:
+          - service: light.turn_on
+            entity_id: 
+              - light.smart_lighting_virtual
+              - light.smart_lighting_2_virtual
+            data_template:
+              brightness_pct: 10
+              kelvin: 4000

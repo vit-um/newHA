@@ -52,10 +52,10 @@ ln_light:
     # Виртуальная кнопка
         - platform: state
           entity_id: input_button.ln_light
-    # Датчик движения
-        - platform: state
-          entity_id: binary_sensor.0x00158d0001e16204_occupancy
-          to: 'on'
+    # # Датчик движения
+    #     - platform: state
+    #       entity_id: binary_sensor.0x00158d0001e16204_occupancy
+    #       to: 'on'
         condition:
         - condition: state
           entity_id: switch.control_mode
@@ -75,9 +75,9 @@ ln_light:
         - platform: state
           entity_id: input_button.ln_light
     # Датчик движения
-        - platform: state
-          entity_id: binary_sensor.ln_occupancy
-          to: 'off'
+        # - platform: state
+        #   entity_id: binary_sensor.ln_occupancy
+        #   to: 'off'
         condition:
         - condition: state
           entity_id: switch.control_mode
@@ -89,25 +89,25 @@ ln_light:
         - service: light.turn_off
           entity_id: light.0x00158d00014a1a55
           
-      - id: Прачечная, контроль включения света
-        alias: ln_light_control
-        initial_state: true
-        trigger:
-    # Отслеживание включения светильника
-        - platform: state
-          entity_id: light.0x00158d00014a1a55
-          to: 'on'
-        condition:
-    # Переключатель режима работы сервера
-        - condition: state
-          entity_id: switch.control_mode
-          state: 'on'
-    # Сенсор присутствия выключен
-        - condition: state
-          entity_id: binary_sensor.ln_occupancy
-          state: 'off'
-        action:
-    # Выключение люстры
-        - service: light.turn_off
-          entity_id: light.0x00158d00014a1a55
+    #   - id: Прачечная, контроль включения света
+    #     alias: ln_light_control
+    #     initial_state: true
+    #     trigger:
+    # # Отслеживание включения светильника
+    #     - platform: state
+    #       entity_id: light.0x00158d00014a1a55
+    #       to: 'on'
+    #     condition:
+    # # Переключатель режима работы сервера
+    #     - condition: state
+    #       entity_id: switch.control_mode
+    #       state: 'on'
+    # # Сенсор присутствия выключен
+    #     - condition: state
+    #       entity_id: binary_sensor.ln_occupancy
+    #       state: 'off'
+    #     action:
+    # # Выключение люстры
+    #     - service: light.turn_off
+    #       entity_id: light.0x00158d00014a1a55
 

@@ -1,0 +1,264 @@
+##################   Управление
+title: Детская А
+icon: mdi:human-female-girl
+cards:
+
+############################ Колонка 1 ############################
+
+    - type: vertical-stack
+      cards:
+      
+        - type: markdown
+          style: |
+              ha-card {
+                font-size: 26px;
+              }          
+          content: >
+             **Управление**
+             
+        - type: custom:stack-in-card
+          mode: vertical
+          cards:  
+            - type: markdown
+              content: >
+                 **Светильники**
+
+            - type: horizontal-stack
+              cards:        
+                - type: light
+                  entity: light.da_ceiling_light
+                  name: Люстра
+                - type: light
+                  entity: light.smart_desk_lamp
+                  name: Настольная лампа
+                  
+            - type: horizontal-stack
+              cards:        
+                - type: light
+                  entity: light.gateway_light_f0b429cc1f11
+                  name: Ночник
+                - type: light
+                  entity: light.da_led_strip
+                  name: Лента
+                - type: light
+                  entity: light.da_projector
+                  name: Проектор
+                  
+        - type: custom:stack-in-card
+          mode: vertical
+          cards:
+
+            - type: markdown
+              content: >
+                 **Питание**
+                 
+            - type: entities
+              show_header_toggle: false
+              entities:             
+                - entity: switch.0x00158d00010ec4b8
+                  type: custom:multiple-entity-row
+                  toggle: true
+                  state_color: true
+                  name: Увлажнитель воздуха
+                  secondary_info: last-changed
+                  state_header: Питание
+                  entities:
+                  - attribute: last_seen
+                    format: relative
+                    name: Отклик
+                  - attribute: power
+                    name: Мощность
+                    unit: 'Ватт'
+                - entity: switch.0x00158d00012896cb
+                  type: custom:multiple-entity-row
+                  toggle: true
+                  state_color: true
+                  name: Зарядная станция
+                  secondary_info: last-changed
+                  state_header: Питание
+                  entities:
+                  - attribute: last_seen
+                    format: relative
+                    name: Отклик
+                  - attribute: power
+                    name: Мощность
+                    unit: 'Ватт'
+                    
+############################ Колонка 2 ############################
+
+    - type: vertical-stack
+      cards:
+
+        - type: markdown
+          style: |
+              ha-card {
+                font-size: 26px;
+              }   
+          content: >
+              **Мониторинг** 
+
+        - type: glance
+          show_state: true
+          show_name: false
+          state_color: true
+          entities:
+          - entity: binary_sensor.0x00158d00016d56f5_occupancy
+          - entity: binary_sensor.0x00158d0001583c7b_contact
+          - entity: sensor.0x00158d000159c7e6_temperature
+          - entity: sensor.0x00158d000159c7e6_humidity
+          - entity: sensor.0x04cf8cdf3c78ca91_illuminance_lux
+ 
+        # - type: custom:stack-in-card
+        #   mode: vertical
+        #   cards:
+        #     - type: picture-glance
+        #       title: Reolink E1 Zoom
+        #       show_name: false
+        #       entities:
+        #         - binary_sensor.reolink_e1_zoom_motion
+        #       camera_image: camera.reolink_e1_zoom
+        #       camera_view: live
+        #     - type: entities
+        #       show_header_toggle: false
+        #       entities:
+        #         - entity: sensor.reolink_e1_zoom_last_event
+        #           name: Последнее событие
+  
+############################ Колонка 3 ############################
+
+
+    - type: vertical-stack
+      cards:
+      
+        - type: markdown
+          style: |
+              ha-card {
+                font-size: 26px;
+              }          
+          content: >
+             **Датчики**
+             
+        - type: entities
+          show_header_toggle: false
+          entities: 
+            - entity: sensor.0x00158d00016d56f5_battery
+              type: custom:multiple-entity-row
+              icon: mdi:run
+              state_color: true
+              name: Датчик движения
+              secondary_info: last-changed
+              state_header: Батарейка
+              entities:
+              - attribute: linkquality
+                name: Сигнал        
+            - type: divider 
+            - entity: sensor.0x00158d000159c7e6_battery
+              type: custom:multiple-entity-row
+              icon: mdi:coolant-temperature
+              state_color: true
+              name: Датчик климата
+              secondary_info: last-changed
+              state_header: Батарейка
+              entities:
+              - attribute: linkquality
+                name: Сигнал
+            - type: divider 
+            - entity: sensor.0xcc86ecfffecb4056_battery
+              type: custom:multiple-entity-row
+              icon: mdi:coolant-temperature
+              state_color: true
+              name: Датчик климата LCD
+              secondary_info: last-changed
+              state_header: Батарейка
+              entities:
+              - attribute: linkquality
+                name: Сигнал
+            - type: divider
+            - entity: sensor.0x04cf8cdf3c78ca91_battery
+              type: custom:multiple-entity-row
+              icon: mdi:sun-wireless
+              state_color: true
+              name: Датчик освещенности
+              secondary_info: last-changed
+              state_header: Батарейка
+              entities:
+              - attribute: linkquality
+                name: Сигнал
+            - type: divider
+            - entity: sensor.0x00158d0001583c7b_battery
+              type: custom:multiple-entity-row
+              icon: mdi:window-open-variant
+              state_color: true
+              name: Датчик открытия, окно
+              secondary_info: last-changed
+              state_header: Батарейка
+              entities:
+              - attribute: linkquality
+                name: Сигнал
+                
+        - type: markdown
+          style: |
+              ha-card {
+                font-size: 26px;
+              }          
+          content: >
+             **Устройства**
+             
+        - type: entities
+          show_header_toggle: false
+          entities:
+            - entity: sensor.0x00158d00010b5c6e_battery
+              type: custom:multiple-entity-row
+              icon: mdi:light-switch
+              state_color: true
+              name: Беспроводный выключатель
+              secondary_info: last-changed
+              state_header: Батарейка
+              entities:
+              - attribute: linkquality
+                name: Сигнал
+            - type: divider
+            - entity: sensor.0x00158d000155d2fb_battery
+              type: custom:multiple-entity-row
+              icon: mdi:gesture-tap-button
+              state_color: true
+              name: Круглая кнопка возле кровати
+              secondary_info: last-changed
+              state_header: Батарейка
+              entities:
+              - attribute: linkquality
+                name: Сигнал
+            - type: divider
+            - entity: sensor.0x00158d0001e8a244_battery
+              type: custom:multiple-entity-row
+              icon: mdi:gesture-tap-button
+              state_color: true
+              name: Квадратная кнопка возле кровати
+              secondary_info: last-changed
+              state_header: Батарейка
+              entities:
+              - attribute: linkquality
+                name: Сигнал
+            - type: divider
+            - entity: sensor.0x00158d000186d9a9_battery
+              type: custom:multiple-entity-row
+              icon: mdi:gesture-tap-button
+              state_color: true
+              name: Круглая кнопка на столе
+              secondary_info: last-changed
+              state_header: Батарейка
+              entities:
+              - attribute: linkquality
+                name: Сигнал
+            - type: divider
+            - entity: sensor.0x60a423fffe942cf2_battery
+              type: custom:multiple-entity-row
+              icon: mdi:remote
+              state_color: true
+              name: Пульт 3 кнопки
+              secondary_info: last-changed
+              state_header: Батарейка
+              entities:
+              - attribute: linkquality
+                name: Сигнал
+            - type: divider

@@ -1,6 +1,6 @@
 ##################   Управление
 title: Test
-icon: mdi:lightbulb-on
+icon: mdi:test-tube
 cards:
 
 ############################ Колонка 1 ############################
@@ -8,30 +8,87 @@ cards:
     - type: vertical-stack
       cards:
 
-        - type: entities
-          show_header_toggle: false
-          entities:
-            - entity: sensor.time
 
-        - type: entities
-          show_header_toggle: false
-          entities:
-            - entity: input_datetime.timer
-            - entity: timer.timer
-            - entity: input_datetime.secundomer
-            - entity: input_boolean.secundomer
-            - entity: sensor.secundomer
-            - entity: sensor.history
-            
-        - type: entity-button
-          entity: input_button.timer
-          name: Запуск таймера
-          tap_action:
-            action: call-service
-            service: input_button.press
-            service_data:
-              entity_id: input_button.timer
+        - type: custom:stack-in-card
+          mode: vertical
+          cards:  
+
+            - type: horizontal-stack
+              cards:
               
+              - type: custom:mushroom-template-card
+                primary: Присутствие
+                secondary: |-
+                  {% if is_state("binary_sensor.0x54ef44100042e226_presence", "off") %}
+                  Не обнаружено
+                  {% else %}
+                  Обнаружено
+                  {% endif %}
+                layout: vertical
+                entity: binary_sensor.en_light_day
+                icon: |-
+                  {% if is_state("binary_sensor.0x54ef44100042e226_presence", "off") %}
+                  mdi:home-off
+                  {% else %}
+                  mdi:home-account
+                  {% endif %}
+                multiline_secondary: true
+                icon_color: |-
+                  {% if is_state("binary_sensor.0x54ef44100042e226_presence", "off") %}
+                  grey
+                  {% else %}
+                  green
+                  {% endif %}
+                tap_action:
+                  action: more-info
+                  
+              - type: custom:mushroom-template-card
+                primary: Движение
+                secondary: |-
+                  {% if is_state("binary_sensor.0x54ef44100042e226_motion", "off") %}
+                  Нет движения
+                  {% else %}
+                  Есть движение
+                  {% endif %}
+                layout: vertical
+                entity: binary_sensor.en_light_day
+                icon: |-
+                  {% if is_state("binary_sensor.0x54ef44100042e226_motion", "off") %}
+                  mdi:motion-sensor-off
+                  {% else %}
+                  mdi:motion-sensor
+                  {% endif %}
+                multiline_secondary: true
+                icon_color: |-
+                  {% if is_state("binary_sensor.0x54ef44100042e226_motion", "off") %}
+                  white
+                  {% else %}
+                  amber
+                  {% endif %}
+                tap_action:
+                  action: more-info
+                  
+              - type: custom:mushroom-template-card
+                primary: Событие
+                secondary: |-
+                      {{states ('sensor.0x54ef44100042e226_presence_event')}} 
+                layout: vertical
+                entity: sensor.0x54ef44100042e226_presence_event
+                icon: |-
+                  {% if is_state("sensor.0x54ef44100042e226_presence_event", "leave") %}
+                  mdi:account-voice-off
+                  {% else %}
+                  mdi:account-voice
+                  {% endif %}
+                multiline_secondary: true
+                icon_color: |-
+                  {% if is_state("sensor.0x54ef44100042e226_presence_event", "leave") %}
+                  grey
+                  {% else %}
+                  green
+                  {% endif %}
+                tap_action:
+                  action: more-info
               
 
         

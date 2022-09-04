@@ -160,6 +160,10 @@ lr_light:
         name: Гостиная ручное включение люстры 2
         icon: mdi:lightbulb-off-outline
 
+      lr_xiaomi_gateway:
+        name: Предохранитель, гостиная шлюз
+        icon: mdi:lightbulb-off-outline
+
     template:
     
       - binary_sensor:
@@ -208,7 +212,67 @@ lr_light:
               {% endif %}
 
     automation:
-    
+
+      - id: Гостиная перезагрузка шлюза xiaomi
+        alias: reload_xiaomi_gateway_lr
+        initial_state: true
+        trigger:
+    ## Виртуальная кнопка
+        - platform: state
+          entity_id: input_button.lr_gateway_reload
+    # Проверка раз в 10 минут
+        - platform: time_pattern
+          minutes: '/10'
+        condition:
+    # Шлюз недоступен
+        - condition: state
+          entity_id: light.gateway_light_34ce0088b039
+          state: 'unavailable'
+    # Предохранитель
+        - condition: state
+          entity_id: input_boolean.lr_xiaomi_gateway
+          state: 'off'
+        action:  
+        - service: switch.turn_off
+          entity_id:
+            - switch.0xa4c1387c6584d955
+        - delay: 00:00:03
+        - service: switch.turn_on
+          entity_id:
+            - switch.0xa4c1387c6584d955
+        - delay: 00:00:15 
+        - service: homeassistant.reload_config_entry
+          data: {}
+          target:
+            device_id: 5519c03a52f44692503cbf20df607876
+        - wait_template: "{{ not is_state('light.gateway_light_34ce0088b039', 'unavailable') }}"
+          timeout: 10
+        - if:
+             - "{{ not wait.completed }}"
+          then:
+             - service: telegram_bot.send_message
+               data_template:
+                 target:
+                     - !secret chat_id_group_tech
+                 message: | 
+                      Внимание!
+                      Шлюз гостиная недоступен, перезагрузка не имела успеха
+    # Включение предохранителя
+             - service: input_boolean.turn_on
+               entity_id: input_boolean.lr_xiaomi_gateway
+
+      - id: Гостиная шлюз xiaomi отключение блокировки
+        alias: block_off_xiaomi_gateway_lr
+        initial_state: true
+        trigger:
+    ## Виртуальная кнопка
+        - platform: state
+          entity_id: light.gateway_light_34ce0088b039
+          from: 'unavailable'
+        action:                
+        - service: input_boolean.turn_off
+          entity_id: input_boolean.lr_xiaomi_gateway
+
       - id: Гостиная перезагрузка зависшей люстры 1
         alias: lr_ceiling_reboot_1
         initial_state: true

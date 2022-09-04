@@ -1,0 +1,28 @@
+asus_router:
+
+    recorder:
+      include:
+        entities:
+           - sensor.asus_rt_ac88u_wan_download_speed
+           - sensor.asus_rt_ac88u_wan_upload_speed
+           - sensor.asus_rt_ac88u_cpu
+           - sensor.asus_rt_ac88u_temperature_cpu
+           - sensor.asus_rt_ac88u_ram
+           - sensor.asus_rt_ac88u_connected_devices
+           
+    homeassistant:
+
+      customize:
+        sensor.asus_rt_ac88u_wan_download_speed:
+          friendly_name: Download
+        sensor.asus_rt_ac88u_wan_upload_speed:
+          friendly_name: Upload
+        sensor.asus_rt_ac88u_cpu:
+          friendly_name: Asus CPU
+        sensor.asus_rt_ac88u_temperature_cpu:
+          friendly_name: Asus CPU t°
+        sensor.asus_rt_ac88u_ram:
+          friendly_name: Asus RAM
+        sensor.asus_rt_ac88u_connected_devices:
+          friendly_name: Устройств в сети
+          

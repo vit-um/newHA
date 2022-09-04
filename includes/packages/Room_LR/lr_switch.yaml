@@ -1,0 +1,98 @@
+lr_switch:
+
+    recorder:
+      include:
+        entities:
+           - sensor.0xa4c1388c89a46970_power
+           - sensor.0xa4c138f41459f92a_power
+           - sensor.0xa4c1387c6584d955_power
+           - sensor.lr_strip_usb_power
+           - sensor.lr_usb_socket_power
+           - sensor.lr_6x_power_strip_power
+           
+    homeassistant:
+      customize:
+        
+        switch.0xa4c1388c89a46970:
+          friendly_name: Гостиная ноутбук Acer, питание
+          icon: mdi:power-socket-eu
+        sensor.0xa4c1388c89a46970_power:
+          friendly_name: Гостиная ноутбук Acer, мощность
+          unit_of_measurement: Вт
+          device_class: power
+        sensor.0xa4c1388c89a46970_energy:
+          friendly_name: Гостиная ноутбук Acer, энергия
+          icon: mdi:chart-line
+        sensor.0xa4c1388c89a46970_voltage:
+          friendly_name: Гостиная ноутбук Acer, напряжение
+          
+        switch.0xa4c138f41459f92a:
+          friendly_name: Гостиная ноутбук Asus, питание
+          icon: mdi:power-socket-eu
+        sensor.0xa4c138f41459f92a_power:
+          friendly_name: Гостиная ноутбук Asus, мощность
+          unit_of_measurement: Вт
+          device_class: power
+        sensor.0xa4c138f41459f92a_energy:
+          friendly_name: Гостиная ноутбук Asus, энергия
+          icon: mdi:chart-line
+        sensor.0xa4c138f41459f92a_voltage:
+          friendly_name: Гостиная ноутбук Asus, напряжение
+          
+        switch.0xa4c1387c6584d955:
+          friendly_name: Гостиная, питание шлюза
+          icon: mdi:power-socket-eu
+        sensor.0xa4c1387c6584d955_power:
+          friendly_name: Гостиная, питание шлюза, мощность
+          unit_of_measurement: Вт
+          device_class: power
+        sensor.0xa4c1387c6584d955_energy:
+          friendly_name: Гостиная, питание шлюза, энергия
+          icon: mdi:chart-line
+        sensor.0xa4c1387c6584d955_voltage:
+          friendly_name: Гостиная, питание шлюза, напряжение
+          
+        switch.lr_usb_socket:
+          friendly_name: Гостиная, часы
+        switch.lr_usb_socket_usb:
+          friendly_name: Гостиная, вентилятор роутера
+        sensor.lr_usb_socket_power:
+          friendly_name: Гостиная, USB розетка
+
+        switch.power_strip_usb:
+          friendly_name: Гостиная, удлинитель с USB
+        sensor.lr_strip_usb_power:
+          friendly_name: Гостиная, удлинитель с USB
+          
+        switch.lr_6x_power_strip:
+          friendly_name: Гостиная, удлинитель 6 розеток 
+        sensor.lr_6x_power_strip_power:
+          friendly_name: Гостиная, удлинитель 6 розеток 
+          
+    template:
+     
+      - sensor:
+    
+          - name: lr_strip_usb_power
+            state: >
+                {% if state_attr('switch.power_strip_usb', 'load_power')%}
+                {{state_attr('switch.power_strip_usb', 'load_power')}}
+                {% else %}
+                0
+                {% endif %}
+            
+          - name: lr_usb_socket_power
+            state: >
+                {% if state_attr('switch.lr_usb_socket', 'load_power')%}
+                {{state_attr('switch.lr_usb_socket', 'load_power')}}
+                {% else %}
+                0
+                {% endif %}
+
+          - name: lr_6x_power_strip_power
+            state: >
+                {% if state_attr('switch.lr_6x_power_strip', 'load_power')%}
+                {{state_attr('switch.lr_6x_power_strip', 'load_power')}}
+                {% else %}
+                0
+                {% endif %}

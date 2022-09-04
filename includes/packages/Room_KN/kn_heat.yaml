@@ -43,13 +43,11 @@ kn_heat:
         sensor.kn_thermostat_difference:
           friendly_name: Кухня, разница температур с термостатом
 
-    binary_sensor:
-    
-      - platform: mqtt
-        name: kn_radiator
-        state_topic: "states/kn_radiator"
-        payload_on: "ON"
-        payload_off: "OFF"
+
+    mqtt:
+      binary_sensor:
+        - name: kn_radiator
+          state_topic: "states/kn_radiator"
 
     switch:
 

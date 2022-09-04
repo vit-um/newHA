@@ -92,11 +92,6 @@ lr_sensors:
           device_class: running
           icon: mdi:clock-digital
           
-        binary_sensor.0x54ef44100042e226_presence:
-          friendly_name: Гостиная присутствие
-        sensor.0x54ef44100042e226_presence_event:
-          friendly_name: Гостиная присутствие, событие
-
         binary_sensor.0x00158d0005414857_occupancy:
           friendly_name: Гостиная движение
         sensor.0x00158d0005414857_battery:
