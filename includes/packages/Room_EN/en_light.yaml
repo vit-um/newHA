@@ -5,6 +5,7 @@ en_light:
       
         light.0x00158d0003e74c31:
           friendly_name: Прихожая лампочка в прихожей
+          icon: phu:bulbs-classic
           
         binary_sensor.0x00158d00013f7894_occupancy:
           friendly_name: Прихожая датчик движения
@@ -15,6 +16,18 @@ en_light:
           friendly_name: Прихожая кнопка на шкафу
         sensor.0x00158d00010b1963_battery:
           friendly_name: Прихожая кнопка на шкафу
+
+        automation.en_bulb_reboot:
+          friendly_name: Прихожая - перезагрузка зависшей лампочки
+          icon: mdi:reload
+          
+        automation.en_light_control:
+          friendly_name: Прихожая - управление лампочкой
+          icon: phu:bulbs-classic
+          
+        automation.en_switch_turn_on:
+          friendly_name: Прихожая - включение выключателя
+          icon: phu:aqara-h1-switch
           
     template:
      
@@ -102,9 +115,29 @@ en_light:
         before: '08:00'
 
     automation:
-    
-      - id: Прихожая перезагрузка зависшей лампочки
-        alias: en_bulb_reboot
+
+      - alias: en_switch_turn_on
+        description: Прихожая включение выключателя
+        initial_state: true
+        trigger:
+    # Выключение выключателя
+        - platform: state
+          entity_id: switch.0x00158d00057305ac_right
+          to: 'off'
+        condition:
+    # Переключатель режима работы сервера
+        - condition: state
+          entity_id: switch.control_mode
+          state: 'on'
+        action:
+    # Включение
+        - delay: 00:00:05
+        - service: switch.turn_on
+          entity_id: switch.0x00158d00057305ac_right
+
+
+      - alias: en_bulb_reboot
+        description: Прихожая перезагрузка зависшей лампочки
         initial_state: true
         trigger:
     # Проверка раз в 5 минут, перезагрузка если лампочка недоступна
@@ -127,8 +160,8 @@ en_light:
         - service: switch.turn_on
           entity_id: switch.0x00158d00057305ac_right
     
-      - id: Прихожая управление лампочкой
-        alias: en_light_control
+      - alias: en_light_control
+        description: Прихожая управление лампочкой
         initial_state: true
         trigger:
     # Выключение света без движения днем

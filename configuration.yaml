@@ -26,6 +26,9 @@ ssdp:
 # Включение официального интерфейса
 frontend:
   themes: !include_dir_merge_named themes
+  
+  extra_module_url:
+    - /hacsfiles/custom-brand-icons/custom-brand-icons.js
 # Включение карты
 # map:
 # Включение поддержки приложения
@@ -75,8 +78,6 @@ lovelace:
      type: module 
    - url: /hacsfiles/light-entity-card/light-entity-card.js
      type: module
-   - url: /hacsfiles/lovelace-plotly-graph-card/plotly-graph-card.js
-     type: module 
    - url: /hacsfiles/history-explorer-card/history-explorer-card.js
      type: module 
    - url: /hacsfiles/ha-sankey-chart/ha-sankey-chart.js

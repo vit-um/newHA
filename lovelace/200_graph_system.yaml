@@ -42,6 +42,7 @@ cards:
             fill: rgba(0,255,0,0.1)
       - type: line
         entities:
-          - entity: sensor.home_assistant_v2_db_size
+        #   - entity: sensor.home_assistant_v2_db_size
+          - entity: sensor.maria_db
             color: rgb(204,214,50)
             fill: rgba(204,214,50,0.1)  

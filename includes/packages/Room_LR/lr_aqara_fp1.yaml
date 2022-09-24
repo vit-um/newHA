@@ -4,6 +4,7 @@ lr_aqara_fp1:
       include:
         entities:
            - binary_sensor.0x54ef44100042e226_presence
+           - binary_sensor.0x54ef44100042e226_motion
            
     homeassistant:
       customize:

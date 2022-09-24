@@ -5,39 +5,39 @@ lr_light:
 
         light.lr_ceiling_light_1:
           friendly_name: Гостиная люстра 1
-          icon: mdi:ceiling-light
+          icon: phu:ceiling-adore-alt-flush
           
         light.lr_ceiling_light_1_ambilight:
           friendly_name: Гостиная амбилайт люстра 1 
-          icon: mdi:dome-light
+          icon: phu:recessed-ceiling
           
         light.lr_ceiling_light_2:
           friendly_name: Гостиная люстра 2
-          icon: mdi:ceiling-light
+          icon: phu:ceiling-adore-alt-flush
           
         light.lr_ceiling_light_2_ambilight:
           friendly_name: Гостиная амбилайт люстра 2 
-          icon: mdi:dome-light
+          icon: phu:recessed-ceiling
           
         light.lr_table_lamp:
           friendly_name: Гостиная настольная лампа
-          icon: mdi:desk-lamp 
+          icon: phu:smart-desk-lamp
           
         light.lr_tv_bulb:
           friendly_name: Гостиная ТВ подсветка
-          icon: mdi:lightbulb
+          icon: phu:lightstrip-tv-alt
           
         light.lr_bedside:
           friendly_name: Гостиная прикроватник
-          icon: mdi:lighthouse
+          icon: phu:bollard
           
         light.gateway_light_34ce0088b039:
           friendly_name: Гостиная шлюз
-          icon: mdi:star-circle
+          icon: phu:aqara-hub-n15-g2
           
         light.0x00158d00015723f1_left:
           friendly_name: Гостиная свет стена
-          icon: mdi:track-light
+          icon: phu:wall-fuzo
           
         switch.0x00158d00015723f1_right:
           friendly_name: Гостиная питание люстра 1
@@ -45,11 +45,8 @@ lr_light:
           friendly_name: Гостиная питание люстра 1, температура
           icon: mdi:thermometer-check
         
-        
-        
         switch.0x842e14fffee5451a:
           friendly_name: Гостиная питание люстра 2
-
 
         sensor.0x00158d00013fc3bc_action:
           friendly_name: Гостиная выключатель на стене снаружи у входа
@@ -75,6 +72,50 @@ lr_light:
           friendly_name: Гостиная пульт IKEA
         sensor.0xccccccfffe8abc14_battery:
           friendly_name: Гостиная пульт IKEA
+
+        automation.lr_gateway_reload:
+          friendly_name: Гостиная - перезагрузка шлюза xiaomi
+          icon: mdi:reload
+
+        automation.lr_gateway_block_off_reload:
+          friendly_name: Гостиная - отключение блокировки перезагрузки шлюза xiaomi
+          icon: mdi:lock-off
+
+        automation.lr_ceiling_1_reboot:
+          friendly_name: Гостиная - перезагрузка зависшей люстры 1
+          icon: mdi:reload
+
+        automation.lr_ceiling_2_reboot:
+          friendly_name: Гостиная - перезагрузка зависшей люстры 2
+          icon: mdi:reload
+          
+        automation.lr_ceiling_1_manual_control:
+          friendly_name: Гостиная - ручное управление люстра 1
+          icon: phu:ceiling-adore-alt-flush         
+
+        automation.lr_ceiling_1_turn_on_control:
+          friendly_name: Гостиная - контроль включения люстры 1
+          icon: mdi:check-bold          
+
+        automation.lr_ceiling_2_manual_control:
+          friendly_name: Гостиная - ручное управление люстра 2
+          icon: phu:ceiling-adore-alt-flush         
+
+        automation.lr_ceiling_2_turn_on_control:
+          friendly_name: Гостиная - контроль включения люстры 2
+          icon: mdi:check-bold          
+
+        automation.lr_ceiling_both_full_brigtness:
+          friendly_name: Гостиная - обе люстры на полной яркости 
+          icon: phu:bulb-group-ceiling-flush-circular           
+ 
+        automation.lr_light_wall_toggle:
+          friendly_name: Гостиная - ручное управление светильник на стене 
+          icon: phu:wall-econic 
+
+        automation.lr_light_table_lamp_toggle:
+          friendly_name: Гостиная - ручное управление настольной лампой
+          icon: phu:smart-desk-lamp
           
     # Виртуальные светильники, для управления в интерфейсе
     light:
@@ -87,9 +128,9 @@ lr_light:
               }}
             icon_template: >-
               {% if is_state("light.lr_ceiling_light_1_virtual", "on") %}
-              mdi:ceiling-light
+              phu:ceiling-adore-alt-flush
               {% else %}
-              mdi:ceiling-light-outline
+              phu:ceiling-adore-alt-flush
               {% endif %}
             turn_on:
               service: input_button.press
@@ -122,9 +163,9 @@ lr_light:
               }}
             icon_template: >-
               {% if is_state("light.lr_ceiling_light_2_virtual", "on") %}
-              mdi:ceiling-light
+              phu:ceiling-adore-alt-flush
               {% else %}
-              mdi:ceiling-light-outline
+              phu:ceiling-adore-alt-flush
               {% endif %}
             turn_on:
               service: input_button.press
@@ -184,7 +225,8 @@ lr_light:
     # Сенсор определяющий недоступность люстры 1
           - name: lr_ceiling_unavailable_1
             state: >
-              {{ is_state('light.lr_ceiling_light_1', 'unavailable')  
+              {{ is_state('light.lr_ceiling_light_1', 'unavailable') 
+                 and states('sensor.count_light_unavailable')|int < 5
               }}
             delay_on: 
                 minutes: 3
@@ -199,7 +241,8 @@ lr_light:
     # Сенсор определяющий недоступность люстры 2
           - name: lr_ceiling_unavailable_2
             state: >
-              {{ is_state('light.lr_ceiling_light_2', 'unavailable')  
+              {{ is_state('light.lr_ceiling_light_2', 'unavailable')
+                 and states('sensor.count_light_unavailable')|int < 5
               }}
             delay_on: 
                 minutes: 3
@@ -212,9 +255,10 @@ lr_light:
               {% endif %}
 
     automation:
+#################### ПЕРЕЗАГРУЗКА ШЛЮЗА ####################
 
-      - id: Гостиная перезагрузка шлюза xiaomi
-        alias: reload_xiaomi_gateway_lr
+      - alias: lr_gateway_reload
+        description: Гостиная - перезагрузка шлюза xiaomi
         initial_state: true
         trigger:
     ## Виртуальная кнопка
@@ -261,8 +305,9 @@ lr_light:
              - service: input_boolean.turn_on
                entity_id: input_boolean.lr_xiaomi_gateway
 
-      - id: Гостиная шлюз xiaomi отключение блокировки
-        alias: block_off_xiaomi_gateway_lr
+
+      - alias: lr_gateway_block_off_reload
+        description: Гостиная - отключение блокировки перезагрузки шлюза xiaomi
         initial_state: true
         trigger:
     ## Виртуальная кнопка
@@ -273,8 +318,11 @@ lr_light:
         - service: input_boolean.turn_off
           entity_id: input_boolean.lr_xiaomi_gateway
 
-      - id: Гостиная перезагрузка зависшей люстры 1
-        alias: lr_ceiling_reboot_1
+
+#################### ПЕРЕЗАГРУЗКА ЛЮСТР ####################
+              
+      - alias: lr_ceiling_1_reboot
+        description: Гостиная - перезагрузка зависшей люстры 1
         initial_state: true
         trigger:
     # Проверка раз в 5 минут, перезагрузка если люстра недоступна
@@ -297,8 +345,8 @@ lr_light:
         - service: switch.turn_on
           entity_id: switch.0x00158d00015723f1_right
           
-      - id: Гостиная перезагрузка зависшей люстры 2
-        alias: lr_ceiling_reboot_2
+      - alias: lr_ceiling_2_reboot
+        description: Гостиная - перезагрузка зависшей люстры 2
         initial_state: true
         trigger:
     # Проверка раз в 5 минут, перезагрузка если люстра недоступна
@@ -320,10 +368,11 @@ lr_light:
         - delay: 00:00:05
         - service: switch.turn_on
           entity_id: switch.0x842e14fffee5451a
-          
 
-      - id: Гостиная ручное управление люстрой 1
-        alias: lr_ceiling_light_manual_control_1
+#################### ВКЛЮЧЕНИЕ СВЕТА ####################          
+
+      - alias: lr_ceiling_1_manual_control
+        description: Гостиная - ручное управление люстра 1
         initial_state: true
         trigger:
     # Виртуальная кнопка
@@ -381,8 +430,8 @@ lr_light:
                     entity_id:
                       - light.lr_ceiling_light_1
 
-      - id: Гостиная контроль включения люстры 1
-        alias: lr_ceiling_light_control_1
+      - alias: lr_ceiling_1_turn_on_control
+        description: Гостиная - контроль включения люстры 1
         initial_state: true
         trigger:
         - platform: state
@@ -400,9 +449,8 @@ lr_light:
           entity_id:
             - light.lr_ceiling_light_1
 
-                      
-      - id: Гостиная ручное управление люстрой 2
-        alias: lr_ceiling_light_manual_control_2
+      - alias: lr_ceiling_2_manual_control
+        description: Гостиная - ручное управление люстра 2                     
         initial_state: true
         trigger:
     # Виртуальная кнопка
@@ -452,8 +500,8 @@ lr_light:
                     entity_id:
                       - light.lr_ceiling_light_2
                       
-      - id: Гостиная контроль включения люстры 2
-        alias: lr_ceiling_light_control_2
+      - alias: lr_ceiling_2_turn_on_control
+        description: Гостиная - контроль включения люстры 2
         initial_state: true
         trigger:
         - platform: state
@@ -470,9 +518,10 @@ lr_light:
         - service: light.turn_off
           entity_id:
             - light.lr_ceiling_light_2
-                      
-      - id: Гостиная полная яркость
-        alias: lr_ceiling_light_full_brigtness
+
+
+      - alias: lr_ceiling_both_full_brigtness
+        description: Гостиная - обе люстры на полной яркости                     
         initial_state: true
         trigger:
     # Выключатель на столе
@@ -519,9 +568,9 @@ lr_light:
                     entity_id:
                       - light.lr_ceiling_light_1
                       - light.lr_ceiling_light_2
-                      
-      - id: Гостиная управление светом на стене
-        alias: lr_wall_light_control
+
+      - alias: lr_light_wall_toggle
+        description: Гостиная - ручное управление светильник на стене
         initial_state: true
         trigger:
     # Выключатель на столе
@@ -547,9 +596,9 @@ lr_light:
         action:
         - service: light.toggle
           entity_id: light.0x00158d00015723f1_left
-          
-      - id: Гостиная управление настольной лампой
-        alias: lr_table_lamp_control
+
+      - alias: lr_light_table_lamp_toggle
+        description: Гостиная - ручное управление настольной лампой
         initial_state: true
         trigger:
     ## Пульт IKEA
@@ -560,6 +609,10 @@ lr_light:
         - platform: state
           entity_id: sensor.0x04cf8cdf3c79360a_action
           to: 'button_1_single' 
+    ## Кнопка на столе
+        - platform: state
+          entity_id: sensor.0x00158d0001531698_action
+          to: 'single'
         condition:
         - condition: state
           entity_id: switch.control_mode
@@ -576,7 +629,7 @@ lr_light:
                       - light.lr_table_lamp
                     data_template:
                       brightness_pct: 100
-                      kelvin: 4000
+                      kelvin: 2700
               - conditions:
                   - condition: state
                     entity_id: light.lr_table_lamp

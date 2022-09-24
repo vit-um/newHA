@@ -1,5 +1,13 @@
 <a href="https://www.youtube.com/channel/UCcq9onYHbs6go3kDpfBoqhg?sub_confirmation=1" target="_blank"><img src="https://raw.githubusercontent.com/kvazis/training/master/lessons/img/subscribe.png" alt="Subscribe" style="height: 71px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a>
 
+### 2022 09 24 Итерация 33
+
+:point_up: Практически все изменения в пакаджах - конснулись наименований автоматизаций для приведения их к единому шаблону    
+:point_up: Существенно переделан интерфейс - добавлено много Mushroom карточек - з [Репозиторий](https://github.com/piitaya/lovelace-mushroom)  - есть в HACS    
+
+:point_up: Увидеть как выглядит измененный интерфейс можно тут - [Блог Home Assistant - демонстрация интерфейса на 23.09.2022](https://youtu.be/isd66esUA5Y)    
+
+____
 ### 2022 09 04 Итерация 32   
 
 :point_up: Основной сервер перехал с Raspberry 4B 8GB на Beelink GK mini, на Debian 11 [Beelink GK Mini часть 2 - Autoboot, Debian 11, Supervised Home Assistant](https://youtu.be/RqW5q-0RYio)    

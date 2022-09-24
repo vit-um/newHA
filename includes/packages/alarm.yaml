@@ -3,10 +3,20 @@ alarm:
     homeassistant:
       customize:
 
-        automation.lr_threat_notification:
+        automation.lr_ceiling_threat_notification:
+          friendly_name: Включение световой индикации в гостиной при сработке сенсоров тревоги
           icon: mdi:alarm-light
 
-        automation.lr_threat_cancel_notification:
+        automation.lr_ceiling_threat_cancel_notification:
+          friendly_name: Включение световой индикации в гостиной при отбое тревоги
+          icon: mdi:alarm-light-off
+          
+        automation.kn_gateway_threat_notification:
+          friendly_name: Кухня - включение световой индикации кухне при сработке сенсоров тревоги
+          icon: mdi:alarm-light
+
+        automation.kn_gateway_threat_cancel_notification:
+          friendly_name: Кухня - включение световой индикации кухне при отбое тревоги
           icon: mdi:alarm-light-off
 
     # Сохранение в базе состояний сенсоров тревоги
@@ -17,6 +27,8 @@ alarm:
            - binary_sensor.m_kiyiv_artillery
            - binary_sensor.m_kiyiv_unknown
            - binary_sensor.m_kiyiv_urban_fights
+           - binary_sensor.m_kiyiv_chemical
+           - binary_sensor.m_kiyiv_nuclear
 
     template:
 
@@ -29,6 +41,8 @@ alarm:
                  or is_state('binary_sensor.m_kiyiv_artillery', 'on')
                  or is_state('binary_sensor.m_kiyiv_unknown', 'on')
                  or is_state('binary_sensor.m_kiyiv_urban_fights', 'on')
+                 or is_state('binary_sensor.m_kiyiv_chemical', 'on')
+                 or is_state('binary_sensor.m_kiyiv_nuclear', 'on')
               }}
             device_class: safety
             icon: >
@@ -40,8 +54,7 @@ alarm:
 
     automation:
 
-      - id: Тревога, уведомление в гостиной
-        alias: lr_threat_notification
+      - alias: lr_ceiling_threat_notification
         description: Включение световой индикации в гостиной при сработке сенсоров тревоги
         initial_state: true
         trigger:
@@ -75,22 +88,25 @@ alarm:
              - light.lr_ceiling_light_2
     # Включение эффекта Alarm на задней подсветке на 30 секунд
          - service: light.turn_on
-           entity_id: 
-             - light.cr_ceiling_light_ambilight
-             - light.lr_ceiling_light_1_ambilight
-             - light.lr_ceiling_light_2_ambilight
            data:
-              brightness_pct: 100
-              effect: Alarm
+             transition: 2
+             brightness_pct: 70
+             effect: Alarm
+           target:
+             entity_id:
+               - light.lr_ceiling_light_1_ambilight
+               - light.lr_ceiling_light_2_ambilight
+               - light.cr_ceiling_light_ambilight
          - delay: 00:00:30
     # Включение эффекта Stop на задней подсветке, иначе эффект Alarm применится при следующем включении
          - service: light.turn_on
-           entity_id: 
-             - light.cr_ceiling_light_ambilight
-             - light.lr_ceiling_light_1_ambilight
-             - light.lr_ceiling_light_2_ambilight
            data:
-              effect: Stop
+             effect: Stop
+           target:
+             entity_id:
+               - light.lr_ceiling_light_1_ambilight
+               - light.lr_ceiling_light_2_ambilight
+               - light.cr_ceiling_light_ambilight
     # Отключение подсветки
          - service: light.turn_off
            entity_id: 
@@ -102,8 +118,7 @@ alarm:
            target:
              entity_id: scene.light_before
              
-      - id: Отбой тревоги, уведомление в гостиной
-        alias: lr_threat_cancel_notification
+      - alias: lr_ceiling_threat_cancel_notification
         description: Включение световой индикации в гостиной при отбое тревоги
         initial_state: true
         trigger:
@@ -150,6 +165,41 @@ alarm:
            target:
              entity_id: scene.light_before
              
+      - alias: kn_gateway_threat_notification
+        description: Кухня - включение световой индикации кухне при сработке сенсоров тревоги
+        initial_state: true
+        trigger:
+    # Сборный сенсор тревоги
+        - platform: state
+          entity_id: binary_sensor.threat
+          from: 'off'
+          to: 'on'
+        condition:
+    # Переключатель режима работы сервера
+          - condition: state
+            entity_id: switch.control_mode
+            state: 'on'
+        action:
+         - service: script.turn_on
+           entity_id: script.kn_threat_notification
+
+      - alias: kn_gateway_threat_cancel_notification
+        description: Кухня - включение световой индикации кухне при отбое тревоги
+        initial_state: true
+        trigger:
+    # Сборный сенсор тревоги
+        - platform: state
+          entity_id: binary_sensor.threat
+          from: 'on'
+          to: 'off'
+        condition:
+    # Переключатель режима работы сервера
+          - condition: state
+            entity_id: switch.control_mode
+            state: 'on'
+        action:
+         - service: script.turn_on
+           entity_id: script.kn_threat_cancel_notification
              
     script:
     
@@ -165,8 +215,8 @@ alarm:
                    - light.lr_ceiling_light_1_ambilight
                    - light.lr_ceiling_light_2_ambilight
                 data:
-                  brightness_pct: 100
-                  rgb_color: [0, 255, 0]
+                  brightness_pct: 70
+                  color_name: green
                   transition: 2
               - delay: 2
               - service: light.turn_off
@@ -177,3 +227,46 @@ alarm:
                 data:
                   transition: 2
               - delay: 2
+              
+      kn_threat_notification:
+        alias: Шлюз в кухне 5 красных вспышек
+        sequence:
+            repeat:
+              count: 5 
+              sequence:
+              - service: light.turn_on
+                entity_id: 
+                   - light.gateway_light_7811dc64f4c8
+                data:
+                  brightness_pct: 70
+                  color_name: red
+                  transition: 2
+              - delay: 2
+              - service: light.turn_off
+                entity_id: 
+                   - light.gateway_light_7811dc64f4c8
+                data:
+                  transition: 2
+              - delay: 2              
+              
+      kn_threat_cancel_notification:
+        alias: Шлюз в кухне 5 красных вспышек
+        sequence:
+            repeat:
+              count: 5 
+              sequence:
+              - service: light.turn_on
+                entity_id: 
+                   - light.gateway_light_7811dc64f4c8
+                data:
+                  brightness_pct: 70
+                  color_name: green
+                  transition: 2
+              - delay: 2
+              - service: light.turn_off
+                entity_id: 
+                   - light.gateway_light_7811dc64f4c8
+                data:
+                  transition: 2
+              - delay: 2        
+        

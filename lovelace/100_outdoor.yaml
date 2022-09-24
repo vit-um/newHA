@@ -1,6 +1,6 @@
 ##################  Улица
 title: Улица, этаж
-icon: mdi:city-variant
+icon: phu:reolink-811
 cards:
 
 ############################ Колонка 1 ############################
@@ -76,11 +76,11 @@ cards:
                   deep-orange
                   {% elif states("sensor.0x00158d0001a4b9da_humidity")|float <= 40 %}
                   yellow
-                  {% elif states("sensor.0x00158d0001a4b9da_temperature")|float <= 50 %}
+                  {% elif states("sensor.0x00158d0001a4b9da_humidity")|float <= 50 %}
                   light-blue
-                  {% elif states("sensor.0x00158d0001a4b9da_temperature")|float <= 60 %}
+                  {% elif states("sensor.0x00158d0001a4b9da_humidity")|float <= 60 %}
                   blue
-                  {% elif states("sensor.0x00158d0001a4b9da_temperature")|float > 60 %}
+                  {% elif states("sensor.0x00158d0001a4b9da_humidity")|float > 60 %}
                   indigo
                   {% endif %}
                 icon: mdi:water-percent
@@ -149,7 +149,7 @@ cards:
           cards:
           - type: custom:mushroom-entity-card
             entity: input_button.hikvision1_photo
-            layout: vertical
+            layout: horizontal
             icon_color: blue
             icon: mdi:camera
             primary_info: name
@@ -169,7 +169,7 @@ cards:
               {% else %}
               Остановка трансляции
               {% endif %}
-            layout: vertical
+            layout: horizontal
             entity: input_button.hikvision1_cast
             icon: mdi:cast-connected
             multiline_secondary: true
@@ -196,7 +196,7 @@ cards:
           cards:
           - type: custom:mushroom-entity-card
             entity: input_button.hikvision5_photo
-            layout: vertical
+            layout: horizontal
             icon_color: blue
             icon: mdi:camera
             primary_info: name
@@ -216,7 +216,7 @@ cards:
               {% else %}
               Остановка трансляции
               {% endif %}
-            layout: vertical
+            layout: horizontal
             entity: input_button.hikvision5_cast
             icon: mdi:cast-connected
             multiline_secondary: true
@@ -272,7 +272,7 @@ cards:
                 primary: Воздух
                 secondary: |-
                   {% if is_state("binary_sensor.m_kiyiv_air", "off") %}
-                  Безопасно
+                  ОК
                   {% else %}
                   Опасность
                   {% endif %}
@@ -280,7 +280,7 @@ cards:
                 entity: binary_sensor.m_kiyiv_air
                 icon: |-
                   {% if is_state("binary_sensor.m_kiyiv_air", "off") %}
-                  mdi:cloud
+                  mdi:airplane-off
                   {% else %}
                   mdi:bomb
                   {% endif %}
@@ -298,7 +298,7 @@ cards:
                 primary: Артилерия
                 secondary: |-
                   {% if is_state("binary_sensor.m_kiyiv_artillery", "off") %}
-                  Безопасно
+                  ОК
                   {% else %}
                   Опасность
                   {% endif %}
@@ -308,7 +308,7 @@ cards:
                   {% if is_state("binary_sensor.m_kiyiv_artillery", "off") %}
                   mdi:tank
                   {% else %}
-                  mdi:nuke
+                  mdi:tank
                   {% endif %}
                 multiline_secondary: true
                 icon_color: |-
@@ -321,10 +321,10 @@ cards:
                   action: more-info 
 
               - type: custom:mushroom-template-card
-                primary: Уличные бои
+                primary: Бои
                 secondary: |-
                   {% if is_state("binary_sensor.m_kiyiv_urban_fights", "off") %}
-                  Безопасно
+                  ОК
                   {% else %}
                   Опасность
                   {% endif %}
@@ -347,10 +347,62 @@ cards:
                   action: more-info 
                   
               - type: custom:mushroom-template-card
+                primary: Ядерная
+                secondary: |-
+                  {% if is_state("binary_sensor.m_kiyiv_nuclear", "off") %}
+                  ОК
+                  {% else %}
+                  Опасность
+                  {% endif %}
+                layout: vertical
+                entity: binary_sensor.m_kiyiv_nuclear
+                icon: |-
+                  {% if is_state("binary_sensor.m_kiyiv_nuclear", "off") %}
+                  mdi:radioactive-off
+                  {% else %}
+                  mdi:nuke
+                  {% endif %}
+                multiline_secondary: true
+                icon_color: |-
+                  {% if is_state("binary_sensor.m_kiyiv_nuclear", "off") %}
+                  green
+                  {% else %}
+                  red
+                  {% endif %} 
+                tap_action:
+                  action: more-info 
+                  
+              - type: custom:mushroom-template-card
+                primary: Химическая
+                secondary: |-
+                  {% if is_state("binary_sensor.m_kiyiv_chemical", "off") %}
+                  ОК
+                  {% else %}
+                  Опасность
+                  {% endif %}
+                layout: vertical
+                entity: binary_sensor.m_kiyiv_chemical
+                icon: |-
+                  {% if is_state("binary_sensor.m_kiyiv_chemical", "off") %}
+                  mdi:chemical-weapon
+                  {% else %}
+                  mdi:chemical-weapon
+                  {% endif %}
+                multiline_secondary: true
+                icon_color: |-
+                  {% if is_state("binary_sensor.m_kiyiv_chemical", "off") %}
+                  green
+                  {% else %}
+                  red
+                  {% endif %} 
+                tap_action:
+                  action: more-info 
+                  
+              - type: custom:mushroom-template-card
                 primary: Остальное
                 secondary: |-
                   {% if is_state("binary_sensor.m_kiyiv_unknown", "off") %}
-                  Безопасно
+                  ОК
                   {% else %}
                   Опасность
                   {% endif %}
@@ -382,7 +434,7 @@ cards:
           cards:
           - type: custom:mushroom-entity-card
             entity: input_button.hikvision3_photo
-            layout: vertical
+            layout: horizontal
             icon_color: blue
             icon: mdi:camera
             primary_info: name
@@ -402,7 +454,7 @@ cards:
               {% else %}
               Остановка трансляции
               {% endif %}
-            layout: vertical
+            layout: horizontal
             entity: input_button.hikvision3_cast
             icon: mdi:cast-connected
             multiline_secondary: true
@@ -428,7 +480,7 @@ cards:
           cards:
           - type: custom:mushroom-entity-card
             entity: input_button.hikvision7_photo
-            layout: vertical
+            layout: horizontal
             icon_color: blue
             icon: mdi:camera
             primary_info: name
@@ -448,7 +500,7 @@ cards:
               {% else %}
               Остановка трансляции
               {% endif %}
-            layout: vertical
+            layout: horizontal
             entity: input_button.hikvision7_cast
             icon: mdi:cast-connected
             multiline_secondary: true
@@ -571,7 +623,7 @@ cards:
           cards:
           - type: custom:mushroom-entity-card
             entity: input_button.reolink_411_ws
-            layout: vertical
+            layout: horizontal
             icon_color: blue
             icon: mdi:camera
             primary_info: name
@@ -590,7 +642,7 @@ cards:
               {% else %}
               Выкл
               {% endif %}
-            layout: vertical
+            layout: horizontal
             tap_action:
               action: toggle
             entity: switch.0x00158d0003f46bb6_l2
@@ -618,7 +670,7 @@ cards:
           cards:
           - type: custom:mushroom-entity-card
             entity: input_button.reolink_410
-            layout: vertical
+            layout: horizontal
             icon_color: blue
             icon: mdi:camera
             primary_info: name
@@ -637,7 +689,7 @@ cards:
               {% else %}
               Выкл
               {% endif %}
-            layout: vertical
+            layout: horizontal
             tap_action:
               action: toggle
             entity: switch.0x00158d0003f46bb6_l1
@@ -649,7 +701,7 @@ cards:
               {% endif %}
             multiline_secondary: true
             icon_color: |-
-              {% if is_state("switch.0x00158d0003f46bb6_l2", "on") %}
+              {% if is_state("switch.0x00158d0003f46bb6_l1", "on") %}
               green
               {% else %}
               red

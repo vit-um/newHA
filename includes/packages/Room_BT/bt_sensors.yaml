@@ -6,6 +6,7 @@ bt_sensors:
         entities:
            - sensor.0x00158d0001dcd47e_temperature
            - sensor.0x00158d0001dcd47e_humidity
+           - binary_sensor.0x00158d0001e547a3_occupancy
 
     homeassistant:
       customize:

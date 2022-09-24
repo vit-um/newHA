@@ -1,47 +1,7 @@
-test:
+# test:
 
 
-    input_boolean:
-      lovelace_lr:
-        name: lovelace_cast_lr
-        icon: mdi:view-dashboard
-        
-        
-    automation:
-    
-      - id: Cast Lovelace LR
-        alias: cast_lovelace_lr
-        initial_state: true
-        trigger:
-        - platform: state
-          entity_id: input_boolean.lovelace_lr
-        condition:
-    # Переключатель режима работы сервера
-        - condition: state
-          entity_id: switch.control_mode
-          state: 'on'
-        action:
-            - choose:
-              - conditions:
-                  - condition: state
-                    entity_id: input_boolean.lovelace_lr
-                    state: 'on'
-                sequence:
-                  - service: cast.show_lovelace_view
-                    data:
-                      entity_id: media_player.nesthub7a33
-                      dashboard_path: lovelace
-                      view_path: "8"
 
-              - conditions:
-                  - condition: state
-                    entity_id: input_boolean.lovelace_lr
-                    state: 'off'
-                sequence:
-                  - service: media_player.turn_off
-                    data: {}
-                    target:
-                      entity_id: media_player.nesthub7a33
 
 #     recorder:
 #       include:

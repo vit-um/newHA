@@ -1,5 +1,6 @@
 ############################ Телеметрия ############################
 title: Телеметрия
+theme: Google Dark Theme
 icon: mdi:keyboard
 cards:
 
@@ -150,7 +151,7 @@ cards:
                   {% elif states("sensor.disk_use_percent")|float > 90 %}
                   pink
                   {% endif %}
-                icon: mdi:harddisk
+                icon: phu:seagate-ssd-m2
                 tap_action:
                   action: more-info
 
@@ -183,7 +184,8 @@ cards:
                 name: Хранилище
                 state_header: Свободно
                 entities:
-                  - entity: sensor.home_assistant_v2_db_size
+                #   - entity: sensor.home_assistant_v2_db_size
+                  - entity: sensor.maria_db
                     name: База данных
 
               - entity: sensor.local_ip
@@ -344,6 +346,30 @@ cards:
                 - entity: input_datetime.notification_stop
                 - entity: binary_sensor.notification_time
 
+            - type: markdown
+              style: |
+                   ha-card {
+                     color: #00BFFF;
+                     font-weight: bold;
+                     font-size: 16px;
+                   }          
+              content: >
+                 **Ночной режим**
+
+            - type: entities
+              style: |
+                   ha-card {
+                     color: #00BFFF;
+                     --paper-item-icon-color: #00BFFF;
+                     --iron-icon-stroke-color: #FFFFE0;
+                     font-weight: bold;
+                     font-size: 14px;
+                   }               
+              show_header_toggle: false
+              entities:
+                - entity: input_datetime.night_start
+                - entity: input_datetime.night_stop
+                - entity: binary_sensor.night_time
 
 ############################ Колонка 2 ############################
     - type: vertical-stack
@@ -915,6 +941,28 @@ cards:
               content: >
                   **Активные светильники**
 
+            # - type: custom:auto-entities
+            #   card:
+            #     type: entities
+            #     show_header_toggle: false
+            #   filter:
+            #     include:
+            #     - domain: light
+            #       state: 'on'
+            #       options:
+            #          type: custom:multiple-entity-row
+            #          toggle: true
+            #         #  show_state: false
+            #          secondary_info: last-changed
+            #          entities:
+            #           - attribute: brightness
+            #             name: Яркость
+            #           - attribute: color_temp
+            #             name: Температура
+            #     exclude:
+            #      - entity_id: light.*virtual*
+                 
+                 
             - type: custom:auto-entities
               card:
                 type: entities
@@ -924,15 +972,13 @@ cards:
                 - domain: light
                   state: 'on'
                   options:
-                     type: custom:multiple-entity-row
-                     toggle: true
-                    #  show_state: false
-                     secondary_info: last-changed
-                     entities:
-                      - attribute: brightness
-                        name: Яркость
-                      - attribute: color_temp
-                        name: Температура
+                      type: custom:mushroom-light-card
+                      use_light_color: true
+                      show_brightness_control: true
+                      show_color_temp_control: false
+                      show_color_control: false
+                      collapsible_controls: true
+                      secondary_info: none
                 exclude:
                  - entity_id: light.*virtual*
 ################# Активные плееры #################

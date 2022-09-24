@@ -1,6 +1,6 @@
 ##################   Климат
 title: Кухня Климат
-icon: mdi:sun-thermometer
+icon: phu:outdoor-motion-sensor-temperature
 cards:
 
 ############################ Колонка 1 ############################
@@ -49,9 +49,9 @@ cards:
                 entity: binary_sensor.kn_aeration
                 icon: |-
                   {% if is_state("binary_sensor.kn_aeration", "off") %}
-                  mdi:window-closed-variant
+                  phu:tilt-window-closed
                   {% else %}
-                  mdi:window-open-variant
+                  phu:tilt-window-opened
                   {% endif %}
                 multiline_secondary: true
                 icon_color: |-
@@ -75,9 +75,9 @@ cards:
                 entity: binary_sensor.0x00158d0001a99562_contact
                 icon: |-
                   {% if is_state("binary_sensor.0x00158d0001a99562_contact", "off") %}
-                  mdi:window-closed
+                  phu:lift-in-window-closed
                   {% else %}
-                  mdi:window-open
+                  phu:lift-in-window-open1
                   {% endif %}
                 multiline_secondary: true
                 icon_color: |-
@@ -101,9 +101,9 @@ cards:
                 entity: binary_sensor.0x00158d0001a20885_contact
                 icon: |-
                   {% if is_state("binary_sensor.0x00158d0001a20885_contact", "off") %}
-                  mdi:door-closed
+                  phu:panel-glass-door2-close
                   {% else %}
-                  mdi:door-open
+                  phu:panel-glass-door2-open
                   {% endif %}
                 multiline_secondary: true
                 icon_color: |-
@@ -127,9 +127,9 @@ cards:
                 entity: binary_sensor.0x00158d0001a4a394_contact
                 icon: |-
                   {% if is_state("binary_sensor.0x00158d0001a4a394_contact", "off") %}
-                  mdi:window-closed
+                  phu:double-window-closed
                   {% else %}
-                  mdi:window-open
+                  phu:double-window-open
                   {% endif %}
                 multiline_secondary: true
                 icon_color: |-
@@ -181,11 +181,11 @@ cards:
                   deep-orange
                   {% elif states("sensor.0x00158d0001581109_humidity")|float <= 40 %}
                   yellow
-                  {% elif states("sensor.0x00158d0001581109_temperature")|float <= 50 %}
+                  {% elif states("sensor.0x00158d0001581109_humidity")|float <= 50 %}
                   light-blue
-                  {% elif states("sensor.0x00158d0001581109_temperature")|float <= 60 %}
+                  {% elif states("sensor.0x00158d0001581109_humidity")|float <= 60 %}
                   blue
-                  {% elif states("sensor.0x00158d0001581109_temperature")|float > 60 %}
+                  {% elif states("sensor.0x00158d0001581109_humidity")|float > 60 %}
                   indigo
                   {% endif %}
                 icon: mdi:water-percent
@@ -291,50 +291,53 @@ cards:
     - type: vertical-stack
       cards:
 
-        - type: markdown
-          style: |
-              ha-card {
-                color: #f8ffd8;
-                --paper-item-icon-color: #f8ffd8;
-                --paper-item-icon-active-color: #f8ffd8;
-                font-weight: bold;
-                font-size: 26px;
-              }          
-          content: >
-             **Бойлер**
+
+
 
         - type: custom:stack-in-card
           mode: vertical
-          cards:
+          cards: 
+
+            - type: markdown
+              style: |
+                   ha-card {
+                     color: #f8ffd8;
+                     --paper-item-icon-color: #f8ffd8;
+                     --paper-item-icon-active-color: #f8ffd8;
+                     font-weight: bold;
+                     font-size: 14px;
+                   } 
+              content: >
+                 **Бойлер**
+
+
+            - type: entities
+              style: |
+                   ha-card {
+                     color: #f8ffd8;
+                     --paper-item-icon-color: #f8ffd8;
+                     --paper-item-icon-active-color: #009933;
+
+                     --switch-unchecked-color: #f8ffd8;
+                     --switch-unchecked-button-color: #f8ffd8;
+                     --switch-unchecked-track-color: #f8ffd8;
+
+                     --switch-checked-color: #009933;
+                     --switch-checked-button-color: #009933;
+                     --switch-checked-track-color: #009933;
+
+                     font-weight: bold;
+                     font-size: 14px;
+                   }             
+              show_header_toggle: false
+              entities:
+              
+              - entity: switch.kn_boiler_mode
+                state_color: true
+
             - type: horizontal-stack
         
               cards:
-
-              - type: custom:mushroom-template-card
-                primary: Режим
-                secondary: |-
-                  {% if is_state("switch.kn_boiler_mode", "on") %}
-                  Нагрев воды включен
-                  {% else %}
-                  Нагрев воды выключен
-                  {% endif %}
-                layout: vertical
-                tap_action:
-                  action: toggle
-                entity: switch.kn_boiler_mode
-                icon: |-
-                  {% if is_state("switch.kn_boiler_mode", "on") %}
-                  mdi:water-boiler
-                  {% else %}
-                  mdi:water-boiler-off
-                  {% endif %}
-                multiline_secondary: true
-                icon_color: |-
-                  {% if is_state("switch.kn_boiler_mode", "on") %}
-                  orange
-                  {% else %}
-                  grey
-                  {% endif %}
 
               - type: custom:mushroom-template-card
                 primary: Питание
@@ -348,12 +351,7 @@ cards:
                 tap_action:
                   action: toggle
                 entity: switch.0x00158d0001d35bc0
-                icon: |-
-                  {% if is_state("switch.0x00158d0001d35bc0", "on") %}
-                  mdi:power-plug
-                  {% else %}
-                  mdi:power-plug-off
-                  {% endif %}
+                icon: phu:socket-eu
                 multiline_secondary: true
                 icon_color: |-
                   {% if is_state("switch.0x00158d0001d35bc0", "on") %}
@@ -362,6 +360,45 @@ cards:
                   red
                   {% endif %}
 
+              - type: custom:mushroom-template-card
+                primary: Мощность
+                secondary: |-
+                      {{states ('sensor.0x00158d0001d35bc0_power')}} Ватт
+                layout: vertical
+                entity: sensor.0x00158d0001d35bc0_power
+                icon_color: light-green
+                icon: mdi:lightning-bolt-circle
+                tap_action:
+                  action: more-info
+
+              - type: custom:mushroom-template-card
+                primary: Температура
+                secondary: |-
+                      {{states ('sensor.0x00158d0001d35bc0_device_temperature')}} С°
+                layout: vertical
+                entity: sensor.0x00158d0001d35bc0_device_temperature
+                icon_color: |-
+                  {% if states("sensor.0x00158d0001d35bc0_device_temperature")|float <= 40 %}
+                  green
+                  {% elif states("sensor.0x00158d0001d35bc0_device_temperature")|float <= 60 %}
+                  amber
+                  {% else %}
+                  red
+                  {% endif %}
+                icon: mdi:temperature-celsius
+                tap_action:
+                  action: more-info 
+
+              - type: custom:mushroom-template-card
+                primary: Энергия
+                secondary: |-
+                      {{states ('sensor.0x00158d0001d35bc0_meter')}} KВт*ч
+                layout: vertical
+                entity: sensor.00x00158d0001d35bc0_meter
+                icon_color: light-green
+                icon: mdi:home-lightning-bolt
+                tap_action:
+                  action: more-info
 
 
             - type: entities
@@ -436,9 +473,9 @@ cards:
                 entity: switch.kn_radiator_mode
                 icon: |-
                   {% if is_state("switch.kn_radiator_mode", "on") %}
-                  mdi:radiator
+                  phu:wiser-thermostat-off
                   {% else %}
-                  mdi:radiator-off
+                  phu:wiser-thermostat-on
                   {% endif %}
                 multiline_secondary: true
                 icon_color: |-

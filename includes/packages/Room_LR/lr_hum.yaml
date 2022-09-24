@@ -20,14 +20,13 @@ lr_hum:
         binary_sensor.lr_humidifier_water_tank:
           friendly_name: Гостиная, увлажнитель, бак
 
+    mqtt:
+      binary_sensor:
+        - name: lr_humidifier
+          state_topic: "states/lr_humidifier"
+
     binary_sensor:
     
-      - platform: mqtt
-        name: lr_humidifier
-        state_topic: "states/lr_humidifier"
-        payload_on: "ON"
-        payload_off: "OFF"
-        
       - platform: tod
         name: lr_humidifier_time
         after: '10:00'

@@ -1,5 +1,39 @@
 out_camera:
 
+    homeassistant:
+      customize:
+
+        automation.cam_hikvision1_photo:
+          friendly_name: Hikvision 1 - фото и отправка в телеграмм
+          icon: phu:reolink-811
+          
+        automation.cam_hikvision1_cast:
+          friendly_name: Hikvision 1 - Google Cast
+          icon: phu:home-max
+          
+        automation.cam_hikvision3_photo:
+          friendly_name: Hikvision 3 - фото и отправка в телеграмм
+          icon: phu:reolink-811
+          
+        automation.cam_hikvision3_cast:
+          friendly_name: Hikvision 3 - Google Cast
+          icon: phu:home-max
+
+        automation.cam_hikvision5_photo:
+          friendly_name: Hikvision 5 - фото и отправка в телеграмм
+          icon: phu:reolink-811
+          
+        automation.cam_hikvision5_cast:
+          friendly_name: Hikvision 5 - Google Cast
+          icon: phu:home-max
+
+        automation.cam_hikvision7_photo:
+          friendly_name: Hikvision 7 - фото и отправка в телеграмм
+          icon: phu:reolink-811
+          
+        automation.cam_hikvision7_cast:
+          friendly_name: Hikvision 7 - Google Cast
+          icon: phu:home-max
 
     input_button:
 
@@ -37,8 +71,7 @@ out_camera:
 
     automation:
 
-      - id: Hikvision 1 - фото и отправка в телеграмм
-        alias: hikvision1_photo
+      - alias: cam_hikvision1_photo
         initial_state: true
         trigger:
     ## Виртуальная кнопка
@@ -60,8 +93,7 @@ out_camera:
               - !secret chat_id_group
              file: "/config/www/cam_captures/hikvision1_photo.jpg" 
              
-      - id: Hikvision 1 - cast
-        alias: hikvision1_cast
+      - alias: cam_hikvision1_cast
         initial_state: true
         trigger:
     ## Виртуальная кнопка
@@ -92,8 +124,7 @@ out_camera:
                     target:
                       entity_id: media_player.nesthub7a33
                     
-      - id: Hikvision 3 - фото и отправка в телеграмм
-        alias: hikvision3_photo
+      - alias: cam_hikvision3_photo
         initial_state: true
         trigger:
     ## Виртуальная кнопка
@@ -115,8 +146,7 @@ out_camera:
               - !secret chat_id_group
              file: "/config/www/cam_captures/hikvision3_photo.jpg" 
              
-      - id: Hikvision 3 - cast
-        alias: hikvision3_cast
+      - alias: cam_hikvision3_cast
         initial_state: true
         trigger:
     ## Виртуальная кнопка
@@ -147,8 +177,7 @@ out_camera:
                     target:
                       entity_id: media_player.nesthub7a33                    
                     
-      - id: Hikvision 5 - фото и отправка в телеграмм
-        alias: hikvision5_photo
+      - alias: cam_hikvision5_photo
         initial_state: true
         trigger:
     ## Виртуальная кнопка
@@ -170,8 +199,7 @@ out_camera:
               - !secret chat_id_group
              file: "/config/www/cam_captures/hikvision5_photo.jpg" 
              
-      - id: Hikvision 5 - cast
-        alias: hikvision5_cast
+      - alias: cam_hikvision5_cast
         initial_state: true
         trigger:
     ## Виртуальная кнопка
@@ -202,8 +230,7 @@ out_camera:
                     target:
                       entity_id: media_player.nesthub7a33  
                       
-      - id: Hikvision 7 - фото и отправка в телеграмм
-        alias: hikvision7_photo
+      - alias: cam_hikvision7_photo
         initial_state: true
         trigger:
     ## Виртуальная кнопка
@@ -225,8 +252,7 @@ out_camera:
               - !secret chat_id_group
              file: "/config/www/cam_captures/hikvision7_photo.jpg" 
              
-      - id: Hikvision 7 - cast
-        alias: hikvision7_cast
+      - alias: cam_hikvision7_cast
         initial_state: true
         trigger:
     ## Виртуальная кнопка

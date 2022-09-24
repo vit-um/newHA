@@ -9,14 +9,13 @@ dd_hum:
         binary_sensor.dd_humidifier_time:
           friendly_name: Детская Д, время увлажнения воздуха
 
+    mqtt:
+      binary_sensor:
+        - name: dd_humidifier
+          state_topic: "states/dd_humidifier"
+
     binary_sensor:
-    
-      - platform: mqtt
-        name: dd_humidifier
-        state_topic: "states/dd_humidifier"
-        payload_on: "ON"
-        payload_off: "OFF"
-        
+
       - platform: tod
         name: dd_humidifier_time
         after: '10:00'

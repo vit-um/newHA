@@ -1,11 +1,16 @@
 ln_light:
 
+    recorder:
+      include:
+        entities:
+           - binary_sensor.0x00158d0001e16204_occupancy
+
     homeassistant:
       customize:
 
         light.0x00158d00014a1a55:
           friendly_name: Прачечная свет
-          icon: mdi:ceiling-light
+          icon: phu:daylo-wall
 
         sensor.0x00158d00014a1a55_action:
           friendly_name: Прачечная выключатель на стене
@@ -15,47 +20,55 @@ ln_light:
         sensor.0x00158d0001e16204_battery:
           friendly_name: Прачечная, движение
 
-        binary_sensor.ln_occupancy:
-          friendly_name: Прачечная, присутствие
+        automation.ln_ceiling_auto_light_on:
+          friendly_name: Прачечная - автоматическое включение освещения
+          icon: phu:aqara-motion
+          
+        automation.ln_ceiling_auto_light_off:
+          friendly_name: Прачечная - автоматическое выключение освещения
+          icon: phu:aqara-motion
 
+        binary_sensor.ln_forgot_light_day:
+          friendly_name: Прачечная забытый свет днем
+
+        binary_sensor.ln_forgot_light_night:
+          friendly_name: Прачечная забытый свет ночью
+          
     template:
     
-      - trigger:
-    # Виртуальная кнопка
-        - platform: state
-          entity_id: input_button.ln_light
-    # Выключатель на входе
-        - platform: state
-          entity_id: sensor.0x00158d00014a1a55_action
-          to: 'single'
-        binary_sensor:
-          - name: ln_manual_light
-            auto_off: 300
-            state: "true"
-
       - binary_sensor:
 
-          - name: ln_occupancy
+          - name: ln_forgot_light_day
             state: >
-              {{ is_state('binary_sensor.ln_manual_light', 'on')  
-                 or is_state('binary_sensor.0x00158d0001e16204_occupancy', 'on')
+              {{ is_state('light.0x00158d00014a1a55', 'on')  
+                 and is_state('binary_sensor.0x00158d0001e16204_occupancy', 'off')
+                 and is_state('binary_sensor.night_time', 'off')
               }}
-            device_class: presence
+            delay_on: 
+                minutes: 5
+            device_class: light
+            
+          - name: ln_forgot_light_night
+            state: >
+              {{ is_state('light.0x00158d00014a1a55', 'on')  
+                 and is_state('binary_sensor.0x00158d0001e16204_occupancy', 'off')
+                 and is_state('binary_sensor.night_time', 'on')
+              }}
+            delay_on: 
+                minutes: 1
+            device_class: light
 
     
     automation:
 
-      - id: Прачечная, включение света
-        alias: ln_light_on
+      - alias: ln_ceiling_auto_light_on
+        description: Прачечная - автоматическое включение освещения
         initial_state: true
         trigger:
-    # Виртуальная кнопка
+    # Датчик движения
         - platform: state
-          entity_id: input_button.ln_light
-    # # Датчик движения
-    #     - platform: state
-    #       entity_id: binary_sensor.0x00158d0001e16204_occupancy
-    #       to: 'on'
+          entity_id: binary_sensor.0x00158d0001e16204_occupancy
+          to: 'on'
         condition:
         - condition: state
           entity_id: switch.control_mode
@@ -67,17 +80,17 @@ ln_light:
         - service: light.turn_on
           entity_id: light.0x00158d00014a1a55
 
-      - id: Прачечная, выключение света
-        alias: ln_light_off
+      - alias: ln_ceiling_auto_light_off
+        description: Прачечная - автоматическое выключение освещения
         initial_state: true
         trigger:
-    # Виртуальная кнопка
-        - platform: state
-          entity_id: input_button.ln_light
     # Датчик движения
-        # - platform: state
-        #   entity_id: binary_sensor.ln_occupancy
-        #   to: 'off'
+        - platform: state
+          entity_id: binary_sensor.ln_forgot_light_day
+          to: 'on'
+        - platform: state
+          entity_id: binary_sensor.ln_forgot_light_night
+          to: 'on'
         condition:
         - condition: state
           entity_id: switch.control_mode
@@ -88,26 +101,4 @@ ln_light:
         action:
         - service: light.turn_off
           entity_id: light.0x00158d00014a1a55
-          
-    #   - id: Прачечная, контроль включения света
-    #     alias: ln_light_control
-    #     initial_state: true
-    #     trigger:
-    # # Отслеживание включения светильника
-    #     - platform: state
-    #       entity_id: light.0x00158d00014a1a55
-    #       to: 'on'
-    #     condition:
-    # # Переключатель режима работы сервера
-    #     - condition: state
-    #       entity_id: switch.control_mode
-    #       state: 'on'
-    # # Сенсор присутствия выключен
-    #     - condition: state
-    #       entity_id: binary_sensor.ln_occupancy
-    #       state: 'off'
-    #     action:
-    # # Выключение люстры
-    #     - service: light.turn_off
-    #       entity_id: light.0x00158d00014a1a55
 

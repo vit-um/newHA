@@ -38,13 +38,10 @@ lr_conditioner:
         max: 30
         step: 1
 
-    binary_sensor:
-    
-      - platform: mqtt
-        name: lr_conditioner
-        state_topic: "states/lr_conditioner"
-        payload_on: "ON"
-        payload_off: "OFF"
+    mqtt:
+      binary_sensor:
+        - name: lr_conditioner
+          state_topic: "states/lr_conditioner"
         
     switch:
     

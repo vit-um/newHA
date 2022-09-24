@@ -45,13 +45,10 @@ da_heat:
         sensor.dd_thermostat_difference:
           friendly_name: Детская А, разница температур с термостатом
 
-    binary_sensor:
-    
-      - platform: mqtt
-        name: da_radiator
-        state_topic: "states/da_radiator"
-        payload_on: "ON"
-        payload_off: "OFF"
+    mqtt:
+      binary_sensor:
+        - name: da_radiator
+          state_topic: "states/da_radiator"
 
     switch:
 

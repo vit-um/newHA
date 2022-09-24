@@ -67,6 +67,8 @@ telemetry:
           friendly_name: Недоступных бинарных сенсоров -
         binary_sensor.notification_time:
           friendly_name: Уведомления
+        binary_sensor.night_time:
+          friendly_name: Ночной режим
 
         sensor.total_load:
           friendly_name: Общая мощность
@@ -106,6 +108,16 @@ telemetry:
 
       notification_stop:
         name: Завершение уведомлений
+        has_date: false
+        has_time: true
+        
+      night_start:
+        name: Старт ночного режима
+        has_date: false
+        has_time: true
+
+      night_stop:
+        name: Завершение ночного режима
         has_date: false
         has_time: true
           
@@ -152,6 +164,27 @@ telemetry:
                         {% endif %}
                 {% endif %}
             device_class: running
+            
+          - name: night_time
+            state: >
+                {% set t = now().strftime('%H:%M:%S') %}
+                {% set begin = states("input_datetime.night_start") %}
+                {% set end = states("input_datetime.night_stop") %}
+                {% set midnight = now().replace(hour=0, minute=0, second=0).strftime('%H:%M:%S') %}
+                {% if begin <= end %} 
+                {{ (begin <= t < end) }}
+                {% elif midnight == end %} 
+                {{ (begin <= t > end) }}
+                {% elif begin >= end %} 
+                        {%  if begin <= t >= midnight %}                       
+                        {{ (begin <= t > end) }}
+                        {%  elif midnight <= t <= end %}                       
+                        {{ (midnight <= t < end) }}
+                        {%  elif end <= t <= begin %}                       
+                        {{ (midnight <= t <= end) }}
+                        {% endif %}
+                {% endif %}
+            device_class: running
      
       - sensor:
 
@@ -159,14 +192,18 @@ telemetry:
 
           - name: total_load
             state: >
-                {% set variable = namespace(value = {}) %}
-                {% set power = namespace(value = 0) %}
-                {% for entity in states.sensor if (entity.entity_id.endswith("_power"))
-                and states(entity.entity_id) not in ['unavailable','unknown','None']  %}
-                {% set variable.value = dict(variable.value, **{entity.name: entity.state }) %}
-                {% set power.value = power.value |int + entity.state |int %}
-                {% endfor %}
-                {{ (power.value) |round(2) }}
+                {{states('sensor.0x00158d0003f46bb6_power')|float + states('sensor.0x842e14fffe51c5ae_power')|float
+                  + states('sensor.kitchen_total_load')|float + states('sensor.lr_total_load')|float 
+                  + states('sensor.bt_total_load')|float + states('sensor.dd_total_load')|float + states('sensor.da_total_load')|float}}
+
+    # {% set variable = namespace(value = {}) %}
+    # {% set power = namespace(value = 0) %}
+    # {% for entity in states.sensor if (entity.entity_id.endswith("_power"))
+    # and states(entity.entity_id) not in ['unavailable','unknown','None']  %}
+    # {% set variable.value = dict(variable.value, **{entity.name: entity.state }) %}
+    # {% set power.value = power.value |int + entity.state |int %}
+    # {% endfor %}
+    # {{ (power.value) |round(2) }}
 
           - name: kitchen_total_load
             state: >
@@ -192,7 +229,7 @@ telemetry:
 
           - name: da_total_load
             state: > 
-                {{states('sensor.0x00158d00010ec4b8_power')|float + states('sensor.0x00158d00012896cb_power')|float}}
+                {{states('sensor.0x00158d00010ec4b8_power')|float + states('sensor.0x00158d00012896cb_power')|float + states('sensor.0x04cf8cdf3c764e0a_power')|float}}
 
 ################# Автоматизации #################
 

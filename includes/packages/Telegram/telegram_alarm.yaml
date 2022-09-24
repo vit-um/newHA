@@ -38,6 +38,13 @@ telegram_alarm:
         sensor.0x00158d0001bb60c2_battery:
           friendly_name: Ванная протечка, душевая
 
+        automation.send_list_smoke_detect:
+          friendly_name: Список сработавших датчиков дыма
+
+        automation.send_list_water_leak_detect:
+          friendly_name: Список сработавших датчиков протечки
+
+
     template:
     
       - sensor:
@@ -90,8 +97,7 @@ telegram_alarm:
     
 
 ################# Датчики дыма #################
-      - id: Список сработавших датчиков дыма
-        alias: send_list_smoke_detect
+      - alias: send_list_smoke_detect
         initial_state: true
         trigger:
          - platform: template
@@ -118,12 +124,13 @@ telegram_alarm:
                          *{% for entity_name, entity_state in state_attr('sensor.smoke_detect', 'list_entities')-%} {{ entity_name }} {{ '\n' -}} {% endfor %}*
                   - service: light.turn_on
                     entity_id: 
-                      - light.lr_ceiling_light_1_ambilight
-                      - light.lr_ceiling_light_2_ambilight
-                      - light.cr_ceiling_light_ambilight
-                    data_template:
-                      brightness_pct: 100
-                      rgb_color: [255, 0, 0]
+                       - light.cr_ceiling_light_ambilight
+                       - light.lr_ceiling_light_1_ambilight
+                       - light.lr_ceiling_light_2_ambilight
+                    data:
+                      brightness_pct: 70
+                      color_name: red
+                      transition: 2
                   - service: tts.reversotts_say
                     entity_id: 
                       - media_player.lr_mi_speaker
@@ -144,12 +151,13 @@ telegram_alarm:
                            {{"\U0001F44C"}} Задымления нет
                   - service: light.turn_on
                     entity_id: 
-                      - light.lr_ceiling_light_1_ambilight
-                      - light.lr_ceiling_light_2_ambilight
-                      - light.cr_ceiling_light_ambilight
-                    data_template:
-                      brightness_pct: 100
-                      rgb_color: [0, 255, 0]
+                       - light.cr_ceiling_light_ambilight
+                       - light.lr_ceiling_light_1_ambilight
+                       - light.lr_ceiling_light_2_ambilight
+                    data:
+                      brightness_pct: 70
+                      color_name: green
+                      transition: 2
                   - delay: 00:00:10
                   - service: light.turn_off
                     entity_id: 
@@ -165,8 +173,7 @@ telegram_alarm:
    
 
 ################# Датчики воды #################
-      - id: Список сработавших датчиков протечки
-        alias: send_list_water_leak_detect
+      - alias: send_list_water_leak_detect
         initial_state: true
         trigger:
          - platform: template
@@ -193,12 +200,13 @@ telegram_alarm:
                          *{% for entity_name, entity_state in state_attr('sensor.water_leak_detect', 'list_entities')-%} {{ entity_name }} {{ '\n' -}} {% endfor %}*
                   - service: light.turn_on
                     entity_id: 
-                      - light.lr_ceiling_light_1_ambilight
-                      - light.lr_ceiling_light_2_ambilight
-                      - light.cr_ceiling_light_ambilight
-                    data_template:
-                      brightness_pct: 100
-                      rgb_color: [255, 0, 0]
+                       - light.cr_ceiling_light_ambilight
+                       - light.lr_ceiling_light_1_ambilight
+                       - light.lr_ceiling_light_2_ambilight
+                    data:
+                      brightness_pct: 70
+                      color_name: red
+                      transition: 2
                   - service: tts.reversotts_say
                     entity_id: 
                       - media_player.lr_mi_speaker
@@ -218,12 +226,13 @@ telegram_alarm:
                            {{"\U0001F44C"}} Протечка устранена
                   - service: light.turn_on
                     entity_id: 
-                      - light.lr_ceiling_light_1_ambilight
-                      - light.lr_ceiling_light_2_ambilight
-                      - light.cr_ceiling_light_ambilight
-                    data_template:
-                      brightness_pct: 100
-                      rgb_color: [0, 255, 0]
+                       - light.cr_ceiling_light_ambilight
+                       - light.lr_ceiling_light_1_ambilight
+                       - light.lr_ceiling_light_2_ambilight
+                    data:
+                      brightness_pct: 70
+                      color_name: green
+                      transition: 2
                   - delay: 00:00:10
                   - service: light.turn_off
                     entity_id: 

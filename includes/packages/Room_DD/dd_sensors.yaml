@@ -10,6 +10,8 @@ dd_sensors:
            - sensor.0x00158d0001fa8321_temperature
            - sensor.0x00158d0001fa8321_humidity
            - sensor.0x00158d0001fa8321_mmhg_pressure
+           - binary_sensor.0x00158d0001a66222_occupancy
+           - binary_sensor.0xec1bbdfffe4521a3_occupancy
            
     homeassistant:
       customize:

@@ -4,29 +4,58 @@ cr_light:
       customize:
         
         light.cr_ceiling_light:
-          friendly_name: Коридор, люстра
-          icon: mdi:ceiling-light
+          friendly_name: Коридор - люстра
+          icon: phu:ceiling-adore-alt-flush
 
         light.cr_ceiling_light_ambilight:
-          friendly_name: Коридор, амбилайт
-          icon: mdi:dome-light
+          friendly_name: Коридор - амбилайт
+          icon: phu:recessed-ceiling
 
         sensor.0x00158d0001f3fefe_action:
-          friendly_name: Коридор, круглая кнопка шкаф
+          friendly_name: Коридор - круглая кнопка шкаф
         sensor.0x00158d0001f3fefe_battery:
-          friendly_name: Коридор, круглая кнопка шкаф
+          friendly_name: Коридор - круглая кнопка шкаф
           
         sensor.0x00158d0002a4f77e_action:
-          friendly_name: Коридор, датчик вибрации
+          friendly_name: Коридор - датчик вибрации
         binary_sensor.0x00158d0002a4f77e_vibration:
-          friendly_name: Коридор, датчик вибрации
+          friendly_name: Коридор - датчик вибрации
         sensor.0x00158d0002a4f77e_battery:
-          friendly_name: Коридор, датчик вибрации
+          friendly_name: Коридор - датчик вибрации
           
         binary_sensor.0x00158d00010f8920_occupancy:
-          friendly_name: Коридор, датчик движения
+          friendly_name: Коридор - датчик движения
         sensor.0x00158d00010f8920_battery:
-          friendly_name: Коридор, датчик движения
+          friendly_name: Коридор - датчик движения
+
+        automation.cr_ceiling_reboot:
+          friendly_name: Коридор - перезагрузка зависшей люстры
+          icon: mdi:reload
+          
+        automation.cr_ceiling_light_manual_control:
+          friendly_name: Коридор - ручное управление люстрой
+          icon: phu:ceiling-adore-alt-flush
+          
+        automation.cr_ceiling_light_vibration:
+          friendly_name: Коридор - включение по датчику вибрации
+          icon: phu:aqara-vibration
+          
+        automation.cr_ceiling_light_auto_off:
+          friendly_name: Коридор - отключение по датчику движения
+          icon: phu:aqara-motion
+          
+        automation.cr_ceiling_light_moving:
+          friendly_name: Коридор - включение по датчику движения ночью
+          icon: phu:aqara-motion
+          
+        automation.cr_en_light_control:
+          friendly_name: Коридор и прихожая, управление освещением
+          icon: phu:bulb-group-ceiling-round
+
+        automation.cr_switch_turn_on:
+          friendly_name: Коридор - включение выключателя
+          icon: phu:aqara-h1-switch
+
 
     template:
      
@@ -98,9 +127,29 @@ cr_light:
         before: '08:00'
 
     automation:
+
+      - alias: cr_switch_turn_on
+        description: Коридор - включение выключателя
+        initial_state: true
+        trigger:
+    # Выключение выключателя
+        - platform: state
+          entity_id: switch.0x00158d00057305ac_left
+          to: 'off'
+        condition:
+    # Переключатель режима работы сервера
+        - condition: state
+          entity_id: switch.control_mode
+          state: 'on'
+        action:
+    # Включение
+        - delay: 00:00:05
+        - service: switch.turn_on
+          entity_id: switch.0x00158d00057305ac_left
+
     
-      - id: Коридор, перезагрузка зависшей люстры
-        alias: cr_ceiling_reboot
+      - alias: cr_ceiling_reboot
+        description: Коридор - перезагрузка зависшей люстры
         initial_state: true
         trigger:
     # Проверка раз в 5 минут, перезагрузка если люстра недоступна
@@ -123,8 +172,8 @@ cr_light:
         - service: switch.turn_on
           entity_id: switch.0x00158d00057305ac_left
           
-      - id: Коридор, ручное управление люстрой
-        alias: cr_ceiling_light_manual_control
+      - alias: cr_ceiling_light_manual_control
+        description: Коридор - ручное управление люстрой
         initial_state: true
         trigger:
     # Виртуальная кнопка
@@ -172,8 +221,8 @@ cr_light:
                     entity_id:
                       - light.cr_ceiling_light
                       
-      - id: Коридор, включение по датчику вибрации
-        alias: cr_ceiling_light_vibration
+      - alias: cr_ceiling_light_vibration
+        description: Коридор - включение по датчику вибрации
         initial_state: true
         trigger:
         - platform: state
@@ -204,8 +253,8 @@ cr_light:
           entity_id:
             - light.cr_ceiling_light
             
-      - id: Коридор, отключение по датчику движения
-        alias: cr_ceiling_light_auto_off
+      - alias: cr_ceiling_light_auto_off
+        description: Коридор - отключение по датчику движения
         initial_state: true
         trigger:
         - platform: state
@@ -223,8 +272,8 @@ cr_light:
           entity_id:
             - light.cr_ceiling_light
             
-      - id: Коридор, включение по датчику движения ночью
-        alias: cr_ceiling_light_moving
+      - alias: cr_ceiling_light_moving
+        description: Коридор - включение по датчику движения ночью
         initial_state: true
         trigger:
         - platform: state
@@ -252,8 +301,8 @@ cr_light:
           entity_id:
             - light.cr_ceiling_light_ambilight
             
-      - id: Коридор и прихожая, управление освещением
-        alias: cr_en_light_control
+      - alias: cr_en_light_control
+        description: Коридор и прихожая, управление освещением
         initial_state: true
         trigger:
     # Выключатель на стене у входа в гостиную

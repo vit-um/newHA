@@ -12,6 +12,8 @@ virtual_alarm:
                  or is_state('binary_sensor.m_dnipro_ta_dniprovska_teritorialna_gromada_artillery', 'on')
                  or is_state('binary_sensor.m_dnipro_ta_dniprovska_teritorialna_gromada_unknown', 'on')
                  or is_state('binary_sensor.m_dnipro_ta_dniprovska_teritorialna_gromada_urban_fights', 'on')
+                 or is_state('binary_sensor.m_dnipro_ta_dniprovska_teritorialna_gromada_chemical', 'on')
+                 or is_state('binary_sensor.m_dnipro_ta_dniprovska_teritorialna_gromada_nuclear', 'on')
               }}
             device_class: safety
             icon: >
@@ -40,12 +42,14 @@ virtual_alarm:
             state: 'on'
         action:
           - service: light.turn_on
-            entity_id: 
-              - light.smart_lighting_virtual
-              - light.smart_lighting_2_virtual
-            data_template:
-              brightness_pct: 10
-              rgb_color: [255, 0, 0]
+            data:
+              brightness_pct: 3
+              color_name: red
+              transition: 2
+            target:
+              entity_id:
+                - light.smart_lighting_virtual
+                - light.smart_lighting_2_virtual
               
       - id: Отбой тревоги, Днепр
         alias: dnepr_threat_cancel_notification
@@ -64,9 +68,123 @@ virtual_alarm:
             state: 'on'
         action:
           - service: light.turn_on
-            entity_id: 
-              - light.smart_lighting_virtual
-              - light.smart_lighting_2_virtual
-            data_template:
-              brightness_pct: 10
+            data:
+              brightness_pct: 50
+              color_name: green
+              transition: 2
+            target:
+              entity_id:
+                - light.smart_lighting_virtual
+                - light.smart_lighting_2_virtual
+          - delay: 5   
+          - service: light.turn_on
+            data:
+              brightness_pct: 3
               kelvin: 4000
+              transition: 2
+            target:
+              entity_id:
+                - light.smart_lighting_virtual
+                - light.smart_lighting_2_virtual
+
+      - id: Днепр, проверка лампочки 1
+        alias: dnepr_threat_control_1
+        initial_state: true
+        trigger:
+    # Проверка раз в 5 минут
+        - platform: time_pattern
+          minutes: '/5'
+        condition:
+    # Переключатель режима работы сервера
+        - condition: state
+          entity_id: switch.control_mode
+          state: 'on'
+        action:
+            - choose:
+
+              - conditions:
+                  - condition: template
+                    value_template: "{{(state_attr('light.smart_lighting_virtual', 'color_mode')) == 'color_temp'}}"
+                  - condition: state
+                    entity_id: binary_sensor.threat_dnipro
+                    state: 'on'
+                sequence:
+                  - service: light.turn_on
+                    data:
+                      brightness_pct: 3
+                      color_name: red
+                      transition: 2
+                    target:
+                      entity_id: light.smart_lighting_virtual              
+                
+              - conditions:
+                  - condition: template
+                    value_template: "{{(state_attr('light.smart_lighting_virtual', 'color_mode')) == 'hs'}}"
+                  - condition: state
+                    entity_id: binary_sensor.threat_dnipro
+                    state: 'off'
+                sequence:
+                  - service: light.turn_on
+                    data:
+                      brightness_pct: 3
+                      kelvin: 4000
+                      transition: 2
+                    target:
+                      entity_id: light.smart_lighting_virtual
+                
+                
+      - id: Днепр, проверка лампочки 2
+        alias: dnepr_threat_control_2
+        initial_state: true
+        trigger:
+    # Проверка раз в 5 минут
+        - platform: time_pattern
+          minutes: '/5'
+        condition:
+    # Переключатель режима работы сервера
+        - condition: state
+          entity_id: switch.control_mode
+          state: 'on'
+        action:
+            - choose:
+
+              - conditions:
+                  - condition: template
+                    value_template: "{{(state_attr('light.smart_lighting_2_virtual', 'color_mode')) == 'color_temp'}}"
+                  - condition: state
+                    entity_id: binary_sensor.threat_dnipro
+                    state: 'on'
+                sequence:
+                  - service: light.turn_on
+                    data:
+                      brightness_pct: 3
+                      color_name: red
+                      transition: 2
+                    target:
+                      entity_id: light.smart_lighting_2_virtual           
+                
+              - conditions:
+                  - condition: template
+                    value_template: "{{(state_attr('light.smart_lighting_2_virtual', 'color_mode')) == 'hs'}}"
+                  - condition: state
+                    entity_id: binary_sensor.threat_dnipro
+                    state: 'off'
+                sequence:
+                  - service: light.turn_on
+                    data:
+                      brightness_pct: 3
+                      kelvin: 4000
+                      transition: 2
+                    target:
+                      entity_id: light.smart_lighting_2_virtual
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                

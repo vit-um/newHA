@@ -15,6 +15,13 @@ rest_control:
         sensor.reserve_telemetry:
           friendly_name: Уровень отказа резерва - 
 
+        automation.control_return_control_to_main:
+          friendly_name: Контроль - возврат управления на основной сервер
+          icon: mdi:server
+
+        automation.control_notification_about_reserve:
+          friendly_name: Контроль - уведомление о сбое резервного сервера
+          icon: mdi:server-remove
 
     sensor:
          - platform: rest
@@ -52,8 +59,8 @@ rest_control:
             
     automation:
     
-      - id: Возврат режима работы
-        alias: main_control
+      - alias: control_return_control_to_main
+        description: Контроль - возврат управления на основной сервер
         initial_state: true
         trigger:
     # Сенсор состояния основного сервера
@@ -81,9 +88,9 @@ rest_control:
                *Луиджи возвращает себе управление в {{ states('sensor.time_date') }} *
         - service: switch.turn_on
           entity_id: switch.control_mode
-    
-      - id: Уведомление о сбое резервного сервера
-        alias: reserve_notification
+
+      - alias: control_notification_about_reserve
+        description: Контроль - уведомление о сбое резервного сервера
         initial_state: true
         trigger:
         - platform: state

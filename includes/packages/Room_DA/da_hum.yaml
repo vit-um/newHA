@@ -9,18 +9,19 @@ da_hum:
         binary_sensor.da_humidifier_time:
           friendly_name: Детская А, время увлажнения воздуха
 
+    mqtt:
+      binary_sensor:
+        - name: da_humidifier
+          state_topic: "states/da_humidifier"
+
+
     binary_sensor:
     
-      - platform: mqtt
-        name: da_humidifier
-        state_topic: "states/da_humidifier"
-        payload_on: "ON"
-        payload_off: "OFF"
-        
       - platform: tod
         name: da_humidifier_time
         after: '10:00'
         before: '22:00'
+
 
 
     template:

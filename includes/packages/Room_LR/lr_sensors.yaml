@@ -11,6 +11,8 @@ lr_sensors:
            - sensor.0x00158d0001a4b9da_temperature
            - sensor.0x00158d0001a4b9da_mmhg_pressure
            - sensor.0x00158d000449b773_illuminance_lux
+           - binary_sensor.0x00158d0005414857_occupancy
+           - binary_sensor.0x00158d000449b773_occupancy
            
     homeassistant:
       customize:
@@ -97,13 +99,10 @@ lr_sensors:
         sensor.0x00158d0005414857_battery:
           friendly_name: Гостиная движение
 
-    binary_sensor:
-    
-      - platform: mqtt
-        name: lr_radiator
-        state_topic: "states/lr_radiator"
-        payload_on: "ON"
-        payload_off: "OFF" 
+    mqtt:
+      binary_sensor:
+        - name: lr_radiator
+          state_topic: "states/lr_radiator"
         
     switch:
 

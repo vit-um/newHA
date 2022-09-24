@@ -6,6 +6,7 @@ cr_sensor:
         entities:
            - sensor.0x00124b0022659c04_temperature
            - sensor.0x00124b0022659c04_humidity
+           - binary_sensor.0x00158d00010f8920_occupancy
 
 
     homeassistant:

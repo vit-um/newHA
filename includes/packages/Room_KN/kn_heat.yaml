@@ -43,7 +43,27 @@ kn_heat:
         sensor.kn_thermostat_difference:
           friendly_name: Кухня, разница температур с термостатом
 
+        automation.kn_heat_temperature_calibration:
+          friendly_name: Кухня - калибровка температуры TRV
+          icon: phu:wiser-thermostat-off
 
+        automation.kn_heat_mode_toggle:
+          friendly_name: Кухня - переключение режима работы TRV
+          icon: phu:wiser-thermostat-off
+
+        automation.kn_heat_temperature_to_on:
+          friendly_name: Кухня - температура при включении режима отопления
+          icon: phu:wiser-thermostat-on
+          
+        automation.kn_heat_temperature_to_off:
+          friendly_name: Кухня - температура при выключении режима отопления
+          icon: phu:wiser-thermostat-off          
+
+        automation.kn_heat_temperature_set:
+          friendly_name: Кухня - установка температуры TRV
+          icon: phu:outside-temp
+
+          
     mqtt:
       binary_sensor:
         - name: kn_radiator
@@ -86,8 +106,8 @@ kn_heat:
 
     automation:
 
-      - id: Кухня, TRV, калибровка
-        alias: kn_temperature_calibration
+      - alias: kn_heat_temperature_calibration
+        description: Кухня - калибровка температуры TRV
         initial_state: true
         trigger:
           - platform: time_pattern
@@ -99,9 +119,9 @@ kn_heat:
         action:
          - service: script.turn_on
            entity_id: script.kn_temperature_calibration
-           
-      - id: Кухня, TRV, режим
-        alias: kn_heating_initial
+
+      - alias: kn_heat_mode_toggle
+        description: Кухня - переключение режима работы TRV
         initial_state: true
         trigger:
         - platform: homeassistant
@@ -140,8 +160,8 @@ kn_heat:
                     data:
                       hvac_mode: 'off'
 
-      - id: Кухня, TRV, температура при включении режима отопления
-        alias: kn_heating_initial_temp
+      - alias: kn_heat_temperature_to_on
+        description: Кухня - температура при включении режима отопления
         initial_state: true
         trigger:
         - platform: state
@@ -175,8 +195,8 @@ kn_heat:
                       entity_id: climate.0x2c1165fffeb3e531
                       temperature: "{{ states('number.0x2c1165fffeb3e531_comfort_temperature')}}"
 
-      - id: Кухня, TRV, температура при выключении режима отопления
-        alias: kn_heating_off_temp
+      - alias: kn_heat_temperature_to_off
+        description: Кухня - температура при выключении режима отопления
         initial_state: true
         trigger:
         - platform: state
@@ -193,9 +213,10 @@ kn_heat:
             data:
               entity_id: climate.0x2c1165fffeb3e531
               temperature: "15"
-                      
-      - id: Кухня, TRV, температура
-        alias: kn_heating_set_temp
+
+
+      - alias: kn_heat_temperature_set
+        description: Кухня - установка температуры TRV
         initial_state: true
         trigger:
         - platform: homeassistant

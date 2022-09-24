@@ -1,0 +1,98 @@
+openweathermap:
+
+
+    homeassistant:
+
+      customize:
+        automation.control_openweathermap_reload:
+          friendly_name: Контроль - перезагрузка openweathermap
+          icon: mdi:reload
+          
+        automation.control_openweathermap_blockoff:
+          friendly_name: Контроль - отключение блокировки openweathermap
+          icon: mdi:weather-cloudy-alert
+          
+        sensor.control_openweathermap:
+          friendly_name: Контроль openweathermap
+          icon: mdi:weather-cloudy-alert
+
+    input_boolean:
+    
+     control_openweathermap:
+        name: Предохранитель, openweathermap
+        icon: mdi:weather-lightning-rainy
+
+    template:
+    
+      - trigger:
+        - platform: time_pattern
+          minutes: '/3'
+        sensor:
+          - name: control_openweathermap
+            state: >
+                {% set variable = namespace(value = {}) %}
+                {% for entity in states.sensor if not (entity.name.find("OpenWeatherMap")) 
+                   and is_state(entity.entity_id, 'unavailable') %}
+                    {% set variable.value = dict(variable.value, **{entity.name: entity.state }) %}
+                {% endfor %}
+                {% if (variable.value | length) | int > 0 %}
+                {{ variable.value | length }}
+                {% else %}
+                 0
+                {% endif %} 
+
+
+    automation:
+    
+      - alias: control_openweathermap_reload
+        description: Контроль - перезагрузка openweathermap
+        initial_state: true
+    ## Более 5 сенсоров openweathermap недоступны
+        trigger:
+         - platform: template
+           value_template: "{{ (states('sensor.control_openweathermap')|int) > 5 }}"
+        condition:
+    # Предохранитель
+        - condition: state
+          entity_id: input_boolean.control_openweathermap
+          state: 'off'
+        action:  
+    ## Перезагрузка интеграции
+          - service: homeassistant.reload_config_entry
+            data: {}
+            target:
+              device_id: 5ba5184cbbf52e0e55f22b84c26d707b
+    ## Ожидание восстановления работы
+          - wait_template: "{{ (states('sensor.control_openweathermap')|int) < 5 }}"
+            timeout: 60
+    ## Сообщение если не сработало
+          - if:
+             - "{{ not wait.completed }}"
+            then:
+             - service: telegram_bot.send_message
+               data_template:
+                 target:
+                     - !secret chat_id_group_tech
+                 message: | 
+                      Внимание!
+                      Интеграция openweathermap недоступна, перезагрузка не имела успеха
+    ## Включение предохранителя
+             - service: input_boolean.turn_on
+               entity_id: input_boolean.control_openweathermap   
+               
+      - alias: control_openweathermap_blockoff
+        description: Контроль - отключение блокировки openweathermap
+        initial_state: true
+        trigger:
+         - platform: template
+           value_template: "{{ (states('sensor.control_openweathermap')|int) < 5 }}"
+        condition:
+    # Предохранитель
+        - condition: state
+          entity_id: input_boolean.control_openweathermap
+          state: 'on'
+        action:                
+        - service: input_boolean.turn_off
+          entity_id: input_boolean.control_openweathermap
+              
+              

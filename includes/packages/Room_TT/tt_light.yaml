@@ -5,8 +5,10 @@ tt_light:
       
         light.tt_ceiling_light:
           friendly_name: Туалет люстра
+          icon: phu:ceiling-devere
         light.0xec1bbdfffea37571:
           friendly_name: Туалет свет зеркала
+          icon: phu:centura-two
           
         binary_sensor.0x00158d0001a24e71_occupancy:
           friendly_name: Туалет датчик движения
@@ -38,12 +40,7 @@ tt_light:
               {{ is_state('light.tt_ceiling_light', 'on')
                  or is_state('light.0xec1bbdfffea37571', 'on')
               }}
-            icon_template: >-
-              {% if is_state("light.tt_ceiling_virtual", "on") %}
-              mdi:ceiling-light
-              {% else %}
-              mdi:ceiling-light-outline
-              {% endif %}
+            icon_template: phu:ceiling-devere
             turn_on:
               service: light.turn_on
               data_template:

@@ -5,7 +5,7 @@ lr_balcony_light:
 
         light.smart_cw_light:
           friendly_name: Гостиная балкон
-          icon: mdi:ceiling-light
+          icon: phu:ceiling-adore-alt
           
         sensor.0x00158d00010b5aee_action:
           friendly_name: Гостиная выключатель вход балкона
@@ -24,6 +24,22 @@ lr_balcony_light:
         sensor.0x00158d000449b773_battery:
           friendly_name: Гостиная балкон движение
 
+        automation.lr_light_balcony_turn_on:
+          friendly_name: Гостиная - ручное включение люстры на балконе
+          icon: phu:ceiling-adore-alt
+
+        automation.lr_light_balcony_turn_off:
+          friendly_name: Гостиная - ручное выключение люстры на балконе
+          icon: phu:ceiling-adore-alt
+
+        automation.lr_light_balcony_turn_on_control:
+          friendly_name: Гостиная - контроль включения люстры на балконе
+          icon: mdi:check-bold 
+
+        automation.lr_light_balcony_balcony_reboot:
+          friendly_name: Гостиная - перезагрузка зависшей люстры на балконе
+          icon: mdi:reload
+          
     input_button:
 
       lr_balcony_light_virtual:
@@ -71,9 +87,9 @@ lr_balcony_light:
               }}
             icon_template: >-
               {% if is_state("light.lr_balcony_light_virtual", "on") %}
-              mdi:ceiling-light
+              phu:ceiling-adore-alt
               {% else %}
-              mdi:ceiling-light-outline
+              phu:ceiling-adore-alt
               {% endif %}
             turn_on:
               service: input_button.press
@@ -100,9 +116,9 @@ lr_balcony_light:
 
 
     automation:
-    
-      - id: Гостиная балкон включение люстры
-        alias: lr_balcony_light_on
+
+      - alias: lr_light_balcony_turn_on
+        description: Гостиная - ручное включение люстры на балконе
         initial_state: true
         trigger:
     # Виртуальная кнопка
@@ -139,8 +155,8 @@ lr_balcony_light:
             kelvin: 4000
           
 
-      - id: Гостиная балкон выключение люстры
-        alias: lr_balcony_light_off
+      - alias: lr_light_balcony_turn_off
+        description: Гостиная - ручное выключение люстры на балконе
         initial_state: true
         trigger:
     # Виртуальная кнопка
@@ -173,9 +189,8 @@ lr_balcony_light:
           entity_id:
             - light.smart_cw_light
                 
-
-      - id: Гостиная балкон контроль включения люстры 
-        alias: lr_balcony_light_control
+      - alias: lr_light_balcony_turn_on_control
+        description: Гостиная - контроль включения люстры на балконе
         initial_state: true
         trigger:
         - platform: state
@@ -192,10 +207,9 @@ lr_balcony_light:
         - service: light.turn_off
           entity_id:
             - light.smart_cw_light  
-            
-            
-      - id: Гостиная балкон перезагрузка люстры
-        alias: lr_balcony_light_reload
+
+      - alias: lr_light_balcony_balcony_reboot
+        description: Гостиная - перезагрузка зависшей люстры на балконе
         initial_state: true
         trigger:
     # Виртуальная кнопка

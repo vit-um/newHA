@@ -21,6 +21,15 @@ kn_tv_control:
         sensor.0x00158d0001291d12_device_temperature:
           friendly_name: Кухня телевизор, температура
           icon: mdi:thermometer-check
+
+
+        automation.kn_tv_toggle:
+          friendly_name: Кухня - включение, выключение телевизора
+          icon: mdi:television
+
+        automation.kn_tv_box_offline:
+          friendly_name: Кухня - индикация выключенного Xiaomi TV Box
+          icon: mdi:television-box
           
     template:
      
@@ -45,9 +54,10 @@ kn_tv_control:
 
               
     automation:
-    
-      - id: Кухня управление ТВ
-        alias: kn_tv_control
+
+
+      - alias: kn_tv_toggle
+        description: Кухня - включение, выключение телевизора
         initial_state: true
         trigger:
     # 6 клавишник на входе
@@ -90,9 +100,10 @@ kn_tv_control:
                   - service: media_player.turn_off
                     target:
                       entity_id: media_player.kn_mi_box 
-                      
-      - id: Кухня необходимо включить ТВ box
-        alias: kn_tv_box_offline
+
+
+      - alias: kn_tv_box_offline
+        description: Кухня - индикация выключенного Xiaomi TV Box                 
         initial_state: true
         trigger:
         - platform: state
@@ -110,10 +121,11 @@ kn_tv_control:
                     state: 'on'
                 sequence:
                   - service: light.turn_on
-                    entity_id: light.gateway_light_7811dc64f4c8
-                    data_template:
+                    data:
+                      color_name: dodgerblue
                       brightness_pct: 70
-                      rgb_color: [0, 100, 255]
+                    target:
+                      entity_id: light.gateway_light_7811dc64f4c8
     # Включение люстры в ночное время - проверка сенсора time of day
               - conditions:
                   - condition: state

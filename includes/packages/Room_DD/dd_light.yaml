@@ -14,6 +14,10 @@ dd_light:
         light.dd_wled_light:
           friendly_name: Детская Д адресная лента
           icon: mdi:led-strip-variant
+          
+        light.0x680ae2fffe71ae63:
+          friendly_name: Детская Д балкон
+          icon: mdi:lightbulb-fluorescent-tube
 
         switch.0x54ef44100024689c_left:
           friendly_name: Детская Д H1 вход, пустое реле

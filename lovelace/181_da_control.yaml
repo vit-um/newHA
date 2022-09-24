@@ -54,7 +54,8 @@ cards:
                  
             - type: entities
               show_header_toggle: false
-              entities:             
+              entities:           
+                - entity: input_boolean.da_cicle_light_color
                 - entity: switch.0x00158d00010ec4b8
                   type: custom:multiple-entity-row
                   toggle: true

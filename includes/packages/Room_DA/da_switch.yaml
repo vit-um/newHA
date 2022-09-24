@@ -6,6 +6,7 @@ da_switch:
            - switch.0x00158d00010ec4b8
            - sensor.0x00158d00010ec4b8_power
            - sensor.0x00158d00012896cb_power
+           - sensor.0x04cf8cdf3c764e0a_power
 
     homeassistant:
       customize:
@@ -25,17 +26,17 @@ da_switch:
           icon: mdi:thermometer-check
           
         switch.0x00158d00012896cb:
-          friendly_name: ДА зарядная станция, питание
+          friendly_name: ДА ноутбук HP, питание
           icon: mdi:power-socket-eu
         sensor.0x00158d00012896cb_power:
-          friendly_name: ДА зарядная станция, мощность
+          friendly_name: ДА ноутбук HP, мощность
           unit_of_measurement: Вт
           device_class: power
         sensor.0x00158d00012896cb_energy:
-          friendly_name: ДА зарядная станция, энергия
+          friendly_name: ДА ноутбук HP, энергия
           icon: mdi:chart-line
         sensor.0x00158d00012896cb_device_temperature:
-          friendly_name: ДА зарядная станция, температура
+          friendly_name: ДА ноутбук HP, температура
           icon: mdi:thermometer-check
 
         switch.0x00158d000635ded8_left:
@@ -47,3 +48,18 @@ da_switch:
         sensor.0x00158d000635ded8_action:
           friendly_name: ДА проводной выключатель на входе
 
+        switch.0x04cf8cdf3c764e0a:
+          friendly_name: ДА рекуператор, питание
+          icon: mdi:power-socket-eu
+        sensor.0x04cf8cdf3c764e0a_power:
+          friendly_name: ДА рекуператор, мощность
+          unit_of_measurement: Вт
+          device_class: power
+        sensor.0x04cf8cdf3c764e0a_energy:
+          friendly_name: ДА рекуператор, энергия
+          icon: mdi:chart-line
+        sensor.0x04cf8cdf3c764e0a_device_temperature:
+          friendly_name: ДА рекуператор, температура
+          icon: mdi:thermometer-check
+        sensor.0x04cf8cdf3c764e0a_voltage:
+          friendly_name: ДА рекуператор, напряжение

@@ -55,22 +55,22 @@ da_light:
         name: da_ceiling_light
         entity_id: switch.0x00158d000635ded8_right
         
-    template:
+    # template:
      
-      - binary_sensor:
+    #   - binary_sensor:
 
-          - name: da_circle_light
-            state: >
-              {{ is_state('light.da_led_strip', 'on')  
-                 or is_state('light.gateway_light_f0b429cc1f11', 'on')
-              }}
-            device_class: light
-            icon: >
-              {% if is_state("binary_sensor.da_circle_light", "on") %}
-              mdi:led-strip-variant
-              {% else %}
-              mdi:led-strip-variant-off
-              {% endif %}
+    #       - name: da_circle_light
+    #         state: >
+    #           {{ is_state('light.da_led_strip', 'on')  
+    #              or is_state('light.gateway_light_f0b429cc1f11', 'on')
+    #           }}
+    #         device_class: light
+    #         icon: >
+    #           {% if is_state("binary_sensor.da_circle_light", "on") %}
+    #           mdi:led-strip-variant
+    #           {% else %}
+    #           mdi:led-strip-variant-off
+    #           {% endif %}
 
 
     automation:
@@ -155,9 +155,12 @@ da_light:
         - condition: state
           entity_id: light.da_ceiling_light
           state: 'off'
+        - condition: state
+          entity_id: light.smart_desk_lamp
+          state: 'off'
         - condition: numeric_state
           entity_id: sensor.0x04cf8cdf3c78ca91_illuminance_lux
-          below: 50
+          below: 25
         action:
         - service: light.turn_on
           entity_id: 
@@ -170,115 +173,115 @@ da_light:
           entity_id: 
            - light.gateway_light_f0b429cc1f11
 
-      - id: Детская A, циклическая подсветка
-        alias: da_light_circle
-        initial_state: true
-        trigger:
-    # Кнопка на столе
-        - platform: state
-          entity_id: sensor.0x00158d000186d9a9_action
-          to: 'double'
-    # Кнопка возле кровати
-        - platform: state
-          entity_id: sensor.0x00158d000155d2fb_action
-          to: 'double' 
-      ## Пульт ДУ на три кнопки, вторая
-        - platform: state
-          entity_id: sensor.0x60a423fffe942cf2_action
-          to: '2_single'
-        condition:
-        - condition: state
-          entity_id: switch.control_mode
-          state: 'on'
-        action:
-            - choose:
-              - conditions:
-                  - condition: state
-                    entity_id: binary_sensor.da_circle_light
-                    state: 'off'
-                sequence:
-                  - service: script.turn_on
-                    entity_id:
-                      - script.da_light_circle_1
-              - conditions:
-                  - condition: state
-                    entity_id: binary_sensor.da_circle_light
-                    state: 'on'
-                sequence:
-                  - service: script.turn_off
-                    entity_id:
-                      - script.da_light_circle_1
-                      - script.da_light_circle_2
-                  - service: light.turn_off
-                    entity_id:
-                      - light.gateway_light_f0b429cc1f11
-                      - light.da_led_strip
+    #   - id: Детская A, циклическая подсветка
+    #     alias: da_light_circle
+    #     initial_state: true
+    #     trigger:
+    # # Кнопка на столе
+    #     - platform: state
+    #       entity_id: sensor.0x00158d000186d9a9_action
+    #       to: 'double'
+    # # Кнопка возле кровати
+    #     - platform: state
+    #       entity_id: sensor.0x00158d000155d2fb_action
+    #       to: 'double' 
+    #   ## Пульт ДУ на три кнопки, вторая
+    #     - platform: state
+    #       entity_id: sensor.0x60a423fffe942cf2_action
+    #       to: '2_single'
+    #     condition:
+    #     - condition: state
+    #       entity_id: switch.control_mode
+    #       state: 'on'
+    #     action:
+    #         - choose:
+    #           - conditions:
+    #               - condition: state
+    #                 entity_id: binary_sensor.da_circle_light
+    #                 state: 'off'
+    #             sequence:
+    #               - service: script.turn_on
+    #                 entity_id:
+    #                   - script.da_light_circle_1
+    #           - conditions:
+    #               - condition: state
+    #                 entity_id: binary_sensor.da_circle_light
+    #                 state: 'on'
+    #             sequence:
+    #               - service: script.turn_off
+    #                 entity_id:
+    #                   - script.da_light_circle_1
+    #                   - script.da_light_circle_2
+    #               - service: light.turn_off
+    #                 entity_id:
+    #                   - light.gateway_light_f0b429cc1f11
+    #                   - light.da_led_strip
 
-    script:
+    # script:
     
-      da_light_circle_1:
-        alias: Детская А, скрипт циклической подсветки 1
-        sequence:
-        - service: script.turn_off
-          entity_id: 
-           - script.da_light_circle_2
-        - service: light.turn_on
-          entity_id: 
-           - light.gateway_light_f0b429cc1f11
-           - light.da_led_strip
-          data_template:
-            brightness_pct: 50
-            rgb_color: [255, 107, 239]
-        - delay: 00:00:10
-        - service: light.turn_on
-          entity_id: 
-           - light.gateway_light_f0b429cc1f11
-           - light.da_led_strip
-          data_template:
-            brightness_pct: 50
-            rgb_color: [189, 0, 157]
-        - delay: 00:00:10
-        - service: light.turn_on
-          entity_id: 
-           - light.gateway_light_f0b429cc1f11
-           - light.da_led_strip
-          data_template:
-            brightness_pct: 50
-            rgb_color: [255, 251, 116]
-        - delay: 00:00:10
-        - service: script.turn_on
-          entity_id: script.da_light_circle_2
+    #   da_light_circle_1:
+    #     alias: Детская А, скрипт циклической подсветки 1
+    #     sequence:
+    #     - service: script.turn_off
+    #       entity_id: 
+    #       - script.da_light_circle_2
+    #     - service: light.turn_on
+    #       entity_id: 
+    #       - light.gateway_light_f0b429cc1f11
+    #       - light.da_led_strip
+    #       data_template:
+    #         brightness_pct: 50
+    #         rgb_color: [255, 107, 239]
+    #     - delay: 00:00:10
+    #     - service: light.turn_on
+    #       entity_id: 
+    #       - light.gateway_light_f0b429cc1f11
+    #       - light.da_led_strip
+    #       data_template:
+    #         brightness_pct: 50
+    #         rgb_color: [189, 0, 157]
+    #     - delay: 00:00:10
+    #     - service: light.turn_on
+    #       entity_id: 
+    #       - light.gateway_light_f0b429cc1f11
+    #       - light.da_led_strip
+    #       data_template:
+    #         brightness_pct: 50
+    #         rgb_color: [255, 251, 116]
+    #     - delay: 00:00:10
+    #     - service: script.turn_on
+    #       entity_id: script.da_light_circle_2
           
-      da_light_circle_2:
-        alias: Детская А, скрипт циклической подсветки 2
-        sequence:
-        - service: script.turn_off
-          entity_id: 
-           - script.da_light_circle_1
-        - service: light.turn_on
-          entity_id: 
-           - light.gateway_light_f0b429cc1f11
-           - light.da_led_strip
-          data_template:
-            brightness_pct: 50
-            rgb_color: [0, 251, 0]
-        - delay: 00:00:10
-        - service: light.turn_on
-          entity_id: 
-           - light.gateway_light_f0b429cc1f11
-           - light.da_led_strip
-          data_template:
-            brightness_pct: 50
-            rgb_color: [71, 255, 254]
-        - delay: 00:00:10
-        - service: light.turn_on
-          entity_id: 
-           - light.gateway_light_f0b429cc1f11
-           - light.da_led_strip
-          data_template:
-            brightness_pct: 50
-            rgb_color: [7, 0, 113]
-        - delay: 00:00:10
-        - service: script.turn_on
-          entity_id: script.da_light_circle_1
+    #   da_light_circle_2:
+    #     alias: Детская А, скрипт циклической подсветки 2
+    #     sequence:
+    #     - service: script.turn_off
+    #       entity_id: 
+    #       - script.da_light_circle_1
+    #     - service: light.turn_on
+    #       entity_id: 
+    #       - light.gateway_light_f0b429cc1f11
+    #       - light.da_led_strip
+    #       data_template:
+    #         brightness_pct: 50
+    #         rgb_color: [0, 251, 0]
+    #     - delay: 00:00:10
+    #     - service: light.turn_on
+    #       entity_id: 
+    #       - light.gateway_light_f0b429cc1f11
+    #       - light.da_led_strip
+    #       data_template:
+    #         brightness_pct: 50
+    #         rgb_color: [71, 255, 254]
+    #     - delay: 00:00:10
+    #     - service: light.turn_on
+    #       entity_id: 
+    #       - light.gateway_light_f0b429cc1f11
+    #       - light.da_led_strip
+    #       data_template:
+    #         brightness_pct: 50
+    #         rgb_color: [7, 0, 113]
+    #     - delay: 00:00:10
+    #     - service: script.turn_on
+    #       entity_id: script.da_light_circle_1
            

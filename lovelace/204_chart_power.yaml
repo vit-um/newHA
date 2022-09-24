@@ -62,7 +62,8 @@ cards:
                  color: coral
                  children:
                    - sensor.0x00158d00010ec4b8_power
-                   - sensor.0x00158d00012896cb_power 
+                   - sensor.0x00158d00012896cb_power
+                   - sensor.0x04cf8cdf3c764e0a_power
                    
         - entities:
            - sensor.0x00158d0001d35bc0_power
@@ -87,4 +88,5 @@ cards:
            - sensor.0x00158d00030a6e78_power
            - sensor.0x00158d000153dd8e_power
            - sensor.0x00158d00010ec4b8_power
-           - sensor.0x00158d00012896cb_power                    
+           - sensor.0x00158d00012896cb_power
+           - sensor.0x04cf8cdf3c764e0a_power
