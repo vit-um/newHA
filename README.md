@@ -1,5 +1,25 @@
 <a href="https://www.youtube.com/channel/UCcq9onYHbs6go3kDpfBoqhg?sub_confirmation=1" target="_blank"><img src="https://raw.githubusercontent.com/kvazis/training/master/lessons/img/subscribe.png" alt="Subscribe" style="height: 71px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a>
 
+
+### 2022 12 30 Итерация 34
+
+:point_up: Давно не обновлял, но каких либо существенных изменений не было, в основном мелкие доработки    
+:arrow_right: [configuration.yaml](https://github.com/kvazis/newHA/blob/master/configuration.yaml) - добавлена страна, строка 4    
+
+#### Пакаджи    
+:point_up: Изменений много, но в основном несущественные правки (кастомизация и иконки) из нового -     
+:arrow_right: [reminder.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Calendar/reminder.yaml) - напоминалка по сработке [событий из календаря](https://youtu.be/nLNq187Fcps)    
+:arrow_right: [blackout.yaml)](https://github.com/kvazis/newHA/blob/master/includes/packages/Control/blackout.yaml) - мой вариант автоматического отключения сервера при отсутствии электрики    
+:arrow_right: [zigbee2mqtt.yaml)](https://github.com/kvazis/newHA/blob/master/includes/packages/Control/zigbee2mqtt.yaml) - автоматизация для включения zigbee2mqtt, который автоматически выключается в случае отключения резервного сервера    
+
+
+#### Интерфейс, в режиме yaml    
+:point_up: Косметические изменения в интерфейсе    
+:arrow_right: [ui_graph.yaml](https://github.com/kvazis/newHA/blob/master/ui_graph.yaml) - добавил страницы-графики по мониторингу. 
+
+____
+
+
 ### 2022 09 24 Итерация 33
 
 :point_up: Практически все изменения в пакаджах - конснулись наименований автоматизаций для приведения их к единому шаблону    

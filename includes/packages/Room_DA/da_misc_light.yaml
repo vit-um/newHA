@@ -1,0 +1,43 @@
+da_misc_light:
+
+    automation:
+    
+    
+      - alias: da_usb_light_control
+        id: da_usb_light_control
+        description: Детская A, управление USB светильником
+        initial_state: true
+        trigger:
+      ## Квадратная возле кровати
+        - platform: state
+          entity_id: sensor.0x00158d0001e8a244_action
+          to: 'double'
+        condition:
+        - condition: state
+          entity_id: switch.control_mode
+          state: 'on'  
+        action:
+        - service: light.toggle
+          entity_id: light.0xa4c138e22148db3a
+
+      - alias: dа_projector_control
+        id: dа_projector_control
+        description: Детская A, управление проектором
+        initial_state: true
+        trigger:
+      ## Пульт ДУ на три кнопки, третья
+        - platform: state
+          entity_id: sensor.0x60a423fffe942cf2_action
+          to: '3_single'
+      ## Квадратная возле кровати
+        - platform: state
+          entity_id: sensor.0x00158d0001e8a244_action
+          to: 'single'
+        condition:
+        - condition: state
+          entity_id: switch.control_mode
+          state: 'on'  
+        action:
+        - service: light.toggle
+          entity_id: light.da_projector
+        - delay: 00:00:03

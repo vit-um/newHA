@@ -35,13 +35,13 @@ lr_light:
           friendly_name: Гостиная шлюз
           icon: phu:aqara-hub-n15-g2
           
-        light.0x00158d00015723f1_left:
+        light.0x00158d00062fbb54_left:
           friendly_name: Гостиная свет стена
           icon: phu:wall-fuzo
           
-        switch.0x00158d00015723f1_right:
+        switch.0x00158d00062fbb54_right:
           friendly_name: Гостиная питание люстра 1
-        sensor.0x00158d00015723f1_device_temperature:
+        sensor.0x00158d00062fbb54_device_temperature:
           friendly_name: Гостиная питание люстра 1, температура
           icon: mdi:thermometer-check
         
@@ -340,10 +340,10 @@ lr_light:
         action:
     # Перезагрузка по питанию
         - service: switch.turn_off
-          entity_id: switch.0x00158d00015723f1_right
+          entity_id: switch.0x00158d00062fbb54_right
         - delay: 00:00:05
         - service: switch.turn_on
-          entity_id: switch.0x00158d00015723f1_right
+          entity_id: switch.0x00158d00062fbb54_right
           
       - alias: lr_ceiling_2_reboot
         description: Гостиная - перезагрузка зависшей люстры 2
@@ -384,7 +384,7 @@ lr_light:
           to: 'single_left'
     # Выключатель на стене внутри у входа
         - platform: state
-          entity_id: sensor.0x00158d00015723f1_action
+          entity_id: sensor.0x00158d00062fbb54_action
           to: 'single_right'
     # Выключатель на стене снаружи у входа
         - platform: state
@@ -595,7 +595,7 @@ lr_light:
           state: 'on'
         action:
         - service: light.toggle
-          entity_id: light.0x00158d00015723f1_left
+          entity_id: light.0x00158d00062fbb54_left
 
       - alias: lr_light_table_lamp_toggle
         description: Гостиная - ручное управление настольной лампой

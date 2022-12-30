@@ -18,6 +18,11 @@ cards:
         selector: hide
       graphs:
       - type: line
+        entities:
+          - entity: sensor.0x00124b001d3bdce0_radiation_dose_per_hour
+            color: rgb(255,101,30)
+            fill: rgba(255,101,30,0.05)
+      - type: line
         # title: Улица
         entities:
           - entity: sensor.0x00158d0001a4b9da_temperature

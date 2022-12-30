@@ -5,19 +5,21 @@ dd_light:
 
         light.dd_ceiling_light:
           friendly_name: Детская Д люстра
-          icon: mdi:ceiling-light
+          icon: phu:ceiling-being
         
         light.0x00158d000420dbab:
           friendly_name: Детская Д бра
-          icon: mdi:coach-lamp
+          icon: phu:wall-tuar
 
         light.dd_wled_light:
           friendly_name: Детская Д адресная лента
-          icon: mdi:led-strip-variant
+          icon: phu:light-strip
           
-        light.0x680ae2fffe71ae63:
+        light.0x54ef4410000f2676:
           friendly_name: Детская Д балкон
           icon: mdi:lightbulb-fluorescent-tube
+        sensor.0x54ef4410000f2676_action:
+          friendly_name: Детская Д балкон
 
         switch.0x54ef44100024689c_left:
           friendly_name: Детская Д H1 вход, пустое реле
@@ -38,7 +40,38 @@ dd_light:
         sensor.0x00158d0001a672ef_battery:
           friendly_name: Детская Д кнопка на столе
 
+        automation.dd_ceiling_reboot:
+          friendly_name: Детская Д - перезагрузка зависшей люстры
+          icon: mdi:reload
 
+        automation.dd_ceiling_manual_control:
+          friendly_name: Детская Д - ручное управление освещением
+          icon: phu:ceiling-being
+
+        automation.dd_ceiling_turn_on_control:
+          friendly_name: Детская Д - контроль включения люстры
+          icon: mdi:check-bold  
+
+        automation.dd_light_bra_manual_control:
+          friendly_name: Детская Д - управление бра
+          icon: phu:wall-tuar
+
+        automation.dd_light_wled_manual_control:
+          friendly_name: Детская Д - управление адресной лентой
+          icon: phu:light-strip
+          
+        automation.dd_light_table_manual_control:
+          friendly_name: Детская Д - управление настольной лампой
+          icon: phu:smart-desk-lamp
+
+        automation.dd_light_full_off:
+          friendly_name: Детская Д - выключение всего освещения
+          icon: phu:kitchen-group
+
+        automation.dd_light_off_wled:
+          friendly_name: Детская Д - выключение всего освещения без ленты
+          icon: phu:bulb-group-ceiling-flush-circular
+          
     light:
     # Виртуальная настольная лампа
       - platform: template
@@ -46,7 +79,7 @@ dd_light:
           dd_table_lamp:
             friendly_name: "Детская Д настольная лампа"
             value_template: "{{ states('sensor.0x00158d00030a6e78_power') | float > 5 }}"
-            icon_template: mdi:desk-lamp
+            icon_template: phu:smart-desk-lamp
             turn_on:
               service: switch.turn_on
               data:
@@ -62,12 +95,7 @@ dd_light:
             value_template: >-
               {{ is_state('light.dd_ceiling_light', 'on')  
               }}
-            icon_template: >-
-              {% if is_state("light.dd_ceiling_light", "on") %}
-              mdi:ceiling-light
-              {% else %}
-              mdi:ceiling-light-outline
-              {% endif %}
+            icon_template: phu:ceiling-being
             turn_on:
               service: input_button.press
               target:
@@ -126,11 +154,10 @@ dd_light:
             state: True
             auto_off: 2
 
-
     automation:
-    
-      - id: Детская Д перезагрузка зависшей люстры
-        alias: dd_ceiling_reboot
+
+      - alias: dd_ceiling_reboot
+        description: Детская Д - перезагрузка зависшей люстры
         initial_state: true
         trigger:
     # Проверка раз в 5 минут, перезагрузка если люстра недоступна
@@ -153,9 +180,8 @@ dd_light:
         - service: switch.turn_on
           entity_id: switch.0x54ef44100024689c_right
 
-
-      - id: Детская Д ручное управление люстрой
-        alias: dd_ceiling_light_manual_control
+      - alias: dd_ceiling_manual_control
+        description: Детская Д - ручное управление освещением
         initial_state: true
         trigger:
     # Виртуальная кнопка
@@ -187,7 +213,7 @@ dd_light:
                     entity_id:
                       - light.dd_ceiling_light
                     data_template:
-                      brightness_pct: 100
+                      brightness_pct: 80
                       kelvin: 4000
                 #   - service: xiaomi_miio.light_set_scene
                 #     entity_id: light.dd_ceiling_light
@@ -198,6 +224,11 @@ dd_light:
                     entity_id: light.dd_ceiling_light
                     state: 'on'
                 sequence:
+                  - service: xiaomi_miio.light_set_scene
+                    entity_id: light.dd_ceiling_light
+                    data:
+                      scene: 4 
+                  - delay: 00:00:03
                   - service: input_boolean.turn_off
                     target:
                       entity_id: input_boolean.dd_ceiling
@@ -205,8 +236,8 @@ dd_light:
                     entity_id:
                       - light.dd_ceiling_light
 
-      - id: Детская Д включения люстры
-        alias: ldd_ceiling_light_control
+      - alias: dd_ceiling_turn_on_control
+        description: Детская Д - контроль включения люстры
         initial_state: true
         trigger:
         - platform: state
@@ -225,8 +256,8 @@ dd_light:
             - light.dd_ceiling_light
 
 
-      - id: Детская Д ручное управление бра
-        alias: dd_bra_light_manual_control
+      - alias: dd_light_bra_manual_control
+        description: Детская Д - управление бра
         initial_state: true
         trigger:
     # Виртуальная кнопка
@@ -266,8 +297,8 @@ dd_light:
                     entity_id:
                       - light.0x00158d000420dbab
 
-      - id: Детская Д ручное управление адресной лентой
-        alias: dd_wled_manual_control
+      - alias: dd_light_wled_manual_control
+        description: Детская Д - управление адресной лентой
         initial_state: true          
         trigger:
     # Виртуальная кнопка
@@ -316,9 +347,9 @@ dd_light:
                   - service: light.turn_off
                     entity_id:
                       - light.dd_wled_light
-        
-      - id: Детская Д включение питания на настольную лампу
-        alias: dd_table_autoswitch
+
+      - alias: dd_light_table_manual_control
+        description: Детская Д - управление настольной лампой
         initial_state: true
         trigger:
         - platform: state
@@ -333,9 +364,9 @@ dd_light:
         - service: switch.turn_on
           entity_id:
             - switch.0x00158d00030a6e78
-            
-      - id: Детская Д выключение всего освещения
-        alias: dd_all_light_off
+
+      - alias: dd_light_full_off
+        description: Детская Д - выключение всего освещения
         initial_state: true
         trigger:
     # # Выключатель возле кровати
@@ -353,9 +384,9 @@ dd_light:
             - light.dd_ceiling_light
             - light.dd_table_lamp
             - light.dd_wled_light
-            
-      - id: Детская Д выключение всего освещения без ленты
-        alias: dd_wwled_light_off
+
+      - alias: dd_light_off_wled
+        description: Детская Д - выключение всего освещения без ленты
         initial_state: true
         trigger:
     # Выключатель на входе

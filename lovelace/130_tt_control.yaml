@@ -220,32 +220,6 @@ cards:
                   action: more-info
                  
               - type: custom:mushroom-template-card
-                primary: Движение
-                secondary: |-
-                  {% if is_state("binary_sensor.0x00158d0001a24e71_occupancy", "off") %}
-                  Нет
-                  {% else %}
-                  Есть
-                  {% endif %}
-                layout: vertical
-                entity: binary_sensor.0x00158d0001a24e71_occupancy
-                icon: |-
-                  {% if is_state("binary_sensor.0x00158d0001a24e71_occupancy", "off") %}
-                  mdi:motion-sensor-off
-                  {% else %}
-                  mdi:motion-sensor
-                  {% endif %}
-                multiline_secondary: true
-                icon_color: |-
-                  {% if is_state("binary_sensor.0x00158d0001a24e71_occupancy", "off") %}
-                  grey
-                  {% else %}
-                  amber
-                  {% endif %} 
-                tap_action:
-                  action: more-info
-
-              - type: custom:mushroom-template-card
                 primary: Температура
                 secondary: |-
                       {{states ('sensor.0xec1bbdfffe6f3394_temperature')}} С°
@@ -293,6 +267,71 @@ cards:
                 tap_action:
                   action: more-info 
 
+            - type: horizontal-stack
+              cards:
+
+              - type: custom:mushroom-template-card
+                primary: Движение
+                secondary: |-
+                  {% if is_state("binary_sensor.0x00158d0001a24e71_occupancy", "off") %}
+                  Нет
+                  {% else %}
+                  Есть
+                  {% endif %}
+                layout: vertical
+                entity: binary_sensor.0x00158d0001a24e71_occupancy
+                icon: |-
+                  {% if is_state("binary_sensor.0x00158d0001a24e71_occupancy", "off") %}
+                  mdi:motion-sensor-off
+                  {% else %}
+                  mdi:motion-sensor
+                  {% endif %}
+                multiline_secondary: true
+                icon_color: |-
+                  {% if is_state("binary_sensor.0x00158d0001a24e71_occupancy", "off") %}
+                  grey
+                  {% else %}
+                  amber
+                  {% endif %} 
+                tap_action:
+                  action: more-info
+                  
+              - type: custom:mushroom-template-card
+                primary: Присутствие
+                secondary: |-
+                  {% if is_state("binary_sensor.0x70ac08fffe63561c_presence", "off") %}
+                  Нет
+                  {% else %}
+                  Есть
+                  {% endif %}
+                layout: vertical
+                entity: binary_sensor.0x70ac08fffe63561c_presence
+                icon: phu:motion-sensor
+                multiline_secondary: true
+                icon_color: |-
+                  {% if is_state("binary_sensor.0x70ac08fffe63561c_presence", "off") %}
+                  grey
+                  {% else %}
+                  amber
+                  {% endif %} 
+                tap_action:
+                  action: more-info
+                  
+              - type: custom:mushroom-template-card
+                primary: Дистанция
+                secondary: |-
+                      {{states ('sensor.0x70ac08fffe63561c_target_distance')}} м
+                layout: vertical
+                entity: sensor.0x70ac08fffe63561c_target_distance
+                icon_color: |-
+                  {% if states("sensor.0x70ac08fffe63561c_target_distance")|float == 0 %}
+                  grey
+                  {% else %}
+                  green
+                  {% endif %} 
+                icon: phu:motion-sensor
+                tap_action:
+                  action: more-info 
 ############################ Колонка 2 ############################
 
     - type: vertical-stack

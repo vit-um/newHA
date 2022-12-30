@@ -1,6 +1,34 @@
-# test:
+test:
 
 
+    shell_command:
+      reboot_bluetooth: sudo systemctl restart bluetooth
+
+
+
+
+# - id: '1667067086899'
+#   alias: Считана метка NFC 1
+#   description: ''
+#   trigger:
+#   - platform: tag
+#     tag_id: 6d2bc124-d6b7-40f8-884b-9e2c4c8a71af
+#   condition: []
+#   action:
+#   - service: light.turn_on
+#     data:
+#       kelvin: 4000
+#       brightness_pct: 50
+#     target:
+#       entity_id: light.lr_bedside
+#   mode: single
+
+
+    # script:
+    
+    #   reboot_bluetooth:
+    #     alias: перезагрузка блютуз
+    #     sequence:
 
 
 #     recorder:

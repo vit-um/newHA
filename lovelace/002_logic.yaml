@@ -127,6 +127,37 @@ cards:
                       secondary_info: last-changed
                       state_color: true
 
+################# Ванная #################
+        - type: custom:stack-in-card
+          mode: vertical
+          cards:
+      
+            - type: markdown
+              style: |
+                   ha-card {
+                     color: #f8ffd8;
+                     --paper-item-icon-color: #f8ffd8;
+                     --paper-item-icon-active-color: #009933;
+                     font-weight: bold;
+                     font-size: 20px;
+                   }          
+              content: >
+                 **Ванная**
+                 
+            - type: custom:auto-entities
+              show_empty: false
+              card:
+                type: entities
+                show_header_toggle: false
+              filter:
+                include:
+                 - entity_id: automation.bt_*
+                #   state: 'unavailable'
+                   options:
+                      secondary_info: last-changed
+                      state_color: true
+
+
     - type: vertical-stack
       cards:
 
@@ -411,7 +442,35 @@ cards:
 ################# Все #################
     - type: vertical-stack
       cards:
+################# Детская Д #################
 
+        - type: custom:stack-in-card
+          mode: vertical
+          cards:
+
+            - type: markdown
+              style: |
+                   ha-card {
+                     color: #f8ffd8;
+                     --paper-item-icon-color: #f8ffd8;
+                     --paper-item-icon-active-color: #009933;
+                     font-weight: bold;
+                     font-size: 20px;
+                   }          
+              content: >
+                 **Детская Д**
+
+            - type: custom:auto-entities
+              show_empty: false
+              card:
+                type: entities
+                show_header_toggle: false
+              filter:
+                include:
+                 - entity_id: automation.dd_*
+                   options:
+                      secondary_info: last-changed
+                      state_color: true
 
         - type: markdown
           style: |
@@ -458,3 +517,5 @@ cards:
                  - entity_id: automation.cam_*
                  - entity_id: automation.control*
                  - entity_id: automation.kn_*
+                 - entity_id: automation.bt_*
+                 - entity_id: automation.dd_*

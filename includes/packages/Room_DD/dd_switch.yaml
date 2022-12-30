@@ -8,6 +8,8 @@ dd_switch:
            - sensor.0x00158d00030a6e78_power
            - sensor.0x00158d000153dd8e_power
            - switch.0x842e14fffefd9721_l4
+           - sensor.0x60a423fffe6850e1_power
+           - sensor.0x60a423fffe6850e1_voltage
 
     homeassistant:
       customize:
@@ -71,15 +73,44 @@ dd_switch:
           friendly_name: ДД удлинитель USB
           icon: mdi:usb
           
+        switch.0x60a423fffe6850e1:
+          friendly_name: ДД радиатор
+          icon: mdi:power-socket-eu
+        sensor.0x60a423fffe6850e1_power:
+          friendly_name: ДД радиатор, мощность
+          unit_of_measurement: Вт
+          device_class: power
+        sensor.0x60a423fffe6850e1_energy:
+          friendly_name: ДД радиатор, энергия
+          icon: mdi:chart-line
+        sensor.0x60a423fffe6850e1_voltage:
+          friendly_name: ДД радиатор, напряжение
+        sensor.0x60a423fffe6850e1_current:
+          friendly_name: ДД радиатор, ток
+          
         sensor.0x00158d00013f82b7_action:
           friendly_name: ДД кнопка на принтере
         sensor.0x00158d00013f82b7_battery:
           friendly_name: ДД кнопка на принтере
 
+        automation.dd_printer_control:
+          friendly_name: Детская Д - управление принтером
+          icon: mdi:printer-check
+
+    template:
+    
+      - sensor:
+
+          - name: dd_total_load
+            state: > 
+                {{(states('sensor.0x00158d0001a2ccab_power')|float(0) + states('sensor.0x00158d00030a6e78_power')|float(0) 
+                + states('sensor.0x00158d000153dd8e_power')|float(0)|round(2) + states('sensor.0x60a423fffe6850e1_power')|float(0))|round(2)}}
+
     automation:
 
-      - id: ДД ручное управление принтером
-        alias: dd_printer_manual_control
+      - alias: dd_printer_control
+        id: dd_printer_control
+        description: Детская Д - управление принтером
         initial_state: true          
         trigger:
     # Кнопка на принтере

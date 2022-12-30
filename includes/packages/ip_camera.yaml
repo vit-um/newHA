@@ -19,9 +19,9 @@ ip_camera:
             name: reolink_e1_pro_rtsp
             input: !secret reolink_e1_pro_rtsp
             
-        #   - platform: ffmpeg
-        #     name: reolink_e1_zoom_rtsp
-        #     input: !secret reolink_e1_zoom_rtsp
+          - platform: ffmpeg
+            name: reolink_e1_zoom_rtsp
+            input: !secret reolink_e1_zoom_rtsp
             
         # Hikvision HDR
 

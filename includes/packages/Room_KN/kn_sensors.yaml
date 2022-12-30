@@ -3,6 +3,7 @@ kn_sensors:
     recorder:
       include:
         entities:
+           - binary_sensor.kn_aeration
            - sensor.0x00158d0001581109_temperature
            - sensor.0x00158d0001581109_humidity
            - sensor.0x04cf8cdf3c772379_illuminance_lux
@@ -10,7 +11,6 @@ kn_sensors:
            - binary_sensor.0x54ef441000118375_occupancy
            - binary_sensor.0xec1bbdfffe302df1_occupancy
            - binary_sensor.kn_occupancy
-           - binary_sensor.reolink_e1_zoom_motion
            - sensor.0x00124b0022027bd2_soil_moisture
            - sensor.0x00124b0022145bc7_soil_moisture
            - sensor.0x00124b0022145c90_soil_moisture

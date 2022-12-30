@@ -22,7 +22,63 @@ bolier:
         sensor.0x00158d00015751f4_device_temperature:
           friendly_name: Ванная бойлер, температура
           icon: mdi:thermometer-check
+
+        automation.bt_boiler_on:
+          friendly_name: Ванная - включение бойлера
+          icon: mdi:water-boiler
+
+        automation.bt_boiler_impossible:
+          friendly_name: Ванная - проверка корректности включения бойлера
+          icon: mdi:water-boiler-alert
+
+        automation.bt_boiler_timer_double:
+          friendly_name: Ванная - дублирование таймера на резервном сервере
+          icon: mdi:timer-refresh
+
+        automation.bt_boiler_off:
+          friendly_name: Ванная - выключение бойлера
+          icon: mdi:water-boiler-off
+
+        automation.bt_boiler_notify_off:
+          friendly_name: Ванная - уведомление при выключении бойлера
+          icon: mdi:message-alert
+
+        automation.bt_boiler_1_on_mqtt_save:
+          friendly_name: Ванная - сохранение периода 1 бойлера
+          icon: mdi:numeric-1-box-multiple
+
+        automation.bt_boiler_1_on_mqtt_sync:
+          friendly_name: Ванная - синхронизация периода 1 бойлера
+          icon: mdi:numeric-1-box-multiple-outline
+
+        automation.bt_boiler_2_on_mqtt_save:
+          friendly_name: Ванная - сохранение периода 2 бойлера
+          icon: mdi:numeric-3-box-multiple
           
+        automation.bt_boiler_2_on_mqtt_sync:
+          friendly_name: Ванная - синхронизация периода 2 бойлера
+          icon: mdi:numeric-2-box-multiple-outline
+          
+        automation.bt_boiler_3_on_mqtt_save:
+          friendly_name: Ванная - сохранение периода 3 бойлера
+          icon: mdi:numeric-3-box-multiple
+          
+        automation.bt_boiler_3_on_mqtt_sync:
+          friendly_name: Ванная - синхронизация периода 3 бойлера
+          icon: mdi:numeric-3-box-multiple-outline
+
+        automation.bt_boiler_timer_on_mqtt_save:
+          friendly_name: Ванная - сохранение таймера бойлера
+          icon: mdi:timer-plus
+
+        automation.bt_boiler_timer_on_mqtt_sync:
+          friendly_name: Ванная - синхронизация таймера бойлера
+          icon: mdi:timer-sync
+
+        automation.bt_boiler_power_update:
+          friendly_name: Ванная - обновление мощности бойлера
+          icon: mdi:update
+        
     input_datetime:
       bt_boiler_1:
         name: Бойлер ванная - 1 период
@@ -112,8 +168,8 @@ bolier:
               
     automation:
 
-      - id: Включение бойлера в ванной
-        alias: bt_boiler_on
+      - alias: bt_boiler_on
+        description: Ванная - включение бойлера
         initial_state: true
         trigger:    
          - platform: time
@@ -136,9 +192,8 @@ bolier:
          - service: switch.turn_on
            entity_id: switch.0x00158d00015751f4
 
-    
-      - id: Проверка корректности включения бойлера ванная
-        alias: bt_boiler_impossible
+      - alias: bt_boiler_impossible
+        description: Ванная - проверка корректности включения бойлера
         initial_state: true
         trigger:
          - platform: state
@@ -183,8 +238,9 @@ bolier:
                       message: | 
                           {{"\U0001F6AB"}} Включение бойлера в ванной, отключен режим нагрева воды. Время события - {{ states.sensor.time_date.state }}
 
-      - id: Дублирование таймера ванная на резервном сервере
-        alias: bt_boiler_timer_double
+
+      - alias: bt_boiler_timer_double
+        description: Ванная - дублирование таймера на резервном сервере
         initial_state: true
         trigger:
          - platform: state
@@ -222,8 +278,8 @@ bolier:
                   - service: timer.cancel
                     entity_id: timer.bt_boiler
 
-      - id: Выключение бойлера в ванной
-        alias: bt_boiler_off
+      - alias: bt_boiler_off
+        description: Ванная - выключение бойлера
         initial_state: true
         trigger:    
          - platform: state
@@ -245,8 +301,8 @@ bolier:
          - service: switch.turn_off
            entity_id: switch.0x00158d00015751f4
 
-      - id: Уведомление при выключении бойлера в ванной
-        alias: bt_boiler_notify_off
+      - alias: bt_boiler_notify_off
+        description: Ванная - уведомление при выключении бойлера
         initial_state: true
         trigger:
          - platform: state
@@ -275,8 +331,8 @@ bolier:
              topic: "zigstar_poe/BT boiler/get"
              payload_template: '{"power": ""}'  
 
-      - id: Сохранение периода 1 бойлера в ванной в mqtt
-        alias: bt_boiler_1_on_mqtt_save
+      - alias: bt_boiler_1_on_mqtt_save
+        description: Ванная - сохранение периода 1 бойлера
         initial_state: true
         trigger:    
          - platform: state
@@ -306,8 +362,8 @@ bolier:
                     data:
                       time: "{{states('sensor.bt_boiler_1_on_mqtt')}}"
 
-      - id: Синхронизация периода 1 бойлера в ванной с mqtt
-        alias: bt_boiler_1_on_mqtt_sync
+      - alias: bt_boiler_1_on_mqtt_sync
+        description: Ванная - синхронизация периода 1 бойлера
         initial_state: true
         trigger:    
         - platform: state
@@ -322,8 +378,8 @@ bolier:
             data:
               time: "{{states('sensor.bt_boiler_1_on_mqtt')}}"
 
-      - id: Сохранение периода 2 бойлера в ванной в mqtt
-        alias: bt_boiler_2_on_mqtt_save
+      - alias: bt_boiler_2_on_mqtt_save
+        description: Ванная - сохранение периода 2 бойлера
         initial_state: true
         trigger:    
          - platform: state
@@ -353,8 +409,8 @@ bolier:
                     data:
                       time: "{{states('sensor.bt_boiler_2_on_mqtt')}}"
 
-      - id: Синхронизация периода 2 бойлера в ванной с mqtt
-        alias: bt_boiler_2_on_mqtt_sync
+      - alias: bt_boiler_2_on_mqtt_sync
+        description: Ванная - синхронизация периода 2 бойлера
         initial_state: true
         trigger:    
         - platform: state
@@ -369,8 +425,8 @@ bolier:
             data:
               time: "{{states('sensor.bt_boiler_2_on_mqtt')}}"
               
-      - id: Сохранение периода 3 бойлера в ванной в mqtt
-        alias: bt_boiler_3_on_mqtt_save
+      - alias: bt_boiler_3_on_mqtt_save
+        description: Ванная - сохранение периода 3 бойлера
         initial_state: true
         trigger:    
          - platform: state
@@ -400,8 +456,8 @@ bolier:
                     data:
                       time: "{{states('sensor.bt_boiler_3_on_mqtt')}}"
 
-      - id: Синхронизация периода 3 бойлера в ванной с mqtt
-        alias: bt_boiler_3_on_mqtt_sync
+      - alias: bt_boiler_3_on_mqtt_sync
+        description: Ванная - синхронизация периода 3 бойлера
         initial_state: true
         trigger:    
         - platform: state
@@ -416,8 +472,8 @@ bolier:
             data:
               time: "{{states('sensor.bt_boiler_3_on_mqtt')}}"
 
-      - id: Сохранение таймера бойлера в ванной в mqtt
-        alias: bt_boiler_timer_on_mqtt
+      - alias: bt_boiler_timer_on_mqtt_save
+        description: Ванная - сохранение таймера бойлера
         initial_state: true
         trigger:    
          - platform: state
@@ -447,8 +503,8 @@ bolier:
                     data:
                       time: "{{states('sensor.bt_boiler_timer_on_mqtt')}}"
 
-      - id: Синхронизация таймера бойлера в ванной с mqtt
-        alias: bt_boiler_timer_on_mqtt
+      - alias: bt_boiler_timer_on_mqtt_sync
+        description: Ванная - синхронизация таймера бойлера
         initial_state: true
         trigger:    
         - platform: state
@@ -463,9 +519,8 @@ bolier:
             data:
               time: "{{states('sensor.bt_boiler_timer_on_mqtt')}}"
               
-              
-      - id: Обновление данных по мощности
-        alias: bt_boiler_power_update
+      - alias: bt_boiler_power_update
+        description: Ванная - обновление мощности бойлера
         initial_state: true
         trigger:
           - platform: time_pattern

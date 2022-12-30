@@ -142,6 +142,9 @@ lr_conditioner:
         - condition: state
           entity_id: switch.control_mode
           state: 'on'
+        - condition: state
+          entity_id: switch.lr_conditioner_mode
+          state: 'on'
         action:
             - choose:
               - conditions:

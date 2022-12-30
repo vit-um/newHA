@@ -1,0 +1,48 @@
+blackout:
+
+
+    homeassistant:
+      customize:    
+        binary_sensor.blackout:
+          friendly_name: Blackout
+
+        automation.control_host_shotdown:
+          friendly_name: Автоматическое отключение хоста
+          icon: mdi:transmission-tower-off
+          
+    template:
+    
+      - binary_sensor:
+      
+    # Сенсор определения отключения электрики
+          - name: blackout
+            state: >
+              {{ states('sensor.server_telemetry') | float  > 800 }}
+            delay_on: 
+                minutes: 10
+            device_class: problem
+            
+            
+
+    automation:
+    
+      - alias: control_host_shotdown
+        description: Автоматическое отключение хоста
+        initial_state: true
+        trigger:
+    # Сработка сенсора блекаута
+        - platform: state
+          entity_id: binary_sensor.blackout
+          to: 'on'
+    # Проверка раз в 15 минут
+        - platform: time_pattern
+          minutes: '/15'
+        condition:
+    # Сенсор блекаута
+        - condition: state
+          entity_id: binary_sensor.blackout
+          state: 'on'
+        action:
+    # Выключение люстры
+        - service: hassio.host_shutdown
+          data: {}

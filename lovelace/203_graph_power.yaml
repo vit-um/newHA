@@ -115,8 +115,12 @@ cards:
            - entity: sensor.0x04cf8cdf3c764e0a_power
              color: rgb(255,211,206)
              fill: rgba(255,211,206,0.1)             
-             
-             
+           - entity: sensor.0xa4c1382dc9fecb3e_power
+             color: rgb(255,211,206)
+             fill: rgba(255,211,206,0.1)             
+           - entity: sensor.0xa4c138e22148db3a_power
+             color: rgb(255,178,252)
+             fill: rgba(255,178,252,0.1)             
              
              
              

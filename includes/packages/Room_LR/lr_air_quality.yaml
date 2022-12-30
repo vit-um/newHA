@@ -4,17 +4,14 @@ lr_air_quality:
     recorder:
       include:
         entities:
-           - sensor.lr_carbon_dioxide
+        #   - sensor.lr_carbon_dioxide
+          - sensor.lr_air_co2
 
     homeassistant:
 
       customize:
       
-        air_quality.lr_air_monitor:
-          friendly_name: Гостиная, PM 2.5
-          unit_of_measurement: 'ppm'
-          icon: mdi:alpha-p
-        sensor.lr_carbon_dioxide:
+        sensor.lr_air_co2:
           friendly_name: Гостиная, СО2
           unit_of_measurement: 'ppm'
           icon: mdi:molecule-co2
@@ -24,16 +21,19 @@ lr_air_quality:
           friendly_name: Гостиная, плохой воздух
           device_class: carbon_monoxide
 
+        # automation.lr_air_co2_reload:
+        #   friendly_name: Гостиная - перезагрузка детектора CO2
+        #   icon: mdi:molecule-co2
 
     template:
     
       - binary_sensor:
           - name: lr_poor_air
             state: >
-                  {{ states('sensor.lr_carbon_dioxide')|float > 1500 
+                  {{ states('sensor.lr_air_co2')|float > 1500 
                      and is_state('binary_sensor.notification_time', 'on' )
                      and is_state('binary_sensor.lr_aeration', 'off' ) }}
-            availability: "{{ (states('sensor.lr_carbon_dioxide')|float > 250 ) }}" 
+            availability: "{{ (states('sensor.lr_air_co2')|float > 250 ) }}" 
             icon: >
               {% if is_state("binary_sensor.lr_poor_air", "on") %}
               mdi:biohazard
@@ -41,13 +41,27 @@ lr_air_quality:
               mdi:air-filter
               {% endif %}
      
-      - sensor:
-          - name: lr_carbon_dioxide
-            state: "{{ state_attr('air_quality.lr_air_monitor', 'carbon_dioxide') }}"
+    #   - sensor:
+    #       - name: lr_carbon_dioxide
+    #         state: "{{ state_attr('air_quality.lr_air_monitor', 'carbon_dioxide') }}"
             
 
             
     automation:
+
+    #   - alias: lr_air_co2_reload
+    #     description: Гостиная - перезагрузка детектора CO2
+    #     initial_state: true
+    #     trigger:
+    #       - platform: homeassistant
+    #         event: start
+    #     action:
+    #       - delay: 00:01:05
+    #       - service: homeassistant.reload_config_entry
+    #         data: {}
+    #         target:
+    #           device_id: 881407a1b8338794dfc978de163ccc4e
+
 
       - id: Гостиная, уведомление о низком качестве воздуха
         alias: lr_air_notification

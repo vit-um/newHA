@@ -12,6 +12,22 @@ kn_switch:
            - sensor.0x00158d0001fa2934_power
            - sensor.0xa4c138273b49e4d0_power
            - sensor.0x00158d000114a1e1_power
+           - sensor.0xa4c138201dcb67f6_voltage
+
+    sensor:
+    
+      - platform: integration
+        name: '0x00158d0001fa2934_integration'
+        source: sensor.0x00158d0001fa2934_power
+        unit_prefix: k
+        round: 2
+        
+    utility_meter:
+
+      0x00158d0001fa2934_meter:
+        source: sensor.0x00158d0001fa2934_integration
+        cycle: monthly
+
 
     homeassistant:
       customize:
@@ -105,6 +121,11 @@ kn_switch:
         sensor.0x00158d0001fa2934_device_temperature:
           friendly_name: Холодильник, температура
           icon: mdi:thermometer-check
+        sensor.0x00158d0001fa2934_integration:
+          friendly_name: Холодильник
+        sensor.0x00158d0001fa2934_meter:
+          friendly_name: Холодильник
+          unit_of_measurement: кВт/ч
           
         switch.0x00158d000114a1e1:
           friendly_name: Кухня, питание шлюза

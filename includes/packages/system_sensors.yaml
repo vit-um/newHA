@@ -73,8 +73,9 @@ system_sensors:
     #       column: 'value'
     #       unit_of_measurement: MB
 
-    - platform: uptime
-      name: online
+# Платформа перенесена в UI    
+    # - platform: uptime
+    #   name: online
 
     - platform: time_date
       display_options:

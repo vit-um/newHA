@@ -506,9 +506,9 @@ cards:
               - type: custom:mushroom-template-card
                 primary: Калибровка
                 secondary: |-
-                  {% if (states('sensor.kn_thermostat_difference')|float) > 0.5 
-                  or (states('sensor.kn_thermostat_difference')|float) < - 0.5  %}
-                  Расхождение > 0.5 С°
+                  {% if ((states('sensor.0x00158d0001581109_temperature') | float - state_attr('climate.0x2c1165fffeb3e531', 'local_temperature') | float))|round(1) > 1 
+                     or ((states('sensor.0x00158d0001581109_temperature') | float - state_attr('climate.0x2c1165fffeb3e531', 'local_temperature') | float))|round(1) < -1  %}
+                  Расхождение > 1 С°
                   {% else %}
                   ОК
                   {% endif %}
@@ -522,8 +522,8 @@ cards:
                 icon: mdi:sync
                 multiline_secondary: true
                 icon_color: |-
-                  {% if (states('sensor.kn_thermostat_difference')|float) > 0.5 
-                  or (states('sensor.kn_thermostat_difference')|float) < - 0.5  %}
+                  {% if ((states('sensor.0x00158d0001581109_temperature') | float - state_attr('climate.0x2c1165fffeb3e531', 'local_temperature') | float))|round(1) > 1 
+                     or ((states('sensor.0x00158d0001581109_temperature') | float - state_attr('climate.0x2c1165fffeb3e531', 'local_temperature') | float))|round(1) < -1  %}
                   amber
                   {% else %}
                   green
@@ -550,9 +550,9 @@ cards:
                 primary: |-
                       Поправка {{states ('number.0x2c1165fffeb3e531_local_temperature_calibration')}} С°
                 secondary: |-
-                      Разница {{states ('sensor.kn_thermostat_difference')}} С°
+                      Разница {{((states('sensor.0x00158d0001581109_temperature') | float - state_attr('climate.0x2c1165fffeb3e531', 'local_temperature') | float))|round(1)}} С°
                 layout: vertical
-                entity: sensor.0x00158d000171ffde_temperature
+                entity: sensor.0x00158d0001581109_temperature
                 icon_color: |-
                   {% if is_state("switch.kn_radiator_mode", "on") %}
                   amber
@@ -581,6 +581,9 @@ cards:
               - type: divider
               - entity: number.0x2c1165fffeb3e531_open_window_temperature
                 name: Температура проветривания
+              - type: divider
+              - entity: number.0x2c1165fffeb3e531_eco_temperature
+                name: Ночная температура
               - type: divider
               - entity: binary_sensor.0x2c1165fffeb3e531_battery_low
                 type: custom:multiple-entity-row

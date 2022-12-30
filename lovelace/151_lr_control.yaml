@@ -229,7 +229,7 @@ cards:
                 - type: custom:mushroom-template-card
                   primary: Свет на стене
                   secondary: |-
-                    {% if is_state("light.0x00158d00015723f1_left", "off") %}
+                    {% if is_state("light.0x00158d00062fbb54_left", "off") %}
                     Включить
                     {% else %}
                     Выключить
@@ -237,11 +237,11 @@ cards:
                   layout: vertical
                   tap_action:
                     action: toggle
-                  entity: light.0x00158d00015723f1_left
+                  entity: light.0x00158d00062fbb54_left
                   icon: phu:wall-econic
                   multiline_secondary: true
                   icon_color: |-
-                    {% if is_state("light.0x00158d00015723f1_left", "off") %}
+                    {% if is_state("light.0x00158d00062fbb54_left", "off") %}
                     grey
                     {% else %}
                     amber
@@ -300,13 +300,34 @@ cards:
                     target:
                       entity_id: input_button.lr_gateway_reload
 
+                - type: custom:mushroom-template-card
+                  primary: Предохранитель
+                  secondary: |-
+                    {% if is_state("input_boolean.lr_xiaomi_gateway", "on") %}
+                    Вкл
+                    {% else %}
+                    Выкл
+                    {% endif %}
+                  layout: vertical
+                  tap_action:
+                    action: toggle
+                  entity: input_boolean.lr_xiaomi_gateway
+                  icon: mdi:fuse-alert
+                  multiline_secondary: true
+                  icon_color: |-
+                    {% if is_state("input_boolean.lr_xiaomi_gateway", "off") %}
+                    green
+                    {% else %}
+                    red
+                    {% endif %}
+
             - type: horizontal-stack
               cards:
 
               - type: custom:mushroom-template-card
                 primary: Питание 1
                 secondary: |-
-                  {% if is_state("switch.0x00158d00015723f1_right", "on") %}
+                  {% if is_state("switch.0x00158d00062fbb54_right", "on") %}
                   Вкл
                   {% else %}
                   Выкл
@@ -314,11 +335,11 @@ cards:
                 layout: vertical
                 tap_action:
                   action: toggle
-                entity: switch.0x00158d00015723f1_right
+                entity: switch.0x00158d00062fbb54_right
                 icon: phu:socket-eu
                 multiline_secondary: true
                 icon_color: |-
-                  {% if is_state("switch.0x00158d00015723f1_right", "on") %}
+                  {% if is_state("switch.0x00158d00062fbb54_right", "on") %}
                   green
                   {% else %}
                   red
@@ -562,29 +583,29 @@ cards:
             - type: custom:mushroom-template-card
               primary: Lydsto Robot R1
               secondary: |-
-                {% if is_state("vacuum.xa1_304958804790", "docked") %}
+                {% if is_state("vacuum.xa1_cloud_864771", "docked") %}
                 На базе
-                {% elif is_state("vacuum.xa1_304958804790", "unknown") %}
+                {% elif is_state("vacuum.xa1_cloud_864771", "unknown") %}
                 Состояние неизвестно
-                {% elif is_state("vacuum.xa1_304958804790", "cleaning") %}
+                {% elif is_state("vacuum.xa1_cloud_864771", "cleaning") %}
                 Уборка
-                {% elif is_state("vacuum.xa1_304958804790", "unavailable") %}
+                {% elif is_state("vacuum.xa1_cloud_864771", "unavailable") %}
                 Недоступно
                 {% else %}
                 Возврат на базу
                 {% endif %}
               layout: horizontal
-              entity: vacuum.xa1_304958804790
+              entity: vacuum.xa1_cloud_864771
               icon: phu:roborock
               multiline_secondary: true
               icon_color: |-
-                {% if is_state("vacuum.xa1_304958804790", "docked") %}
+                {% if is_state("vacuum.xa1_cloud_864771", "docked") %}
                 grey
-                {% elif is_state("vacuum.xa1_304958804790", "unknown") %}
+                {% elif is_state("vacuum.xa1_cloud_864771", "unknown") %}
                 red
-                {% elif is_state("vacuum.xa1_304958804790", "cleaning") %}
+                {% elif is_state("vacuum.xa1_cloud_864771", "cleaning") %}
                 light-green
-                {% elif is_state("vacuum.xa1_304958804790", "unavailable") %}
+                {% elif is_state("vacuum.xa1_cloud_864771", "unavailable") %}
                 pink
                 {% else %}
                 green
@@ -596,7 +617,7 @@ cards:
                   entity_id: input_button.lr_vacuum_cleaner
     
             - type: 'custom:vacuum-card'
-              entity: vacuum.xa1_304958804790
+              entity: vacuum.xa1_cloud_864771
               show_toolbar: false
 
 ############################ Колонка 2 ############################
@@ -801,7 +822,7 @@ cards:
                   icon: mdi:home-lightning-bolt
                   icon_color: light-green
                   content: |-
-                      {{states ('sensor.0xa4c1384452a34172_meter')}} KВт*ч
+                      {{states ('sensor.0xa4c1384452a34172_meter')}} кВт/ч
                   tap_action:
                     action: more-info
 
@@ -850,7 +871,7 @@ cards:
                   icon: mdi:home-lightning-bolt
                   icon_color: light-green
                   content: |-
-                      {{states ('sensor.0xa4c1387c6584d955_meter')}} KВт*ч
+                      {{states ('sensor.0xa4c1387c6584d955_meter')}} кВт/ч
                   tap_action:
                     action: more-info
 
@@ -899,7 +920,7 @@ cards:
                   icon: mdi:home-lightning-bolt
                   icon_color: light-green
                   content: |-
-                      {{states ('sensor.0xa4c1388c89a46970_meter')}} KВт*ч
+                      {{states ('sensor.0xa4c1388c89a46970_meter')}} кВт/ч
                   tap_action:
                     action: more-info
 
@@ -948,7 +969,56 @@ cards:
                   icon: mdi:home-lightning-bolt
                   icon_color: light-green
                   content: |-
-                      {{states ('sensor.0xa4c138f41459f92a_meter')}} KВт*ч
+                      {{states ('sensor.0xa4c138f41459f92a_meter')}} кВт/ч
+                  tap_action:
+                    action: more-info
+
+            - type: markdown
+              content: >
+                 **     **
+
+            - type: custom:mushroom-chips-card
+              alignment: start
+              chips:
+
+                - type: template
+                  entity: switch.0x588e81fffed4af56
+                  icon: phu:socket-eu
+                  icon_color: |-
+                    {% if is_state("switch.0x588e81fffed4af56", "on") %}
+                    green
+                    {% else %}
+                    red
+                    {% endif %}
+                  content: |-
+                    Лампа за телевизором
+                  tap_action:
+                    action: toggle
+
+                - type: template
+                  entity: sensor.0x588e81fffed4af56_power
+                  icon: mdi:lightning-bolt-circle
+                  icon_color: green
+                  content: |-
+                      {{states ('sensor.0x588e81fffed4af56_power')}} Ватт
+                  tap_action:
+                    action: more-info
+
+                - type: template
+                  entity: sensor.0x588e81fffed4af56_voltage
+                  icon: mdi:sine-wave
+                  icon_color: green
+                  content: |-
+                      {{states ('sensor.0x588e81fffed4af56_voltage')}} В
+                  tap_action:
+                    action: more-info
+                    
+                - type: template
+                  entity: sensor.0x588e81fffed4af56_meter
+                  icon: mdi:home-lightning-bolt
+                  icon_color: light-green
+                  content: |-
+                      {{states ('sensor.0x588e81fffed4af56_meter')}} кВт/ч
                   tap_action:
                     action: more-info
 

@@ -7,3 +7,4 @@ views:
   - !include lovelace/204_chart_power.yaml
   - !include lovelace/205_graph_net.yaml
   - !include lovelace/206_graph_occupancy.yaml
+  - !include lovelace/207_graph_thermostat.yaml

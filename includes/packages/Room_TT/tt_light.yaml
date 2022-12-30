@@ -15,6 +15,11 @@ tt_light:
         sensor.0x00158d0001a24e71_battery:
           friendly_name: Туалет датчик движения
           
+        binary_sensor.0x70ac08fffe63561c_presence:
+          friendly_name: Туалет датчик присутствия
+        sensor.0x70ac08fffe63561c_target_distance:
+          friendly_name: Туалет датчик присутствия, расстояние
+          
         switch.0x00158d00014dceb3_left:
           friendly_name: Туалет люстра, питание
         fan.0x00158d00014dceb3_right:
@@ -112,9 +117,10 @@ tt_light:
             state: >
               {{ is_state('light.tt_ceiling_virtual', 'on')  
                  and is_state('binary_sensor.0x00158d0001a24e71_occupancy', 'off')
+                 and is_state('binary_sensor.0x70ac08fffe63561c_presence', 'off')
                  and is_state('binary_sensor.tt_night', 'off')
               }}
-            delay_on: 00:05:00
+            delay_on: 00:01:00
             device_class: light
               
     # Свет без движения в туалете ночью
@@ -122,9 +128,10 @@ tt_light:
             state: >
               {{ is_state('light.tt_ceiling_virtual', 'on')  
                  and is_state('binary_sensor.0x00158d0001a24e71_occupancy', 'off')
+                 and is_state('binary_sensor.0x70ac08fffe63561c_presence', 'off')
                  and is_state('binary_sensor.tt_night', 'on')
               }}
-            delay_on: 00:01:00
+            # delay_on: 00:01:00
             device_class: light
               
     # Свет более 5 минут, условие для включения вентиляции
@@ -196,6 +203,10 @@ tt_light:
     # Датчик движения
         - platform: state
           entity_id: binary_sensor.0x00158d0001a24e71_occupancy
+          to: 'on'
+    # Датчик присутствия
+        - platform: state
+          entity_id: binary_sensor.0x70ac08fffe63561c_presence
           to: 'on'
     # Выключатель на стене у входа
         - platform: state

@@ -4,7 +4,7 @@ en_light:
       customize:
       
         light.0x00158d0003e74c31:
-          friendly_name: Прихожая лампочка в прихожей
+          friendly_name: Прихожая лампочка
           icon: phu:bulbs-classic
           
         binary_sensor.0x00158d00013f7894_occupancy:

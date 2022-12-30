@@ -31,6 +31,9 @@ cards:
                 - type: light
                   entity: light.smart_desk_lamp
                   name: Настольная лампа
+                - type: light
+                  entity: light.da_led_strip
+                  name: Лента
                   
             - type: horizontal-stack
               cards:        
@@ -38,8 +41,8 @@ cards:
                   entity: light.gateway_light_f0b429cc1f11
                   name: Ночник
                 - type: light
-                  entity: light.da_led_strip
-                  name: Лента
+                  entity: light.0xa4c138e22148db3a
+                  name: Alien
                 - type: light
                   entity: light.da_projector
                   name: Проектор
@@ -55,7 +58,23 @@ cards:
             - type: entities
               show_header_toggle: false
               entities:           
-                - entity: input_boolean.da_cicle_light_color
+                - entity: switch.da_cicle_light_color
+                # - entity: input_select.da_cicle_light_color
+                - entity: switch.0xa4c1382dc9fecb3e
+                  type: custom:multiple-entity-row
+                  toggle: true
+                  state_color: true
+                  name: Радиатор
+                  secondary_info: last-changed
+                  state_header: Питание
+                  entities:
+                  - attribute: last_seen
+                    format: relative
+                    name: Отклик
+                  - attribute: power
+                    name: Мощность
+                    unit: 'Ватт'                
+
                 - entity: switch.0x00158d00010ec4b8
                   type: custom:multiple-entity-row
                   toggle: true

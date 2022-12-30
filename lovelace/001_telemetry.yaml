@@ -200,10 +200,15 @@ cards:
 
               - entity: sensor.server_telemetry
                 icon: mdi:alert
-    
+              - entity: binary_sensor.blackout
+                
+              - entity: sensor.zigstar_lan_state
+              - entity: sensor.zigstar_poe_state
+
               - type: divider
               - entity: switch.control_mode
                 state_color: true
+                secondary_info: last-changed
               - type: divider
     
               - entity: sensor.last_google_backup_main

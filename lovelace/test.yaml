@@ -8,88 +8,38 @@ cards:
     - type: vertical-stack
       cards:
 
-
-        - type: custom:stack-in-card
-          mode: vertical
-          cards:  
-
-            - type: horizontal-stack
-              cards:
+      - type: horizontal-stack
+        cards:
+          - type: light
+            name: Светильник 1
+            entity: light.dnipro_1_virtual
               
-              - type: custom:mushroom-template-card
-                primary: Присутствие
-                secondary: |-
-                  {% if is_state("binary_sensor.0x54ef44100042e226_presence", "off") %}
-                  Не обнаружено
-                  {% else %}
-                  Обнаружено
-                  {% endif %}
-                layout: vertical
-                entity: binary_sensor.en_light_day
-                icon: |-
-                  {% if is_state("binary_sensor.0x54ef44100042e226_presence", "off") %}
-                  mdi:home-off
-                  {% else %}
-                  mdi:home-account
-                  {% endif %}
-                multiline_secondary: true
-                icon_color: |-
-                  {% if is_state("binary_sensor.0x54ef44100042e226_presence", "off") %}
-                  grey
-                  {% else %}
-                  green
-                  {% endif %}
-                tap_action:
-                  action: more-info
-                  
-              - type: custom:mushroom-template-card
-                primary: Движение
-                secondary: |-
-                  {% if is_state("binary_sensor.0x54ef44100042e226_motion", "off") %}
-                  Нет движения
-                  {% else %}
-                  Есть движение
-                  {% endif %}
-                layout: vertical
-                entity: binary_sensor.en_light_day
-                icon: |-
-                  {% if is_state("binary_sensor.0x54ef44100042e226_motion", "off") %}
-                  mdi:motion-sensor-off
-                  {% else %}
-                  mdi:motion-sensor
-                  {% endif %}
-                multiline_secondary: true
-                icon_color: |-
-                  {% if is_state("binary_sensor.0x54ef44100042e226_motion", "off") %}
-                  white
-                  {% else %}
-                  amber
-                  {% endif %}
-                tap_action:
-                  action: more-info
-                  
-              - type: custom:mushroom-template-card
-                primary: Событие
-                secondary: |-
-                      {{states ('sensor.0x54ef44100042e226_presence_event')}} 
-                layout: vertical
-                entity: sensor.0x54ef44100042e226_presence_event
-                icon: |-
-                  {% if is_state("sensor.0x54ef44100042e226_presence_event", "leave") %}
-                  mdi:account-voice-off
-                  {% else %}
-                  mdi:account-voice
-                  {% endif %}
-                multiline_secondary: true
-                icon_color: |-
-                  {% if is_state("sensor.0x54ef44100042e226_presence_event", "leave") %}
-                  grey
-                  {% else %}
-                  green
-                  {% endif %}
-                tap_action:
-                  action: more-info
-              
+          - type: light
+            name: Светильник 2
+            entity: light.dnipro_2_virtual
 
-        
-                            
+      - type: custom:mushroom-template-card
+        primary: Воздух
+        secondary: |-
+          {% if is_state("binary_sensor.m_dnipro_ta_dniprovska_teritorialna_gromada_air", "off") %}
+          ОК
+          {% else %}
+          Опасность
+          {% endif %}
+        layout: horizontal
+        entity: binary_sensor.m_dnipro_ta_dniprovska_teritorialna_gromada_air
+        icon: |-
+          {% if is_state("binary_sensor.m_dnipro_ta_dniprovska_teritorialna_gromada_air", "off") %}
+          mdi:airplane-off
+          {% else %}
+          mdi:bomb
+          {% endif %}
+        multiline_secondary: true
+        icon_color: |-
+          {% if is_state("binary_sensor.m_dnipro_ta_dniprovska_teritorialna_gromada_air", "off") %}
+          green
+          {% else %}
+          red
+          {% endif %} 
+        tap_action:
+          action: more-info 

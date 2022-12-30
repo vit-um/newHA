@@ -110,6 +110,22 @@ cards:
                     name: Мощность
                     unit: 'Ватт'
                 - type: divider
+                - entity: switch.0x60a423fffe6850e1
+                  type: custom:multiple-entity-row
+                  toggle: true
+                  state_color: true
+                  name: Радиатор
+                  secondary_info: last-changed
+                  state_header: Питание
+                  entities:
+                  - attribute: last_seen
+                    format: relative
+                    name: Отклик
+                  - attribute: power
+                    name: Мощность
+                    unit: 'Ватт'                      
+
+                - type: divider
                 - entity: switch.0x842e14fffefd9721_l1
                   type: custom:multiple-entity-row
                   toggle: true

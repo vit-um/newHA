@@ -219,7 +219,7 @@ bt_light:
                {%- elif states("binary_sensor.bt_light_night_on") == 'on' and states("binary_sensor.0x00158d00054495dc_contact") == 'off' -%}
                00:15:00
                {%- elif states("binary_sensor.bt_light_night_on") == 'on' and states("binary_sensor.0x00158d00054495dc_contact") == 'on' -%}
-               00:05:00
+               00:01:00
                {% endif %}
 
       - id: Ванная, отключение таймера освещения
