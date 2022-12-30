@@ -9,8 +9,8 @@
 #### Пакаджи    
 :point_up: Изменений много, но в основном несущественные правки (кастомизация и иконки) из нового -     
 :arrow_right: [reminder.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Calendar/reminder.yaml) - напоминалка по сработке [событий из календаря](https://youtu.be/nLNq187Fcps)    
-:arrow_right: [blackout.yaml)](https://github.com/kvazis/newHA/blob/master/includes/packages/Control/blackout.yaml) - мой вариант автоматического отключения сервера при отсутствии электрики    
-:arrow_right: [zigbee2mqtt.yaml)](https://github.com/kvazis/newHA/blob/master/includes/packages/Control/zigbee2mqtt.yaml) - автоматизация для включения zigbee2mqtt, который автоматически выключается в случае отключения резервного сервера    
+:arrow_right: [blackout.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Control/blackout.yaml) - мой вариант автоматического отключения сервера при отсутствии электрики    
+:arrow_right: [zigbee2mqtt.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Control/zigbee2mqtt.yaml) - автоматизация для включения zigbee2mqtt, который автоматически выключается в случае отключения резервного сервера    
 
 
 #### Интерфейс, в режиме yaml    
