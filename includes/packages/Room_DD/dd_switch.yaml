@@ -30,7 +30,7 @@ dd_switch:
           
         switch.0x00158d000153dd8e:
           friendly_name: ДД ноутбук Acer 15, питание
-          icon: mdi:power-socket-eu
+          icon: phu:laptop-windows
         sensor.0x00158d000153dd8e_power:
           friendly_name: ДД ноутбук Acer 15, мощность
           unit_of_measurement: Вт

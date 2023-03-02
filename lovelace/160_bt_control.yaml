@@ -29,8 +29,8 @@ cards:
                   entity: light.bt_ceiling_light
                   name: Люстра
                 - type: light
-                  entity: light.slmap2_cloud_402139
-                  name: УФ ламна
+                  entity: light.slmap2_44237ccb479b
+                  name: УФ лампа
                   
         - type: custom:stack-in-card
           mode: vertical
@@ -77,7 +77,7 @@ cards:
                   state_color: true
                   name: Вентилятор              
              
-                - entity: switch.0x00158d00015751f4
+                - entity: switch.0x00158d0003584401
                   type: custom:multiple-entity-row
                   toggle: true
                   state_color: true
@@ -85,7 +85,7 @@ cards:
                   secondary_info: last-changed
                   state_header: Питание
                   entities:
-                  - entity: sensor.0x00158d00015751f4_meter
+                  - entity: sensor.0x00158d0003584401_meter
                     name: Потреблено за месяц
                     unit: 'кВт·ч'
                   - attribute: power
@@ -218,7 +218,7 @@ cards:
               entities:
               - entity: switch.bt_boiler_mode
                 state_color: true
-              - entity: switch.0x00158d00015751f4
+              - entity: switch.0x00158d0003584401
                 state_color: true
                 secondary_info: last-changed
               - entity: input_datetime.bt_boiler_1

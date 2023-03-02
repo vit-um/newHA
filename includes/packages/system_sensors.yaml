@@ -8,7 +8,7 @@ system_sensors:
       commit_interval: 60
       include:
         entities:
-          - binary_sensor.rpi_power_status    
+        #   - binary_sensor.rpi_power_status    
           - sensor.processor_use
           - sensor.disk_use_percent
           - sensor.memory_use_percent

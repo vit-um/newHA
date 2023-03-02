@@ -202,6 +202,10 @@ cards:
                 icon: mdi:alert
               - entity: binary_sensor.blackout
                 
+              - entity: binary_sensor.0xa4c138744bf2fbf0_contact               
+              - entity: input_datetime.electricity_off                
+              - entity: input_datetime.electricity_on                
+                
               - entity: sensor.zigstar_lan_state
               - entity: sensor.zigstar_poe_state
 

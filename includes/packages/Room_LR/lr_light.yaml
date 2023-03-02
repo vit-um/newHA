@@ -68,10 +68,12 @@ lr_light:
         sensor.0x04cf8cdf3c7942ca_battery:
           friendly_name: Гостиная выключатель на комоде 4 клавиши
 
-        sensor.0xccccccfffe8abc14_action:
-          friendly_name: Гостиная пульт IKEA
-        sensor.0xccccccfffe8abc14_battery:
-          friendly_name: Гостиная пульт IKEA
+        sensor.0x70ac08fffe263e24_action:
+          friendly_name: Гостиная крутилка Moes
+        select.0x70ac08fffe263e24_operation_mode:
+          friendly_name: Гостиная крутилка Moes
+        sensor.0x70ac08fffe263e24_battery:
+          friendly_name: Гостиная крутилка Moes
 
         automation.lr_gateway_reload:
           friendly_name: Гостиная - перезагрузка шлюза xiaomi
@@ -386,14 +388,14 @@ lr_light:
         - platform: state
           entity_id: sensor.0x00158d00062fbb54_action
           to: 'single_right'
+    ## Крутилка Moes
+        - platform: state
+          entity_id: sensor.0x70ac08fffe263e24_action
+          to: "rotate_right"
     # Выключатель на стене снаружи у входа
         - platform: state
           entity_id: sensor.0x00158d00013fc3bc_action
           to: 'single_left'          
-    ## Пульт IKEA
-        - platform: state
-          entity_id: sensor.0xccccccfffe8abc14_action
-          to: "arrow_left_click"
     ## 3 кнопка Aqara Opple
         - platform: state
           entity_id: sensor.0x04cf8cdf3c79360a_action
@@ -460,10 +462,10 @@ lr_light:
         - platform: state
           entity_id: sensor.0x00158d00027c0e2b_action
           to: 'single_right'
-    ## Пульт IKEA
+    ## Крутилка Moes
         - platform: state
-          entity_id: sensor.0xccccccfffe8abc14_action
-          to: "arrow_right_click"
+          entity_id: sensor.0x70ac08fffe263e24_action
+          to: "rotate_left"
     ## 4 кнопка Aqara Opple
         - platform: state
           entity_id: sensor.0x04cf8cdf3c79360a_action
@@ -581,10 +583,10 @@ lr_light:
         - platform: state
           entity_id: sensor.0x00158d00013fc3bc_action
           to: 'single_right' 
-    ## Пульт IKEA
+    ## Крутилка Moes
         - platform: state
-          entity_id: sensor.0xccccccfffe8abc14_action
-          to: "brightness_down_click"
+          entity_id: sensor.0x70ac08fffe263e24_action
+          to: "single"
     ## 2 кнопка Aqara Opple
         - platform: state
           entity_id: sensor.0x04cf8cdf3c79360a_action
@@ -601,10 +603,6 @@ lr_light:
         description: Гостиная - ручное управление настольной лампой
         initial_state: true
         trigger:
-    ## Пульт IKEA
-        - platform: state
-          entity_id: sensor.0xccccccfffe8abc14_action
-          to: "brightness_up_click"
     ## 1 кнопка Aqara Opple
         - platform: state
           entity_id: sensor.0x04cf8cdf3c79360a_action

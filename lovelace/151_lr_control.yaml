@@ -652,7 +652,7 @@ cards:
                     {% if is_state("binary_sensor.lr_tv_work", "off") %}
                     Включить
                     {% else %}
-                    Отключить все люстры
+                    Выключить
                     {% endif %}
                   layout: horizontal
                   entity: input_button.lr_tv_control
@@ -780,6 +780,60 @@ cards:
                    } 
               content: >
                  **Розетки**
+
+            - type: custom:mushroom-chips-card
+              alignment: start
+              chips:
+
+                - type: template
+                  entity: switch.0xa4c1382dc9fecb3e
+                  icon: phu:apc-ups-upright
+                  icon_color: |-
+                    {% if is_state("switch.0xa4c1382dc9fecb3e", "on") %}
+                    green
+                    {% else %}
+                    red
+                    {% endif %}
+                  content: |-
+                    UPS 1
+                  tap_action:
+                    action: toggle
+
+                - type: template
+                  entity: sensor.0xa4c1382dc9fecb3e_power
+                  icon: mdi:lightning-bolt-circle
+                  icon_color: green
+                  content: |-
+                      {{states ('sensor.0xa4c1382dc9fecb3e_power')}} Ватт
+                  tap_action:
+                    action: more-info
+
+                - type: template
+                  entity: switch.0xa4c138ee9e1e5451
+                  icon: phu:apc-ups-upright
+                  icon_color: |-
+                    {% if is_state("switch.0xa4c138ee9e1e5451", "on") %}
+                    green
+                    {% else %}
+                    red
+                    {% endif %}
+                  content: |-
+                    UPS 2
+                  tap_action:
+                    action: toggle
+
+                - type: template
+                  entity: sensor.0xa4c138ee9e1e5451_power
+                  icon: mdi:lightning-bolt-circle
+                  icon_color: green
+                  content: |-
+                      {{states ('sensor.0xa4c138ee9e1e5451_power')}} Ватт
+                  tap_action:
+                    action: more-info
+
+            - type: markdown
+              content: >
+                 **     **
 
             - type: custom:mushroom-chips-card
               alignment: start
@@ -1250,28 +1304,6 @@ cards:
                   entities:
                   - attribute: linkquality
                     name: Сигнал              
-                - type: divider
-                - entity: sensor.0x00158d0001f47e10_battery
-                  type: custom:multiple-entity-row
-                  icon: phu:aqara-h1-switch
-                  state_color: true
-                  name: Беспроводный выключатель за комодом
-                  secondary_info: last-changed
-                  state_header: Батарейка
-                  entities:
-                  - attribute: linkquality
-                    name: Сигнал              
-                - type: divider
-                - entity: sensor.0xccccccfffe8abc14_battery
-                  type: custom:multiple-entity-row
-                  icon: mdi:gesture-tap-button
-                  state_color: true
-                  name: Пульт Ikea
-                  secondary_info: last-changed
-                  state_header: Батарейка
-                  entities:
-                  - attribute: linkquality
-                    name: Сигнал 
                 - type: divider
                 - entity: sensor.0x00158d0001531698_battery
                   type: custom:multiple-entity-row

@@ -210,7 +210,7 @@ telemetry:
  
           - name: bt_total_load
             state: > 
-                {{states('sensor.0x00158d00015751f4_power')|float(0) + states('sensor.0x540f57fffe78ba20_power')|float(0)}}
+                {{states('sensor.0x00158d0003584401_power')|float(0) + states('sensor.0x540f57fffe78ba20_power')|float(0)}}
                 
 
 

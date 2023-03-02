@@ -1,6 +1,20 @@
 <a href="https://www.youtube.com/channel/UCcq9onYHbs6go3kDpfBoqhg?sub_confirmation=1" target="_blank"><img src="https://raw.githubusercontent.com/kvazis/training/master/lessons/img/subscribe.png" alt="Subscribe" style="height: 71px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a>
 
 
+### 2022 03 02 Итерация 35
+
+
+#### Пакаджи    
+:point_up: Большая часть изменений - не влияют на логику работы, например перенос template сенсоров мощности из общего пакаджи - в отдельные пакаджи по комнатам, переименование объектов    
+:arrow_right: [blackout.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Control/blackout.yaml) - автоматизация действий при отключении и включении электрики    
+:arrow_right: [electricity.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Control/electricity.yaml) - уведомления в телеграмм при отключении и включении электрики    
+
+
+#### Интерфейс, в режиме yaml    
+:point_up: Косметические изменения в интерфейсе    
+
+____
+
 ### 2022 12 30 Итерация 34
 
 :point_up: Давно не обновлял, но каких либо существенных изменений не было, в основном мелкие доработки    

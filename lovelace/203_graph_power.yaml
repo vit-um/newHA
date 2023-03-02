@@ -80,7 +80,17 @@ cards:
         options:
           ymin: 0
         entities:
-           - entity: sensor.0x00158d00015751f4_power
+           - entity: sensor.0xa4c1382dc9fecb3e_power
+             color: rgb(191,255,162)
+             fill: rgba(191,255,162,0.1)
+           - entity: sensor.0xa4c138ee9e1e5451_power
+             color: rgb(59,255,247)
+             fill: rgba(59,255,247,0.1)
+      - type: line
+        options:
+          ymin: 0
+        entities:
+           - entity: sensor.0x00158d0003584401_power
              color: rgb(182,255,235)
              fill: rgba(182,255,235,0.1)
            - entity: sensor.0x540f57fffe78ba20_power

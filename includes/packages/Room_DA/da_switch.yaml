@@ -8,7 +8,6 @@ da_switch:
            - sensor.0x00158d00012896cb_power
            - sensor.0x04cf8cdf3c764e0a_power
            - sensor.0x60a423fffe7ff8c8_power
-           - sensor.0xa4c1382dc9fecb3e_power
            - sensor.0xa4c138e22148db3a_power
 
 
@@ -46,7 +45,7 @@ da_switch:
           
         switch.0x00158d00012896cb:
           friendly_name: ДА ноутбук HP, питание
-          icon: mdi:power-socket-eu
+          icon: phu:laptop-windows
         sensor.0x00158d00012896cb_power:
           friendly_name: ДА ноутбук HP, мощность
           unit_of_measurement: Вт
@@ -69,7 +68,7 @@ da_switch:
 
         switch.0x04cf8cdf3c764e0a:
           friendly_name: ДА рекуператор, питание
-          icon: mdi:power-socket-eu
+          icon: mdi:hvac
         sensor.0x04cf8cdf3c764e0a_power:
           friendly_name: ДА рекуператор, мощность
           unit_of_measurement: Вт
@@ -85,7 +84,7 @@ da_switch:
           
         switch.0x60a423fffe7ff8c8:
           friendly_name: ДА лента на кровати, питание
-          icon: mdi:power-socket-eu
+          icon: phu:bulb-group-lightstrip
         sensor.0x60a423fffe7ff8c8_power:
           friendly_name: ДА лента на кровати, мощность
           unit_of_measurement: Вт
@@ -101,19 +100,6 @@ da_switch:
           friendly_name: ДА лента на кровати
           unit_of_measurement: кВт/ч
           
-        switch.0xa4c1382dc9fecb3e:
-          friendly_name: ДА радиатор
-          icon: mdi:power-socket-eu
-        sensor.0xa4c1382dc9fecb3e_power:
-          friendly_name: ДА радиатор, мощность
-          unit_of_measurement: Вт
-          device_class: power
-        sensor.0xa4c1382dc9fecb3e_energy:
-          friendly_name: ДА радиатор, энергия
-          icon: mdi:chart-line
-        sensor.0xa4c1382dc9fecb3e_voltage:
-          friendly_name: ДА радиатор, напряжение          
-
         switch.0xa4c138e22148db3a:
           friendly_name: ДА, USB светильник
           icon: mdi:power-socket-eu
@@ -135,8 +121,8 @@ da_switch:
           - name: da_total_load
             state: > 
                 {{(states('sensor.0x00158d00010ec4b8_power')|float(0) + states('sensor.0x00158d00012896cb_power')|float(0) 
-                + states('sensor.0x04cf8cdf3c764e0a_power')|float(0) + states('sensor.0xa4c1382dc9fecb3e_power')|float(0) 
-                + states('sensor.0xa4c138e22148db3a_power')|float(0) + states('sensor.0x60a423fffe7ff8c8_power')|float(0))|round(2)}}
+                + states('sensor.0x04cf8cdf3c764e0a_power')|float(0) + states('sensor.0xa4c138e22148db3a_power')|float(0)
+                + states('sensor.0x60a423fffe7ff8c8_power')|float(0))|round(2)}}
                 
           
           

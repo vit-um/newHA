@@ -1,0 +1,94 @@
+electricity:
+
+    input_datetime:
+      electricity_off:
+        name: Электропитание отключено
+        has_date: true
+        has_time: true
+        
+      electricity_on:
+        name: Электропитание возобновлено
+        has_date: true
+        has_time: true
+
+    automation:
+
+      - alias: control_electricity_shotdown_log
+        id: control_electricity_shotdown_log
+        description: Фиксирование отключений электрики
+        initial_state: true
+        trigger:
+    # Сработка сенсора электрики
+        - platform: state
+          entity_id: binary_sensor.0xa4c138744bf2fbf0_contact
+        action:
+            - choose:
+              - conditions:
+                  - condition: state
+                    entity_id: binary_sensor.0xa4c138744bf2fbf0_contact
+                    state: 'on'
+                sequence:        
+                  - service: input_datetime.set_datetime
+                    target:
+                      entity_id: input_datetime.electricity_off
+                    data:
+                      datetime: "{{ now().strftime('%Y-%m-%d %H:%M:%S') }}" 
+              - conditions:
+                  - condition: state
+                    entity_id: binary_sensor.0xa4c138744bf2fbf0_contact
+                    state: 'off'
+                sequence:        
+                  - service: input_datetime.set_datetime
+                    target:
+                      entity_id: input_datetime.electricity_on
+                    data:
+                      datetime: "{{ now().strftime('%Y-%m-%d %H:%M:%S') }}" 
+                      
+      - alias: control_electricity_notification
+        id: control_electricity_notification
+        description: Уведомление о работе электрики
+        initial_state: true
+        trigger:
+    # Сработка сенсора электрики
+        - platform: state
+          entity_id: binary_sensor.0xa4c138744bf2fbf0_contact
+        condition:
+    # Переключатель режима работы сервера
+        - condition: state
+          entity_id: switch.control_mode
+          state: 'on'
+        action:
+            - choose:
+              - conditions:
+                  - condition: state
+                    entity_id: binary_sensor.0xa4c138744bf2fbf0_contact
+                    state: 'on'
+                sequence:        
+                  - service: telegram_bot.send_message
+                    data_template:
+                      target:
+                          - !secret chat_id_group_tech
+                      message: | 
+                           {{"\U000026A1"}} Электрика отключена 
+                           {{"\U0001F559"}} В {{ states('sensor.time_date') }} 
+              - conditions:
+                  - condition: state
+                    entity_id: binary_sensor.0xa4c138744bf2fbf0_contact
+                    state: 'off'
+                sequence:
+                  - delay: 00:00:02
+                  - service: telegram_bot.send_message
+                    data_template:
+                      target:
+                          - !secret chat_id_group_tech
+                      message: | 
+                           {{"\U000026A1"}} Электрика восстановлена 
+                           {{"\U0001F559"}} В {{ states('sensor.time_date') }} 
+                           {% set s = (strptime(states("input_datetime.electricity_on"), "%Y-%m-%d %H:%M:%S").timestamp() | int - strptime(states("input_datetime.electricity_off"), "%Y-%m-%d %H:%M:%S").timestamp() | int) %}
+                           {{"\U0000231B"}} {{ 'Длительность - {:02d}:{:02d}:{:02d}'.format ( s % 86400 // 3600, s % 3600 // 60, s % 60) }}
+
+
+                           
+                           
+                           
+                           

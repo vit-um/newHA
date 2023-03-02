@@ -3,23 +3,23 @@ bolier:
     recorder:
       include:
         entities:
-           - switch.0x00158d00015751f4
-           - sensor.0x00158d00015751f4_power
+           - switch.0x00158d0003584401
+           - sensor.0x00158d0003584401_power
            
     homeassistant:
       customize:
         
-        switch.0x00158d00015751f4:
+        switch.0x00158d0003584401:
           friendly_name: Ванная бойлер
           icon: mdi:power-socket-eu
-        sensor.0x00158d00015751f4_power:
+        sensor.0x00158d0003584401_power:
           friendly_name: Ванная бойлер, мощность
           unit_of_measurement: Вт
           device_class: power
-        sensor.0x00158d00015751f4_energy:
+        sensor.0x00158d0003584401_energy:
           friendly_name: Ванная бойлер, энергия
           icon: mdi:chart-line
-        sensor.0x00158d00015751f4_device_temperature:
+        sensor.0x00158d0003584401_device_temperature:
           friendly_name: Ванная бойлер, температура
           icon: mdi:thermometer-check
 
@@ -152,18 +152,18 @@ bolier:
                 mdi:water-boiler-off
               {% endif %}
 
-    template:
+    # template:
      
-      - binary_sensor:
+    #   - binary_sensor:
 
-    # Сенсор активности бойлера с устранением паразитных срабатываний
-          - name: bt_boiler_active
-            state: >
-              {{ is_state('switch.0x00158d00015751f4', 'on')  
-              }}
-            delay_on: 00:00:01
-            delay_off: 00:00:01
-            device_class: running
+    # # Сенсор активности бойлера с устранением паразитных срабатываний
+    #       - name: bt_boiler_active
+    #         state: >
+    #           {{ is_state('switch.0x00158d0003584401', 'on')  
+    #           }}
+    #         delay_on: 00:00:01
+    #         delay_off: 00:00:01
+    #         device_class: running
 
               
     automation:
@@ -180,7 +180,7 @@ bolier:
            at: input_datetime.bt_boiler_3
         condition:
          - condition: state
-           entity_id: switch.0x00158d00015751f4
+           entity_id: switch.0x00158d0003584401
            state: 'off'
          - condition: state
            entity_id: binary_sensor.bt_boiler_mode
@@ -190,14 +190,14 @@ bolier:
            state: 'on'
         action:
          - service: switch.turn_on
-           entity_id: switch.0x00158d00015751f4
+           entity_id: switch.0x00158d0003584401
 
       - alias: bt_boiler_impossible
         description: Ванная - проверка корректности включения бойлера
         initial_state: true
         trigger:
          - platform: state
-           entity_id: binary_sensor.bt_boiler_active
+           entity_id: switch.0x00158d0003584401
            from: 'off'    
            to: 'on'
         condition:
@@ -230,7 +230,7 @@ bolier:
                     state: 'off'
                 sequence:
                   - service: switch.turn_off
-                    entity_id: switch.0x00158d00015751f4
+                    entity_id: switch.0x00158d0003584401
                   - service: telegram_bot.send_message
                     data_template:
                       target:
@@ -244,11 +244,11 @@ bolier:
         initial_state: true
         trigger:
          - platform: state
-           entity_id: switch.0x00158d00015751f4
+           entity_id: switch.0x00158d0003584401
            from: 'on'
            to: 'off'
          - platform: state
-           entity_id: switch.0x00158d00015751f4
+           entity_id: switch.0x00158d0003584401
            from: 'off'
            to: 'on'
         condition:
@@ -261,7 +261,7 @@ bolier:
     # Выключение таймера
               - conditions:
                   - condition: state
-                    entity_id: switch.0x00158d00015751f4
+                    entity_id: switch.0x00158d0003584401
                     state: 'on'
                 sequence:
                   - service: timer.start
@@ -272,7 +272,7 @@ bolier:
     # Отмена таймера
               - conditions:
                   - condition: state
-                    entity_id: switch.0x00158d00015751f4
+                    entity_id: switch.0x00158d0003584401
                     state: 'off'
                 sequence:
                   - service: timer.cancel
@@ -292,14 +292,14 @@ bolier:
              entity_id: timer.bt_boiler
         condition:
          - condition: state
-           entity_id: switch.0x00158d00015751f4
+           entity_id: switch.0x00158d0003584401
            state: 'on'
          - condition: state
            entity_id: switch.control_mode
            state: 'on'
         action:
          - service: switch.turn_off
-           entity_id: switch.0x00158d00015751f4
+           entity_id: switch.0x00158d0003584401
 
       - alias: bt_boiler_notify_off
         description: Ванная - уведомление при выключении бойлера
@@ -519,21 +519,21 @@ bolier:
             data:
               time: "{{states('sensor.bt_boiler_timer_on_mqtt')}}"
               
-      - alias: bt_boiler_power_update
-        description: Ванная - обновление мощности бойлера
-        initial_state: true
-        trigger:
-          - platform: time_pattern
-            seconds: "/15"
-        condition:
-         - condition: state
-           entity_id: switch.control_mode
-           state: 'on'
-         - condition: state
-           entity_id: switch.0x00158d00015751f4
-           state: 'on'
-        action:
-         - service: mqtt.publish
-           data_template:
-             topic: "zigstar_poe/BT boiler/get"
-             payload_template: '{"power": ""}'   
+    #   - alias: bt_boiler_power_update
+    #     description: Ванная - обновление мощности бойлера
+    #     initial_state: true
+    #     trigger:
+    #       - platform: time_pattern
+    #         seconds: "/15"
+    #     condition:
+    #      - condition: state
+    #       entity_id: switch.control_mode
+    #       state: 'on'
+    #      - condition: state
+    #       entity_id: switch.0x00158d0003584401
+    #       state: 'on'
+    #     action:
+    #      - service: mqtt.publish
+    #       data_template:
+    #          topic: "zigstar_poe/BT boiler/get"
+    #          payload_template: '{"power": ""}'   

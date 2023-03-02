@@ -49,18 +49,21 @@ lr_air_quality:
             
     automation:
 
-    #   - alias: lr_air_co2_reload
-    #     description: Гостиная - перезагрузка детектора CO2
-    #     initial_state: true
-    #     trigger:
-    #       - platform: homeassistant
-    #         event: start
-    #     action:
-    #       - delay: 00:01:05
-    #       - service: homeassistant.reload_config_entry
-    #         data: {}
-    #         target:
-    #           device_id: 881407a1b8338794dfc978de163ccc4e
+      - id: Гостиная - перезагрузка детектора CO2
+        alias: lr_air_co2_reload
+        description: Гостиная - перезагрузка детектора CO2
+        initial_state: true
+        trigger:
+          - platform: homeassistant
+            event: start
+          - platform: time_pattern
+            minutes: '/15'   
+        action:
+          - delay: 00:02:00
+          - service: homeassistant.reload_config_entry
+            data: {}
+            target:
+              entity_id: sensor.lr_air_co2
 
 
       - id: Гостиная, уведомление о низком качестве воздуха

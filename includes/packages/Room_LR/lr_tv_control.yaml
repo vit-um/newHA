@@ -1,34 +1,23 @@
 lr_tv_control:
 
-    recorder:
-      include:
-        entities:
-           - sensor.0xa4c1384452a34172_power
-           
-    homeassistant:
-      customize:
-
-        switch.0xa4c1384452a34172:
-          friendly_name: Гостиная телевизор, питание
-          icon: mdi:power-socket-eu
-        sensor.0xa4c1384452a34172_power:
-          friendly_name: Гостиная телевизор, мощность
-          unit_of_measurement: Вт
-          device_class: power
-        sensor.0xa4c1384452a34172_energy:
-          friendly_name: Гостиная телевизор, энергия
-          icon: mdi:chart-line
-        sensor.0xa4c1384452a34172_voltage:
-          friendly_name: Гостиная телевизор, напряжение
-          
     template:
      
       - binary_sensor:
 
+        #   - name: lr_tv_work
+        #     state: >
+        #       {{ states('sensor.0xa4c1384452a34172_power')|int > 50 
+        #       }}
+        #     icon: >
+        #       {% if is_state("binary_sensor.lr_tv_work", "on") %}
+        #       mdi:television
+        #       {% else %}
+        #       mdi:television-off
+        #       {% endif %}
+        
           - name: lr_tv_work
             state: >
-              {{ states('sensor.0xa4c1384452a34172_power')|int > 50 
-              }}
+              {{ not is_state ('media_player.mitv', 'unavailable') }}
             icon: >
               {% if is_state("binary_sensor.lr_tv_work", "on") %}
               mdi:television

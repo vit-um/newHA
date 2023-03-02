@@ -34,75 +34,324 @@ cards:
                 - type: light
                   entity: light.da_led_strip
                   name: Лента
-                  
-            - type: horizontal-stack
-              cards:        
                 - type: light
                   entity: light.gateway_light_f0b429cc1f11
                   name: Ночник
-                - type: light
+
+            - type: horizontal-stack
+              cards:
+              
+                - type: custom:mushroom-template-card
+                  primary: WLED
+                  secondary: |-
+                    {% if is_state("light.da_wled_light", "off") %}
+                    Включить
+                    {% else %}
+                    Отключить 
+                    {% endif %}
+                  layout: vertical
+                  entity: input_button.da_wled_light
+                  icon: phu:bulb-group-lightstrip
+                  multiline_secondary: true
+                  icon_color: |-
+                    {% if is_state("light.da_wled_light", "off") %}
+                    grey
+                    {% else %}
+                    amber
+                    {% endif %}
+                  tap_action:
+                    action: call-service
+                    service: input_button.press
+                    target:
+                      entity_id: input_button.da_wled_light
+
+
+                - type: custom:mushroom-template-card
+                  primary: Alien light
+                  secondary: |-
+                    {% if is_state("light.0xa4c138e22148db3a", "off") %}
+                    Включить
+                    {% else %}
+                    Выключить
+                    {% endif %}
+                  layout: vertical
+                  tap_action:
+                    action: toggle
                   entity: light.0xa4c138e22148db3a
-                  name: Alien
-                - type: light
+                  icon: mdi:alien
+                  multiline_secondary: true
+                  icon_color: |-
+                    {% if is_state("light.0xa4c138e22148db3a", "off") %}
+                    grey
+                    {% else %}
+                    amber
+                    {% endif %}
+                    
+                - type: custom:mushroom-template-card
+                  primary: Neon LED Strip
+                  secondary: |-
+                    {% if is_state("light.24key_rbg_strip", "off") %}
+                    Включить
+                    {% else %}
+                    Выключить
+                    {% endif %}
+                  layout: vertical
+                  tap_action:
+                    action: toggle
+                  entity: light.24key_rbg_strip
+                  icon: phu:light-strip
+                  multiline_secondary: true
+                  icon_color: |-
+                    {% if is_state("light.24key_rbg_strip", "off") %}
+                    grey
+                    {% else %}
+                    amber
+                    {% endif %}
+                    
+                - type: custom:mushroom-template-card
+                  primary: Проектор
+                  secondary: |-
+                    {% if is_state("light.da_projector", "off") %}
+                    Включить
+                    {% else %}
+                    Выключить
+                    {% endif %}
+                  layout: vertical
+                  tap_action:
+                    action: toggle
                   entity: light.da_projector
-                  name: Проектор
-                  
+                  icon: mdi:projector
+                  multiline_secondary: true
+                  icon_color: |-
+                    {% if is_state("light.da_projector", "off") %}
+                    grey
+                    {% else %}
+                    amber
+                    {% endif %}
+                    
+                      
+ 
         - type: custom:stack-in-card
           mode: vertical
           cards:
 
+
+            - type: markdown
+              style: |
+                   ha-card {
+                     color: #f8ffd8;
+                     --paper-item-icon-color: #f8ffd8;
+                     --paper-item-icon-active-color: #f8ffd8;
+                     font-weight: bold;
+                     font-size: 14px;
+                   } 
+              content: >
+                 **Розетки**
+                 
             - type: markdown
               content: >
-                 **Питание**
-                 
-            - type: entities
-              show_header_toggle: false
-              entities:           
-                - entity: switch.da_cicle_light_color
-                # - entity: input_select.da_cicle_light_color
-                - entity: switch.0xa4c1382dc9fecb3e
-                  type: custom:multiple-entity-row
-                  toggle: true
-                  state_color: true
-                  name: Радиатор
-                  secondary_info: last-changed
-                  state_header: Питание
-                  entities:
-                  - attribute: last_seen
-                    format: relative
-                    name: Отклик
-                  - attribute: power
-                    name: Мощность
-                    unit: 'Ватт'                
+                 **     **
 
-                - entity: switch.0x00158d00010ec4b8
-                  type: custom:multiple-entity-row
-                  toggle: true
-                  state_color: true
-                  name: Увлажнитель воздуха
-                  secondary_info: last-changed
-                  state_header: Питание
-                  entities:
-                  - attribute: last_seen
-                    format: relative
-                    name: Отклик
-                  - attribute: power
-                    name: Мощность
-                    unit: 'Ватт'
-                - entity: switch.0x00158d00012896cb
-                  type: custom:multiple-entity-row
-                  toggle: true
-                  state_color: true
-                  name: Зарядная станция
-                  secondary_info: last-changed
-                  state_header: Питание
-                  entities:
-                  - attribute: last_seen
-                    format: relative
-                    name: Отклик
-                  - attribute: power
-                    name: Мощность
-                    unit: 'Ватт'
+            - type: custom:mushroom-chips-card
+              alignment: start
+              chips:
+
+                - type: template
+                  entity: switch.0x00158d00010ec4b8
+                  icon: phu:socket-eu
+                  icon_color: |-
+                    {% if is_state("switch.0x00158d00010ec4b8", "on") %}
+                    green
+                    {% else %}
+                    red
+                    {% endif %}
+                  content: |-
+                    Увлажнитель воздуха
+                  tap_action:
+                    action: toggle
+
+                - type: template
+                  entity: sensor.0x00158d00010ec4b8_power
+                  icon: mdi:lightning-bolt-circle
+                  icon_color: green
+                  content: |-
+                      {{states ('sensor.0x00158d00010ec4b8_power')}} Ватт
+                  tap_action:
+                    action: more-info
+
+                - type: template
+                  entity: sensor.0x00158d00010ec4b8_device_temperature
+                  icon: mdi:temperature-celsius
+                  icon_color: amber
+                  content: |-
+                      {{states ('sensor.0x00158d00010ec4b8_device_temperature')}} С°
+                  tap_action:
+                    action: more-info
+
+            - type: markdown
+              content: >
+                 **     **
+
+            - type: custom:mushroom-chips-card
+              alignment: start
+              chips:
+                 
+                - type: template
+                  entity: switch.0x00158d00012896cb
+                  icon: phu:socket-eu
+                  icon_color: |-
+                    {% if is_state("switch.0x00158d00012896cb", "on") %}
+                    green
+                    {% else %}
+                    red
+                    {% endif %}
+                  content: |-
+                    Ноутбук HP
+                  tap_action:
+                    action: toggle
+
+                - type: template
+                  entity: sensor.0x00158d00012896cb_power
+                  icon: mdi:lightning-bolt-circle
+                  icon_color: green
+                  content: |-
+                      {{states ('sensor.0x00158d00012896cb_power')}} Ватт
+                  tap_action:
+                    action: more-info
+
+                - type: template
+                  entity: sensor.0x00158d00012896cb_device_temperature
+                  icon: mdi:temperature-celsius
+                  icon_color: amber
+                  content: |-
+                      {{states ('sensor.0x00158d00012896cb_device_temperature')}} С°
+                  tap_action:
+                    action: more-info
+
+            - type: markdown
+              content: >
+                 **     **  
+
+            - type: custom:mushroom-chips-card
+              alignment: start
+              chips:
+
+                - type: template
+                  entity: switch.0x04cf8cdf3c764e0a
+                  icon: phu:socket-eu
+                  icon_color: |-
+                    {% if is_state("switch.0x04cf8cdf3c764e0a", "on") %}
+                    green
+                    {% else %}
+                    red
+                    {% endif %}
+                  content: |-
+                    Рекуператор
+                  tap_action:
+                    action: toggle
+
+                - type: template
+                  entity: sensor.0x04cf8cdf3c764e0a_power
+                  icon: mdi:lightning-bolt-circle
+                  icon_color: green
+                  content: |-
+                      {{states ('sensor.0x04cf8cdf3c764e0a_power')}} Ватт
+                  tap_action:
+                    action: more-info
+
+                - type: template
+                  entity: sensor.0x04cf8cdf3c764e0a_voltage
+                  icon: mdi:sine-wave
+                  icon_color: green
+                  content: |-
+                      {{states ('sensor.0x04cf8cdf3c764e0a_voltage')}} В
+                  tap_action:
+                    action: more-info
+
+
+            - type: markdown
+              content: >
+                 **     **  
+                 
+            - type: custom:mushroom-chips-card
+              alignment: start
+              chips:
+
+                - type: template
+                  entity: switch.0x60a423fffe7ff8c8
+                  icon: phu:socket-eu
+                  icon_color: |-
+                    {% if is_state("switch.0x60a423fffe7ff8c8", "on") %}
+                    green
+                    {% else %}
+                    red
+                    {% endif %}
+                  content: |-
+                    Лента на кровати
+                  tap_action:
+                    action: toggle
+
+                - type: template
+                  entity: sensor.0x60a423fffe7ff8c8_power
+                  icon: mdi:lightning-bolt-circle
+                  icon_color: green
+                  content: |-
+                      {{states ('sensor.0x60a423fffe7ff8c8_power')}} Ватт
+                  tap_action:
+                    action: more-info
+
+                - type: template
+                  entity: sensor.0x60a423fffe7ff8c8_voltage
+                  icon: mdi:sine-wave
+                  icon_color: green
+                  content: |-
+                      {{states ('sensor.0x60a423fffe7ff8c8_voltage')}} В
+                  tap_action:
+                    action: more-info
+
+            - type: markdown
+              content: >
+                 **     ** 
+
+            - type: custom:mushroom-chips-card
+              alignment: start
+              chips:
+
+                - type: template
+                  entity: switch.0xa4c138e22148db3a
+                  icon: phu:socket-eu
+                  icon_color: |-
+                    {% if is_state("switch.0xa4c138e22148db3a", "on") %}
+                    green
+                    {% else %}
+                    red
+                    {% endif %}
+                  content: |-
+                    Alien светильник
+                  tap_action:
+                    action: toggle
+
+                - type: template
+                  entity: sensor.0xa4c138e22148db3a_power
+                  icon: mdi:lightning-bolt-circle
+                  icon_color: green
+                  content: |-
+                      {{states ('sensor.0xa4c138e22148db3a_power')}} Ватт
+                  tap_action:
+                    action: more-info
+
+                - type: template
+                  entity: sensor.0xa4c138e22148db3a_voltage
+                  icon: mdi:sine-wave
+                  icon_color: green
+                  content: |-
+                      {{states ('sensor.0xa4c138e22148db3a_voltage')}} В
+                  tap_action:
+                    action: more-info
+
+            - type: markdown
+              content: >
+                 **     ** 
                     
 ############################ Колонка 2 ############################
 
