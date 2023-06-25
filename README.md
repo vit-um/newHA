@@ -6,18 +6,18 @@
 
 #### Пакаджи    
 :point_up: Давно не обновлялся, изменений за это время было довольно много, постараюсь ничего не упустить, незначительные и несущественные правки упоминать не буду    
-:arrow_right: [blackout.yaml](https://github.com/kvazis/newHA/blob/master/configuration.yaml) - добавил несколько новых карт в интерфейс     
-:arrow_right: [blackout.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/telemetry.yaml) - часть сенсоров суммирующих потребление перенес в папки по комнатам    
-:arrow_right: [blackout.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/test.yaml) - возникают вопросы по этому пакаджу - он нужен только для тестов    
-:arrow_right: [electricity.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Control/bluetooth.yaml) - перезагрузка BT адаптера    
+:arrow_right: [configuration.yaml](https://github.com/kvazis/newHA/blob/master/configuration.yaml) - добавил несколько новых карт в интерфейс     
+:arrow_right: [telemetry.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/telemetry.yaml) - часть сенсоров суммирующих потребление перенес в папки по комнатам    
+:arrow_right: [test.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/test.yaml) - возникают вопросы по этому пакаджу - он нужен только для тестов    
+:arrow_right: [bluetooth.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Control/bluetooth.yaml) - перезагрузка BT адаптера    
 :arrow_right: [electricity.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Control/electricity.yaml) - для повышения надежности сделал второй физический сенсор электрики, логический сработает при включении обоих    
-:arrow_right: [electricity.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Outdoor/event_camera.yaml) - вывод изображения с камеры в коридоре на гугл экран по нажатию кнопки или движению в дневное время    
-:arrow_right: [electricity.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Outdoor/out_camera.yaml) - добавлены триггеры для вывода картинки с уличных камер на экран по кнопкам Aqara Opple    
-:arrow_right: [electricity.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_DA/da_wled_control.yaml) - запуск эффектов на WLED по нажатию на кнопки    
-:arrow_right: [electricity.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_DA/da_fan_router.yaml) - управление охлаждающей подставкой второго роутера    
-:arrow_right: [electricity.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_LR/lr_ups_1.yaml) - логика работы бесперебойника [часть 1](https://youtu.be/SAfi_6aKyfE), [часть 2](https://youtu.be/7ekRAkPX7PQ)    
-:arrow_right: [electricity.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_LR/lr_wled_light.yaml) - управление и события для [WLED светильника](https://youtu.be/CdS8M7rJumI)    
-:arrow_right: [electricity.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_TT/tt_light.yaml) - реализация аварийного освещения [видео урок](https://youtu.be/_DwgWu9SBso)    
+:arrow_right: [event_camera.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Outdoor/event_camera.yaml) - вывод изображения с камеры в коридоре на гугл экран по нажатию кнопки или движению в дневное время    
+:arrow_right: [out_camera.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Outdoor/out_camera.yaml) - добавлены триггеры для вывода картинки с уличных камер на экран по кнопкам Aqara Opple    
+:arrow_right: [da_wled_control.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_DA/da_wled_control.yaml) - запуск эффектов на WLED по нажатию на кнопки    
+:arrow_right: [da_fan_router.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_DA/da_fan_router.yaml) - управление охлаждающей подставкой второго роутера    
+:arrow_right: [lr_ups_1.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_LR/lr_ups_1.yaml) - логика работы бесперебойника [часть 1](https://youtu.be/SAfi_6aKyfE), [часть 2](https://youtu.be/7ekRAkPX7PQ)    
+:arrow_right: [lr_wled_light.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_LR/lr_wled_light.yaml) - управление и события для [WLED светильника](https://youtu.be/CdS8M7rJumI)    
+:arrow_right: [tt_light.yaml](https://github.com/kvazis/newHA/blob/master/includes/packages/Room_TT/tt_light.yaml) - реализация аварийного освещения [видео урок](https://youtu.be/_DwgWu9SBso)    
 
 
 #### Интерфейс, в режиме yaml    
