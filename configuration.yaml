@@ -17,10 +17,10 @@ homeassistant:
   auth_providers:
    - type: homeassistant
 
-
-# default_config:
   whitelist_external_dirs :
    - /config
+
+default_config:
 config:
 #Сканирование доступных устройств в сети
 ssdp:
@@ -85,6 +85,13 @@ lovelace:
      type: module      
    - url: /hacsfiles/lovelace-mushroom/mushroom.js
      type: module
+   - url: /hacsfiles/bar-card/bar-card.js
+     type: module
+   - url: /hacsfiles/timer-bar-card/timer-bar-card.js
+     type: module
+   - url: /hacsfiles/power-flow-card-plus/power-flow-card-plus.js
+     type: module
+
      
   dashboards:
     lovelace-graph:
@@ -127,9 +134,6 @@ tts:
     pitch: "100"
     bitrate: "128k"
 
-input_button:
-input_datetime:  
-recorder: 
 automation: !include automations.yaml
 script: !include scripts.yaml
 scene: !include scenes.yaml

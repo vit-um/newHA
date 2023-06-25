@@ -70,8 +70,9 @@ lr_light_cinema:
 
     automation:
     
-      - id: Гостиная, подсветка для ТВ
-        alias: lr_tv_cinema_light
+      - alias: lr_tv_cinema_light
+        id: lr_tv_cinema_light
+        description: Гостиная, подсветка для ТВ
         initial_state: true
         trigger:
     ## Крутилка Moes
@@ -85,6 +86,10 @@ lr_light_cinema:
     ## Виртуальная кнопка
         - platform: state
           entity_id: input_button.lr_light_cinema
+    ## Aqara Opple на столе
+        - platform: state
+          entity_id: sensor.0x54ef4410004c1707_action
+          to: 'button_6_single'
         condition:
         - condition: state
           entity_id: switch.control_mode

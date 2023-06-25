@@ -62,6 +62,7 @@ ln_light:
     automation:
 
       - alias: ln_ceiling_auto_light_on
+        id: ln_ceiling_auto_light_on
         description: Прачечная - автоматическое включение освещения
         initial_state: true
         trigger:
@@ -81,6 +82,7 @@ ln_light:
           entity_id: light.0x00158d00014a1a55
 
       - alias: ln_ceiling_auto_light_off
+        id: ln_ceiling_auto_light_off
         description: Прачечная - автоматическое выключение освещения
         initial_state: true
         trigger:
@@ -102,3 +104,19 @@ ln_light:
         - service: light.turn_off
           entity_id: light.0x00158d00014a1a55
 
+      - alias: ln_ceiling_light_toggle
+        id: ln_ceiling_light_toggle
+        description: Прачечная - ручное управление освещением
+        initial_state: true
+        trigger:
+    ## Aqara Opple на столе
+        - platform: state
+          entity_id: sensor.0x54ef4410004c1707_action
+          to: 'button_5_double'
+        condition:
+        - condition: state
+          entity_id: switch.control_mode
+          state: 'on'
+        action:
+        - service: light.toggle
+          entity_id: light.0x00158d00014a1a55

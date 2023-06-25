@@ -7,48 +7,61 @@ lr_switch:
            - sensor.0xa4c1388c89a46970_power
            - sensor.0xa4c138f41459f92a_power
            - sensor.0xa4c1387c6584d955_power
-           - sensor.0x588e81fffed4af56_power
-           - sensor.lr_strip_usb_power
-           - sensor.lr_usb_socket_power
-           - sensor.lr_6x_power_strip_power
-           - sensor.0xa4c1382dc9fecb3e_power
-           - sensor.0xa4c138ee9e1e5451_power
+           - sensor.0xa4c138131a85d3ff_power
            - sensor.0xa4c1384452a34172_power
+           - sensor.0xa4c1382600c57620_power
 
-    sensor:
-    
-      - platform: integration
-        name: '0x588e81fffed4af56_integration'
-        source: sensor.0x588e81fffed4af56_power
-        unit_prefix: k
-        round: 2
-        
-      - platform: integration
-        name: '0xa4c1388c89a46970_integration'
-        source: sensor.0xa4c1388c89a46970_power
-        unit_prefix: k
-        round: 2
-        
-      - platform: integration
-        name: '0xa4c138f41459f92a_integration'
-        source: sensor.0xa4c138f41459f92a_power
-        unit_prefix: k
-        round: 2
-        
     utility_meter:
 
-      0x588e81fffed4af56_meter:
-        source: sensor.0x588e81fffed4af56_integration
-        cycle: monthly
-
       0xa4c1388c89a46970_meter:
-        source: sensor.0xa4c1388c89a46970_integration
+        source: sensor.0xa4c1388c89a46970_energy
         cycle: monthly
-        
+        offset:
+          days: 0
+          hours: 12
+          minutes: 0
+
       0xa4c138f41459f92a_meter:
-        source: sensor.0xa4c138f41459f92a_integration
+        source: sensor.0xa4c138f41459f92a_energy
         cycle: monthly
-           
+        offset:
+          days: 0
+          hours: 12
+          minutes: 0
+
+      0xa4c1387c6584d955_meter:
+        source: sensor.0xa4c1387c6584d955_energy
+        cycle: monthly
+        offset:
+          days: 0
+          hours: 12
+          minutes: 0
+
+      0xa4c138131a85d3ff_meter:
+        source: sensor.0xa4c138131a85d3ff_energy
+        cycle: monthly
+        offset:
+          days: 0
+          hours: 12
+          minutes: 0
+
+      0xa4c1384452a34172_meter:
+        source: sensor.0xa4c1384452a34172_energy
+        cycle: monthly
+        offset:
+          days: 0
+          hours: 12
+          minutes: 0
+        
+      0xa4c1382600c57620_meter:
+        source: sensor.0xa4c1382600c57620_energy
+        cycle: monthly
+        offset:
+          days: 0
+          hours: 12
+          minutes: 0
+        
+
     homeassistant:
       customize:
         
@@ -92,56 +105,40 @@ lr_switch:
         sensor.0xa4c138f41459f92a_meter:
           friendly_name: Гостиная ноутбук Asus
           unit_of_measurement: кВт/ч
-          
+
         switch.0xa4c1387c6584d955:
-          friendly_name: Гостиная, питание шлюза
+          friendly_name: Гостиная шлюз Mi
           icon: mdi:power-socket-eu
         sensor.0xa4c1387c6584d955_power:
-          friendly_name: Гостиная, питание шлюза, мощность
+          friendly_name: Гостиная шлюз Mi, мощность
           unit_of_measurement: Вт
           device_class: power
         sensor.0xa4c1387c6584d955_energy:
-          friendly_name: Гостиная, питание шлюза, энергия
+          friendly_name: Гостиная шлюз Mi, энергия
           icon: mdi:chart-line
         sensor.0xa4c1387c6584d955_voltage:
-          friendly_name: Гостиная, питание шлюза, напряжение
-          
-        switch.0x588e81fffed4af56:
+          friendly_name: Гостиная шлюз Mi, напряжение
+        sensor.0xa4c1387c6584d955_meter:
+          friendly_name: Гостиная шлюз Mi
+          unit_of_measurement: кВт/ч
+
+        switch.0xa4c138131a85d3ff:
           friendly_name: Гостиная лампа за ТВ, питание
           icon: mdi:power-socket-eu
-        sensor.0x588e81fffed4af56_power:
+        sensor.0xa4c138131a85d3ff_power:
           friendly_name: Гостиная лампа за ТВ, мощность
           unit_of_measurement: Вт
           device_class: power
-        sensor.0x588e81fffed4af56_energy:
+        sensor.0xa4c138131a85d3ff_energy:
           friendly_name: Гостиная лампа за ТВ, энергия
           icon: mdi:chart-line
-        sensor.0x588e81fffed4af56_voltage:
+        sensor.0xa4c138131a85d3ff_voltage:
           friendly_name: Гостиная лампа за ТВ, напряжение
-        sensor.0x588e81fffed4af56_integration:
+        sensor.0xa4c138131a85d3ff_integration:
           friendly_name: Гостиная лампа за ТВ
-        sensor.0x588e81fffed4af56_meter:
+        sensor.0xa4c138131a85d3ff_meter:
           friendly_name: Гостиная лампа за ТВ
           unit_of_measurement: кВт/ч
-          
-        switch.lr_usb_socket:
-          friendly_name: Гостиная, часы
-        switch.lr_usb_socket_usb:
-          friendly_name: Гостиная, вентилятор роутера
-        sensor.lr_usb_socket_power:
-          friendly_name: Гостиная, USB розетка
-
-        switch.power_strip_usb:
-          friendly_name: Гостиная, удлинитель с USB
-          icon: phu:smart-power-strip
-        sensor.lr_strip_usb_power:
-          friendly_name: Гостиная, удлинитель с USB
-          
-        switch.lr_6x_power_strip:
-          friendly_name: Гостиная, удлинитель 6 розеток
-          icon: phu:smart-power-strip
-        sensor.lr_6x_power_strip_power:
-          friendly_name: Гостиная, удлинитель 6 розеток 
 
         switch.0xa4c1384452a34172:
           friendly_name: Гостиная телевизор, питание
@@ -155,61 +152,55 @@ lr_switch:
           icon: mdi:chart-line
         sensor.0xa4c1384452a34172_voltage:
           friendly_name: Гостиная телевизор, напряжение
+        sensor.0xa4c1384452a34172_meter:
+          friendly_name: Гостиная телевизор
+          unit_of_measurement: кВт/ч
 
-          
-        switch.0xa4c1382dc9fecb3e:
-          friendly_name: Гостиная UPS 1
-          icon: phu:apc-ups-upright
-        sensor.0xa4c1382dc9fecb3e_power:
-          friendly_name: Гостиная UPS 1, мощность
+        switch.0xa4c1382600c57620:
+          friendly_name: Гостиная Orico
+          icon: mdi:television 
+        sensor.0xa4c1382600c57620_power:
+          friendly_name: Гостиная Orico, мощность
           unit_of_measurement: Вт
           device_class: power
-        sensor.0xa4c1382dc9fecb3e_energy:
-          friendly_name: Гостиная UPS 1, энергия
+        sensor.0xa4c1382600c57620_energy:
+          friendly_name: Гостиная Orico, энергия
           icon: mdi:chart-line
-
-        switch.0xa4c138ee9e1e5451:
-          friendly_name: Гостиная UPS 2
-          icon: phu:apc-ups-upright
-        sensor.0xa4c138ee9e1e5451_power:
-          friendly_name: Гостиная UPS 2, мощность
-          unit_of_measurement: Вт
-          device_class: power
-        sensor.0xa4c138ee9e1e5451_energy:
-          friendly_name: Гостиная UPS 2, энергия
-          icon: mdi:chart-line
-
+        sensor.0xa4c1382600c57620_voltage:
+          friendly_name: Гостиная Orico, напряжение
+        sensor.0xa4c1382600c57620_meter:
+          friendly_name: Гостиная Orico
+          unit_of_measurement: кВт/ч
           
+        switch.0x00124b00246ef1a8:
+          friendly_name: Гостиная, вентилятор роутера
+
+
+
+
     template:
      
       - sensor:
 
+### Общее потребление по комнате
+### Отключен сенсор телевизора, так как находится за сенсором розетки UPS 2  states('sensor.0xa4c1384452a34172_power')|float(0) +
+
           - name: lr_total_load
             state: > 
-                {{states('sensor.0xa4c1388c89a46970_power')|float(0) + states('sensor.0xa4c138f41459f92a_power')|float(0) + states('sensor.0xa4c1382dc9fecb3e_power')|float(0)
-                + states('sensor.0xa4c1387c6584d955_power')|float(0) + states('sensor.0x588e81fffed4af56_power')|float(0) + states('sensor.0xa4c138ee9e1e5451_power')|float(0)
-                + states('sensor.lr_strip_usb_power')|float(0) + states('sensor.lr_usb_socket_power')|float(0) + states('sensor.lr_6x_power_strip_power')|float(0)}}  
-    
-          - name: lr_strip_usb_power
-            state: >
-                {% if state_attr('switch.power_strip_usb', 'load_power')%}
-                {{state_attr('switch.power_strip_usb', 'load_power')}}
-                {% else %}
-                0
-                {% endif %}
-            
-          - name: lr_usb_socket_power
-            state: >
-                {% if state_attr('switch.lr_usb_socket', 'load_power')%}
-                {{state_attr('switch.lr_usb_socket', 'load_power')}}
-                {% else %}
-                0
-                {% endif %}
+                {{
+                  states('sensor.0xa4c1388c89a46970_power')|float(0) +
+                  states('sensor.0xa4c138f41459f92a_power')|float(0) +
+                  states('sensor.0xa4c1387c6584d955_power')|float(0) +
+                  states('sensor.0xa4c138131a85d3ff_power')|float(0) +                  
+                  states('sensor.0xa4c1382600c57620_power')|float(0) +
+                  states('sensor.0xa4c1382dc9fecb3e_power')|float(0) +
+                  states('sensor.0xa4c138ee9e1e5451_power')|float(0)
+                }}  
 
           - name: lr_6x_power_strip_power
             state: >
                 {% if state_attr('switch.lr_6x_power_strip', 'load_power')%}
-                {{state_attr('switch.lr_6x_power_strip', 'load_power') - states('sensor.0xa4c1382dc9fecb3e_power')|float(0) - states('sensor.0xa4c138ee9e1e5451_power')|float(0)}}
+                {{state_attr('switch.lr_6x_power_strip', 'load_power') }}
                 {% else %}
                 0
                 {% endif %}

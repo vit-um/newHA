@@ -129,7 +129,14 @@ cards:
                     amber
                     {% endif %}
                     
-                      
+
+
+        - type: custom:mushroom-cover-card
+          entity: cover.0x00124b0029dee0c9
+          name: Шторы
+          layout: horizontal
+          show_buttons_control: true
+          show_position_control: true
  
         - type: custom:stack-in-card
           mode: vertical

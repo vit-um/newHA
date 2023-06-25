@@ -1,0 +1,330 @@
+##################   Управление
+title: Гостиная UPS
+icon: phu:apc-ups-upright
+cards:
+
+############################ Колонка 1 ############################
+
+    - type: vertical-stack
+      cards:
+      
+        - type: markdown
+          style: |
+              ha-card {
+                font-size: 26px;
+              }          
+          content: >
+             **UPS 1**
+             
+        - type: custom:stack-in-card
+          mode: vertical
+          cards:
+
+            - type: markdown
+              style: |
+                   ha-card {
+                     color: #f8ffd8;
+                     --paper-item-icon-color: #f8ffd8;
+                     --paper-item-icon-active-color: #f8ffd8;
+                     font-weight: bold;
+                     font-size: 14px;
+                   } 
+              content: >
+                 **Параметры сети**
+
+            - type: custom:mushroom-chips-card
+              alignment: start
+              chips:
+
+                - type: template
+                  entity: switch.0xa4c1382dc9fecb3e
+                  icon: phu:socket-eu
+                  icon_color: |-
+                    {% if is_state("switch.0xa4c1382dc9fecb3e", "on") %}
+                    green
+                    {% else %}
+                    red
+                    {% endif %}
+                  content: |-
+                    UPS 1 Вход
+                  tap_action:
+                    action: toggle
+
+                - type: template
+                  entity: sensor.0xa4c1382dc9fecb3e_power
+                  icon: mdi:lightning-bolt-circle
+                  icon_color: green
+                  content: |-
+                      {{states ('sensor.0xa4c1382dc9fecb3e_power')}} Ватт
+                  tap_action:
+                    action: more-info
+
+                - type: template
+                  entity: sensor.0xa4c1382dc9fecb3e_voltage
+                  icon: mdi:sine-wave
+                  icon_color: green
+                  content: |-
+                      {{states ('sensor.0xa4c1382dc9fecb3e_voltage')}} В
+                  tap_action:
+                    action: more-info
+                    
+                - type: template
+                  entity: sensor.0xa4c1382dc9fecb3e_energy
+                  icon: mdi:home-lightning-bolt
+                  icon_color: light-green
+                  content: |-
+                      {{states ('sensor.0xa4c1382dc9fecb3e_energy')}} KВт*ч
+                  tap_action:
+                    action: more-info
+
+            - type: markdown
+              content: >
+                 **     **
+                 
+            - type: custom:mushroom-chips-card
+              alignment: start
+              chips:
+
+                - type: template
+                  entity: switch.0xa4c13850763b90bf
+                  icon: phu:socket-eu
+                  icon_color: |-
+                    {% if is_state("switch.0xa4c13850763b90bf", "on") %}
+                    green
+                    {% else %}
+                    red
+                    {% endif %}
+                  content: |-
+                    UPS 1 Выход
+                  tap_action:
+                    action: toggle
+
+                - type: template
+                  entity: sensor.0xa4c13850763b90bf_power
+                  icon: mdi:lightning-bolt-circle
+                  icon_color: green
+                  content: |-
+                      {{states ('sensor.0xa4c13850763b90bf_power')}} Ватт
+                  tap_action:
+                    action: more-info
+
+                - type: template
+                  entity: sensor.0xa4c13850763b90bf_voltage
+                  icon: mdi:sine-wave
+                  icon_color: green
+                  content: |-
+                      {{states ('sensor.0xa4c13850763b90bf_voltage')}} В
+                  tap_action:
+                    action: more-info
+                    
+                - type: template
+                  entity: sensor.0xa4c13850763b90bf_energy
+                  icon: mdi:home-lightning-bolt
+                  icon_color: light-green
+                  content: |-
+                      {{states ('sensor.0xa4c13850763b90bf_energy')}} KВт*ч
+                  tap_action:
+                    action: more-info
+
+            - type: markdown
+              content: >
+                 **     **
+                 
+            - type: custom:mushroom-chips-card
+              alignment: start
+              chips:
+
+                - type: template
+                  entity: binary_sensor.electricity
+                  icon: |-
+                    {% if is_state("binary_sensor.electricity", "off") %}
+                    mdi:power-plug
+                    {% else %}
+                    mdi:power-plug-off
+                    {% endif %}
+                  icon_color: |-
+                    {% if is_state("binary_sensor.electricity", "off") %}
+                    green
+                    {% else %}
+                    red
+                    {% endif %}
+                  content: |-
+                    {% if is_state("binary_sensor.electricity", "off") %}
+                    Электричество ОК
+                    {% else %}
+                    Электричество отсутствует
+                    {% endif %}
+                  tap_action:
+                    action: toggle
+                    
+                - type: template
+                  entity: binary_sensor.0xa4c138135e284964_contact
+                  icon: |-
+                    {% if is_state("binary_sensor.0xa4c138135e284964_contact", "off") %}
+                    mdi:power-plug
+                    {% else %}
+                    mdi:power-plug-off
+                    {% endif %}
+                  icon_color: |-
+                    {% if is_state("binary_sensor.0xa4c138135e284964_contact", "off") %}
+                    green
+                    {% else %}
+                    red
+                    {% endif %}
+                  content: |-
+                    {% if is_state("binary_sensor.0xa4c138135e284964_contact", "off") %}
+                    Гарантированное питание ОК
+                    {% else %}
+                    UPS выключен
+                    {% endif %}
+                  tap_action:
+                    action: toggle
+
+            - type: markdown
+              content: >
+                 **     **
+
+            - type: custom:mushroom-chips-card
+              alignment: start
+              chips:
+
+                - type: template
+                  entity: switch.lr_ups_1_test
+                  icon: |-
+                    {% if is_state("switch.lr_ups_1_test", "on") %}
+                    mdi:timer-play
+                    {% else %}
+                    mdi:timer-pause
+                    {% endif %}
+                  icon_color: |-
+                    {% if is_state("switch.lr_ups_1_test", "on") %}
+                    red
+                    {% else %}
+                    green
+                    {% endif %}
+                  content: |-
+                    {% if is_state("switch.lr_ups_1_test", "on") %}
+                    Идет тест UPS
+                    {% else %}
+                    Запустить тест
+                    {% endif %}
+                  tap_action:
+                    action: toggle
+
+                - type: template
+                  entity: sensor.lr_ups_1_load
+                  icon: phu:apc-ups-upright
+                  icon_color: green
+                  content: |-
+                      Потребление UPS - {{states ('sensor.lr_ups_1_load')}} Ватт
+                  tap_action:
+                    action: more-info
+
+                - type: template
+                  entity: binary_sensor.lr_ups_1_charging
+                  icon: |-
+                    {% if is_state("binary_sensor.lr_ups_1_charging", "on") %}
+                    mdi:battery-charging
+                    {% elif states('sensor.lr_ups_1_load')|int < 1 
+                       and is_state("binary_sensor.lr_ups_1_charging", "off") %}
+                    mdi:battery-charging-high
+                    {% else %}
+                    mdi:battery-check
+                    {% endif %}
+                  icon_color: |-
+                    {% if is_state("binary_sensor.lr_ups_1_charging", "on") %}
+                    yellow
+                    {% elif states('sensor.lr_ups_1_load')|int < 1 
+                       and is_state("binary_sensor.lr_ups_1_charging", "off") %}
+                    amber
+                    {% else %}
+                    green
+                    {% endif %}
+                  content: |-
+                    {% if is_state("binary_sensor.lr_ups_1_charging", "on") %}
+                    Идет зарядка
+                    {% elif states('sensor.lr_ups_1_load')|int < 1 
+                       and is_state("binary_sensor.lr_ups_1_charging", "off") %}
+                    Питание от аккумулятора
+                    {% else %}
+                    Не заряжается
+                    {% endif %}
+                  tap_action:
+                    action: more-info
+
+
+            - type: entities
+              entities:
+                - entity: input_datetime.lr_ups_1_test_start        
+                - entity: input_datetime.lr_ups_1_test_stop
+                - entity: sensor.lr_ups_1_power
+                - entity: input_datetime.lr_ups_1_charging_start 
+                - entity: input_datetime.lr_ups_1_charging_stop
+
+    - type: vertical-stack
+      cards:
+
+        - type: custom:power-flow-card-plus
+          clickable_entities: true
+          entities:
+            solar:
+              entity: sensor.0xa4c1382dc9fecb3e_power
+              color: '#6f9eff'
+              icon: phu:socket-eu
+              color_icon: '#6f9eff'
+              name: Вход
+            grid:
+              icon: phu:apc-ups-upright
+              name: APC 650 LiFePo4
+              color: '#d600af'
+              color_icon: '#d600af'
+              entity: 
+                consumption: sensor.0xa4c13850763b90bf_power
+                production: sensor.0xa4c1382dc9fecb3e_power
+              display_state: one_way
+              color_circle: true
+            battery:
+              icon: mdi:battery-charging-high
+              color: '#80b8ff'
+              color_icon: '#80b8ff'
+              name: Аккумулятор
+              entity: 
+                production: sensor.lr_ups_1_load
+              display_state: one_way
+              color_circle: true
+            home:
+              entity: sensor.0xa4c13850763b90bf_power
+              icon: mdi:raspberry-pi
+              color: '#80b8ff'
+              name: Smart Home
+              color_icon: false
+              override_state: true
+
+        - type: custom:history-explorer-card
+          header: Мощность
+          defaultTimeRange: 8h
+          lineMode: stepped
+          decimation: true
+          uimode: dark
+          recordedEntitiesOnly: true
+          labelsVisible: false
+          uiColors:
+            gridlines: rgb(100,100,100)
+          uiLayout:
+            toolbar: top
+            selector: hide
+          graphs:
+          - type: line
+            options:
+              ymin: 0
+            entities:
+               - entity: sensor.0xa4c1382dc9fecb3e_power
+                 color: rgb(191,255,162)
+                 fill: rgba(191,255,162,0.1)
+               - entity: sensor.0xa4c13850763b90bf_power
+                 color: rgb(59,255,247)
+                 fill: rgba(59,255,247,0.1)
+               - entity: sensor.lr_ups_1_load
+                 color: rgb(182,255,235)
+                 fill: rgba(182,255,235,0.1)
+

@@ -72,6 +72,7 @@ out_camera:
     automation:
 
       - alias: cam_hikvision1_photo
+        id: cam_hikvision1_photo
         initial_state: true
         trigger:
     ## Виртуальная кнопка
@@ -94,11 +95,16 @@ out_camera:
              file: "/config/www/cam_captures/hikvision1_photo.jpg" 
              
       - alias: cam_hikvision1_cast
+        id: cam_hikvision1_cast
         initial_state: true
         trigger:
     ## Виртуальная кнопка
         - platform: state
           entity_id: input_button.hikvision1_cast
+    ## Aqara Opple на столе
+        - platform: state
+          entity_id: sensor.0x54ef4410004c1707_action
+          to: 'button_4_double'
         condition:
          - condition: state
            entity_id: switch.control_mode
@@ -125,6 +131,7 @@ out_camera:
                       entity_id: media_player.nesthub7a33
                     
       - alias: cam_hikvision3_photo
+        id: cam_hikvision3_photo
         initial_state: true
         trigger:
     ## Виртуальная кнопка
@@ -147,6 +154,7 @@ out_camera:
              file: "/config/www/cam_captures/hikvision3_photo.jpg" 
              
       - alias: cam_hikvision3_cast
+        id: cam_hikvision3_cast
         initial_state: true
         trigger:
     ## Виртуальная кнопка
@@ -178,6 +186,7 @@ out_camera:
                       entity_id: media_player.nesthub7a33                    
                     
       - alias: cam_hikvision5_photo
+        id: cam_hikvision5_photo
         initial_state: true
         trigger:
     ## Виртуальная кнопка
@@ -200,11 +209,16 @@ out_camera:
              file: "/config/www/cam_captures/hikvision5_photo.jpg" 
              
       - alias: cam_hikvision5_cast
+        id: cam_hikvision5_cast
         initial_state: true
         trigger:
     ## Виртуальная кнопка
         - platform: state
           entity_id: input_button.hikvision5_cast
+    ## Aqara Opple на столе
+        - platform: state
+          entity_id: sensor.0x54ef4410004c1707_action
+          to: 'button_4_single'
         condition:
          - condition: state
            entity_id: switch.control_mode
@@ -231,6 +245,7 @@ out_camera:
                       entity_id: media_player.nesthub7a33  
                       
       - alias: cam_hikvision7_photo
+        id: cam_hikvision7_photo
         initial_state: true
         trigger:
     ## Виртуальная кнопка
@@ -253,6 +268,7 @@ out_camera:
              file: "/config/www/cam_captures/hikvision7_photo.jpg" 
              
       - alias: cam_hikvision7_cast
+        id: cam_hikvision7_cast
         initial_state: true
         trigger:
     ## Виртуальная кнопка

@@ -129,6 +129,7 @@ cr_light:
     automation:
 
       - alias: cr_switch_turn_on
+        id: cr_switch_turn_on
         description: Коридор - включение выключателя
         initial_state: true
         trigger:
@@ -149,6 +150,7 @@ cr_light:
 
     
       - alias: cr_ceiling_reboot
+        id: cr_ceiling_reboot
         description: Коридор - перезагрузка зависшей люстры
         initial_state: true
         trigger:
@@ -173,6 +175,7 @@ cr_light:
           entity_id: switch.0x00158d00057305ac_left
           
       - alias: cr_ceiling_light_manual_control
+        id: cr_ceiling_light_manual_control
         description: Коридор - ручное управление люстрой
         initial_state: true
         trigger:
@@ -194,7 +197,11 @@ cr_light:
     # 4 клавишник на комоде
         - platform: state
           entity_id: sensor.0x04cf8cdf3c7942ca_action
-          to: 'button_3_single'          
+          to: 'button_3_single'
+    ## Aqara Opple на столе
+        - platform: state
+          entity_id: sensor.0x54ef4410004c1707_action
+          to: 'button_3_double'
         condition:
         - condition: state
           entity_id: switch.control_mode
@@ -222,6 +229,7 @@ cr_light:
                       - light.cr_ceiling_light
                       
       - alias: cr_ceiling_light_vibration
+        id: cr_ceiling_light_vibration
         description: Коридор - включение по датчику вибрации
         initial_state: true
         trigger:
@@ -254,6 +262,7 @@ cr_light:
             - light.cr_ceiling_light
             
       - alias: cr_ceiling_light_auto_off
+        id: cr_ceiling_light_auto_off
         description: Коридор - отключение по датчику движения
         initial_state: true
         trigger:
@@ -273,6 +282,7 @@ cr_light:
             - light.cr_ceiling_light
             
       - alias: cr_ceiling_light_moving
+        id: cr_ceiling_light_moving
         description: Коридор - включение по датчику движения ночью
         initial_state: true
         trigger:
@@ -302,6 +312,7 @@ cr_light:
             - light.cr_ceiling_light_ambilight
             
       - alias: cr_en_light_control
+        id: cr_en_light_control
         description: Коридор и прихожая, управление освещением
         initial_state: true
         trigger:

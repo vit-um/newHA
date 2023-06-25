@@ -1,0 +1,62 @@
+lr_ups_2:
+
+    recorder:
+      include:
+        entities:
+          - sensor.0xa4c138ee9e1e5451_power
+          - sensor.0xa4c138ee9e1e5451_voltage
+
+    sensor:
+    
+      - platform: integration
+        name: '0xa4c138ee9e1e5451_integration'
+        source: sensor.0xa4c138ee9e1e5451_power
+        unit_prefix: k
+        round: 2
+
+    utility_meter:
+        
+      0xa4c138ee9e1e5451_meter:
+        source: sensor.0xa4c138ee9e1e5451_integration
+        cycle: monthly
+
+    homeassistant:
+      customize:
+      
+        switch.0xa4c138ee9e1e5451:
+          friendly_name: Гостиная UPS 2 in
+          icon: phu:apc-ups-upright
+        sensor.0xa4c138ee9e1e5451_power:
+          friendly_name: Гостиная UPS 2 in, мощность
+          unit_of_measurement: Вт
+          device_class: power
+        sensor.0xa4c138ee9e1e5451_voltage:
+          friendly_name: Гостиная UPS 2 in, напряжение
+        sensor.0xa4c138ee9e1e5451_energy:
+          friendly_name: Гостиная UPS 2 in, энергия
+          icon: mdi:chart-line
+        sensor.0xa4c138ee9e1e5451_meter:
+          friendly_name: Гостиная UPS 2 in
+          unit_of_measurement: кВт/ч
+          
+    automation:
+
+      - alias: lr_ups2_turn_on
+        id: lr_ups2_turn_on
+        description: Гостиная автовключение ИБП 2
+        initial_state: true
+        trigger:
+    # Выключение выключателя
+        - platform: state
+          entity_id: switch.0xa4c138ee9e1e5451
+          to: 'off'
+        condition:
+    # Переключатель режима работы сервера
+        - condition: state
+          entity_id: switch.control_mode
+          state: 'on'
+        action:
+    # Включение
+        - delay: 00:00:05
+        - service: switch.turn_on
+          entity_id: switch.0xa4c138ee9e1e5451

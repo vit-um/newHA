@@ -20,6 +20,17 @@ ln_washmashine:
           icon: mdi:chart-line
         sensor.0x842e14fffe51c5ae_voltage:
           friendly_name: Прачечная стиральная машина, напряжение
+
+
+    utility_meter:
+    
+      0x842e14fffe51c5ae_meter:
+        source: sensor.0x842e14fffe51c5ae_energy
+        cycle: monthly
+        offset:
+          days: 0
+          hours: 12
+          minutes: 0
           
     template:
     
@@ -37,22 +48,23 @@ ln_washmashine:
             
     automation:
 
-     - id: Завершение стирки
-       alias: ln_washing_end
-       initial_state: true
-       trigger:       
-        platform: state
-        entity_id: binary_sensor.ln_washing
-        from: 'on'
-        to: 'off'
-       condition:
-       - condition: state
-         entity_id: switch.control_mode
-         state: 'on' 
-       action:
-         - service: telegram_bot.send_message
-           data_template:
-             target:
-                 - !secret chat_id_group
-             message: | 
+      - alias: ln_washing_end
+        id: ln_washing_end
+        description: Уведомление о завершении стирки
+        initial_state: true          
+        trigger:
+        - platform: state
+          entity_id: binary_sensor.ln_washing
+          from: 'on'
+          to: 'off'
+        condition:
+        - condition: state
+          entity_id: switch.control_mode
+          state: 'on' 
+        action:
+        - service: telegram_bot.send_message
+          data_template:
+            target:
+                - !secret chat_id_group
+            message: | 
                   {{"\U0001F9D9"}} Стирка завершена, не забудь развесить барахлишко {{ states('sensor.time_date') }}

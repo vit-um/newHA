@@ -184,7 +184,7 @@ telegram_control:
                       inline_keyboard: &keyb_bt
                         - '{{''\U0001F4A1''}} Туалет - {% if is_state(''light.tt_ceiling_virtual'', ''off'')%}{{''🔴''}}{% else %}{{''🟢''}}{% endif %}:/toggle_tt_ceiling_light , {{''\U0001F4A1''}} Прачечная - {% if is_state(''light.0x00158d00014a1a55'', ''off'')%}{{''🔴''}}{% else %}{{''🟢''}}{% endif %}:/toggle_ln_ceiling_light'
                         - '{{''\U0001F4A1''}} Ванная - {% if is_state(''light.bt_ceiling_light'', ''off'')%}{{''🔴''}}{% else %}{{''🟢''}}{% endif %}:/toggle_bt_ceiling_light , {{''\U0001F300''}} Вентилятор - {% if is_state(''switch.0x00158d0001117040_left'', ''off'')%}{{''🔴''}}{% else %}{{''🟢''}}{% endif %}:/toggle_bt_fan'
-                        - '{{''\U00002668''}} Нагрев воды - {% if is_state(''switch.heater_mode'', ''off'')%}{{''🔴''}}{% else %}{{''🟢''}}{% endif %}:/toggle_bt_boiler_mode , {{''\U0001F50C''}} Бойлер - {% if is_state(''switch.0x00158d00015751f4'', ''off'')%}{{''🔴''}}{% else %}{{''🟢''}}{% endif %}:/toggle_bt_boiler'
+                        - '{{''\U00002668''}} Нагрев воды - {% if is_state(''switch.heater_mode'', ''off'')%}{{''🔴''}}{% else %}{{''🟢''}}{% endif %}:/toggle_bt_boiler_mode , {{''\U0001F50C''}} Бойлер - {% if is_state(''switch.0x00158d0003584401'', ''off'')%}{{''🔴''}}{% else %}{{''🟢''}}{% endif %}:/toggle_bt_boiler'
                         - '{{''\U000021A9''}} Вернуться:/menu_back , {{''\U000021AA''}} Обновить:/bt_control' 
               - conditions:
                   - condition: template
@@ -304,14 +304,14 @@ telegram_control:
                     value_template: '{{ trigger.event.data.command == ''/toggle_bt_boiler'' }}'
                 sequence:
                   - service: switch.toggle
-                    entity_id: switch.0x00158d00015751f4
+                    entity_id: switch.0x00158d0003584401
                   - delay:
                       milliseconds: 500
                   - service: telegram_bot.answer_callback_query
                     data:
                       callback_query_id: "{{ trigger.event.data.id }}"
                       message: | 
-                          {{"\U0001F4AC"}} Бойлер ванная - {% if is_state('switch.0x00158d00015751f4', 'on') %} Включен {% else %} Выключен {% endif %}
+                          {{"\U0001F4AC"}} Бойлер ванная - {% if is_state('switch.0x00158d0003584401', 'on') %} Включен {% else %} Выключен {% endif %}
                       show_alert: true
                   - service: telegram_bot.delete_message
                     data_template:

@@ -5,6 +5,33 @@ test:
       reboot_bluetooth: sudo systemctl restart bluetooth
 
 
+    # input_datetime:
+    #   tod_custom_start:
+    #     name: Начало периода
+    #     has_date: false
+    #     has_time: true
+
+    #   tod_custom_stop:
+    #     name: Завершение периода
+    #     has_date: false
+    #     has_time: true
+
+    # template:
+    
+    #   - binary_sensor:
+      
+    #       - name: tod_custom
+    #         state: >
+    #           {% set now_time = now().time() %}
+    #           {% if states('input_datetime.tod_custom_start')[:2]|int < states('input_datetime.tod_custom_stop')[:2]|int %}
+    #             {{ states('input_datetime.tod_custom_start') <= now().strftime('%Y-%m-%d') + 'T' + now_time.strftime('%H:%M:%S') <= states('input_datetime.tod_custom_stop') }}
+    #           {% elif states('input_datetime.tod_custom_start')[:2]|int > states('input_datetime.tod_custom_stop')[:2]|int %}
+    #             {{ states('input_datetime.tod_custom_start') <= now().strftime('%Y-%m-%d') + 'T' + now_time.strftime('%H:%M:%S') or now().strftime('%Y-%m-%d') + 'T' + now_time.strftime('%H:%M:%S') <= states('input_datetime.tod_custom_stop') }}
+    #           {% else %}
+    #             {{ states('input_datetime.tod_custom_start') == now().strftime('%Y-%m-%d') + 'T' + now_time.strftime('%H:%M:%S') }}
+    #           {% endif %}
+    #         device_class: running
+
 
 
 # - id: '1667067086899'

@@ -12,22 +12,76 @@ kn_switch:
            - sensor.0x00158d0001fa2934_power
            - sensor.0xa4c138273b49e4d0_power
            - sensor.0x00158d000114a1e1_power
-           - sensor.0xa4c138201dcb67f6_voltage
 
-    sensor:
-    
-      - platform: integration
-        name: '0x00158d0001fa2934_integration'
-        source: sensor.0x00158d0001fa2934_power
-        unit_prefix: k
-        round: 2
-        
+
+    template:
+
+        sensor:
+
+          - name: kitchen_total_load
+            state: >
+                {{states('sensor.0x00158d0001d35bc0_power')|float(0) + states('sensor.0xa4c1385bcf7d00c9_power')|float(0)
+                + states('sensor.0xa4c138201dcb67f6_power')|float(0) + states('sensor.0xa4c138d571b656c5_power')|float(0)
+                + states('sensor.0xa4c138273b49e4d0_power')|float(0) + states('sensor.0x000d6f0014bb14b4_power')|float(0)
+                + states('sensor.0x00158d0001fa2934_power')|float(0) + states('sensor.0x00158d0001291d12_power')|float(0)
+                + states('sensor.0x00158d000114a1e1_power')|float(0)}}
+
+          - name: kitchen_windowsill_load
+            state: >
+                {{states('sensor.0xa4c138d571b656c5_power')|float(0) + states('sensor.0xa4c138273b49e4d0_power')|float(0) + states('sensor.0xa4c1385bcf7d00c9_power')|float(0)}}
+
+                
+
+
     utility_meter:
+    
+      0xa4c138201dcb67f6_meter:
+        source: sensor.0xa4c138201dcb67f6_energy
+        cycle: monthly
+        offset:
+          days: 0
+          hours: 12
+          minutes: 0
+
+      0xa4c138d571b656c5_meter:
+        source: sensor.0xa4c138d571b656c5_energy
+        cycle: monthly
+        offset:
+          days: 0
+          hours: 12
+          minutes: 0
+          
+      0xa4c138273b49e4d0_meter:
+        source: sensor.0xa4c138273b49e4d0_energy
+        cycle: monthly
+        offset:
+          days: 0
+          hours: 12
+          minutes: 0
+          
+      0x00158d0001d35bc0_meter:
+        source: sensor.0x00158d0001d35bc0_energy
+        cycle: monthly
+        offset:
+          days: 0
+          hours: 12
+          minutes: 0
+
+      0xa4c1385bcf7d00c9_meter:
+        source: sensor.0xa4c1385bcf7d00c9_energy
+        cycle: monthly
+        offset:
+          days: 0
+          hours: 12
+          minutes: 0
 
       0x00158d0001fa2934_meter:
-        source: sensor.0x00158d0001fa2934_integration
+        source: sensor.0x00158d0001fa2934_energy
         cycle: monthly
-
+        offset:
+          days: 0
+          hours: 12
+          minutes: 0
 
     homeassistant:
       customize:

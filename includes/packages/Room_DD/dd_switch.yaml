@@ -11,6 +11,21 @@ dd_switch:
            - sensor.0x60a423fffe6850e1_power
            - sensor.0x60a423fffe6850e1_voltage
 
+
+    sensor:
+    
+      - platform: integration
+        name: '0x00158d0001a2ccab_integration'
+        source: sensor.0x00158d0001a2ccab_power
+        unit_prefix: k
+        round: 2
+        
+    utility_meter:
+
+      0x00158d0001a2ccab_meter:
+        source: sensor.0x00158d0001a2ccab_integration
+        cycle: monthly
+
     homeassistant:
       customize:
       
@@ -111,7 +126,7 @@ dd_switch:
       - alias: dd_printer_control
         id: dd_printer_control
         description: Детская Д - управление принтером
-        initial_state: true          
+        initial_state: false
         trigger:
     # Кнопка на принтере
         - platform: state

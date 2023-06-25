@@ -57,7 +57,7 @@ lr_air_quality:
           - platform: homeassistant
             event: start
           - platform: time_pattern
-            minutes: '/15'   
+            minutes: '/20'   
         action:
           - delay: 00:02:00
           - service: homeassistant.reload_config_entry

@@ -1,21 +1,5 @@
 da_cicle_light_color:
 
-
-    homeassistant:
-
-      customize:
-        automation.da_cicle_light_color:
-          friendly_name: Детская А, старт стоп режима циклической подсветки ленты
-          
-        automation.da_cicle_light_color_sync:
-          friendly_name: Детская А, синхронизация цвета списка и ленты
-          
-        automation.da_cicle_light_color_toggle:
-          friendly_name: Детская А, переключение режима циклической подсветки ленты
-          
-        automation.da_cicle_light_color_change:
-          friendly_name: Детская А, переключение элементов списка циклической подсветки
-
     # input_boolean:
     
     #   da_cicle_light_color:
@@ -128,22 +112,20 @@ da_cicle_light_color:
             icon_template: mdi:palette
           
     automation:
-    
-      - alias: da_cicle_light_color
+
+      - alias: dа_light_led_strip_cycle
+        id: dа_light_led_strip_cycle
+        description: Детская А, старт стоп режима циклической подсветки ленты
         initial_state: true
         trigger:
     # Кнопка на столе
         - platform: state
           entity_id: sensor.0x00158d000186d9a9_action
           to: 'double'
-    # Кнопка возле кровати
+    # Aqara Opple
         - platform: state
-          entity_id: sensor.0x00158d000155d2fb_action
-          to: 'double' 
-      ## Пульт ДУ на три кнопки, вторая
-        - platform: state
-          entity_id: sensor.0x60a423fffe942cf2_action
-          to: '2_single'
+          entity_id: sensor.0x54ef4410004c16d9_action
+          to: 'button_1_double' 
         condition:
         - condition: state
           entity_id: switch.control_mode
@@ -153,7 +135,9 @@ da_cicle_light_color:
           target:
             entity_id: switch.da_cicle_light_color
 
-      - alias: da_cicle_light_color_sync
+      - alias: dа_light_led_strip_color_sync
+        id: dа_light_led_strip_color_sync
+        description: Детская А, синхронизация цвета списка и ленты
         initial_state: true
         trigger:
         - platform: state
@@ -170,7 +154,9 @@ da_cicle_light_color:
               {{trigger.to_state.state}}
             transition: 2
 
-      - alias: da_cicle_light_color_toggle
+      - alias: dа_light_led_strip_color_toggle
+        id: dа_light_led_strip_color_toggle
+        description: Детская А, переключение режима циклической подсветки ленты
         initial_state: true
         trigger:
         - platform: state
@@ -201,7 +187,9 @@ da_cicle_light_color:
               - service: light.turn_off
                 entity_id: light.da_led_strip
 
-      - alias: da_cicle_light_color_change
+      - alias: dа_light_led_strip_color_change
+        id: dа_light_led_strip_color_change
+        description: Детская А, переключение элементов списка циклической подсветки
         initial_state: true
         trigger:
         - platform: time_pattern

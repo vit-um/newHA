@@ -5,6 +5,7 @@ cards:
 
 ############################ Колонка 1 ############################
 
+
     - type: vertical-stack
       cards:
       
@@ -15,29 +16,239 @@ cards:
               }          
           content: >
              **Управление**
-             
+
+
         - type: custom:stack-in-card
           mode: vertical
           cards:  
             - type: markdown
+              style: |
+                   ha-card {
+                     color: #f8ffd8;
+                     --paper-item-icon-color: #f8ffd8;
+                     --paper-item-icon-active-color: #f8ffd8;
+                     font-weight: bold;
+                     font-size: 14px;
+                   } 
               content: >
-                 **Светильники**
+                 **Освещение**
 
             - type: horizontal-stack
               cards:        
-                - type: light
+                - type: button
+                  name: Люстра
                   entity: light.dd_ceiling_light_virtual
-                  name: Люстра 
-                - type: light
+                  tap_action:
+                    action: toggle
+                - type: button
+                  name: Бра
+                  entity: light.0x00158d000420dbab
+                  tap_action:
+                    action: toggle
+                - type: button
+                  name: WLED
+                  entity: light.dd_wled_light
+                  tap_action:
+                    action: toggle
+                - type: button
+                  name: Настольная лампа
+                  entity: light.dd_table_lamp
+                  tap_action:
+                    action: toggle
+                    
+            - type: conditional
+              conditions:
+                - entity: light.dd_ceiling_light_virtual
+                  state: "on"
+              card:
+                  type: custom:mushroom-light-card
+                  entity: light.dd_ceiling_light_virtual
+                  name: Люстра
+                  icon_type: none
+                  primary_info: name
+                  secondary_info: none
+                  use_light_color: true
+                  show_brightness_control: true
+                  show_color_temp_control: true
+                  show_color_control: false
+                  collapsible_controls: true
+                  
+            - type: conditional
+              conditions:
+                - entity: light.0x00158d000420dbab
+                  state: "on"
+              card:
+                  type: custom:mushroom-light-card
                   entity: light.0x00158d000420dbab
                   name: Бра
-                - type: light
+                  icon_type: none
+                  primary_info: name
+                  secondary_info: none
+                  use_light_color: true
+                  show_brightness_control: true
+                  show_color_temp_control: true
+                  show_color_control: false
+                  collapsible_controls: true
+                  
+            - type: conditional
+              conditions:
+                - entity: light.dd_wled_light
+                  state: "on"
+              card:
+                  type: custom:mushroom-light-card
                   entity: light.dd_wled_light
-                  name: Лента
-                - type: light
-                  entity: light.dd_table_lamp
-                  name: Настольная лампа
+                  name: WLED
+                  icon_type: none
+                  primary_info: name
+                  secondary_info: none
+                  use_light_color: true
+                  show_brightness_control: true
+                  show_color_temp_control: true
+                  show_color_control: true
+                  collapsible_controls: true
 
+
+            - type: horizontal-stack
+              cards:
+              
+              - type: custom:mushroom-template-card
+                primary: Люстра
+                secondary: |-
+                  {% if is_state("switch.0x54ef44100024689c_right", "on") %}
+                  Вкл
+                  {% else %}
+                  Выкл
+                  {% endif %}
+                layout: vertical
+                tap_action:
+                  action: toggle
+                entity: switch.0x54ef44100024689c_right
+                icon: phu:socket-eu
+                multiline_secondary: true
+                icon_color: |-
+                  {% if is_state("switch.0x54ef44100024689c_right", "on") %}
+                  green
+                  {% else %}
+                  red
+                  {% endif %}
+
+
+              - type: custom:mushroom-template-card
+                primary: Доступность
+                secondary: |-
+                  {% if is_state("binary_sensor.dd_ceiling_unavailable", "off") %}
+                  OK
+                  {% else %}
+                  Не доступно
+                  {% endif %}
+                layout: vertical
+                entity: binary_sensor.dd_ceiling_unavailable
+                icon: |-
+                  {% if is_state("binary_sensor.dd_ceiling_unavailable", "off") %}
+                  mdi:check-bold
+                  {% else %}
+                  mdi:alert
+                  {% endif %}
+                multiline_secondary: true
+                icon_color: |-
+                  {% if is_state("binary_sensor.dd_ceiling_unavailable", "off") %}
+                  green
+                  {% else %}
+                  red
+                  {% endif %}
+                tap_action:
+                  action: more-info
+                  
+              - type: custom:mushroom-template-card
+                primary: WLED
+                secondary: |-
+                  {% if is_state("switch.0x00158d0001a2ccab_right", "on") %}
+                  Вкл
+                  {% else %}
+                  Выкл
+                  {% endif %}
+                layout: vertical
+                tap_action:
+                  action: toggle
+                entity: switch.0x00158d0001a2ccab_right
+                icon: phu:socket-eu
+                multiline_secondary: true
+                icon_color: |-
+                  {% if is_state("switch.0x00158d0001a2ccab_right", "on") %}
+                  green
+                  {% else %}
+                  red
+                  {% endif %}
+                  
+              - type: custom:mushroom-template-card
+                primary: Настольная
+                secondary: |-
+                  {% if is_state("switch.0x00158d00030a6e78", "on") %}
+                  Вкл
+                  {% else %}
+                  Выкл
+                  {% endif %}
+                layout: vertical
+                tap_action:
+                  action: toggle
+                entity: switch.0x00158d00030a6e78
+                icon: phu:socket-eu
+                multiline_secondary: true
+                icon_color: |-
+                  {% if is_state("switch.0x00158d00030a6e78", "on") %}
+                  green
+                  {% else %}
+                  red
+                  {% endif %}
+
+
+        - type: custom:stack-in-card
+          mode: vertical
+          cards:  
+
+            - type: custom:mushroom-template-card
+              primary: Принтер L4160
+              secondary: |-
+                    {% if is_state("sensor.epson_l4160_series", "idle") %}
+                    Бездействие
+                    {% elif is_state("sensor.epson_l4160_series", "printing") %}
+                    Печать
+                    {% elif is_state("sensor.epson_l4160_series", "stopped") %}
+                    Остановлен
+                    {% else %}
+                    {{states ('sensor.epson_l4160_series')}}
+                    {% endif %}              
+              layout: horizontal
+              icon: mdi:printer
+              icon_color: |-
+                    {% if is_state("sensor.epson_l4160_series", "idle") %}
+                    gray
+                    {% elif is_state("sensor.epson_l4160_series", "printing") %}
+                    green
+                    {% elif is_state("sensor.epson_l4160_series", "stopped") %}
+                    yellow
+                    {% else %}
+                    amber
+                    {% endif %}   
+              
+            - type: custom:bar-card
+              title: Принтер
+              direction: up
+              height: 200px
+              stack: horizontal
+              entities:
+                - entity: sensor.epson_l4160_series_black_ink
+                  name: Черный
+                  color: Black
+                - entity: sensor.epson_l4160_series_cyan_ink
+                  name: Синий
+                  color: Blue
+                - entity: sensor.epson_l4160_series_magenta_ink
+                  name: Красный
+                  color: Magenta
+                - entity: sensor.epson_l4160_series_yellow_ink
+                  name: Желтый
+                  color: Yellow
 
         - type: custom:stack-in-card
           mode: vertical
@@ -50,18 +261,6 @@ cards:
             - type: entities
               show_header_toggle: false
               entities:
-                - entity: switch.0x54ef44100024689c_right
-                  type: custom:multiple-entity-row
-                  toggle: true
-                  state_color: true
-                  name: Питание люстры
-                  secondary_info: last-changed
-                  state_header: Питание
-                  entities:
-                  - attribute: device_temperature
-                    name: Температура
-                    unit: 'С'
-                - type: divider
                 - entity: switch.0x00158d0001a2ccab_left
                   type: custom:multiple-entity-row
                   toggle: true
@@ -80,21 +279,6 @@ cards:
                     name: WLED
                     toggle: true
                 - type: divider
-                - entity: switch.0x00158d00030a6e78
-                  type: custom:multiple-entity-row
-                  toggle: true
-                  state_color: true
-                  name: Настольная лампа
-                  secondary_info: last-changed
-                  state_header: Питание
-                  entities:
-                  - entity: sensor.0x00158d00030a6e78_meter
-                    name: Потреблено за месяц
-                    unit: 'кВт·ч'
-                  - attribute: power
-                    name: Мощность
-                    unit: 'Ватт'
-                - type: divider
                 - entity: switch.0x00158d000153dd8e
                   type: custom:multiple-entity-row
                   toggle: true
@@ -109,22 +293,6 @@ cards:
                   - attribute: power
                     name: Мощность
                     unit: 'Ватт'
-                - type: divider
-                - entity: switch.0x60a423fffe6850e1
-                  type: custom:multiple-entity-row
-                  toggle: true
-                  state_color: true
-                  name: Радиатор
-                  secondary_info: last-changed
-                  state_header: Питание
-                  entities:
-                  - attribute: last_seen
-                    format: relative
-                    name: Отклик
-                  - attribute: power
-                    name: Мощность
-                    unit: 'Ватт'                      
-
                 - type: divider
                 - entity: switch.0x842e14fffefd9721_l1
                   type: custom:multiple-entity-row

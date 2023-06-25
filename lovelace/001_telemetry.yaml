@@ -200,12 +200,6 @@ cards:
 
               - entity: sensor.server_telemetry
                 icon: mdi:alert
-              - entity: binary_sensor.blackout
-                
-              - entity: binary_sensor.0xa4c138744bf2fbf0_contact               
-              - entity: input_datetime.electricity_off                
-              - entity: input_datetime.electricity_on                
-                
               - entity: sensor.zigstar_lan_state
               - entity: sensor.zigstar_poe_state
 
@@ -383,6 +377,54 @@ cards:
 ############################ Колонка 2 ############################
     - type: vertical-stack
       cards:
+
+################# электропитание #################
+
+        - type: custom:stack-in-card
+          mode: vertical
+          cards:
+      
+            - type: markdown
+              style: |
+                   ha-card {
+                     color: #FA8072;
+                     font-weight: bold;
+                     font-size: 16px;
+                   }          
+              content: >
+                 **Электропитание**
+
+            - type: entities
+              style: |
+                   ha-card {
+                     color: #FA8072;
+                     --paper-item-icon-color: #FA8072;
+                     --iron-icon-stroke-color: #FFFFE0;
+                     font-weight: bold;
+                     font-size: 14px;
+                   }                 
+              show_header_toggle: false
+              entities:
+
+              - entity: binary_sensor.0xa4c138bae3526a07_contact
+                type: custom:multiple-entity-row
+                name: Сенсоры
+                state_header: Гостиная
+                entities:
+                  - entity: binary_sensor.0xa4c138744bf2fbf0_contact
+                    name: Кухня
+
+              - entity: binary_sensor.electricity
+                type: custom:multiple-entity-row
+                name: Питание
+                state_header: Электрика
+                entities:
+                  - entity: binary_sensor.blackout
+                    name: Блекаут
+
+              - entity: input_datetime.electricity_off                
+              - entity: input_datetime.electricity_on  
+
 
         - type: custom:stack-in-card
           mode: vertical
@@ -860,6 +902,30 @@ cards:
                  - state: '> 30.0'
                  - state: 'unknown'
                  - state: 'unavailable'
+
+            - type: markdown
+              style: |
+                  ha-card {
+                    color: #FA8072;
+                    font-weight: bold;
+                    font-size: 16px;
+                  } 
+              content: >
+                  **Сенсоры разряда**
+
+            - type: custom:auto-entities
+              card:
+                type: entities
+                show_header_toggle: false
+              filter:
+                include:
+                - domain: binary_sensor
+                  state: 'on'
+                  attributes:
+                    device_class: 'battery'
+                  options:
+                      secondary_info: last-changed
+                      state_color: true
         
 ############################ Колонка 3 ############################
     - type: vertical-stack
@@ -1063,16 +1129,37 @@ cards:
                   **Активные таймеры**
 
             - type: custom:auto-entities
-              show_empty: false
               card:
                 type: entities
                 show_header_toggle: false
               filter:
                 include:
-                 - domain: timer
-                   state: 'active'
-                   options:
-                      secondary_info: last-changed
+                - domain: timer
+                  state: 'active'
+                  options:
+                      type: custom:timer-bar-card
+                      modifications:
+                      - elapsed: 30%
+                        bar_foreground: yellow
+                      - elapsed: 60%
+                        bar_foreground: orange
+                      - elapsed: 90%
+                        bar_foreground: red
+                      bar_height: 20px
+                      sync_issues: ignore
+                      invert: true
+
+            # - type: custom:auto-entities
+            #   show_empty: false
+            #   card:
+            #     type: entities
+            #     show_header_toggle: false
+            #   filter:
+            #     include:
+            #      - domain: timer
+            #       state: 'active'
+            #       options:
+            #           secondary_info: last-changed
 
 ############################ Колонка 4 ############################
 

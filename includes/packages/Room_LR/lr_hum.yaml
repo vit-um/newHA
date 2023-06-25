@@ -48,7 +48,7 @@ lr_hum:
               if is_state('binary_sensor.lr_humidifier_time', 'off') 
               or is_state('binary_sensor.lr_aeration', 'on')
               or is_state('switch.lr_humidifier_mode', 'off')
-              or is_state('input_boolean.lr_silent_mode', 'on') 
+              or is_state('binary_sensor.lr_silent', 'on') 
               %}
               Disable
               {% elif humidity < high %} 

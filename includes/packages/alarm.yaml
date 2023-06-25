@@ -68,6 +68,10 @@ alarm:
           - condition: state
             entity_id: switch.control_mode
             state: 'on'
+    # Отключен ночной режим работы
+          - condition: state
+            entity_id: binary_sensor.night_time
+            state: 'off'
         action:
     # Сохранение состояния потолочных люстр, оснвное и задняя подсветка
          - service: scene.create
@@ -80,12 +84,14 @@ alarm:
              - light.cr_ceiling_light_ambilight
              - light.lr_ceiling_light_1_ambilight
              - light.lr_ceiling_light_2_ambilight
+             - light.da_led_strip
     # Отключение основного освещения
          - service: light.turn_off
            entity_id: 
              - light.cr_ceiling_light
              - light.lr_ceiling_light_1
              - light.lr_ceiling_light_2
+             - light.da_led_strip
     # Включение эффекта Alarm на задней подсветке на 30 секунд
          - service: light.turn_on
            data:
@@ -97,6 +103,7 @@ alarm:
                - light.lr_ceiling_light_1_ambilight
                - light.lr_ceiling_light_2_ambilight
                - light.cr_ceiling_light_ambilight
+               - light.da_led_strip
          - delay: 00:00:30
     # Включение эффекта Stop на задней подсветке, иначе эффект Alarm применится при следующем включении
          - service: light.turn_on
@@ -107,12 +114,14 @@ alarm:
                - light.lr_ceiling_light_1_ambilight
                - light.lr_ceiling_light_2_ambilight
                - light.cr_ceiling_light_ambilight
+               - light.da_led_strip
     # Отключение подсветки
          - service: light.turn_off
            entity_id: 
              - light.cr_ceiling_light_ambilight
              - light.lr_ceiling_light_1_ambilight
              - light.lr_ceiling_light_2_ambilight
+             - light.da_led_strip
     # Возврат к предыдущему состоянию
          - service: scene.turn_on
            target:
@@ -132,6 +141,10 @@ alarm:
           - condition: state
             entity_id: switch.control_mode
             state: 'on'
+    # Отключен ночной режим работы
+          - condition: state
+            entity_id: binary_sensor.night_time
+            state: 'off'
         action:
     # Сохранение состояния потолочных люстр, оснвное и задняя подсветка
          - service: scene.create
@@ -144,12 +157,14 @@ alarm:
              - light.cr_ceiling_light_ambilight
              - light.lr_ceiling_light_1_ambilight
              - light.lr_ceiling_light_2_ambilight
+             - light.da_led_strip
     # Отключение основного освещения
          - service: light.turn_off
            entity_id: 
              - light.cr_ceiling_light
              - light.lr_ceiling_light_1
              - light.lr_ceiling_light_2
+             - light.da_led_strip
     # Запуск скрипта светового уведомления и ожидание 20 сек
          - service: script.turn_on
            entity_id: script.lr_threat_cancel_notification
@@ -160,6 +175,7 @@ alarm:
              - light.cr_ceiling_light_ambilight
              - light.lr_ceiling_light_1_ambilight
              - light.lr_ceiling_light_2_ambilight
+             - light.da_led_strip
     # Возврат к предыдущему состоянию
          - service: scene.turn_on
            target:
@@ -214,6 +230,7 @@ alarm:
                    - light.cr_ceiling_light_ambilight
                    - light.lr_ceiling_light_1_ambilight
                    - light.lr_ceiling_light_2_ambilight
+                   - light.da_led_strip
                 data:
                   brightness_pct: 70
                   color_name: green
@@ -224,6 +241,7 @@ alarm:
                    - light.cr_ceiling_light_ambilight
                    - light.lr_ceiling_light_1_ambilight
                    - light.lr_ceiling_light_2_ambilight
+                   - light.da_led_strip
                 data:
                   transition: 2
               - delay: 2

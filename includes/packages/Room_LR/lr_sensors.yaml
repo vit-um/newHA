@@ -23,11 +23,6 @@ lr_sensors:
         binary_sensor.lr_radiator:
           friendly_name: Гостиная режим отопления      
 
-        sensor.0x00158d0001531698_action:
-          friendly_name: Гостиная круглая кнопка на столе
-        sensor.0x00158d0001531698_battery:
-          friendly_name: Гостиная круглая кнопка на столе
-          
         sensor.0x00158d0001f47e10_action:
           friendly_name: Гостиная беспроводный выключатель за комодом
         sensor.0x00158d0001f47e10_battery:

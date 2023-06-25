@@ -79,7 +79,7 @@ cards:
 
                 - type: button
                   name: Балкон
-                  entity: light.lr_balcony_light_virtual
+                  entity: light.0xa4c13812b94c8365
                   tap_action:
                     action: toggle
 
@@ -526,7 +526,7 @@ cards:
                 - type: custom:mushroom-template-card
                   primary: Режим тишины
                   secondary: |-
-                    {% if is_state("input_boolean.lr_silent_mode", "on") %}
+                    {% if is_state("switch.lr_silent_mode", "on") %}
                     Включен
                     {% else %}
                     Выключен
@@ -534,16 +534,16 @@ cards:
                   layout: horizontal
                   tap_action:
                     action: toggle
-                  entity: input_boolean.lr_silent_mode
+                  entity: switch.lr_silent_mode
                   icon: |-
-                    {% if is_state("input_boolean.lr_silent_mode", "on") %}
+                    {% if is_state("switch.lr_silent_mode", "on") %}
                     mdi:volume-mute
                     {% else %}
                     mdi:volume-medium
                     {% endif %}
                   multiline_secondary: true
                   icon_color: |-
-                    {% if is_state("input_boolean.lr_silent_mode", "on") %}
+                    {% if is_state("switch.lr_silent_mode", "on") %}
                     red
                     {% else %}
                     green
@@ -552,17 +552,37 @@ cards:
     
                 - type: conditional
                   conditions:
-                    - entity: input_boolean.lr_silent_mode
+                    - entity: switch.lr_silent_mode
                       state: "on"
                   card:
                       type: custom:mushroom-entity-card
-                      entity: input_boolean.lr_silent_mode
+                      entity: switch.lr_silent_mode
                       icon_color: blue
                       secondary_info: none
                       primary_info: last-changed
                       tap_action:
                         action: more-info
                       icon: mdi:timer-play
+
+            - type: conditional
+              conditions:
+                - entity: switch.lr_silent_mode
+                  state: "on"
+              card:
+                  type: custom:timer-bar-card
+                  entities:
+                  - entity: timer.lr_silent_mode
+                    name: Осталось - 
+                  modifications:
+                  - elapsed: 30%
+                    bar_foreground: yellow
+                  - elapsed: 60%
+                    bar_foreground: orange
+                  - elapsed: 90%
+                    bar_foreground: red
+                  bar_height: 20px
+                  sync_issues: ignore
+                  invert: true
 
         - type: custom:stack-in-card
           mode: vertical
@@ -1036,10 +1056,10 @@ cards:
               chips:
 
                 - type: template
-                  entity: switch.0x588e81fffed4af56
+                  entity: switch.0xa4c138131a85d3ff
                   icon: phu:socket-eu
                   icon_color: |-
-                    {% if is_state("switch.0x588e81fffed4af56", "on") %}
+                    {% if is_state("switch.0xa4c138131a85d3ff", "on") %}
                     green
                     {% else %}
                     red
@@ -1050,29 +1070,29 @@ cards:
                     action: toggle
 
                 - type: template
-                  entity: sensor.0x588e81fffed4af56_power
+                  entity: sensor.0xa4c138131a85d3ff_power
                   icon: mdi:lightning-bolt-circle
                   icon_color: green
                   content: |-
-                      {{states ('sensor.0x588e81fffed4af56_power')}} Ватт
+                      {{states ('sensor.0xa4c138131a85d3ff_power')}} Ватт
                   tap_action:
                     action: more-info
 
                 - type: template
-                  entity: sensor.0x588e81fffed4af56_voltage
+                  entity: sensor.0xa4c138131a85d3ff_voltage
                   icon: mdi:sine-wave
                   icon_color: green
                   content: |-
-                      {{states ('sensor.0x588e81fffed4af56_voltage')}} В
+                      {{states ('sensor.0xa4c138131a85d3ff_voltage')}} В
                   tap_action:
                     action: more-info
                     
                 - type: template
-                  entity: sensor.0x588e81fffed4af56_meter
+                  entity: sensor.0xa4c138131a85d3ff_meter
                   icon: mdi:home-lightning-bolt
                   icon_color: light-green
                   content: |-
-                      {{states ('sensor.0x588e81fffed4af56_meter')}} кВт/ч
+                      {{states ('sensor.0xa4c138131a85d3ff_meter')}} кВт/ч
                   tap_action:
                     action: more-info
 

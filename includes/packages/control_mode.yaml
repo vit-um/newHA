@@ -6,7 +6,7 @@ control_mode:
           state_topic: "states/control"
 
     switch:
-    
+
       - platform: template
         switches:
           control_mode:

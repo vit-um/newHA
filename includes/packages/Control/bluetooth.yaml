@@ -3,18 +3,11 @@ bluetooth:
 ## Перезагрузка по cron - каждый день в 03:00 
 
 
-    homeassistant:
-
-      customize:
-        automation.control_bluetooth_reload:
-          friendly_name: Контроль - перезагрузка Bluetooth адаптеров
-          icon: mdi:bluetooth
-
-
     automation:
     
       - alias: control_bluetooth_reload
-        initial_state: true
+        id: control_bluetooth_reload
+        initial_state: false
     ## Ежедневно после перезагрузки по cron
         trigger:
         - platform: time

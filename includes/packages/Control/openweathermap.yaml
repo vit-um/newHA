@@ -4,14 +4,7 @@ openweathermap:
     homeassistant:
 
       customize:
-        automation.control_openweathermap_reload:
-          friendly_name: Контроль - перезагрузка openweathermap
-          icon: mdi:reload
-          
-        automation.control_openweathermap_blockoff:
-          friendly_name: Контроль - отключение блокировки openweathermap
-          icon: mdi:weather-cloudy-alert
-          
+
         sensor.control_openweathermap:
           friendly_name: Контроль openweathermap
           icon: mdi:weather-cloudy-alert
@@ -53,6 +46,7 @@ openweathermap:
     automation:
     
       - alias: control_openweathermap_reload
+        id: control_openweathermap_reload
         description: Контроль - перезагрузка openweathermap
         initial_state: true
     ## Более 5 сенсоров openweathermap недоступны
@@ -94,6 +88,7 @@ openweathermap:
                entity_id: input_boolean.control_openweathermap   
                
       - alias: control_openweathermap_blockoff
+        id: control_openweathermap_blockoff
         description: Контроль - отключение блокировки openweathermap
         initial_state: true
         trigger:

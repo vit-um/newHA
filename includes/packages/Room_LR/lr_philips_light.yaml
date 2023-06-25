@@ -68,8 +68,9 @@ lr_philips_light:
     automation:
 
       - alias: lr_philips_cicle_light_color_sync
+        id: lr_philips_cicle_light_color_sync
         description: Гостиная - прикроватник синхронизация цвета списка и светильника
-        initial_state: true
+        initial_state: false
         trigger:
         - platform: state
           entity_id: input_select.lr_philips_cicle_light_color
@@ -86,6 +87,7 @@ lr_philips_light:
             transition: 2
 
       - alias: lr_philips_cicle_light_color_change
+        id: lr_philips_cicle_light_color_change
         description: Гостиная - прикроватник переключение элементов списка циклической подсветки
         initial_state: false
         trigger:
@@ -101,12 +103,14 @@ lr_philips_light:
             entity_id: input_select.lr_philips_cicle_light_color
     
       - alias: lr_philips_cicle_light_color
+        id: lr_philips_cicle_light_color
         description: Гостиная - прикроватник старт стоп режима циклической подсветки
-        initial_state: true
+        initial_state: false
         trigger:
+    ## Aqara Opple на столе
         - platform: state
-          entity_id: sensor.0x00158d0001531698_action
-          to: 'double'
+          entity_id: sensor.0x54ef4410004c1707_action
+          to: 'button_6_triple'
         condition:
         - condition: state
           entity_id: switch.control_mode

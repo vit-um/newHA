@@ -44,24 +44,45 @@ cards:
                 name: Свет днем
               - entity: binary_sensor.bt_light_night_on
                 name: Свет ночью
+
+            - type: conditional
+              conditions:
+                - entity: light.bt_ceiling_light
+                  state: "on"
+              card:
+                  type: custom:timer-bar-card
+                  entities:
+                  - entity: timer.bt_light
+                    name: Осталось - 
+                  modifications:
+                  - elapsed: 30%
+                    bar_foreground: yellow
+                  - elapsed: 60%
+                    bar_foreground: orange
+                  - elapsed: 90%
+                    bar_foreground: red
+                  bar_height: 20px
+                  sync_issues: ignore
+                  invert: true
+
     
-            - type: custom:flipdown-timer-card
-              entity: timer.bt_light
-              show_hour: false
-              show_title: false
-              show_header: false
-              theme: dark
-              duration: "01:00:00"
-              localize:
-                button: start, stop, cancel, resume, reset
-                header: Hours, Minutes, Seconds
-              styles:
-                rotor:
-                  width: 60px
-                  height: 80px
-                button:
-                  width: 60px
-                  location: hide
+            # - type: custom:flipdown-timer-card
+            #   entity: timer.bt_light
+            #   show_hour: false
+            #   show_title: false
+            #   show_header: false
+            #   theme: dark
+            #   duration: "01:00:00"
+            #   localize:
+            #     button: start, stop, cancel, resume, reset
+            #     header: Hours, Minutes, Seconds
+            #   styles:
+            #     rotor:
+            #       width: 60px
+            #       height: 80px
+            #     button:
+            #       width: 60px
+            #       location: hide
 
         - type: custom:stack-in-card
           mode: vertical

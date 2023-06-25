@@ -117,6 +117,7 @@ en_light:
     automation:
 
       - alias: en_switch_turn_on
+        id: en_switch_turn_on
         description: Прихожая включение выключателя
         initial_state: true
         trigger:
@@ -137,6 +138,7 @@ en_light:
 
 
       - alias: en_bulb_reboot
+        id: en_bulb_reboot
         description: Прихожая перезагрузка зависшей лампочки
         initial_state: true
         trigger:
@@ -161,6 +163,7 @@ en_light:
           entity_id: switch.0x00158d00057305ac_right
     
       - alias: en_light_control
+        id: en_light_control
         description: Прихожая управление лампочкой
         initial_state: true
         trigger:
@@ -192,6 +195,10 @@ en_light:
         - platform: state
           entity_id: sensor.0x04cf8cdf3c7942ca_action
           to: 'button_1_single' 
+    ## Aqara Opple на столе
+        - platform: state
+          entity_id: sensor.0x54ef4410004c1707_action
+          to: 'button_3_single'
         condition:
         - condition: state
           entity_id: switch.control_mode

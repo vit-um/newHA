@@ -660,6 +660,44 @@ cards:
           show_state: false
           show_name: false
 
+        - type: horizontal-stack
+          cards:
+
+            - type: button
+              show_name: false
+              show_icon: true
+              icon: mdi:arrow-left-bold
+              entity: button.reolink_e1_zoom_ptz_left
+              tap_action:
+                action: call-service
+                service: button.press
+                target:
+                  entity_id: button.reolink_e1_zoom_ptz_left
+
+            - type: button
+              show_name: false
+              show_icon: true
+              icon: mdi:square
+              entity: button.reolink_e1_zoom_ptz_stop
+              tap_action:
+                action: call-service
+                service: button.press
+                target:
+                  entity_id: button.reolink_e1_zoom_ptz_stop
+                
+            - type: button
+              show_name: false
+              show_icon: true
+              icon: mdi:arrow-right-bold
+              entity: button.reolink_e1_zoom_ptz_right
+              tap_action:
+                action: call-service
+                service: button.press
+                target:
+                  entity_id: button.reolink_e1_zoom_ptz_right
+
+
+
         # - type: custom:stack-in-card
         #   mode: vertical
         #   cards:

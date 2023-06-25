@@ -17,7 +17,7 @@ lr_tv_control:
         
           - name: lr_tv_work
             state: >
-              {{ not is_state ('media_player.mitv', 'unavailable') }}
+              {{ not is_state ('remote.mitv', 'unavailable') }}
             icon: >
               {% if is_state("binary_sensor.lr_tv_work", "on") %}
               mdi:television
@@ -27,14 +27,19 @@ lr_tv_control:
               
     automation:
     
-      - id: Гостиная управление ТВ
-        alias: lr_tv_control
+      - alias: lr_tv_control
+        id: lr_tv_control
+        description: Гостиная управление ТВ
         initial_state: true
         trigger:
     ## 5 кнопка Aqara Opple
         - platform: state
           entity_id: sensor.0x04cf8cdf3c79360a_action
           to: 'button_5_single' 
+    ## Aqara Opple на столе
+        - platform: state
+          entity_id: sensor.0x54ef4410004c1707_action
+          to: 'button_6_double'
     ## Виртуальная кнопка
         - platform: state
           entity_id: input_button.lr_tv_control
@@ -54,6 +59,14 @@ lr_tv_control:
                       entity_id: remote.lr_ir_base_remote
                       command:
                         - b64:JgBoACQRFhAWLRYtFhEWLBYRFi0WERUtFi0WAAFhJBEWERYtFS0WERYtFhEVLRYRFi0WLRYAAWEjEhURFi0WLRYQFi0WERYtFREWLRYtFgABYSQRFhAWLRYtFhEWLBYRFi0WERUtFi0WAA0F==
+                  - delay: 00:00:15
+                  - service: homeassistant.reload_config_entry
+                    data: {}
+                    target:
+                      entity_id: remote.mitv
+
+
+
               - conditions:
                   - condition: state
                     entity_id: binary_sensor.lr_tv_work

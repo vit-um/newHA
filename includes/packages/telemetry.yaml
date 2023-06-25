@@ -141,44 +141,22 @@ telemetry:
 ################# Время уведомлений #################     
           - name: notification_time
             state: >
-                {% set t = now().strftime('%H:%M:%S') %}
-                {% set begin = states("input_datetime.notification_start") %}
-                {% set end = states("input_datetime.notification_stop") %}
-                {% set midnight = now().replace(hour=0, minute=0, second=0).strftime('%H:%M:%S') %}
-                {% if begin <= end %} 
-                {{ (begin <= t < end) }}
-                {% elif midnight == end %} 
-                {{ (begin <= t > end) }}
-                {% elif begin >= end %} 
-                        {%  if begin <= t >= midnight %}                       
-                        {{ (begin <= t > end) }}
-                        {%  elif midnight <= t <= end %}                       
-                        {{ (midnight <= t < end) }}
-                        {%  elif end <= t <= begin %}                       
-                        {{ (midnight <= t <= end) }}
-                        {% endif %}
-                {% endif %}
+                {% if states('input_datetime.notification_start') < states('input_datetime.notification_stop') %}
+                {{ states('input_datetime.notification_start') <= now().strftime('%H:%M:%S') <= states('input_datetime.notification_stop') }}
+                {% elif states('input_datetime.notification_start') > states('input_datetime.notification_stop') %}
+                {{states('input_datetime.notification_start') <= now().strftime('%H:%M:%S') <= '23:59:59'
+                or '00:00:00' <= now().strftime('%H:%M:%S') <= states('input_datetime.notification_stop')}}
+                {% endif %}                
             device_class: running
             
           - name: night_time
             state: >
-                {% set t = now().strftime('%H:%M:%S') %}
-                {% set begin = states("input_datetime.night_start") %}
-                {% set end = states("input_datetime.night_stop") %}
-                {% set midnight = now().replace(hour=0, minute=0, second=0).strftime('%H:%M:%S') %}
-                {% if begin <= end %} 
-                {{ (begin <= t < end) }}
-                {% elif midnight == end %} 
-                {{ (begin <= t > end) }}
-                {% elif begin >= end %} 
-                        {%  if begin <= t >= midnight %}                       
-                        {{ (begin <= t > end) }}
-                        {%  elif midnight <= t <= end %}                       
-                        {{ (midnight <= t < end) }}
-                        {%  elif end <= t <= begin %}                       
-                        {{ (midnight <= t <= end) }}
-                        {% endif %}
-                {% endif %}
+                {% if states('input_datetime.night_start') < states('input_datetime.night_stop') %}
+                {{ states('input_datetime.night_start') <= now().strftime('%H:%M:%S') <= states('input_datetime.night_stop') }}
+                {% elif states('input_datetime.night_start') > states('input_datetime.night_stop') %}
+                {{states('input_datetime.night_start') <= now().strftime('%H:%M:%S') <= '23:59:59'
+                or '00:00:00' <= now().strftime('%H:%M:%S') <= states('input_datetime.night_stop')}}
+                {% endif %}            
             device_class: running
      
       - sensor:
@@ -200,14 +178,7 @@ telemetry:
     # {% endfor %}
     # {{ (power.value) |round(2) }}
 
-          - name: kitchen_total_load
-            state: >
-                {{states('sensor.0x00158d0001d35bc0_power')|float(0) + states('sensor.0xa4c1385bcf7d00c9_power')|float(0)
-                + states('sensor.0xa4c138201dcb67f6_power')|float(0) + states('sensor.0xa4c138d571b656c5_power')|float(0)
-                + states('sensor.0xa4c138273b49e4d0_power')|float(0) + states('sensor.0x000d6f0014bb14b4_power')|float(0)
-                + states('sensor.0x00158d0001fa2934_power')|float(0) + states('sensor.0x00158d0001291d12_power')|float(0)
-                + states('sensor.0x00158d000114a1e1_power')|float(0)}}
- 
+
           - name: bt_total_load
             state: > 
                 {{states('sensor.0x00158d0003584401_power')|float(0) + states('sensor.0x540f57fffe78ba20_power')|float(0)}}

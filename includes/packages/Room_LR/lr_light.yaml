@@ -53,10 +53,15 @@ lr_light:
         sensor.0x00158d00013fc3bc_battery:
           friendly_name: Гостиная выключатель на стене снаружи у входа
           
-        sensor.0x00158d00027c0e2b_action:
-          friendly_name: Гостиная выключатель на столе
-        sensor.0x00158d00027c0e2b_battery:
-          friendly_name: Гостиная выключатель на столе
+        # sensor.0x00158d00027c0e2b_action:
+        #   friendly_name: Гостиная выключатель на столе
+        # sensor.0x00158d00027c0e2b_battery:
+        #   friendly_name: Гостиная выключатель на столе
+
+        sensor.0x54ef4410004c1707_action:
+          friendly_name: Гостиная выключатель на столе 6 клавиш
+        sensor.0x54ef4410004c1707_battery:
+          friendly_name: Гостиная выключатель на столе 6 клавиш
           
         sensor.0x04cf8cdf3c79360a_action:
           friendly_name: Гостиная выключатель на комоде 6 клавиш
@@ -260,6 +265,7 @@ lr_light:
 #################### ПЕРЕЗАГРУЗКА ШЛЮЗА ####################
 
       - alias: lr_gateway_reload
+        id: lr_gateway_reload
         description: Гостиная - перезагрузка шлюза xiaomi
         initial_state: true
         trigger:
@@ -309,6 +315,7 @@ lr_light:
 
 
       - alias: lr_gateway_block_off_reload
+        id: lr_gateway_block_off_reload
         description: Гостиная - отключение блокировки перезагрузки шлюза xiaomi
         initial_state: true
         trigger:
@@ -324,6 +331,7 @@ lr_light:
 #################### ПЕРЕЗАГРУЗКА ЛЮСТР ####################
               
       - alias: lr_ceiling_1_reboot
+        id: lr_ceiling_1_reboot
         description: Гостиная - перезагрузка зависшей люстры 1
         initial_state: true
         trigger:
@@ -348,6 +356,7 @@ lr_light:
           entity_id: switch.0x00158d00062fbb54_right
           
       - alias: lr_ceiling_2_reboot
+        id: lr_ceiling_2_reboot
         description: Гостиная - перезагрузка зависшей люстры 2
         initial_state: true
         trigger:
@@ -374,16 +383,17 @@ lr_light:
 #################### ВКЛЮЧЕНИЕ СВЕТА ####################          
 
       - alias: lr_ceiling_1_manual_control
+        id: lr_ceiling_1_manual_control
         description: Гостиная - ручное управление люстра 1
         initial_state: true
         trigger:
     # Виртуальная кнопка
         - platform: state
           entity_id: input_button.lr_ceiling_1
-    # Выключатель на столе
+    ## Aqara Opple на столе
         - platform: state
-          entity_id: sensor.0x00158d00027c0e2b_action
-          to: 'single_left'
+          entity_id: sensor.0x54ef4410004c1707_action
+          to: 'button_1_double'
     # Выключатель на стене внутри у входа
         - platform: state
           entity_id: sensor.0x00158d00062fbb54_action
@@ -433,6 +443,7 @@ lr_light:
                       - light.lr_ceiling_light_1
 
       - alias: lr_ceiling_1_turn_on_control
+        id: lr_ceiling_1_turn_on_control
         description: Гостиная - контроль включения люстры 1
         initial_state: true
         trigger:
@@ -452,16 +463,17 @@ lr_light:
             - light.lr_ceiling_light_1
 
       - alias: lr_ceiling_2_manual_control
-        description: Гостиная - ручное управление люстра 2                     
+        id: lr_ceiling_2_manual_control
+        description: Гостиная - ручное управление люстра 2   
         initial_state: true
         trigger:
     # Виртуальная кнопка
         - platform: state
           entity_id: input_button.lr_ceiling_2
-    # Выключатель на столе
+    ## Aqara Opple на столе
         - platform: state
-          entity_id: sensor.0x00158d00027c0e2b_action
-          to: 'single_right'
+          entity_id: sensor.0x54ef4410004c1707_action
+          to: 'button_2_double'
     ## Крутилка Moes
         - platform: state
           entity_id: sensor.0x70ac08fffe263e24_action
@@ -503,6 +515,7 @@ lr_light:
                       - light.lr_ceiling_light_2
                       
       - alias: lr_ceiling_2_turn_on_control
+        id: lr_ceiling_2_turn_on_control
         description: Гостиная - контроль включения люстры 2
         initial_state: true
         trigger:
@@ -521,15 +534,15 @@ lr_light:
           entity_id:
             - light.lr_ceiling_light_2
 
-
       - alias: lr_ceiling_both_full_brigtness
+        id: lr_ceiling_both_full_brigtness
         description: Гостиная - обе люстры на полной яркости                     
         initial_state: true
         trigger:
-    # Выключатель на столе
+    ## Aqara Opple на столе
         - platform: state
-          entity_id: sensor.0x00158d00027c0e2b_action
-          to: 'single_both'
+          entity_id: sensor.0x54ef4410004c1707_action
+          to: 'button_1_triple'
     # Виртуальная кнопка
         - platform: state
           entity_id: input_button.lr_full_light
@@ -572,13 +585,14 @@ lr_light:
                       - light.lr_ceiling_light_2
 
       - alias: lr_light_wall_toggle
+        id: lr_light_wall_toggle
         description: Гостиная - ручное управление светильник на стене
         initial_state: true
         trigger:
-    # Выключатель на столе
+    ## Aqara Opple на столе
         - platform: state
-          entity_id: sensor.0x00158d00027c0e2b_action
-          to: 'double_left'
+          entity_id: sensor.0x54ef4410004c1707_action
+          to: 'button_2_single'
     # Выключатель на стене снаружи у входа
         - platform: state
           entity_id: sensor.0x00158d00013fc3bc_action
@@ -600,6 +614,7 @@ lr_light:
           entity_id: light.0x00158d00062fbb54_left
 
       - alias: lr_light_table_lamp_toggle
+        id: lr_light_table_lamp_toggle
         description: Гостиная - ручное управление настольной лампой
         initial_state: true
         trigger:
@@ -607,10 +622,10 @@ lr_light:
         - platform: state
           entity_id: sensor.0x04cf8cdf3c79360a_action
           to: 'button_1_single' 
-    ## Кнопка на столе
+    ## Aqara Opple на столе
         - platform: state
-          entity_id: sensor.0x00158d0001531698_action
-          to: 'single'
+          entity_id: sensor.0x54ef4410004c1707_action
+          to: 'button_1_single'
         condition:
         - condition: state
           entity_id: switch.control_mode
@@ -636,3 +651,72 @@ lr_light:
                   - service: light.turn_off
                     entity_id:
                       - light.lr_table_lamp
+                      
+      - alias: lr_bedside_lamp_toggle
+        id: lr_bedside_lamp_toggle
+        description: Гостиная - ручное управление прикроватником
+        initial_state: true
+        trigger:
+    ## Aqara Opple на столе
+        - platform: state
+          entity_id: sensor.0x54ef4410004c1707_action
+          to: 'button_2_triple'
+        condition:
+        - condition: state
+          entity_id: switch.control_mode
+          state: 'on'
+        action:
+            - choose:
+              - conditions:
+                  - condition: state
+                    entity_id: light.lr_bedside
+                    state: 'off'
+                sequence:
+                  - service: light.turn_on
+                    entity_id:
+                      - light.lr_bedside
+                    data_template:
+                      brightness_pct: 100
+                      kelvin: 4000
+              - conditions:
+                  - condition: state
+                    entity_id: light.lr_bedside
+                    state: 'on'
+                sequence:
+                  - service: light.turn_off
+                    entity_id:
+                      - light.lr_bedside
+                      
+      - alias: lr_light_off_and_exit
+        id: lr_light_off_and_exit
+        description: Гостиная - отключение всего освещения с временной подсветкой
+        initial_state: true
+        trigger:
+    ## Aqara Opple на столе
+        - platform: state
+          entity_id: sensor.0x54ef4410004c1707_action
+          to: 'button_6_triple'
+        condition:
+        - condition: state
+          entity_id: switch.control_mode
+          state: 'on'
+        action:
+        - service: light.turn_off
+          entity_id:
+            - light.lr_ceiling_light_1
+            - light.lr_ceiling_light_2
+            - light.lr_ceiling_light_1_ambilight
+            - light.lr_ceiling_light_2_ambilight
+            - light.lr_tv_bulb
+            - light.0x00158d00062fbb54_left
+            - light.lr_table_lamp
+        - service: light.turn_on
+          entity_id:
+            - light.lr_bedside
+          data_template:
+            brightness_pct: 70
+            kelvin: 4000
+        - delay: 00:00:15
+        - service: light.turn_off
+          entity_id:
+            - light.lr_bedside
